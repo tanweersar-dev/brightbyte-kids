@@ -7,8 +7,8 @@
   <meta name="description" content="Tannu Sir's BrightByte Kids Lab - playful computer and AI learning world for kids." />
   <link rel="stylesheet" href="style.css" />
 </head>
-<body class="theme-day">
-  <div class="space-bg">
+<body>
+  <div class="space-bg" aria-hidden="true">
     <div class="nebula nebula-left"></div>
     <div class="nebula nebula-right"></div>
     <div class="stars"></div>
@@ -28,46 +28,45 @@
       </div>
     </div>
 
-    <nav class="main-nav">
-      <button class="nav-btn c1 active" data-target="home" data-sound="home">🏠 Home</button>
-      <button class="nav-btn c2" data-target="adventure" data-sound="adventure">🪐 Adventure</button>
-      <button class="nav-btn c3" data-target="games" data-sound="games">🎮 Game Arcade</button>
-      <button class="nav-btn c4" data-target="rewards" data-sound="rewards">🏆 Rewards</button>
-      <button class="nav-btn c5" data-target="students" data-sound="students">🎓 Students</button>
-      <button class="nav-btn c6" data-target="parents" data-sound="parents">👨‍👩‍👧 Parents</button>
-      <button class="nav-btn c7" data-target="teacher" data-sound="teacher">🧑‍🏫 Teacher</button>
+    <nav class="main-nav" aria-label="Main navigation">
+      <button class="nav-btn c1 active" data-page="home" data-sound="home">🏠 Home</button>
+      <button class="nav-btn c2" data-page="adventure" data-sound="adventure">🪐 Adventure</button>
+      <button class="nav-btn c3" data-page="games" data-sound="games">🎮 Game Arcade</button>
+      <button class="nav-btn c4" data-page="rewards" data-sound="rewards">🏆 Rewards</button>
+      <button class="nav-btn c5" data-page="students" data-sound="students">🎓 Students</button>
+      <button class="nav-btn c6" data-page="parents" data-sound="parents">👨‍👩‍👧 Parents</button>
+      <button class="nav-btn c7" data-page="teacher" data-sound="teacher">🧑‍🏫 Teacher</button>
     </nav>
 
     <div class="top-actions">
-      <button id="soundToggle" class="action-btn strong-btn" data-sound="toggle">🔊 Sound MAX</button>
-      <button id="themeToggle" class="action-btn theme-btn" data-sound="toggle">🌞 Day</button>
+      <button id="soundToggle" class="action-btn sound-btn">🔊 Sound MAX</button>
+      <button id="themeToggle" class="action-btn theme-btn">🌞 Day</button>
     </div>
   </header>
 
-  <main>
-    <section id="home" class="section hero-section">
-      <div class="hero-banner">
-        <span>⚡ CREATED • DESIGNED • TAUGHT BY TANNU SIR ⚡</span>
-      </div>
+  <main id="appMain">
+    <!-- HOME -->
+    <section id="home" class="page-view active-page">
+      <div class="home-shell">
+        <div class="hero-banner">⚡ CREATED • DESIGNED • TAUGHT BY TANNU SIR ⚡</div>
 
-      <div class="hero-grid">
         <div class="hero-copy">
           <div class="pill-row">
             <span class="pill pink">💫 TANNU SIR'S DIGITAL GALAXY</span>
             <span class="pill white">✨ CLASS 1 • COMPUTER + AI ADVENTURE</span>
           </div>
 
-          <h2 class="hero-title">Learn. Play.<br /><span>Level Up!</span></h2>
+          <h2 class="hero-title">Learn. Play.<br><span>Level Up!</span></h2>
 
           <p class="hero-text">
             A colourful Computer + AI learning world for kids, created and taught by
-            <strong>Tannu Sir</strong>. Short lessons, games, rewards, safe internet habits and
-            first AI skills — all in one clean, playful galaxy.
+            <strong>Tannu Sir</strong>. Short lessons, games, rewards, safe internet habits and first AI skills —
+            all in one playful galaxy.
           </p>
 
           <div class="hero-cta">
-            <button class="primary-btn sfx" data-target="adventure" data-sound="rocket">Start Adventure 🚀</button>
-            <button class="secondary-btn sfx" data-target="games" data-sound="games">Play Games 🎮</button>
+            <button class="primary-btn page-link" data-page="adventure" data-sound="rocket">Start Adventure 🚀</button>
+            <button class="secondary-btn page-link" data-page="games" data-sound="games">Play Games 🎮</button>
           </div>
 
           <div class="micro-points">
@@ -78,128 +77,140 @@
             <span>🌟 Tannu Sir Guided</span>
           </div>
         </div>
+      </div>
+    </section>
 
-        <div class="hero-panel glass">
-          <div class="hero-card-head">
-            <div class="avatar-circle">🧒</div>
-            <div>
-              <small>Welcome back, Explorer!</small>
-              <h3>Ashaaz</h3>
-            </div>
-            <div class="streak-pill">🔥 3</div>
+    <!-- ADVENTURE -->
+    <section id="adventure" class="page-view">
+      <div class="page-shell">
+        <div class="section-head">
+          <div>
+            <span class="mini-tag">🗺️ LEARNING MAP</span>
+            <h2>Class 1 Adventure</h2>
           </div>
-
-          <div class="mission-box">
-            <small>TANNU SIR'S MISSION FOR TODAY</small>
-            <h3>Meet the Computer</h3>
-            <div class="progress-track">
-              <div class="progress-bar" style="width:28%"></div>
-            </div>
-            <p>2/10 modules explored</p>
-          </div>
-
-          <div class="hero-quick-grid">
-            <button class="quick-card sfx" data-target="games" data-sound="quiz"><span>🧠</span><b>Quiz</b></button>
-            <button class="quick-card sfx" data-target="games" data-sound="games"><span>🎮</span><b>Games</b></button>
-            <button class="quick-card sfx" data-target="rewards" data-sound="rewards"><span>🏆</span><b>Badges</b></button>
-            <button class="quick-card sfx" data-target="students" data-sound="students"><span>📚</span><b>Profiles</b></button>
-          </div>
+          <p>Choose any module. The arrow now opens the real lesson window.</p>
         </div>
-      </div>
-
-      <div class="stats-grid">
-        <div class="stat-card"><div class="stat-icon">⭐</div><div><h3>145</h3><p>Stars</p></div></div>
-        <div class="stat-card"><div class="stat-icon">⚡</div><div><h3>145</h3><p>Total XP</p></div></div>
-        <div class="stat-card"><div class="stat-icon">✅</div><div><h3>2</h3><p>Modules done</p></div></div>
-        <div class="stat-card"><div class="stat-icon">🏅</div><div><h3>1</h3><p>Badges</p></div></div>
+        <div id="moduleGrid" class="cards-grid two-col"></div>
       </div>
     </section>
 
-    <section id="adventure" class="section">
-      <div class="section-head">
-        <div><span class="mini-tag">🗺️ LEARNING MAP</span><h2>Class 1 Adventure</h2></div>
-        <p>Each glowing planet contains beginner-friendly lessons loaded in a clean, playful way.</p>
-      </div>
-      <div id="moduleGrid" class="cards-grid two-col"></div>
-    </section>
-
-    <section id="games" class="section dark-panel">
-      <div class="section-head">
-        <div><span class="mini-tag">🎮 BRIGHTBYTE ARCADE</span><h2>Learn by Playing</h2></div>
-        <p>Quick games build mouse control, typing confidence, memory, safety habits and prompt thinking.</p>
-      </div>
-      <div id="gameGrid" class="cards-grid four-col"></div>
-    </section>
-
-    <section id="rewards" class="section">
-      <div class="section-head">
-        <div><span class="mini-tag">🏆 REWARD VAULT</span><h2>Badge Cabinet</h2></div>
-        <p>Every completed module unlocks a new badge and a little celebration.</p>
-      </div>
-      <div id="badgeGrid" class="badge-grid"></div>
-    </section>
-
-    <section id="students" class="section">
-      <div class="section-head">
-        <div><span class="mini-tag">🎓 STUDENT GALAXY</span><h2>Who is Learning?</h2></div>
-        <p>Public demo student profiles can be displayed here with photo, name, class and progress.</p>
-      </div>
-      <div class="section-tools">
-        <a href="student-login.html" class="tool-btn sfx" data-sound="students">🔐 Student Login</a>
-        <a href="admin.html" class="tool-btn alt sfx" data-sound="teacher">🧑‍💼 Admin Center</a>
-      </div>
-      <div id="studentGrid" class="cards-grid three-col"></div>
-    </section>
-
-    <section id="parents" class="section">
-      <div class="section-head">
-        <div><span class="mini-tag">👨‍👩‍👧 PARENT VIEW</span><h2>Simple Progress, Clear Results</h2></div>
-        <p>Quick metrics, current focus and teacher guidance without overwhelming parents.</p>
-      </div>
-      <div class="parent-grid">
-        <div class="parent-card glass">
-          <h3>🧒 Ashaaz • Class 1</h3>
-          <div class="ring-wrap">
-            <div class="progress-ring"><span>20%</span></div>
-            <div class="parent-stats">
-              <p><b>⭐ Stars:</b> 145</p>
-              <p><b>🏅 Badges:</b> 1 / 10</p>
-              <p><b>🎯 Current Focus:</b> Meet the Computer</p>
-            </div>
+    <!-- GAMES -->
+    <section id="games" class="page-view">
+      <div class="page-shell">
+        <div class="section-head">
+          <div>
+            <span class="mini-tag">🎮 BRIGHTBYTE ARCADE</span>
+            <h2>Learn by Playing</h2>
           </div>
+          <p>Five colourful practice games for mouse, memory, typing, safety and AI prompts.</p>
         </div>
-        <div class="parent-card glass">
-          <h3>🧑‍🏫 Next Best Step</h3>
-          <p>Next recommended focus: <b>Know Your Computer</b>. Keep the session short, visual and practical.</p>
-          <div class="parent-actions">
-            <button class="primary-btn small-btn sfx" data-sound="rewards">🏅 Certificate</button>
-            <button class="secondary-btn small-btn sfx" data-sound="home">🔄 Reset Demo</button>
+        <div id="gameGrid" class="cards-grid game-grid"></div>
+      </div>
+    </section>
+
+    <!-- REWARDS -->
+    <section id="rewards" class="page-view">
+      <div class="page-shell">
+        <div class="section-head">
+          <div>
+            <span class="mini-tag">🏆 REWARD VAULT</span>
+            <h2>Badge Cabinet</h2>
           </div>
+          <p>Badges unlock as kids finish learning modules.</p>
+        </div>
+        <div id="badgeGrid" class="badge-grid"></div>
+      </div>
+    </section>
+
+    <!-- STUDENTS -->
+    <section id="students" class="page-view">
+      <div class="page-shell">
+        <div class="section-head">
+          <div>
+            <span class="mini-tag">🎓 STUDENT GALAXY</span>
+            <h2>Who is Learning?</h2>
+          </div>
+          <p>Public student cards can display photo, name, class and current training track.</p>
+        </div>
+
+        <div class="section-tools">
+          <a href="student-login.html" class="tool-btn">🔐 Student Login</a>
+          <a href="admin.html" class="tool-btn alt">🧑‍💼 Tannu Sir Admin</a>
+        </div>
+
+        <div id="studentGrid" class="cards-grid three-col"></div>
+      </div>
+    </section>
+
+    <!-- PARENTS -->
+    <section id="parents" class="page-view">
+      <div class="page-shell">
+        <div class="section-head">
+          <div>
+            <span class="mini-tag">👨‍👩‍👧 PARENT VIEW</span>
+            <h2>Simple Progress, Clear Results</h2>
+          </div>
+          <p>A simple parent view for understanding the child's current learning focus.</p>
+        </div>
+
+        <div class="parent-grid">
+          <article class="parent-card glass">
+            <h3>🧒 Ashaaz • Class 1</h3>
+            <div class="ring-wrap">
+              <div class="progress-ring"><span>20%</span></div>
+              <div class="parent-stats">
+                <p><b>🎯 Current Focus:</b> Meet the Computer</p>
+                <p><b>📘 Training:</b> Computer + AI Explorer</p>
+                <p><b>🗓️ Recommended:</b> 30 minutes per session</p>
+              </div>
+            </div>
+          </article>
+
+          <article class="parent-card glass">
+            <h3>🧑‍🏫 Tannu Sir's Next Step</h3>
+            <p>Next recommended focus: <b>Know Your Computer</b>. Keep the session visual, short and practical.</p>
+            <button class="primary-btn" id="certificateBtn">🏅 Preview Certificate</button>
+          </article>
         </div>
       </div>
     </section>
 
-    <section id="teacher" class="section">
-      <div class="section-head">
-        <div><span class="mini-tag">🧑‍🏫 TEACHER COMMAND CENTER</span><h2>Teaching at a Glance</h2></div>
-        <p>A clean management feel made friendly for learning.</p>
-      </div>
-      <div class="teacher-grid">
-        <div class="teacher-box gradient-1"><span>📚</span><h3>40</h3><p>Class 1 lessons</p></div>
-        <div class="teacher-box gradient-2"><span>🎮</span><h3>5</h3><p>Interactive games</p></div>
-        <div class="teacher-box gradient-3"><span>🏆</span><h3>10</h3><p>Reward badges</p></div>
-        <div class="teacher-box gradient-4"><span>🤖</span><h3>2</h3><p>AI modules</p></div>
-      </div>
-      <div class="teacher-footer glass">
-        <div><h3>🟢 BrightByte API</h3><p>Connected to Cloudflare D1 and public demo student portal.</p></div>
-        <div><h3>Recommended teaching rhythm</h3><p>15 min lesson • 10 min practice • 5 min game/review</p></div>
-        <button class="tool-btn sfx" data-sound="quiz">Run Quick Quiz</button>
+    <!-- TEACHER -->
+    <section id="teacher" class="page-view">
+      <div class="page-shell">
+        <div class="section-head">
+          <div>
+            <span class="mini-tag">🧑‍🏫 TEACHER COMMAND CENTER</span>
+            <h2>Tannu Sir's Teaching Center</h2>
+          </div>
+          <p>Quick access to students, admin tools, lesson counts and learning resources.</p>
+        </div>
+
+        <div class="teacher-grid">
+          <article class="teacher-box gradient-1"><span>📚</span><h3>40</h3><p>Class 1 lessons</p></article>
+          <article class="teacher-box gradient-2"><span>🎮</span><h3>5</h3><p>Interactive games</p></article>
+          <article class="teacher-box gradient-3"><span>🏆</span><h3>10</h3><p>Reward badges</p></article>
+          <article class="teacher-box gradient-4"><span>🤖</span><h3>2</h3><p>AI modules</p></article>
+        </div>
+
+        <div class="teacher-actions">
+          <a href="admin.html" class="tool-btn alt">🧑‍💼 Open Admin Center</a>
+          <a href="student-login.html" class="tool-btn">🔐 Student Login</a>
+          <button class="tool-btn quiz-tool" id="quickQuizBtn">🧠 Run Quick Quiz</button>
+        </div>
       </div>
     </section>
   </main>
 
-  <div class="corner-badge">✨ TANNU SIR<br /><small>CREATOR • TEACHER</small></div>
-  <div id="toast" class="toast">Action complete!</div>
+  <!-- MODULE / GAME / CERTIFICATE MODAL -->
+  <div id="modal" class="modal" aria-hidden="true">
+    <div class="modal-card">
+      <button id="modalClose" class="modal-close" aria-label="Close">×</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast">Done!</div>
   <script src="script.js"></script>
 </body>
 </html>
