@@ -40,6 +40,7 @@
         <button class="nav-btn nav-adventure" data-view="adventure">🪐 Adventure</button>
         <button class="nav-btn nav-arcade" data-view="arcade">🎮 Game Arcade</button>
         <button class="nav-btn nav-rewards" data-view="rewards">🏆 Rewards</button>
+        <button class="nav-btn nav-students" data-view="students">🎓 Students</button>
         <button class="nav-btn nav-parents" data-view="parents">👪 Parents</button>
         <button class="nav-btn nav-teacher" data-view="teacher">🧑‍🏫 Teacher</button>
       </nav>
@@ -109,7 +110,7 @@
 
           <div class="student-card">
             <div class="student-top">
-              <div class="avatar-bubble"><span id="kidAvatar">👦</span></div>
+              <div class="avatar-bubble"><img id="kidPhoto" alt="Student photo" hidden><span id="kidAvatar">👦</span></div>
               <div>
                 <small>Welcome back, Explorer!</small>
                 <strong id="studentName">Ayaan</strong>
@@ -313,6 +314,46 @@
       </div>
     </section>
 
+    <!-- STUDENTS -->
+    <section class="view" data-view-panel="students" data-owner="TANNU SIR">
+      <div class="creator-stamp reveal">🎓 TANNU SIR'S STUDENT GALAXY</div>
+      <div class="view-head reveal">
+        <div>
+          <span class="eyebrow">🎓 OUR EXPLORERS</span>
+          <h2>BrightByte Students</h2>
+          <p>Public demo profiles approved by Tannu Sir appear here. Real children can remain private unless a parent/guardian agrees to public display.</p>
+        </div>
+        <div class="student-view-actions">
+          <a class="cta cta-primary link-btn" href="student-login.html">🔐 Student Login</a>
+          <a class="cta cta-soft link-btn" href="admin.html">🧑‍🏫 Tannu Sir Admin</a>
+        </div>
+      </div>
+
+      <div class="student-directory-toolbar reveal">
+        <div>
+          <b id="publicStudentCount">0</b>
+          <span>public student profiles</span>
+        </div>
+        <button class="cta cta-soft" onclick="loadPublicStudents(true)">↻ Refresh Students</button>
+      </div>
+
+      <div id="studentsGrid" class="students-grid reveal">
+        <div class="student-empty-card">
+          <div class="student-empty-icon">🎓</div>
+          <h3>Loading Tannu Sir's students...</h3>
+          <p>Please wait while BrightByte checks Cloudflare D1.</p>
+        </div>
+      </div>
+
+      <div class="privacy-note reveal">
+        <span>🛡️</span>
+        <div>
+          <b>Kids privacy first</b>
+          <p>Only profiles marked <strong>Public Demo</strong> by the admin are shown here. Guardian contact details and login information are never displayed publicly.</p>
+        </div>
+      </div>
+    </section>
+
     <!-- PARENTS -->
     <section class="view" data-view-panel="parents" data-owner="TANNU SIR">
       <div class="creator-stamp reveal">👪 TANNU SIR • PARENT PROGRESS VIEW</div>
@@ -362,7 +403,10 @@
           <h2>Teaching at a Glance</h2>
           <p>BrightByte Galaxy's teaching dashboard — designed around Tannu Sir's class flow.</p>
         </div>
-        <button class="cta cta-soft" data-view="home">← Home</button>
+        <div class="teacher-head-actions">
+          <a class="cta cta-primary link-btn" href="admin.html">⚙️ Open Admin Center</a>
+          <button class="cta cta-soft" data-view="home">← Home</button>
+        </div>
       </div>
 
       <div class="teacher-metrics reveal">
