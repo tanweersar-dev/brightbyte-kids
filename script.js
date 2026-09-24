@@ -6,6 +6,9 @@ let modules = [];
 let activeView = "home";
 let activeGame = "mouse";
 let state = loadState();
+let loggedInStudent = null;
+let studentSyncTimer = null;
+let ownPhotoObjectUrl = null;
 
 const fallbackIcons = ["💻","🖥️","🖱️","⌨️","🪟","🎨","✍️","🛡️","🤖","✨"];
 const badgeNames = ["Computer Explorer","Parts Detective","Mouse Master","Keyboard Hero","Desktop Explorer","Digital Artist","Typing Star","Safety Hero","AI Explorer","Prompt Creator"];
@@ -36,15 +39,139 @@ function loadState(){
   }catch{return fallback}
 }
 
-function saveState(){
+function saveState(syncCloud=true){
   localStorage.setItem("tannu-brightbyte-v4",JSON.stringify(state));
   renderDashboard();
+  if(syncCloud) scheduleStudentProgressSync();
 }
 
 function $(id){ return document.getElementById(id); }
 
 function escapeHtml(v){
   return String(v??"").replace(/[&<>'"]/g,s=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[s]));
+}
+
+function getStudentToken(){ return localStorage.getItem("brightbyte_student_token")||""; }
+
+async function studentApi(path,options={}){
+  const token=getStudentToken();
+  const headers={...(options.headers||{})};
+  if(token) headers.Authorization=`Bearer ${token}`;
+  if(options.body && !(options.body instanceof FormData) && !headers["Content-Type"]) headers["Content-Type"]="application/json";
+  return fetch(`${API_BASE}${path}`,{...options,headers,cache:"no-store"});
+}
+
+function scheduleStudentProgressSync(){
+  if(!loggedInStudent || !getStudentToken() || !modules.length) return;
+  clearTimeout(studentSyncTimer);
+  studentSyncTimer=setTimeout(syncStudentProgress,650);
+}
+
+async function syncStudentProgress(){
+  if(!loggedInStudent || !getStudentToken() || !modules.length) return;
+  const completedModules=state.done.map(i=>Number(modules[i]?.module_number||i+1)).filter(Boolean);
+  const progressPercent=Math.round(state.done.length/Math.max(modules.length,1)*100);
+  try{
+    const r=await studentApi("/api/student/progress",{
+      method:"PATCH",
+      body:JSON.stringify({stars:state.stars,badges:state.done.length,progressPercent,completedModules})
+    });
+    if(r.status===401){
+      localStorage.removeItem("brightbyte_student_token");
+      loggedInStudent=null;
+    }
+  }catch(e){ console.warn("Cloud progress sync skipped",e); }
+}
+
+async function hydrateStudentFromCloud(){
+  const token=getStudentToken();
+  if(!token) return;
+  try{
+    const r=await studentApi("/api/auth/me");
+    if(!r.ok){
+      if(r.status===401) localStorage.removeItem("brightbyte_student_token");
+      return;
+    }
+    const data=await r.json();
+    if(!data.success || data.role!=="student" || !data.profile) return;
+    loggedInStudent=data.profile;
+    APP.studentName=data.profile.display_name||APP.studentName;
+    state.stars=Number(data.profile.stars??state.stars);
+    state.xp=Math.max(state.xp,state.stars);
+    const completed=Array.isArray(data.profile.completed_modules)?data.profile.completed_modules:[];
+    state.done=completed.map(n=>modules.findIndex(m=>Number(m.module_number)===Number(n))).filter(i=>i>=0);
+    localStorage.setItem("tannu-brightbyte-v4",JSON.stringify(state));
+    await loadOwnStudentPhoto();
+  }catch(e){ console.warn("Student cloud profile not loaded",e); }
+}
+
+async function loadOwnStudentPhoto(){
+  if(!loggedInStudent?.has_photo || !getStudentToken()) return;
+  try{
+    const r=await studentApi("/api/student/photo");
+    if(!r.ok) return;
+    const blob=await r.blob();
+    if(ownPhotoObjectUrl) URL.revokeObjectURL(ownPhotoObjectUrl);
+    ownPhotoObjectUrl=URL.createObjectURL(blob);
+    const img=$("kidPhoto"), emoji=$("kidAvatar");
+    if(img){img.src=ownPhotoObjectUrl;img.hidden=false}
+    if(emoji)emoji.hidden=true;
+  }catch(e){}
+}
+
+async function loadPublicStudents(force=false){
+  const grid=$("studentsGrid");
+  if(!grid) return;
+  if(force) grid.innerHTML='<div class="student-empty-card"><div class="student-empty-icon">⏳</div><h3>Refreshing students...</h3></div>';
+  try{
+    const r=await fetch(`${API_BASE}/api/students/public`,{cache:"no-store"});
+    const data=await r.json();
+    if(!r.ok || !data.success) throw new Error(data.error||"Could not load students");
+    if($("publicStudentCount")) $("publicStudentCount").textContent=data.students.length;
+    if(!data.students.length){
+      grid.innerHTML=`<div class="student-empty-card"><div class="student-empty-icon">🎓</div><h3>No public demo students yet</h3><p>Tannu Sir can create a student in the Admin Center and enable <b>Public Demo</b>.</p><a class="cta cta-primary link-btn" href="admin.html">Open Admin Center</a></div>`;
+      return;
+    }
+    grid.innerHTML=data.students.map(s=>{
+      const photo=s.photo_url?`<img class="student-photo" src="${escapeHtml(s.photo_url)}" alt="${escapeHtml(s.display_name)}">`:`<div class="student-photo-fallback">🧒</div>`;
+      return `<article class="student-public-card" onclick="openPublicStudent('${escapeHtml(s.public_id)}')">
+        <div class="student-photo-wrap">${photo}</div>
+        <span class="student-class">CLASS ${Number(s.class_number)||1} • TANNU SIR'S STUDENT</span>
+        <h3>${escapeHtml(s.display_name)}</h3>
+        <p class="student-bio">${escapeHtml(s.bio||s.training_track||"BrightByte digital explorer")}</p>
+        <div class="student-progress-mini"><i style="width:${Math.max(0,Math.min(100,Number(s.progress_percent)||0))}%"></i></div>
+        <div class="student-card-metrics"><span>📊 ${Number(s.progress_percent)||0}%</span><span>⭐ ${Number(s.stars)||0}</span><span>🏅 ${Number(s.badges)||0}</span></div>
+        <span class="student-card-open">View Profile →</span>
+      </article>`;
+    }).join("");
+  }catch(err){
+    console.error(err);
+    grid.innerHTML=`<div class="student-empty-card"><div class="student-empty-icon">⚠️</div><h3>Student directory is not connected yet</h3><p>Deploy the new Worker code and D1 student schema, then refresh this page.</p></div>`;
+    if($("publicStudentCount")) $("publicStudentCount").textContent="0";
+  }
+}
+
+async function openPublicStudent(publicId){
+  playSound("open");
+  openModal(`<div class="lesson-hero"><div class="big-icon">🎓</div><h2>Loading Student...</h2><p>BrightByte is checking Cloudflare D1.</p></div>`);
+  try{
+    const r=await fetch(`${API_BASE}/api/students/public/${encodeURIComponent(publicId)}`,{cache:"no-store"});
+    const data=await r.json();
+    if(!r.ok||!data.success) throw new Error(data.error||"Profile not found");
+    const s=data.student;
+    const photo=s.photo_url?`<img class="student-photo" src="${escapeHtml(s.photo_url)}" alt="${escapeHtml(s.display_name)}">`:`<div class="student-photo-fallback">🧒</div>`;
+    $("modalBody").innerHTML=`<div class="public-profile-modal">
+      <div class="student-photo-wrap">${photo}</div>
+      <small>TANNU SIR'S BRIGHTBYTE STUDENT</small>
+      <h2>${escapeHtml(s.display_name)}</h2>
+      <span class="training-pill">${escapeHtml(s.training_track||"Computer + AI Explorer")}</span>
+      <p>${escapeHtml(s.bio||"Learning computer and AI skills with Tannu Sir.")}</p>
+      <div class="profile-modal-metrics"><div><b>${Number(s.progress_percent)||0}%</b><small>Progress</small></div><div><b>${Number(s.stars)||0}</b><small>Stars</small></div><div><b>${Number(s.badges)||0}</b><small>Badges</small></div></div>
+      <p><b>Class ${Number(s.class_number)||1}</b> • BrightByte Kids Galaxy</p>
+    </div>`;
+  }catch(err){
+    $("modalBody").innerHTML=`<div class="lesson-hero"><div class="big-icon">⚠️</div><h2>Profile unavailable</h2><p>${escapeHtml(err.message)}</p></div>`;
+  }
 }
 
 /* ===================== LOUD WEB AUDIO ===================== */
@@ -145,7 +272,7 @@ function celebrate(){
 
 /* ===================== MULTI VIEW ===================== */
 
-const viewSounds={home:"home",adventure:"adventure",arcade:"arcade",rewards:"rewards",parents:"parents",teacher:"teacher"};
+const viewSounds={home:"home",adventure:"adventure",arcade:"arcade",rewards:"rewards",students:"success",parents:"parents",teacher:"teacher"};
 
 function showView(name,withSound=true){
   if(!document.querySelector(`[data-view-panel="${name}"]`)) name="home";
@@ -160,6 +287,7 @@ function showView(name,withSound=true){
 
   if(withSound) playSound(viewSounds[name]||"nav");
   if(name==="arcade") setTimeout(()=>setupMemory(),120);
+  if(name==="students") loadPublicStudents();
   activateReveals();
 }
 
@@ -197,6 +325,7 @@ async function loadModules(){
       badge:badgeNames[i]||`Badge ${i+1}`
     }));
 
+    await hydrateStudentFromCloud();
     renderModules();
     renderDashboard();
 
@@ -619,7 +748,8 @@ async function init(){
   await loadModules();
   if($("typingScore"))$("typingScore").textContent=state.typingScore;
   if($("safetyScore"))$("safetyScore").textContent=state.safetyScore;
-  console.log("Tannu Sir's BrightByte Galaxy V4 • Neon Kids Edition • Connected to Cloudflare D1 🚀");
+  loadPublicStudents();
+  console.log("Tannu Sir's BrightByte Galaxy V5 • Student Portal Edition • D1 + R2 ready 🚀");
 }
 
 init();
