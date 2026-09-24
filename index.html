@@ -1,446 +1,306 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#11153c">
-  <meta name="description" content="Tannu Sir's BrightByte Galaxy - Computer, AI and digital skills learning for kids.">
-  <title>Tannu Sir's BrightByte Galaxy — Kids Computer & AI Lab</title>
-  <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tannu Sir's BrightByte Kids Lab</title>
+  <meta name="description" content="Tannu Sir's BrightByte Kids Lab - playful computer and AI learning world for kids." />
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-  <div class="bg-world" aria-hidden="true">
-    <div class="aurora aurora-a"></div>
-    <div class="aurora aurora-b"></div>
-    <div class="aurora aurora-c"></div>
-    <div class="starfield"></div>
-    <span class="sky-star s1">✦</span>
-    <span class="sky-star s2">★</span>
-    <span class="sky-star s3">✧</span>
-    <span class="sky-star s4">✦</span>
-    <span class="sky-star s5">★</span>
+<body class="theme-day">
+  <div class="space-bg">
+    <div class="nebula nebula-left"></div>
+    <div class="nebula nebula-right"></div>
+    <div class="stars"></div>
+
+    <!-- Flying animated objects -->
+    <div class="flyer rocket rocket-one">🚀</div>
+    <div class="flyer rocket rocket-two">🚀</div>
+    <div class="flyer plane plane-one">✈️</div>
+    <div class="flyer plane plane-two">🛩️</div>
+    <div class="flyer ufo ufo-one">🛸</div>
   </div>
 
-  <div id="confetti" aria-hidden="true"></div>
-
-  <header class="topbar-wrap">
-    <div class="topbar dg-frame">
-      <button class="brand" data-view="home" aria-label="Go to home">
-        <span class="brand-cube"><b>B</b></span>
-        <span class="brand-copy">
-          <strong>BrightByte</strong>
-          <small>TANNU SIR • CREATOR &amp; TEACHER</small>
-        </span>
-      </button>
-
-      <button id="menuBtn" class="menu-btn" aria-label="Open menu">☰</button>
-
-      <nav id="nav" class="nav" aria-label="Main navigation">
-        <button class="nav-btn nav-home active" data-view="home">🏠 Home</button>
-        <button class="nav-btn nav-adventure" data-view="adventure">🪐 Adventure</button>
-        <button class="nav-btn nav-arcade" data-view="arcade">🎮 Game Arcade</button>
-        <button class="nav-btn nav-rewards" data-view="rewards">🏆 Rewards</button>
-        <button class="nav-btn nav-students" data-view="students">🎓 Students</button>
-        <button class="nav-btn nav-parents" data-view="parents">👪 Parents</button>
-        <button class="nav-btn nav-teacher" data-view="teacher">🧑‍🏫 Teacher</button>
-      </nav>
-
-      <div class="header-actions">
-        <button id="soundBtn" class="chip-btn sound-chip">🔊 Sound MAX</button>
-        <button id="themeBtn" class="chip-btn theme-chip">🌙 Night</button>
+  <header class="topbar glass">
+    <div class="brand-wrap">
+      <div class="brand-icon">B</div>
+      <div class="brand-copy">
+        <h1>BrightByte</h1>
+        <p>TANNU SIR • CREATOR &amp; TEACHER</p>
       </div>
+    </div>
+
+    <nav class="main-nav">
+      <button class="nav-btn c1 active" data-target="home" data-sound="home">🏠 Home</button>
+      <button class="nav-btn c2" data-target="adventure" data-sound="adventure">🪐 Adventure</button>
+      <button class="nav-btn c3" data-target="games" data-sound="games">🎮 Game Arcade</button>
+      <button class="nav-btn c4" data-target="rewards" data-sound="rewards">🏆 Rewards</button>
+      <button class="nav-btn c5" data-target="students" data-sound="students">🎓 Students</button>
+      <button class="nav-btn c6" data-target="parents" data-sound="parents">👨‍👩‍👧 Parents</button>
+      <button class="nav-btn c7" data-target="teacher" data-sound="teacher">🧑‍🏫 Teacher</button>
+    </nav>
+
+    <div class="top-actions">
+      <button id="soundToggle" class="action-btn strong-btn" data-sound="toggle">🔊 Sound MAX</button>
+      <button id="themeToggle" class="action-btn theme-btn" data-sound="toggle">🌞 Day</button>
     </div>
   </header>
 
-  <div class="creator-float" aria-label="Created and taught by Tannu Sir">
-    <span>✨</span>
-    <div><b>TANNU SIR</b><small>CREATOR • TEACHER</small></div>
-  </div>
-
-  <main class="app-shell">
-
+  <main>
     <!-- HOME -->
-    <section class="view active" data-view-panel="home" data-owner="TANNU SIR">
-      <div class="creator-strip reveal">
-        <span>⚡</span>
-        <b>CREATED • DESIGNED • TAUGHT BY TANNU SIR</b>
-        <span>⚡</span>
+    <section id="home" class="section hero-section">
+      <div class="hero-banner">
+        <span>⚡ CREATED • DESIGNED • TAUGHT BY TANNU SIR ⚡</span>
       </div>
 
-      <div class="home-view">
-        <div class="hero-copy reveal">
-          <div class="teacher-ribbon">
-            <span class="teacher-dot"></span>
-            <b>TANNU SIR'S DIGITAL GALAXY</b>
-            <span class="teacher-dot"></span>
+      <div class="hero-grid">
+        <div class="hero-copy">
+          <div class="pill-row">
+            <span class="pill pink">💫 TANNU SIR'S DIGITAL GALAXY</span>
+            <span class="pill white">✨ CLASS 1 • COMPUTER + AI ADVENTURE</span>
           </div>
 
-          <span class="eyebrow">✨ CLASS 1 • COMPUTER + AI ADVENTURE</span>
+          <h2 class="hero-title">
+            Learn. Play.<br />
+            <span>Level Up!</span>
+          </h2>
 
-          <h1>Learn. Play.<br><span>Level Up!</span></h1>
-
-          <p>
+          <p class="hero-text">
             A colourful Computer + AI learning world for kids, created and taught by
-            <strong class="tannu-inline">Tannu Sir</strong>. Short lessons, games, rewards,
-            safe internet habits and first AI skills — all in one playful galaxy.
+            <strong>Tannu Sir</strong>. Short lessons, games, rewards, safe internet habits and
+            first AI skills — all in one clean, playful galaxy.
           </p>
 
-          <div class="hero-actions">
-            <button class="cta cta-primary" data-view="adventure">Start Adventure 🚀</button>
-            <button class="cta cta-game" data-view="arcade">Play Games 🎮</button>
+          <div class="hero-cta">
+            <button class="primary-btn sfx" data-target="adventure" data-sound="rocket">Start Adventure 🚀</button>
+            <button class="secondary-btn sfx" data-target="games" data-sound="games">Play Games 🎮</button>
           </div>
 
-          <div class="mini-pills">
+          <div class="micro-points">
             <span>🛡️ Kid-friendly</span>
             <span>⚡ Short lessons</span>
             <span>🏆 Rewards</span>
             <span>🤖 AI basics</span>
-            <span>🧑‍🏫 Tannu Sir Guided</span>
+            <span>🌟 Tannu Sir Guided</span>
           </div>
         </div>
 
-        <div class="hero-stage reveal" data-tilt>
-          <div class="orbit orbit-a"></div>
-          <div class="orbit orbit-b"></div>
-          <div class="orbit orbit-c"></div>
-
-          <div class="float-card fc-computer">💻<small>Computer</small></div>
-          <div class="float-card fc-ai">🤖<small>AI</small></div>
-          <div class="float-card fc-star">⭐<small>XP</small></div>
-
-          <div class="student-card">
-            <div class="student-top">
-              <div class="avatar-bubble"><img id="kidPhoto" alt="Student photo" hidden><span id="kidAvatar">👦</span></div>
-              <div>
-                <small>Welcome back, Explorer!</small>
-                <strong id="studentName">Ayaan</strong>
-              </div>
-              <span class="streak-chip">🔥 <b id="streak">3</b></span>
+        <div class="hero-panel glass">
+          <div class="hero-card-head">
+            <div class="avatar-circle">🧒</div>
+            <div>
+              <small>Welcome back, Explorer!</small>
+              <h3>Ashaaz</h3>
             </div>
+            <div class="streak-pill">🔥 3</div>
+          </div>
 
-            <div class="mission-card">
-              <small>TANNU SIR'S MISSION FOR TODAY</small>
-              <h3 id="missionTitle">Meet the Computer</h3>
-              <div class="progress-bar"><i id="heroBar"></i></div>
-              <p><b id="doneCount">0</b>/<b id="moduleTotal">10</b> modules explored</p>
+          <div class="mission-box">
+            <small>TANNU SIR'S MISSION FOR TODAY</small>
+            <h3>Meet the Computer</h3>
+            <div class="progress-track">
+              <div class="progress-bar" style="width: 28%;"></div>
             </div>
+            <p>2/10 modules explored</p>
+          </div>
 
-            <div class="quick-actions">
-              <button onclick="openQuickQuiz()"><span>🧠</span><small>Quiz</small></button>
-              <button data-view="arcade"><span>🎮</span><small>Games</small></button>
-              <button data-view="rewards"><span>🏆</span><small>Badges</small></button>
-              <button data-view="parents"><span>📊</span><small>Progress</small></button>
-            </div>
+          <div class="hero-quick-grid">
+            <button class="quick-card sfx" data-target="games" data-sound="quiz">
+              <span>🧠</span>
+              <b>Quiz</b>
+            </button>
+            <button class="quick-card sfx" data-target="games" data-sound="games">
+              <span>🎮</span>
+              <b>Games</b>
+            </button>
+            <button class="quick-card sfx" data-target="rewards" data-sound="rewards">
+              <span>🏆</span>
+              <b>Badges</b>
+            </button>
+            <button class="quick-card sfx" data-target="students" data-sound="students">
+              <span>📚</span>
+              <b>Profiles</b>
+            </button>
           </div>
         </div>
       </div>
 
-      <div class="stats-row reveal">
-        <article class="stat-card"><span>⭐</span><b id="stars">120</b><small>Stars</small></article>
-        <article class="stat-card"><span>⚡</span><b id="xp">120</b><small>Total XP</small></article>
-        <article class="stat-card"><span>✅</span><b id="lessonsDone">0</b><small>Modules done</small></article>
-        <article class="stat-card"><span>🏅</span><b id="badgeCount">0</b><small>Badges</small></article>
-      </div>
-
-      <div class="home-portals reveal">
-        <button class="portal-card portal-purple" data-view="adventure">
-          <span>🪐</span><b>Learning Adventure</b><small>Explore 10 learning planets</small>
-        </button>
-        <button class="portal-card portal-cyan" data-view="arcade">
-          <span>🎮</span><b>BrightByte Arcade</b><small>Play skill-building games</small>
-        </button>
-        <button class="portal-card portal-orange" data-view="rewards">
-          <span>🏆</span><b>Reward Vault</b><small>Unlock badges &amp; certificate</small>
-        </button>
-      </div>
-
-      <div class="tannu-banner reveal">
-        <div class="tannu-avatar">🧑‍🏫</div>
-        <div>
-          <small>YOUR DIGITAL GUIDE</small>
-          <h3>Tannu Sir</h3>
-          <p>Computer • Internet Safety • AI Basics • Learning Through Play</p>
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-icon">⭐</div>
+          <div>
+            <h3>145</h3>
+            <p>Stars</p>
+          </div>
         </div>
-        <span class="tannu-spark">✦</span>
+        <div class="stat-card">
+          <div class="stat-icon">⚡</div>
+          <div>
+            <h3>145</h3>
+            <p>Total XP</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">✅</div>
+          <div>
+            <h3>2</h3>
+            <p>Modules done</p>
+          </div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">🏅</div>
+          <div>
+            <h3>1</h3>
+            <p>Badges</p>
+          </div>
+        </div>
       </div>
     </section>
 
     <!-- ADVENTURE -->
-    <section class="view" data-view-panel="adventure" data-owner="TANNU SIR">
-      <div class="creator-stamp reveal">🧑‍🏫 TANNU SIR'S LEARNING PLANET</div>
-      <div class="view-head reveal">
+    <section id="adventure" class="section">
+      <div class="section-head">
         <div>
-          <span class="eyebrow">🗺️ LEARNING MAP</span>
+          <span class="mini-tag">🗺️ LEARNING MAP</span>
           <h2>Class 1 Adventure</h2>
-          <p>Each glowing planet contains four real lessons loaded from your Cloudflare D1 database.</p>
         </div>
-        <button class="cta cta-soft" data-view="home">← Home</button>
+        <p>Each glowing planet contains beginner-friendly lessons loaded in a clean, playful way.</p>
       </div>
-      <div class="galaxy-map-wrap">
-        <div class="map-line line-a"></div>
-        <div class="map-line line-b"></div>
-        <div id="moduleMap" class="module-map"></div>
-      </div>
+
+      <div id="moduleGrid" class="cards-grid two-col"></div>
     </section>
 
-    <!-- ARCADE -->
-    <section class="view arcade-view" data-view-panel="arcade" data-owner="TANNU SIR">
-      <div class="creator-stamp dark-stamp reveal">🎮 TANNU SIR'S GAME LAB</div>
-      <div class="view-head arcade-head reveal">
+    <!-- GAMES -->
+    <section id="games" class="section dark-panel">
+      <div class="section-head">
         <div>
-          <span class="eyebrow dark-eyebrow">🎮 BRIGHTBYTE ARCADE</span>
+          <span class="mini-tag">🎮 BRIGHTBYTE ARCADE</span>
           <h2>Learn by Playing</h2>
-          <p>Five mini games build mouse control, memory, typing, internet safety and AI prompt thinking.</p>
         </div>
-        <button class="cta cta-soft" data-view="home">← Home</button>
+        <p>Quick games build mouse control, typing confidence, memory, safety habits and prompt thinking.</p>
       </div>
 
-      <div class="arcade-shell reveal">
-        <div class="game-tabs">
-          <button class="game-tab active" data-game="mouse">🖱️ Mouse Blast</button>
-          <button class="game-tab" data-game="memory">🧠 Memory Match</button>
-          <button class="game-tab" data-game="typing">🚀 Typing Rocket</button>
-          <button class="game-tab" data-game="safety">🛡️ Safe Surf</button>
-          <button class="game-tab" data-game="prompt">🤖 Prompt Builder</button>
-        </div>
+      <div id="gameGrid" class="cards-grid four-col"></div>
+    </section>
 
-        <div id="game-mouse" class="game-panel active">
-          <div class="game-copy">
-            <small>TANNU SIR SAYS: FIND THIS</small>
-            <h3 id="mouseTarget">Monitor</h3>
-            <p>Tap the correct computer part and earn stars.</p>
-            <span class="score-pill">⭐ <b id="gameStars">120</b></span>
-          </div>
-          <div class="parts-grid">
-            <button data-part="Monitor">🖥️<small>Monitor</small></button>
-            <button data-part="Keyboard">⌨️<small>Keyboard</small></button>
-            <button data-part="Mouse">🖱️<small>Mouse</small></button>
-            <button data-part="Printer">🖨️<small>Printer</small></button>
-          </div>
+    <!-- REWARDS -->
+    <section id="rewards" class="section">
+      <div class="section-head">
+        <div>
+          <span class="mini-tag">🏆 REWARD VAULT</span>
+          <h2>Badge Cabinet</h2>
         </div>
+        <p>Every completed module unlocks a new badge and a little celebration.</p>
+      </div>
 
-        <div id="game-memory" class="game-panel">
-          <div class="game-copy">
-            <small>MEMORY MISSION</small>
-            <h3>Match the Tech Pairs</h3>
-            <p>Flip two cards and find all matching tech icons.</p>
-            <span class="score-pill">Flips: <b id="memoryFlips">0</b></span>
-          </div>
-          <div id="memoryGrid" class="memory-grid"></div>
+      <div id="badgeGrid" class="badge-grid"></div>
+    </section>
+
+    <!-- STUDENTS -->
+    <section id="students" class="section">
+      <div class="section-head">
+        <div>
+          <span class="mini-tag">🎓 STUDENT GALAXY</span>
+          <h2>Who is Learning?</h2>
         </div>
+        <p>Public demo student profiles can be displayed here with photo, name, class and progress.</p>
+      </div>
 
-        <div id="game-typing" class="game-panel">
-          <div class="game-copy">
-            <small>TYPING MISSION</small>
-            <h3>Launch the Rocket</h3>
-            <p>Type the word correctly and press Enter.</p>
-            <span class="score-pill">Score: <b id="typingScore">0</b></span>
-          </div>
-          <div class="typing-stage">
-            <div id="rocket" class="rocket">🚀</div>
-            <div id="typingWord" class="typing-word">COMPUTER</div>
-            <input id="typingInput" class="typing-input" autocomplete="off" spellcheck="false" placeholder="Type here...">
-            <button class="cta cta-primary" onclick="checkTyping()">Launch 🚀</button>
-          </div>
+      <div class="section-tools">
+        <a href="student-login.html" class="tool-btn sfx" data-sound="students">🔐 Student Login</a>
+        <a href="admin.html" class="tool-btn alt sfx" data-sound="teacher">🧑‍💼 Admin Center</a>
+      </div>
+
+      <div id="studentGrid" class="cards-grid three-col"></div>
+    </section>
+
+    <!-- PARENTS -->
+    <section id="parents" class="section">
+      <div class="section-head">
+        <div>
+          <span class="mini-tag">👨‍👩‍👧 PARENT VIEW</span>
+          <h2>Simple Progress, Clear Results</h2>
         </div>
+        <p>Inspired by a professional dashboard: quick metrics, current focus and teacher guidance without confusion.</p>
+      </div>
 
-        <div id="game-safety" class="game-panel">
-          <div class="game-copy">
-            <small>SAFETY MISSION</small>
-            <h3>Safe or Unsafe?</h3>
-            <p>Choose the safest answer.</p>
-            <span class="score-pill">Score: <b id="safetyScore">0</b></span>
-          </div>
-          <div class="safety-stage">
-            <div id="safetyQuestion" class="safety-question">A website asks for your home address.</div>
-            <div class="safety-buttons">
-              <button class="safe-btn" onclick="answerSafety(true)">✅ SAFE</button>
-              <button class="unsafe-btn" onclick="answerSafety(false)">⛔ UNSAFE</button>
+      <div class="parent-grid">
+        <div class="parent-card glass">
+          <h3>🧒 Ashaaz • Class 1</h3>
+          <div class="ring-wrap">
+            <div class="progress-ring">
+              <span>20%</span>
+            </div>
+            <div class="parent-stats">
+              <p><b>⭐ Stars:</b> 145</p>
+              <p><b>🏅 Badges:</b> 1 / 10</p>
+              <p><b>🎯 Current Focus:</b> Meet the Computer</p>
             </div>
           </div>
         </div>
 
-        <div id="game-prompt" class="game-panel">
-          <div class="game-copy">
-            <small>AI MISSION</small>
-            <h3>Build a Cool Prompt</h3>
-            <p>Choose who, where and what. BrightByte turns it into a simple kid-safe prompt.</p>
-          </div>
-          <div class="prompt-stage">
-            <select id="promptWho">
-              <option>A friendly robot</option>
-              <option>A brave astronaut</option>
-              <option>A tiny dragon</option>
-              <option>A clever cat</option>
-            </select>
-            <select id="promptWhere">
-              <option>in a colourful space station</option>
-              <option>inside Tannu Sir's magical computer lab</option>
-              <option>on the Moon</option>
-              <option>in a bright garden</option>
-            </select>
-            <select id="promptWhat">
-              <option>learning how to use a computer</option>
-              <option>helping a friend</option>
-              <option>painting a rainbow</option>
-              <option>building a safe website</option>
-            </select>
-            <button class="cta cta-primary" onclick="buildPrompt()">✨ Build Prompt</button>
-            <div id="promptOutput" class="prompt-output">Your AI prompt will appear here.</div>
+        <div class="parent-card glass">
+          <h3>🧑‍🏫 Next Best Step</h3>
+          <p>Next recommended focus: <b>Know Your Computer</b>. Keep the session short, visual and practical.</p>
+          <div class="parent-actions">
+            <button class="primary-btn small-btn sfx" data-sound="rewards">🏅 Certificate</button>
+            <button class="secondary-btn small-btn sfx" data-sound="home">🔄 Reset Demo</button>
           </div>
         </div>
-      </div>
-    </section>
-
-    <!-- REWARDS -->
-    <section class="view" data-view-panel="rewards" data-owner="TANNU SIR">
-      <div class="creator-stamp reveal">🏆 TANNU SIR'S REWARD VAULT</div>
-      <div class="view-head reveal">
-        <div>
-          <span class="eyebrow">🏆 REWARD VAULT</span>
-          <h2>Badge Cabinet</h2>
-          <p>Every completed module unlocks a new badge and a celebration.</p>
-        </div>
-        <button class="cta cta-primary" onclick="showCertificate()">🏅 Certificate</button>
-      </div>
-      <div id="badgeGrid" class="badge-grid reveal"></div>
-      <div class="reward-showcase reveal">
-        <div class="reward-orbit">🏆</div>
-        <div>
-          <span class="eyebrow">NEXT BIG REWARD</span>
-          <h3>Complete all 10 modules</h3>
-          <p>Finish the Class 1 adventure to unlock Tannu Sir's BrightByte Computer &amp; AI Explorer certificate.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- STUDENTS -->
-    <section class="view" data-view-panel="students" data-owner="TANNU SIR">
-      <div class="creator-stamp reveal">🎓 TANNU SIR'S STUDENT GALAXY</div>
-      <div class="view-head reveal">
-        <div>
-          <span class="eyebrow">🎓 OUR EXPLORERS</span>
-          <h2>BrightByte Students</h2>
-          <p>Public demo profiles approved by Tannu Sir appear here. Real children can remain private unless a parent/guardian agrees to public display.</p>
-        </div>
-        <div class="student-view-actions">
-          <a class="cta cta-primary link-btn" href="student-login.html">🔐 Student Login</a>
-          <a class="cta cta-soft link-btn" href="admin.html">🧑‍🏫 Tannu Sir Admin</a>
-        </div>
-      </div>
-
-      <div class="student-directory-toolbar reveal">
-        <div>
-          <b id="publicStudentCount">0</b>
-          <span>public student profiles</span>
-        </div>
-        <button class="cta cta-soft" onclick="loadPublicStudents(true)">↻ Refresh Students</button>
-      </div>
-
-      <div id="studentsGrid" class="students-grid reveal">
-        <div class="student-empty-card">
-          <div class="student-empty-icon">🎓</div>
-          <h3>Loading Tannu Sir's students...</h3>
-          <p>Please wait while BrightByte checks Cloudflare D1.</p>
-        </div>
-      </div>
-
-      <div class="privacy-note reveal">
-        <span>🛡️</span>
-        <div>
-          <b>Kids privacy first</b>
-          <p>Only profiles marked <strong>Public Demo</strong> by the admin are shown here. Guardian contact details and login information are never displayed publicly.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- PARENTS -->
-    <section class="view" data-view-panel="parents" data-owner="TANNU SIR">
-      <div class="creator-stamp reveal">👪 TANNU SIR • PARENT PROGRESS VIEW</div>
-      <div class="view-head reveal">
-        <div>
-          <span class="eyebrow">👪 PARENT VIEW</span>
-          <h2>Simple Progress, Clear Results</h2>
-          <p>Quick metrics, current focus and guidance from Tannu Sir without overwhelming parents.</p>
-        </div>
-        <button class="cta cta-soft" data-view="home">← Home</button>
-      </div>
-
-      <div class="parent-grid reveal">
-        <article class="panel progress-panel">
-          <div class="panel-title">
-            <span>📈</span>
-            <div><small>LEARNING PROGRESS</small><h3 id="parentStudent">Ayaan • Class 1</h3></div>
-          </div>
-          <div class="progress-ring" id="progressRing"><b id="percent">0%</b></div>
-          <div class="progress-list">
-            <div><span>⭐ Stars</span><b id="parentStars">120</b></div>
-            <div><span>🏅 Badges</span><b id="parentBadges">0 / 10</b></div>
-            <div><span>🎯 Focus</span><b id="focus">Meet the Computer</b></div>
-          </div>
-        </article>
-
-        <article class="panel teacher-note-panel">
-          <div class="panel-title">
-            <span>🧑‍🏫</span>
-            <div><small>TANNU SIR'S NOTE</small><h3>Next Best Step</h3></div>
-          </div>
-          <p id="teacherNote">Start with Module 1 and keep the session short, visual and practical.</p>
-          <div class="panel-actions">
-            <button class="cta cta-primary" onclick="showCertificate()">🏅 Certificate</button>
-            <button class="cta cta-soft" onclick="resetProgress()">↻ Reset Demo</button>
-          </div>
-        </article>
       </div>
     </section>
 
     <!-- TEACHER -->
-    <section class="view" data-view-panel="teacher" data-owner="TANNU SIR">
-      <div class="creator-stamp reveal">🧑‍🏫 OFFICIAL TANNU SIR COMMAND CENTER</div>
-      <div class="view-head reveal">
+    <section id="teacher" class="section">
+      <div class="section-head">
         <div>
-          <span class="eyebrow">🧑‍🏫 TANNU SIR COMMAND CENTER</span>
+          <span class="mini-tag">🧑‍🏫 TEACHER COMMAND CENTER</span>
           <h2>Teaching at a Glance</h2>
-          <p>BrightByte Galaxy's teaching dashboard — designed around Tannu Sir's class flow.</p>
         </div>
-        <div class="teacher-head-actions">
-          <a class="cta cta-primary link-btn" href="admin.html">⚙️ Open Admin Center</a>
-          <button class="cta cta-soft" data-view="home">← Home</button>
+        <p>Borrowing the clean management feel of your professional dashboards, but made friendly for learning.</p>
+      </div>
+
+      <div class="teacher-grid">
+        <div class="teacher-box gradient-1">
+          <span>📚</span>
+          <h3>40</h3>
+          <p>Class 1 lessons</p>
+        </div>
+        <div class="teacher-box gradient-2">
+          <span>🎮</span>
+          <h3>5</h3>
+          <p>Interactive games</p>
+        </div>
+        <div class="teacher-box gradient-3">
+          <span>🏆</span>
+          <h3>10</h3>
+          <p>Reward badges</p>
+        </div>
+        <div class="teacher-box gradient-4">
+          <span>🤖</span>
+          <h3>2</h3>
+          <p>AI modules</p>
         </div>
       </div>
 
-      <div class="teacher-metrics reveal">
-        <article class="metric purple"><span>📚</span><b id="teacherLessonCount">40</b><small>Class 1 lessons</small></article>
-        <article class="metric cyan"><span>🎮</span><b>5</b><small>Interactive games</small></article>
-        <article class="metric orange"><span>🏆</span><b>10</b><small>Reward badges</small></article>
-        <article class="metric green"><span>🤖</span><b>2</b><small>AI modules</small></article>
-      </div>
-
-      <div class="teacher-console panel reveal">
-        <div><span class="online-dot"></span><b>BrightByte API</b><small>Connected to Cloudflare D1</small></div>
-        <div><b>Tannu Sir's teaching rhythm</b><small>15 min lesson • 10 min practice • 5 min game/review</small></div>
-        <button class="cta cta-soft" onclick="openQuickQuiz()">Run Quick Quiz</button>
+      <div class="teacher-footer glass">
+        <div>
+          <h3>🟢 BrightByte API</h3>
+          <p>Connected to Cloudflare D1 and public demo student portal.</p>
+        </div>
+        <div>
+          <h3>Recommended teaching rhythm</h3>
+          <p>15 min lesson • 10 min practice • 5 min game/review</p>
+        </div>
+        <button class="tool-btn sfx" data-sound="quiz">Run Quick Quiz</button>
       </div>
     </section>
-
   </main>
 
-  <footer class="site-footer">
-    <div class="footer-owner">
-      <b>✨ TANNU SIR'S BRIGHTBYTE GALAXY ✨</b>
-      <small>Created • Designed • Taught by Tannu Sir</small>
-    </div>
-    <span>Kids Computer • AI • Digital Skills Lab</span>
-  </footer>
+  <div class="corner-badge">✨ TANNU SIR<br /><small>CREATOR • TEACHER</small></div>
 
-  <div id="modal" class="modal" aria-hidden="true">
-    <div class="modal-box">
-      <button class="modal-close" onclick="closeModal()" aria-label="Close">×</button>
-      <div id="modalBody"></div>
-    </div>
-  </div>
+  <div id="toast" class="toast">Action complete!</div>
 
-  <div id="toast" class="toast"></div>
   <script src="script.js"></script>
 </body>
 </html>
