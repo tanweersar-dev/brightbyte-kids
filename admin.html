@@ -1,127 +1,434 @@
-<!doctype html>
-<html lang="en">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Tannu Sir Admin Center — BrightByte Galaxy</title>
-<style>
-:root{--bg:#f4f6ff;--panel:#fff;--ink:#1f2546;--muted:#76809e;--purple:#6c5cff;--cyan:#20cfc2;--pink:#ef4ca5;--orange:#ff9552;--green:#2fbe86;--red:#ef5b6d;--line:#e8e9f7;--shadow:0 18px 55px rgba(52,48,122,.13)}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(135deg,#f2f4ff,#f9fbff);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}
-.auth-screen{min-height:100vh;display:grid;place-items:center;padding:22px;background:radial-gradient(circle at 15% 15%,rgba(108,92,255,.20),transparent 30%),radial-gradient(circle at 90% 30%,rgba(32,207,194,.18),transparent 30%),#111637}.login-card{width:min(460px,100%);background:#fff;border-radius:30px;padding:30px;box-shadow:0 30px 90px rgba(0,0,0,.25);position:relative;overflow:hidden}.login-card:before{content:"";position:absolute;left:0;right:0;top:0;height:6px;background:linear-gradient(90deg,#6c5cff,#20cfc2,#ef4ca5,#ffb149,#6c5cff);background-size:300%;animation:run 3s linear infinite}@keyframes run{to{background-position:300% 0}}.login-brand{display:flex;gap:12px;align-items:center}.cube{width:58px;height:58px;border-radius:18px;display:grid;place-items:center;background:linear-gradient(135deg,#6c5cff,#20cfc2);color:white;font-size:31px;font-weight:1000;box-shadow:0 10px 25px rgba(108,92,255,.28)}.login-brand h1{margin:0;font-size:24px}.login-brand p{margin:3px 0 0;color:var(--muted);font-size:12px}.admin-chip{display:inline-block;margin:20px 0 8px;padding:7px 11px;border-radius:99px;background:#efedff;color:#5b4dce;font-size:10px;font-weight:1000;letter-spacing:1px}.field{margin-top:14px}.field label{display:block;font-size:11px;font-weight:900;margin-bottom:6px}.field input,.field select,.field textarea{width:100%;border:1px solid #dfe2f2;border-radius:14px;padding:12px 13px;outline:none;background:#fbfcff;color:var(--ink)}.field input:focus,.field textarea:focus,.field select:focus{border-color:#8e84ff;box-shadow:0 0 0 4px rgba(108,92,255,.09)}.login-btn{width:100%;border:0;border-radius:15px;padding:13px;margin-top:18px;background:linear-gradient(135deg,#6c5cff,#8b5ff6);color:#fff;font-weight:1000}.login-note{margin-top:13px;color:var(--muted);font-size:10px;line-height:1.5}
-.shell{min-height:100vh;display:grid;grid-template-columns:250px 1fr}.sidebar{position:sticky;top:0;height:100vh;background:#111637;color:#e8ebff;padding:20px 15px;display:flex;flex-direction:column}.side-brand{display:flex;align-items:center;gap:10px;padding:7px}.side-brand .cube{width:45px;height:45px;font-size:23px}.side-brand b,.side-brand small{display:block}.side-brand small{font-size:7px;letter-spacing:1.2px;color:#aeb8df;margin-top:2px}.side-badge{margin:18px 7px 10px;padding:8px 10px;border-radius:12px;background:linear-gradient(90deg,#6c5cff,#ef4ca5);font-size:9px;letter-spacing:1px;font-weight:1000}.side-nav{display:grid;gap:6px}.side-nav button,.side-nav a{border:0;text-decoration:none;text-align:left;border-radius:13px;padding:11px 12px;background:transparent;color:#c9d0ee;font-size:12px;font-weight:800}.side-nav button:hover,.side-nav a:hover,.side-nav .active{background:#222951;color:#fff}.side-nav span{display:inline-block;width:24px}.side-footer{margin-top:auto;padding:10px 7px;color:#8e99c1;font-size:9px;line-height:1.55}.main{padding:20px 24px 45px;min-width:0}.top{display:flex;align-items:center;justify-content:space-between;gap:14px}.top h1{margin:0;font-size:29px}.top p{margin:4px 0 0;color:var(--muted);font-size:12px}.top-actions{display:flex;gap:8px}.btn{border:0;border-radius:13px;padding:10px 13px;font-weight:900;font-size:11px}.primary{background:linear-gradient(135deg,#6c5cff,#8b5ff6);color:#fff}.soft{background:#eeecff;color:#5749cb}.danger{background:#ffe7eb;color:#cc4358}.green{background:#e3fbf2;color:#128662}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;margin:20px 0}.stat{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:18px;box-shadow:0 10px 30px rgba(60,56,140,.06)}.stat span{font-size:25px}.stat b{display:block;font-size:28px;margin:7px 0 2px}.stat small{color:var(--muted);font-size:10px;font-weight:800}.toolbar{display:flex;gap:10px;align-items:center;justify-content:space-between;background:#fff;border:1px solid var(--line);padding:12px;border-radius:18px;box-shadow:0 10px 30px rgba(60,56,140,.05)}.search{flex:1;max-width:550px;position:relative}.search input{width:100%;padding:11px 14px 11px 38px;border:1px solid #e1e3ef;border-radius:13px;outline:none}.search span{position:absolute;left:13px;top:10px}.table-card{margin-top:13px;background:#fff;border:1px solid var(--line);border-radius:22px;box-shadow:var(--shadow);overflow:hidden}.table-wrap{overflow:auto}.students-table{width:100%;border-collapse:collapse;min-width:1080px}.students-table th{background:#f7f8fd;color:#707896;font-size:9px;letter-spacing:.8px;text-align:left;padding:12px;border-bottom:1px solid var(--line)}.students-table td{padding:12px;border-bottom:1px solid #f0f1f8;font-size:11px;vertical-align:middle}.student-cell{display:flex;align-items:center;gap:10px}.thumb{width:46px;height:46px;border-radius:14px;object-fit:cover;background:#efedff;display:grid;place-items:center;font-size:24px;overflow:hidden}.thumb img{width:100%;height:100%;object-fit:cover}.student-cell b,.student-cell small{display:block}.student-cell small{color:var(--muted);font-size:9px;margin-top:2px}.tag{display:inline-block;padding:6px 8px;border-radius:99px;font-size:8px;font-weight:1000}.tag.active{background:#e4fbf2;color:#19855f}.tag.disabled{background:#ffe7eb;color:#c44859}.tag.public{background:#e7f8ff;color:#1978a3}.tag.private{background:#f1effb;color:#736f8d}.progress{width:110px;height:7px;border-radius:99px;background:#ececf6;overflow:hidden}.progress i{height:100%;display:block;background:linear-gradient(90deg,#6c5cff,#20cfc2)}.actions{display:flex;gap:5px;flex-wrap:wrap}.mini{border:0;border-radius:9px;padding:7px 8px;font-size:8px;font-weight:900;background:#f0effb;color:#5148b9}.mini.warn{background:#fff2dc;color:#b77812}.mini.red{background:#ffe9ed;color:#ca4054}.mini.green{background:#e8fbf3;color:#197e5d}.empty{padding:48px;text-align:center;color:var(--muted)}
-.overlay{position:fixed;inset:0;background:rgba(13,16,45,.68);backdrop-filter:blur(7px);z-index:50;display:none;place-items:center;padding:18px}.overlay.open{display:grid}.modal{width:min(650px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:26px;padding:24px;box-shadow:0 30px 90px rgba(0,0,0,.25)}.modal-head{display:flex;justify-content:space-between;align-items:center}.modal-head h2{margin:0}.x{border:0;width:36px;height:36px;border-radius:50%;background:#efedff;font-size:20px}.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.wide{grid-column:1/-1}.check-row{display:flex;align-items:center;gap:8px;margin-top:12px;padding:11px;border-radius:13px;background:#f7f8fd;font-size:10px}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}.generator{display:flex;gap:6px}.generator input{flex:1}.copy-result{margin-top:15px;padding:14px;border-radius:14px;background:#f0fffa;border:1px solid #bdebdc;font-size:11px;line-height:1.65}.toast{position:fixed;left:50%;bottom:20px;transform:translate(-50%,20px);opacity:0;z-index:80;background:#1d2244;color:#fff;padding:11px 16px;border-radius:99px;font-size:10px;font-weight:900;transition:.2s}.toast.show{opacity:1;transform:translate(-50%,0)}
-@media(max-width:1000px){.shell{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.side-nav{grid-template-columns:repeat(3,1fr)}.side-footer{display:none}.stats{grid-template-columns:1fr 1fr}.form-grid{grid-template-columns:1fr}.wide{grid-column:auto}}
-@media(max-width:620px){.main{padding:14px}.top{display:block}.top-actions{margin-top:12px}.stats{grid-template-columns:1fr 1fr}.toolbar{align-items:stretch;flex-direction:column}.search{max-width:none}.side-nav{grid-template-columns:1fr 1fr}.login-card{padding:23px}}
-</style>
-</head>
-<body>
-<div id="loginScreen" class="auth-screen">
-  <form id="loginForm" class="login-card">
-    <div class="login-brand"><div class="cube">B</div><div><h1>Tannu Sir Admin Center</h1><p>BrightByte Student Management</p></div></div>
-    <span class="admin-chip">🔐 PRIVATE ADMIN ACCESS</span>
-    <div class="field"><label>Admin User ID</label><input id="adminUser" value="tannu-admin" autocomplete="username" required></div>
-    <div class="field"><label>Admin Password</label><input id="adminPass" type="password" autocomplete="current-password" required placeholder="Cloudflare secret password"></div>
-    <button class="login-btn" type="submit">Login to Admin Center →</button>
-    <div class="login-note">Admin password is stored as a Cloudflare Worker secret — never inside GitHub code.</div>
-  </form>
-</div>
+const academyDevices=[
+['🖥️','Monitor','Hello! I am a monitor. I show pictures, words and videos. You can see your work on me.'],['🖱️','Mouse','Hello! I am a mouse. I help you point, click, drag and move around the computer.'],['⌨️','Keyboard','Hi! I am a keyboard. You use me to type letters, numbers and words.'],['🧰','System Unit','Hello! I am the system unit. Important computer parts work inside me.'],['🧩','Motherboard','Hello! I am the motherboard. I connect important computer parts so they can work together.'],['🧠','RAM','Hello! I am RAM. I help the computer work quickly while programs are being used.'],['💾','Hard Disk or S S D','Hello! I store files, photos, videos and programs for later.'],['🖨️','Printer','Hello! I am a printer. I put your digital work onto paper.'],['🔊','Speaker','Hello! I am a speaker. I play sounds, music and voices from the computer.'],['📷','Webcam','Hello! I am a webcam. I help the computer capture pictures and video.']];
 
-<div id="app" class="shell hidden">
-  <aside class="sidebar">
-    <div class="side-brand"><div class="cube">B</div><div><b>BrightByte</b><small>TANNU SIR ADMIN</small></div></div>
-    <div class="side-badge">⚡ STUDENT CONTROL CENTER</div>
-    <nav class="side-nav">
-      <button class="active" onclick="scrollTopPage()"><span>📊</span>Dashboard</button>
-      <button onclick="focusStudents()"><span>🎓</span>Students</button>
-      <button onclick="openCreate()"><span>➕</span>Add Student</button>
-      <a href="index.html#students"><span>🌐</span>Public Directory</a>
-      <a href="index.html"><span>🚀</span>Learning Galaxy</a>
-      <button onclick="logout()"><span>🚪</span>Logout</button>
-    </nav>
-    <div class="side-footer">Created & managed by <b>Tannu Sir</b><br>Student passwords are hashed in Cloudflare D1.</div>
-  </aside>
+const academyPhrases=[
+['👋','Hello!','Hello! Nice to meet you.'],
+['🌞','Good morning','Good morning! Have a happy day.'],
+['🙂','My name is...','My name is Ashaaz.'],
+['🎂','I am six','I am six years old.'],
+['❤️','I like...','I like drawing and computers.'],
+['🙏','Thank you','Thank you very much.'],
+['🙋','Please help me','Please help me.'],
+['🤔','I do not understand','I do not understand. Please explain again.'],
+['😊','I am happy','I am happy today.']
+];
 
-  <main class="main">
-    <div class="top">
-      <div><h1>Student Management</h1><p>Create user IDs, manage profiles, privacy, access and progress.</p></div>
-      <div class="top-actions"><a class="btn soft" href="index.html#students" style="text-decoration:none">View Public Students</a><button class="btn primary" onclick="openCreate()">+ Create Student</button></div>
-    </div>
+const academyRoles=[
+['🧑‍🏫','Teacher & Student','Good morning, teacher. May I come in?'],
+['🛍️','Shopkeeper','Hello. Can I have one apple, please?'],
+['🧒👧','Meet a Friend','Hello! My name is Ashaaz. What is your name?'],
+['🏠','At Home','Mom, please help me with my homework.']
+];
 
-    <section class="stats">
-      <article class="stat"><span>🎓</span><b id="sTotal">0</b><small>Total Students</small></article>
-      <article class="stat"><span>🌐</span><b id="sPublic">0</b><small>Public Demo</small></article>
-      <article class="stat"><span>✅</span><b id="sActive">0</b><small>Active Accounts</small></article>
-      <article class="stat"><span>📈</span><b id="sProgress">0%</b><small>Average Progress</small></article>
-    </section>
+const academyConfidence=[
+['👋','Greeting Star','Say hello and good morning clearly.','Hello! Good morning!'],
+['👂','Good Listener','Look, listen and wait for your turn.','I will listen carefully.'],
+['🙏','Polite Speaker','Use please, thank you, sorry and excuse me.','Please. Thank you. Sorry. Excuse me.'],
+['🙋','Ask for Help','It is okay to ask a trusted adult for help.','Please help me. I do not understand.']
+];
 
-    <section id="studentsSection">
-      <div class="toolbar">
-        <div class="search"><span>🔎</span><input id="searchBox" placeholder="Search student name or user ID..."></div>
-        <button class="btn soft" onclick="loadStudents()">↻ Refresh</button>
+const academyBrave=[
+'Hello! My name is Ashaaz.',
+'Good morning! How are you?',
+'My favourite colour is blue.',
+'Please help me. I do not understand.',
+'Thank you very much.',
+'I can speak slowly and clearly.'
+];
+
+const academyRoutine=[
+['🌅','Wake Up','Start the day'],
+['🪥','Brush','Clean teeth'],
+['🥣','Breakfast','Balanced meal'],
+['🏫','School','Learn and listen'],
+['🏃','Play','Move your body'],
+['📚','Learn','Short practice'],
+['🌙','Sleep','Rest on time']
+];
+
+const buddyQuestions=[
+'Hello! What is your name?',
+'How are you today?',
+'What is your favourite colour?',
+'What do you like to play?'
+];
+
+let buddyStep=0;
+let braveStep=0;
+let academyRecognition=null;
+let academyRecognitionTarget='';
+
+function academySpeak(text){
+  if(typeof speak==='function'){
+    speak(text);
+    return;
+  }
+
+  if('speechSynthesis' in window){
+    speechSynthesis.cancel();
+
+    const u=new SpeechSynthesisUtterance(text);
+    u.lang='en-US';
+    u.rate=.92;
+
+    speechSynthesis.speak(u);
+  }
+}
+
+function academyToast(t){
+  if(typeof showToast==='function'){
+    showToast(t);
+  }
+}
+
+function academyCelebrate(){
+  if(typeof celebrate==='function'){
+    celebrate();
+  }else{
+    academyToast('Great job! ⭐');
+  }
+}
+
+function renderAcademyDevices(){
+  const el=document.getElementById('deviceGrid');
+
+  if(!el)return;
+
+  el.innerHTML=academyDevices.map((d,i)=>`
+    <article class="device-academy" data-ac-device="${i}">
+      <button class="speaker">🔊</button>
+
+      <div class="dv">
+        ${d[0]}
       </div>
-      <div class="table-card">
-        <div class="table-wrap">
-          <table class="students-table">
-            <thead><tr><th>STUDENT</th><th>USER ID</th><th>CLASS</th><th>ACCESS</th><th>PUBLIC</th><th>PROGRESS</th><th>STARS</th><th>LAST LOGIN</th><th>ACTIONS</th></tr></thead>
-            <tbody id="studentRows"><tr><td colspan="9" class="empty">Loading students...</td></tr></tbody>
-          </table>
-        </div>
-      </div>
-    </section>
-  </main>
-</div>
 
-<div id="overlay" class="overlay"><div id="modal" class="modal"></div></div>
-<div id="toast" class="toast"></div>
+      <h3>${d[1]}</h3>
 
-<script>
-const API="https://brightbyte-kids-api.tanweerstudy25.workers.dev";
-let token=localStorage.getItem("brightbyte_admin_token")||"";
-let students=[];
-let photoUrls=[];
-const $=id=>document.getElementById(id);
-const esc=s=>String(s??"").replace(/[&<>'"]/g,x=>({"&":"&amp;","<":"&lt;",">":"&gt;","'":"&#39;",'"':"&quot;"}[x]));
-function toast(msg){const t=$("toast");t.textContent=msg;t.classList.add("show");clearTimeout(window.tt);window.tt=setTimeout(()=>t.classList.remove("show"),1800)}
-function closeModal(){$("overlay").classList.remove("open")}function scrollTopPage(){window.scrollTo({top:0,behavior:"smooth"})}function focusStudents(){$("studentsSection").scrollIntoView({behavior:"smooth"})}
-async function api(path,opt={}){const headers={...(opt.headers||{})};if(token)headers.Authorization=`Bearer ${token}`;if(opt.body && !(opt.body instanceof FormData)&&!headers["Content-Type"])headers["Content-Type"]="application/json";return fetch(API+path,{...opt,headers,cache:"no-store"})}
-async function boot(){if(!token)return showLogin();try{const r=await api("/api/auth/me");const d=await r.json();if(!r.ok||d.role!=="admin")throw 0;showApp();await loadStudents()}catch{localStorage.removeItem("brightbyte_admin_token");token="";showLogin()}}
-function showLogin(){$("loginScreen").classList.remove("hidden");$("app").classList.add("hidden")}function showApp(){$("loginScreen").classList.add("hidden");$("app").classList.remove("hidden")}
-$("loginForm").addEventListener("submit",async e=>{e.preventDefault();const username=$("adminUser").value.trim(),password=$("adminPass").value;try{const r=await fetch(API+"/api/auth/login",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({username,password})});const d=await r.json();if(!r.ok||!d.success||d.role!=="admin")throw new Error(d.error||"Admin login failed");token=d.token;localStorage.setItem("brightbyte_admin_token",token);showApp();await loadStudents();toast("Welcome Tannu Sir ✓")}catch(err){toast(err.message)}});
-async function logout(){try{await api("/api/auth/logout",{method:"POST"})}catch{}localStorage.removeItem("brightbyte_admin_token");token="";showLogin()}
-async function loadStudents(){try{const r=await api("/api/admin/students");const d=await r.json();if(r.status===401)return logout();if(!r.ok)throw new Error(d.error||"Could not load students");students=d.students||[];renderStats();renderRows();hydratePhotos()}catch(err){$("studentRows").innerHTML=`<tr><td colspan="9" class="empty">⚠️ ${esc(err.message)}</td></tr>`}}
-function renderStats(){const total=students.length,pub=students.filter(s=>s.is_public).length,active=students.filter(s=>s.status==="active").length,avg=total?Math.round(students.reduce((a,s)=>a+Number(s.progress_percent||0),0)/total):0;$("sTotal").textContent=total;$("sPublic").textContent=pub;$("sActive").textContent=active;$("sProgress").textContent=avg+"%"}
-function fmtDate(v){if(!v)return "Never";try{return new Date(v+(/Z$/.test(v)?"":"Z")).toLocaleString()}catch{return v}}
-function renderRows(){const q=$("searchBox").value.trim().toLowerCase();const list=students.filter(s=>!q||s.display_name.toLowerCase().includes(q)||s.username.toLowerCase().includes(q));if(!list.length){$("studentRows").innerHTML='<tr><td colspan="9" class="empty">No students found.</td></tr>';return}$("studentRows").innerHTML=list.map(s=>`<tr>
-<td><div class="student-cell"><div class="thumb" id="photo-${s.user_id}">🧒</div><div><b>${esc(s.display_name)}</b><small>${esc(s.training_track)}</small></div></div></td>
-<td><b>${esc(s.username)}</b></td><td>Class ${s.class_number}</td>
-<td><span class="tag ${s.status}">${s.status.toUpperCase()}</span></td>
-<td><span class="tag ${s.is_public?'public':'private'}">${s.is_public?'PUBLIC DEMO':'PRIVATE'}</span></td>
-<td><div class="progress"><i style="width:${s.progress_percent}%"></i></div><small>${s.progress_percent}%</small></td>
-<td>⭐ ${s.stars}</td><td>${esc(fmtDate(s.last_login_at))}</td>
-<td><div class="actions"><button class="mini" onclick="openEdit(${s.user_id})">Edit</button><button class="mini warn" onclick="openReset(${s.user_id})">Password</button><button class="mini ${s.status==='active'?'red':'green'}" onclick="toggleStatus(${s.user_id})">${s.status==='active'?'Disable':'Enable'}</button><button class="mini" onclick="togglePublic(${s.user_id})">${s.is_public?'Make Private':'Make Public'}</button><button class="mini red" onclick="removeStudent(${s.user_id})">Delete</button></div></td></tr>`).join("")}
-async function hydratePhotos(){photoUrls.forEach(URL.revokeObjectURL);photoUrls=[];for(const s of students.filter(x=>x.has_photo)){const el=$(`photo-${s.user_id}`);if(!el)continue;try{const r=await api(`/api/admin/students/${s.user_id}/photo`);if(!r.ok)continue;const blob=await r.blob();const u=URL.createObjectURL(blob);photoUrls.push(u);el.innerHTML=`<img src="${u}" alt="Student photo">`}catch{}}}
-$("searchBox").addEventListener("input",()=>{renderRows();hydratePhotos()});
-function suggestId(name){const base=name.toLowerCase().replace(/[^a-z0-9]+/g,".").replace(/^\.|\.$/g,"").slice(0,18)||"student";return base+Math.floor(100+Math.random()*900)}
-function makePassword(){const chars="ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz23456789@#";return Array.from({length:10},()=>chars[Math.floor(Math.random()*chars.length)]).join("")}
-function openCreate(){const pwd=makePassword();$("modal").innerHTML=`<div class="modal-head"><div><h2>➕ Create Student</h2><small>Tannu Sir Admin Center</small></div><button class="x" onclick="closeModal()">×</button></div><form id="createForm"><div class="form-grid">
-<div class="field"><label>Student Display Name</label><input id="cName" required placeholder="e.g. Ayaan"></div><div class="field"><label>Class</label><select id="cClass"><option value="1">Class 1</option><option value="2">Class 2</option><option value="3">Class 3</option><option value="4">Class 4</option><option value="5">Class 5</option></select></div>
-<div class="field"><label>User ID</label><div class="generator"><input id="cUser" required><button class="btn soft" type="button" onclick="genUser()">Generate</button></div></div><div class="field"><label>Temporary Password</label><div class="generator"><input id="cPass" value="${pwd}" required><button class="btn soft" type="button" onclick="genPass()">Generate</button></div></div>
-<div class="field"><label>Nickname</label><input id="cNick" placeholder="Optional"></div><div class="field"><label>Training Track</label><input id="cTrack" value="Computer + AI Explorer"></div>
-<div class="field"><label>Guardian Name</label><input id="cGuardian" placeholder="Private - optional"></div><div class="field"><label>Guardian Email</label><input id="cEmail" type="email" placeholder="Private - optional"></div>
-</div><label class="check-row"><input id="cPublic" type="checkbox"> Show this student in the public demo directory (use only with guardian permission)</label><div class="modal-actions"><button class="btn soft" type="button" onclick="closeModal()">Cancel</button><button class="btn primary" type="submit">Create Student</button></div></form>`;$("overlay").classList.add("open");$("cName").addEventListener("input",()=>{if(!$("cUser").dataset.manual)$("cUser").value=suggestId($("cName").value)});$("cUser").addEventListener("input",()=>$("cUser").dataset.manual="1");$("createForm").onsubmit=createStudent}
-function genUser(){$("cUser").value=suggestId($("cName").value);$("cUser").dataset.manual="1"}function genPass(){$("cPass").value=makePassword()}
-async function createStudent(e){e.preventDefault();const body={displayName:$("cName").value,username:$("cUser").value,password:$("cPass").value,classNumber:Number($("cClass").value),nickname:$("cNick").value,trainingTrack:$("cTrack").value,guardianName:$("cGuardian").value,guardianEmail:$("cEmail").value,isPublic:$("cPublic").checked};try{const r=await api("/api/admin/students",{method:"POST",body:JSON.stringify(body)});const d=await r.json();if(!r.ok)throw new Error(d.error||"Could not create student");$("modal").innerHTML=`<div class="modal-head"><h2>✅ Student Created</h2><button class="x" onclick="closeModal()">×</button></div><div class="copy-result"><b>Student:</b> ${esc(body.displayName)}<br><b>User ID:</b> <span id="resultUser">${esc(body.username)}</span><br><b>Temporary Password:</b> <span id="resultPass">${esc(body.password)}</span><br><br>Please give these credentials privately to the student/parent.</div><div class="modal-actions"><button class="btn soft" onclick="copyCredentials('${encodeURIComponent(body.username)}','${encodeURIComponent(body.password)}')">Copy Credentials</button><button class="btn primary" onclick="closeModal()">Done</button></div>`;await loadStudents()}catch(err){toast(err.message)}}
-async function copyCredentials(u,p){const text=`BrightByte Student Login\nUser ID: ${decodeURIComponent(u)}\nPassword: ${decodeURIComponent(p)}\nLogin: https://tanweersar-dev.github.io/brightbyte-kids/student-login.html`;await navigator.clipboard.writeText(text);toast("Credentials copied")}
-function findStudent(id){return students.find(s=>s.user_id===Number(id))}
-function openEdit(id){const s=findStudent(id);if(!s)return;$("modal").innerHTML=`<div class="modal-head"><div><h2>✏️ Edit Student</h2><small>${esc(s.username)}</small></div><button class="x" onclick="closeModal()">×</button></div><form id="editForm"><div class="form-grid"><div class="field"><label>Display Name</label><input id="eName" value="${esc(s.display_name)}"></div><div class="field"><label>Class</label><select id="eClass">${[1,2,3,4,5].map(n=>`<option value="${n}" ${n===s.class_number?'selected':''}>Class ${n}</option>`).join('')}</select></div><div class="field"><label>Nickname</label><input id="eNick" value="${esc(s.nickname)}"></div><div class="field"><label>Training Track</label><input id="eTrack" value="${esc(s.training_track)}"></div><div class="field"><label>Guardian Name</label><input id="eGuardian" value="${esc(s.guardian_name)}"></div><div class="field"><label>Guardian Email</label><input id="eEmail" type="email" value="${esc(s.guardian_email)}"></div><div class="field wide"><label>Student Bio</label><textarea id="eBio" rows="3">${esc(s.bio)}</textarea></div></div><label class="check-row"><input id="ePublic" type="checkbox" ${s.is_public?'checked':''}> Public demo profile</label><div class="modal-actions"><button class="btn soft" type="button" onclick="closeModal()">Cancel</button><button class="btn primary" type="submit">Save Changes</button></div></form>`;$("overlay").classList.add("open");$("editForm").onsubmit=e=>saveEdit(e,id)}
-async function saveEdit(e,id){e.preventDefault();const s=findStudent(id);const body={displayName:$("eName").value,classNumber:Number($("eClass").value),nickname:$("eNick").value,trainingTrack:$("eTrack").value,guardianName:$("eGuardian").value,guardianEmail:$("eEmail").value,bio:$("eBio").value,isPublic:$("ePublic").checked,status:s.status};try{const r=await api(`/api/admin/students/${id}`,{method:"PATCH",body:JSON.stringify(body)});const d=await r.json();if(!r.ok)throw new Error(d.error||"Update failed");closeModal();await loadStudents();toast("Student updated") }catch(err){toast(err.message)}}
-function openReset(id){const s=findStudent(id);if(!s)return;$("modal").innerHTML=`<div class="modal-head"><div><h2>🔑 Reset Password</h2><small>${esc(s.display_name)} • ${esc(s.username)}</small></div><button class="x" onclick="closeModal()">×</button></div><div class="field"><label>New Password</label><div class="generator"><input id="rPass" value="${makePassword()}"><button class="btn soft" onclick="$(\'rPass\').value=makePassword()">Generate</button></div></div><div class="modal-actions"><button class="btn soft" onclick="closeModal()">Cancel</button><button class="btn primary" onclick="resetPassword(${id})">Reset Password</button></div>`;$("overlay").classList.add("open")}
-async function resetPassword(id){const s=findStudent(id),password=$("rPass").value;try{const r=await api(`/api/admin/students/${id}/reset-password`,{method:"POST",body:JSON.stringify({password})});const d=await r.json();if(!r.ok)throw new Error(d.error||"Reset failed");$("modal").innerHTML=`<div class="modal-head"><h2>✅ Password Reset</h2><button class="x" onclick="closeModal()">×</button></div><div class="copy-result"><b>User ID:</b> ${esc(s.username)}<br><b>New Password:</b> ${esc(password)}<br><br>All previous student sessions have been signed out.</div><div class="modal-actions"><button class="btn soft" onclick="copyCredentials('${encodeURIComponent(s.username)}','${encodeURIComponent(password)}')">Copy Credentials</button><button class="btn primary" onclick="closeModal()">Done</button></div>`}catch(err){toast(err.message)}}
-async function toggleStatus(id){const s=findStudent(id);if(!s)return;const status=s.status==="active"?"disabled":"active";if(status==="disabled"&&!confirm(`Disable ${s.display_name}? They will be logged out.`))return;await patchQuick(id,{status,isPublic:!!s.is_public},`Student ${status}`)}
-async function togglePublic(id){const s=findStudent(id);if(!s)return;if(!s.is_public&&!confirm("Make this student visible in the PUBLIC demo directory? Use only with parent/guardian permission."))return;await patchQuick(id,{status:s.status,isPublic:!s.is_public},s.is_public?"Profile made private":"Profile is now public")}
-async function patchQuick(id,body,msg){try{const r=await api(`/api/admin/students/${id}`,{method:"PATCH",body:JSON.stringify(body)});const d=await r.json();if(!r.ok)throw new Error(d.error||"Update failed");await loadStudents();toast(msg)}catch(err){toast(err.message)}}
-async function removeStudent(id){const s=findStudent(id);if(!s)return;if(!confirm(`Permanently delete ${s.display_name} (${s.username})?\n\nThis removes login, profile and uploaded photo.`))return;try{const r=await api(`/api/admin/students/${id}`,{method:"DELETE"});const d=await r.json();if(!r.ok)throw new Error(d.error||"Delete failed");await loadStudents();toast("Student deleted") }catch(err){toast(err.message)}}
-$("overlay").addEventListener("click",e=>{if(e.target.id==="overlay")closeModal()});boot();
-</script>
-</body>
-</html>
+      <p>
+        Tap me to hear what I do.
+      </p>
+    </article>
+  `).join('');
+
+  el.onclick=e=>{
+    const c=e.target.closest('[data-ac-device]');
+
+    if(!c)return;
+
+    const device=academyDevices[+c.dataset.acDevice];
+
+    academySpeak(device[2]);
+
+    academyToast(
+      device[1]+' is speaking'
+    );
+  };
+}
+
+function renderAcademyEnglish(){
+  const p=document.getElementById('phraseGrid');
+  const r=document.getElementById('roleGrid');
+
+  if(p){
+    p.innerHTML=academyPhrases.map((x,i)=>`
+      <button
+        class="phrase-academy"
+        data-ac-phrase="${i}"
+      >
+        <span>${x[0]}</span>
+        <b>${x[1]}</b>
+      </button>
+    `).join('');
+
+    p.onclick=e=>{
+      const b=e.target.closest('[data-ac-phrase]');
+
+      if(b){
+        academySpeak(
+          academyPhrases[+b.dataset.acPhrase][2]
+        );
+      }
+    };
+  }
+
+  if(r){
+    r.innerHTML=academyRoles.map((x,i)=>`
+      <article
+        class="role-academy"
+        data-ac-role="${i}"
+      >
+        <span>${x[0]}</span>
+        <h3>${x[1]}</h3>
+        <p>${x[2]}</p>
+      </article>
+    `).join('');
+
+    r.onclick=e=>{
+      const c=e.target.closest('[data-ac-role]');
+
+      if(c){
+        academySpeak(
+          academyRoles[+c.dataset.acRole][2]
+        );
+      }
+    };
+  }
+}
+
+function renderAcademyConfidence(){
+  const c=document.getElementById('confidenceGrid');
+
+  if(!c)return;
+
+  c.innerHTML=academyConfidence.map((x,i)=>`
+    <article class="conf-academy">
+      <span>${x[0]}</span>
+
+      <h3>${x[1]}</h3>
+
+      <p>${x[2]}</p>
+
+      <button data-ac-conf="${i}">
+        🔊 Practise
+      </button>
+    </article>
+  `).join('');
+
+  c.onclick=e=>{
+    const b=e.target.closest('[data-ac-conf]');
+
+    if(b){
+      academySpeak(
+        academyConfidence[+b.dataset.acConf][3]
+      );
+    }
+  };
+}
+
+function renderAcademyRoutine(){
+  const r=document.getElementById('routineGrid');
+
+  if(!r)return;
+
+  r.innerHTML=academyRoutine.map((x,i)=>`
+    <button
+      class="routine-academy"
+      data-ac-routine="${i}"
+    >
+      <span>${x[0]}</span>
+
+      <b>${x[1]}</b>
+
+      <small>${x[2]}</small>
+    </button>
+  `).join('');
+
+  r.onclick=e=>{
+    const b=e.target.closest('[data-ac-routine]');
+
+    if(b){
+      const x=academyRoutine[+b.dataset.acRoutine];
+
+      academySpeak(
+        x[1]+'. '+x[2]+'.'
+      );
+    }
+  };
+}
+
+function updateBuddy(){
+  const q=document.getElementById('buddyQuestion');
+  const s=document.getElementById('buddyStatus');
+
+  if(q){
+    q.textContent=buddyQuestions[buddyStep];
+  }
+
+  if(s){
+    s.textContent=
+      'Press Hear, then repeat or use the microphone.';
+  }
+}
+
+function updateBrave(){
+  const p=document.getElementById('bravePrompt');
+
+  if(p){
+    p.textContent=academyBrave[braveStep];
+  }
+}
+
+function setupAcademyRecognition(){
+
+  const SR=
+    window.SpeechRecognition ||
+    window.webkitSpeechRecognition;
+
+  if(!SR)return;
+
+  academyRecognition=new SR();
+
+  academyRecognition.lang='en-US';
+
+  academyRecognition.interimResults=false;
+
+  academyRecognition.maxAlternatives=1;
+
+  academyRecognition.onresult=e=>{
+
+    const t=e.results[0][0].transcript;
+
+    academyToast(
+      'I heard: “'+t+'” ⭐'
+    );
+
+    academySpeak(
+      'Very good! Keep speaking clearly.'
+    );
+
+    academyCelebrate();
+
+    const st=
+      document.getElementById('buddyStatus');
+
+    if(
+      academyRecognitionTarget==='buddy' &&
+      st
+    ){
+      st.textContent=
+        'I heard: “'+t+'”';
+    }
+  };
+
+  academyRecognition.onerror=()=>{
+    academyToast(
+      'I could not hear clearly. Try again.'
+    );
+  };
+}
+
+function startAcademyMic(target){
+
+  if(!academyRecognition){
+
+    academyToast(
+      'Microphone speech recognition is not available in this browser. Use Hear and Repeat.'
+    );
+
+    return;
+  }
+
+  academyRecognitionTarget=target;
+
+  try{
+    academyRecognition.start();
+  }catch{}
+}
+
+document.addEventListener(
+  'click',
+  e=>{
+
+    const b=
+      e.target.closest('[data-speak]');
+
+    if(b){
+      academySpeak(
+        b.dataset.speak
+      );
+    }
+
+  }
+);
+
+document
+  .getElementById('buddyHear')
+  ?.addEventListener(
+    'click',
+    ()=>{
+      academySpeak(
+        buddyQuestions[buddyStep]
+      );
+    }
+  );
+
+document
+  .getElementById('buddyNext')
+  ?.addEventListener(
+    'click',
+    ()=>{
+
+      buddyStep=
+        (buddyStep+1)%
+        buddyQuestions.length;
+
+      updateBuddy();
+
+      academySpeak(
+        buddyQuestions[buddyStep]
+      );
+
+    }
+  );
+
+document
+  .getElementById('buddyMic')
+  ?.addEventListener(
+    'click',
+    ()=>{
+      startAcademyMic('buddy');
+    }
+  );
+
+document
+  .getElementById('braveHear')
+  ?.addEventListener(
+    'click',
+    ()=>{
+      academySpeak(
+        academyBrave[braveStep]
+      );
+    }
+  );
+
+document
+  .getElementById('braveNext')
+  ?.addEventListener(
+    'click',
+    ()=>{
+
+      braveStep=
+        (braveStep+1)%
+        academyBrave.length;
+
+      updateBrave();
+
+      academySpeak(
+        academyBrave[braveStep]
+      );
+
+    }
+  );
+
+document
+  .getElementById('braveMic')
+  ?.addEventListener(
+    'click',
+    ()=>{
+      startAcademyMic('brave');
+    }
+  );
+
+renderAcademyDevices();
+
+renderAcademyEnglish();
+
+renderAcademyConfidence();
+
+renderAcademyRoutine();
+
+setupAcademyRecognition();
+
+updateBuddy();
+
+updateBrave();
