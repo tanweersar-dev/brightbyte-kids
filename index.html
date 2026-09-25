@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Tannu Sir's BrightByte Kids Lab</title>
-<meta name="description" content="Tannu Sir's BrightByte Kids Lab - Computer + AI learning for kids.">
+<title>Tannu Sir's Kids Digital Academy</title>
+<meta name="description" content="Tannu Sir's Kids Digital Academy - Computer + AI learning for kids.">
 
 <style>
 :root{
@@ -52,6 +52,15 @@ button{user-select:none}
 @keyframes fly3{0%{transform:translate(0,0)}50%{transform:translate(55vw,28px)}100%{transform:translate(115vw,-6px)}}
 @keyframes fly4{0%{transform:translate(0,0)}50%{transform:translate(58vw,-22px)}100%{transform:translate(115vw,18px)}}
 @keyframes fly5{0%{transform:translate(0,0)}30%{transform:translate(35vw,-25px)}60%{transform:translate(65vw,10px)}100%{transform:translate(115vw,-5px)}}
+/* Right-to-left galaxy traffic */
+.back{right:-140px;left:auto;opacity:.84}
+.b1{top:16%;animation:back1 28s linear infinite}.b2{top:29%;animation:back2 34s linear infinite 5s}.b3{top:45%;animation:back3 31s linear infinite 10s}.b4{top:61%;animation:back4 36s linear infinite 2s}.b5{top:75%;animation:back5 30s linear infinite 12s}.b6{top:88%;animation:back6 38s linear infinite 7s}
+@keyframes back1{0%{transform:translateX(0) rotate(-8deg)}50%{transform:translateX(-58vw) translateY(35px) rotate(-18deg)}100%{transform:translateX(-118vw) translateY(-35px) rotate(-28deg)}}
+@keyframes back2{0%{transform:translateX(0)}50%{transform:translateX(-56vw) translateY(-55px)}100%{transform:translateX(-118vw) translateY(20px)}}
+@keyframes back3{0%{transform:translateX(0) rotate(0)}50%{transform:translateX(-60vw) rotate(-10deg)}100%{transform:translateX(-118vw) rotate(-20deg)}}
+@keyframes back4{0%{transform:translateX(0)}45%{transform:translateX(-50vw) translateY(50px)}100%{transform:translateX(-118vw) translateY(-10px)}}
+@keyframes back5{0%{transform:translateX(0)}50%{transform:translateX(-62vw) translateY(-30px)}100%{transform:translateX(-118vw) translateY(40px)}}
+@keyframes back6{0%{transform:translateX(0) rotate(10deg)}50%{transform:translateX(-60vw) rotate(-3deg)}100%{transform:translateX(-118vw) rotate(-14deg)}}
 
 /* header */
 .glass{background:linear-gradient(180deg,rgba(24,34,91,.95),rgba(13,22,64,.93));border:1px solid rgba(255,255,255,.13);backdrop-filter:blur(16px);box-shadow:var(--shadow)}
@@ -141,6 +150,7 @@ main{min-height:calc(100vh - 100px)}
  .modal{padding:10px}.modalCard{padding:20px;border-radius:24px}.mhero{padding:8px 25px 12px}.mhero h2{font-size:29px}.quiz{grid-template-columns:1fr}
 }
 </style>
+  <link rel="stylesheet" href="academy.css">
 </head>
 
 <body>
@@ -148,18 +158,22 @@ main{min-height:calc(100vh - 100px)}
   <div class="nebula nl"></div><div class="nebula nr"></div>
   <div class="fly r1">🚀</div><div class="fly r2">🚀</div>
   <div class="fly p1">✈️</div><div class="fly p2">🛩️</div><div class="fly u1">🛸</div>
+  <div class="fly back b1">🌙</div><div class="fly back b2">🪐</div><div class="fly back b3">👽</div><div class="fly back b4">🌕</div><div class="fly back b5">🛸</div><div class="fly back b6">✈️</div>
 </div>
 
 <header class="topbar glass">
   <div class="brand">
     <div class="logo">B</div>
-    <div><h1>BrightByte</h1><p>TANNU SIR • CREATOR &amp; TEACHER</p></div>
+    <div><h1>Tannu Sir's Academy</h1><p>KIDS DIGITAL ACADEMY • CREATOR &amp; TEACHER</p></div>
   </div>
 
   <nav>
     <button class="nav n1 active" data-page="home" data-sound="home">🏠 Home</button>
-    <button class="nav n2" data-page="adventure" data-sound="adventure">🪐 Adventure</button>
-    <button class="nav n3" data-page="games" data-sound="games">🎮 Game Arcade</button>
+    <button class="nav n2" data-page="adventure" data-sound="adventure">💻 Digital</button>
+    <button class="nav n8" data-page="english" data-sound="teacher">🗣️ English</button>
+    <button class="nav n3" data-page="games" data-sound="games">🎮 Games</button>
+    <button class="nav n9" data-page="confidence" data-sound="rewards">🌟 Confidence</button>
+    <button class="nav n10" data-page="healthy" data-sound="parents">🌱 Healthy</button>
     <button class="nav n4" data-page="rewards" data-sound="rewards">🏆 Rewards</button>
     <button class="nav n5" data-page="students" data-sound="students">🎓 Students</button>
     <button class="nav n6" data-page="parents" data-sound="parents">👨‍👩‍👧 Parents</button>
@@ -177,21 +191,70 @@ main{min-height:calc(100vh - 100px)}
     <div class="banner">⚡ CREATED • DESIGNED • TAUGHT BY TANNU SIR ⚡</div>
     <div class="pills"><span class="pill pink">💫 TANNU SIR'S DIGITAL GALAXY</span><span class="pill white">✨ CLASS 1 • COMPUTER + AI ADVENTURE</span></div>
     <h2 class="title">Learn. Play.<br><span>Level Up!</span></h2>
-    <p class="lead">A colourful Computer + AI learning world for kids, created and taught by <strong>Tannu Sir</strong>. Short lessons, games, rewards, safe internet habits and first AI skills — all in one playful galaxy.</p>
+    <p class="lead">A colourful learning world created by <strong>Tannu Sir</strong> — Computer + AI + Spoken English + Communication + Confidence + Healthy Habits + Games. Children can learn by seeing, hearing, tapping and speaking.</p>
     <div class="cta">
-      <button class="btn primary" data-page="adventure" data-sound="rocket">Start Adventure 🚀</button>
+      <button class="btn primary" data-page="adventure" data-sound="rocket">Start Learning 🚀</button>
       <button class="btn secondary" data-page="games" data-sound="games">Play Games 🎮</button>
     </div>
-    <div class="micro"><span>🛡️ Kid-friendly</span><span>⚡ Short lessons</span><span>🏆 Rewards</span><span>🤖 AI basics</span><span>🌟 Tannu Sir Guided</span></div>
+    <div class="micro"><span>👀 Look</span><span>🔊 Listen</span><span>🎤 Speak</span><span>🎮 Play</span><span>🌟 Grow</span></div>
+    <div class="academy-worlds">
+      <button data-page="adventure">💻<b>Digital World</b><small>Computer + AI</small></button>
+      <button data-page="english">🗣️<b>English World</b><small>Listen + Speak</small></button>
+      <button data-page="games">🎮<b>Game World</b><small>Play + Learn</small></button>
+      <button data-page="confidence">🌟<b>Confidence</b><small>Manners + Speaking</small></button>
+      <button data-page="healthy">🌱<b>Healthy World</b><small>Good Habits</small></button>
+    </div>
   </section>
 
   <section id="adventure" class="page" hidden>
-    <div class="head"><div><span class="tag">🗺️ LEARNING MAP</span><h2>Class 1 Adventure</h2></div><p>Choose any module. Click the arrow to open its 4 lessons.</p></div>
+    <div class="head"><div><span class="tag">💻 DIGITAL WORLD</span><h2>Meet My Computer Friends</h2></div><p>Tap a device. It will speak its name and tell the child what it does.</p></div>
+    <div id="deviceGrid" class="device-grid-academy"></div>
+    <div class="head academy-subhead"><div><span class="tag">🚀 CLASS 1 LEARNING MAP</span><h2>Computer + AI Adventure</h2></div><p>Choose any module. Click the arrow to open its 4 lessons.</p></div>
     <div id="moduleGrid" class="grid two"></div>
   </section>
 
+  <section id="english" class="page" hidden>
+    <div class="head"><div><span class="tag">🗣️ ENGLISH WORLD</span><h2>Listen. Repeat. Speak.</h2></div><p>Simple guided English for little learners. Reading is optional — pictures and voice lead the way.</p></div>
+    <div class="english-academy-grid">
+      <article class="academy-panel speaking-panel">
+        <div class="academy-bot">🤖</div>
+        <div id="buddyQuestion" class="buddy-question">Hello! What is your name?</div>
+        <div class="buddy-actions"><button id="buddyHear">🔊 Hear</button><button id="buddyMic">🎤 Answer</button><button id="buddyNext">➡️ Next</button></div>
+        <div id="buddyStatus" class="buddy-status">Press Hear, then repeat or use the microphone.</div>
+      </article>
+      <article class="academy-panel">
+        <span class="tag">PICTURE ENGLISH</span><h3>Tap & Learn</h3>
+        <div id="phraseGrid" class="phrase-grid-academy"></div>
+      </article>
+    </div>
+    <div class="head academy-subhead"><div><span class="tag">🎭 ROLE PLAY</span><h2>Little Conversations</h2></div></div>
+    <div id="roleGrid" class="role-grid-academy"></div>
+  </section>
+
+  <section id="confidence" class="page" hidden>
+    <div class="head"><div><span class="tag">🌟 CONFIDENCE WORLD</span><h2>Good Speaker. Good Listener. Kind Kid.</h2></div><p>Small communication and manners missions with friendly voice practice.</p></div>
+    <div id="confidenceGrid" class="confidence-grid-academy"></div>
+    <article class="academy-panel brave-stage">
+      <div class="brave-icon">🎤</div><div><span class="tag">BRAVE SPEAKER</span><h2 id="bravePrompt">Hello! My name is Ashaaz.</h2><p>Tap Hear. Then say the sentence slowly and clearly.</p><div class="buddy-actions"><button id="braveHear">🔊 Hear</button><button id="braveMic">🎤 I Will Speak</button><button id="braveNext">⭐ Next</button></div></div>
+    </article>
+  </section>
+
+  <section id="healthy" class="page" hidden>
+    <div class="head"><div><span class="tag">🌱 HEALTHY & HAPPY WORLD</span><h2>Healthy Body. Happy Mind.</h2></div><p>Food, water, sleep, movement, cleanliness and good habits taught with pictures and voice.</p></div>
+    <div class="healthy-grid-academy">
+      <article class="health-card h-green"><div>🍎🥕🥛</div><h3>Everyday Foods</h3><p>Choose a variety of balanced foods such as fruits and vegetables.</p><button data-speak="Choose different healthy foods every day. Fruits and vegetables are great everyday choices.">🔊 Hear</button></article>
+      <article class="health-card h-orange"><div>🍟🍫🥤</div><h3>Sometimes Foods</h3><p>Sweets and highly processed snacks are better as occasional foods.</p><button data-speak="Chocolate, fries and sugary drinks are sometimes foods. Enjoy small amounts, not all the time.">🔊 Hear</button></article>
+      <article class="health-card h-blue"><div>💧</div><h3>Drink Water</h3><p>Water is a great everyday drink, especially after active play.</p><button data-speak="Drink water when you are thirsty, especially after playing.">🔊 Hear</button></article>
+      <article class="health-card h-purple"><div>🌙🛏️</div><h3>Sleep Routine</h3><p>A regular bedtime and wake-up routine helps the body and brain rest.</p><button data-speak="Sleep on time. Your body and brain need good rest.">🔊 Hear</button></article>
+      <article class="health-card h-pink"><div>🪥🧼</div><h3>Clean & Fresh</h3><p>Brush teeth and wash hands properly with adult help when needed.</p><button data-speak="Brush your teeth and wash your hands to stay clean and fresh.">🔊 Hear</button></article>
+      <article class="health-card h-lime"><div>🤸‍♀️🏃</div><h3>Move & Play</h3><p>Active play, stretching and simple breathing can be fun parts of the day.</p><button data-speak="Move your body, play safely, and enjoy simple stretching.">🔊 Hear</button></article>
+    </div>
+    <div class="head academy-subhead"><div><span class="tag">🕐 DAILY ROUTINE</span><h2>My Happy Day</h2></div></div>
+    <div id="routineGrid" class="routine-grid-academy"></div>
+  </section>
+
   <section id="games" class="page" hidden>
-    <div class="head"><div><span class="tag">🎮 BRIGHTBYTE ARCADE</span><h2>Learn by Playing</h2></div><p>Five colourful games for mouse, memory, typing, safety and AI prompting.</p></div>
+    <div class="head"><div><span class="tag">🎮 BRIGHTBYTE ARCADE</span><h2>Learn by Playing</h2></div><p>Playable mini-games for computer parts, memory, typing, safety, healthy food and AI prompts.</p></div>
     <div id="gameGrid" class="grid games"></div>
   </section>
 
@@ -203,7 +266,7 @@ main{min-height:calc(100vh - 100px)}
   <section id="students" class="page" hidden>
     <div class="head"><div><span class="tag">🎓 STUDENT GALAXY</span><h2>Who is Learning?</h2></div><p>Student cards can show photo, name, class and current training track.</p></div>
     <div class="tools"><a href="student-login.html" class="btn primary">🔐 Student Login</a><a href="admin.html" class="btn alt">🧑‍💼 Tannu Sir Admin</a></div>
-    <div id="studentGrid" class="grid three"></div>
+    <div id="studentGrid" class="grid three"></div><p style="margin-top:18px;color:#bfc7ec;font-size:12px;line-height:1.6">🔐 Tannu Sir admin view can show active private students on this browser. Public visitors only see students that you mark <b>Public</b> in Admin Center.</p>
   </section>
 
   <section id="parents" class="page" hidden>
@@ -324,17 +387,51 @@ function renderBadges(){
  document.getElementById("badgeGrid").innerHTML=badges.map(b=>`<article class="card badge ${b[3]?"":"locked"}"><div class="bi">${b[0]}</div><h4>${b[1]}</h4><p>${b[2]}</p></article>`).join("");
 }
 
+const API="https://brightbyte-kids-api.tanweerstudy25.workers.dev";
+let privatePhotoUrls=[];
+function studentKey(s,i){return `student-photo-${s.userId||s.publicId||i}`.replace(/[^a-zA-Z0-9_-]/g,"-")}
 function renderStudentCards(rows){
- document.getElementById("studentGrid").innerHTML=rows.map(s=>`<article class="card student"><div class="studentTop"><div class="photo">${s.photo||"🧒"}</div><div><h3>${s.name}</h3><small>${s.cls}</small></div></div><div class="bar"><div class="fill" style="width:${s.progress}%"></div></div><p><b>Progress:</b> ${s.progress}%</p><p><b>Training:</b> ${s.focus}</p><a href="student-login.html" class="btn primary" style="width:100%;margin-top:12px">Open Student Login</a></article>`).join("");
+ privatePhotoUrls.forEach(u=>URL.revokeObjectURL(u));privatePhotoUrls=[];
+ document.getElementById("studentGrid").innerHTML=rows.map((s,i)=>{
+   const key=studentKey(s,i);
+   const privacy=s.adminOnly?'<span class="chip">🔒 Private • Admin View</span>':'<span class="chip">🌐 Student Galaxy</span>';
+   const photo=s.photoUrl?`<img src="${s.photoUrl}" alt="${String(s.name).replace(/\"/g,'&quot;')}">`:(s.photo||"🧒");
+   return `<article class="card student"><div class="studentTop"><div class="photo" id="${key}">${photo}</div><div><h3>${s.name}</h3><small>${s.cls}</small></div></div><div style="margin-top:10px">${privacy}</div><div class="bar"><div class="fill" style="width:${Math.max(0,Math.min(100,Number(s.progress||0)))}%"></div></div><p><b>Progress:</b> ${Number(s.progress||0)}%</p><p><b>Training:</b> ${s.focus}</p><a href="student-login.html" class="btn primary" style="width:100%;margin-top:12px">Open Student Login</a></article>`
+ }).join("");
+}
+async function hydrateAdminStudentPhotos(rows,token){
+ for(let i=0;i<rows.length;i++){
+   const s=rows[i];if(!s.userId||!s.hasPhoto||s.photoUrl)continue;
+   const el=document.getElementById(studentKey(s,i));if(!el)continue;
+   try{
+     const r=await fetch(`${API}/api/admin/students/${s.userId}/photo`,{headers:{Authorization:`Bearer ${token}`},cache:"no-store"});
+     if(!r.ok)continue;const blob=await r.blob();const u=URL.createObjectURL(blob);privatePhotoUrls.push(u);el.innerHTML=`<img src="${u}" alt="Student photo">`;
+   }catch{}
+ }
 }
 async function loadStudents(){
- const demo=[{photo:"🧒",name:"Ashaaz",cls:"Class 1",progress:20,focus:"Computer + AI Explorer"}];
+ const demo={photo:"🧒",name:"Ashaaz",cls:"Class 1",progress:20,focus:"Computer + AI Explorer",publicId:"demo-ashaaz"};
+ const adminToken=localStorage.getItem("brightbyte_admin_token")||"";
  try{
-  const r=await fetch("https://brightbyte-kids-api.tanweerstudy25.workers.dev/api/students/public");
-  if(!r.ok)throw 0;const d=await r.json();const a=d.students||d.results||[];
-  if(!Array.isArray(a)||!a.length){renderStudentCards(demo);return}
-  renderStudentCards(a.map(s=>({photo:s.photo_url?`<img src="${s.photo_url}" alt="">`:"🧒",name:s.display_name||s.name||"Student",cls:`Class ${s.class_number||1}`,progress:Number(s.progress_percent||0),focus:s.training_track||"Computer + AI Explorer"})));
- }catch{renderStudentCards(demo)}
+   let rows=[];
+   if(adminToken){
+     const ar=await fetch(`${API}/api/admin/students`,{headers:{Authorization:`Bearer ${adminToken}`},cache:"no-store"});
+     if(ar.ok){
+       const ad=await ar.json();
+       rows=(ad.students||[]).filter(s=>s.status==="active").map(s=>({
+         name:s.display_name||"Student",cls:`Class ${s.class_number||1}`,progress:Number(s.progress_percent||0),focus:s.training_track||"Computer + AI Explorer",
+         photoUrl:s.photo_url||null,userId:s.user_id,hasPhoto:Boolean(s.has_photo),adminOnly:!Number(s.is_public),publicId:s.public_id
+       }));
+       rows=rows.filter(s=>String(s.name).trim().toLowerCase()!=="ashaaz");
+       const all=[demo,...rows];renderStudentCards(all);await hydrateAdminStudentPhotos(all,adminToken);return;
+     }
+   }
+   const r=await fetch(`${API}/api/students/public`,{cache:"no-store"});
+   if(!r.ok)throw 0;const d=await r.json();const a=d.students||d.results||[];
+   rows=Array.isArray(a)?a.map(s=>({name:s.display_name||s.name||"Student",cls:`Class ${s.class_number||1}`,progress:Number(s.progress_percent||0),focus:s.training_track||"Computer + AI Explorer",photoUrl:s.photo_url||null,publicId:s.public_id})):[];
+   rows=rows.filter(s=>String(s.name).trim().toLowerCase()!=="ashaaz");
+   renderStudentCards([demo,...rows]);
+ }catch{renderStudentCards([demo])}
 }
 
 function openModal(){modal.classList.add("open");document.body.style.overflow="hidden"}
@@ -374,5 +471,6 @@ function playSound(k){
 renderModules();renderGames();renderBadges();loadStudents();
 showPage((location.hash||"#home").slice(1));
 </script>
+  <script src="academy.js"></script>
 </body>
 </html>
