@@ -1,421 +1,49 @@
-const modules = [
-  {
-    icon:"💻", title:"Meet the Computer", desc:"What a computer is, what it can do and where we see computers.", stars:20,
-    lessons:[
-      ["What is a Computer?","Meet your first computer.","A computer is an electronic machine that helps us learn, type, draw, watch educational videos and do many useful tasks.",10],
-      ["What Can a Computer Do?","Discover useful computer jobs.","A computer can help us write, draw, calculate, learn, listen to sounds and work with pictures.",10],
-      ["Computers Around Us","Find computers in everyday places.","We can see computers at home, school, hospitals, banks, airports, shops and offices.",15],
-      ["Human or Computer?","Learn the difference between people and computers.","People can think, feel and make decisions. Computers follow instructions given by people.",15]
-    ],
-    challenge:"Name two places where you have seen a computer."
-  },
-  {
-    icon:"🖥️", title:"Know Your Computer", desc:"Monitor, keyboard, mouse, printer, speakers, webcam and system unit.", stars:20,
-    lessons:[
-      ["Monitor","The screen of the computer.","The monitor shows words, pictures, videos and the work we are doing.",10],
-      ["Keyboard","Our typing tool.","The keyboard helps us type letters, numbers and symbols.",10],
-      ["Mouse","Point, click and move.","The mouse helps us point, click, double-click, drag and scroll.",15],
-      ["More Computer Parts","Printer, speakers, webcam and system unit.","A printer puts work on paper, speakers play sound, a webcam captures video and the system unit contains important computer parts.",15]
-    ],
-    challenge:"Point to the monitor, keyboard and mouse on a real computer."
-  },
-  {
-    icon:"🖱️", title:"Mouse Master", desc:"Move, point, click, double-click, drag-and-drop and scroll.", stars:20,
-    lessons:[
-      ["Move & Point","Control the pointer.","Move the mouse gently and watch the pointer move on the screen.",10],
-      ["Left Click","Choose an item.","One left-click can select a button, icon or object.",10],
-      ["Double Click","Open an item.","Two quick left-clicks can open many files, folders and apps.",15],
-      ["Drag & Scroll","Move and explore.","Hold the mouse button to drag an object. Use the wheel to scroll up and down.",15]
-    ],
-    challenge:"Drag an icon on your desktop with an adult or teacher."
-  },
-  {
-    icon:"⌨️", title:"Keyboard Explorer", desc:"Letters, numbers, Spacebar, Enter, Backspace and arrow keys.", stars:20,
-    lessons:[
-      ["Letter Keys","Find A to Z.","Letter keys help us type names and words.",10],
-      ["Number Keys","Find 0 to 9.","Number keys help us type numbers.",10],
-      ["Spacebar, Enter & Backspace","Three very useful keys.","Spacebar makes a space, Enter can start a new line, and Backspace removes a character.",15],
-      ["Arrow Keys","Move around.","Arrow keys move the cursor or selection up, down, left and right.",15]
-    ],
-    challenge:"Type your first name slowly and correctly."
-  },
-  {
-    icon:"🪟", title:"Screen & Windows", desc:"Desktop, icons, open, close, minimize and maximize.", stars:20,
-    lessons:[
-      ["Desktop","Your main work area.","The desktop is the main screen you see after the computer starts.",10],
-      ["Icons","Small pictures with a job.","Icons can represent apps, files, folders and shortcuts.",10],
-      ["Open & Close","Use windows safely.","Double-click an icon to open. Use the X button to close a window.",15],
-      ["Minimize & Maximize","Control window size.","Minimize hides a window without closing it. Maximize makes it fill most of the screen.",15]
-    ],
-    challenge:"Ask an adult to show one desktop icon and one open window."
-  },
-  {
-    icon:"🎨", title:"Digital Artist", desc:"Pencil, brush, colours, shapes and eraser.", stars:20,
-    lessons:[
-      ["Meet the Drawing App","Create art on a computer.","A drawing app lets us make colourful pictures using digital tools.",10],
-      ["Pencil, Brush & Eraser","Choose the right tool.","Use pencil for lines, brush for painting and eraser to remove mistakes.",10],
-      ["Colours & Shapes","Make creative pictures.","Choose colours and use circles, squares and rectangles to build pictures.",15],
-      ["My Happy House","Create your first digital picture.","Draw a house, sun, tree and clouds using shapes and colours.",15]
-    ],
-    challenge:"Draw a house with a sun, door and two windows."
-  },
-  {
-    icon:"✍️", title:"First Typing Adventure", desc:"Type simple letters, words and short sentences accurately.", stars:20,
-    lessons:[
-      ["Type Your Name","Start with something familiar.","Find the letters of your name on the keyboard and type them carefully.",10],
-      ["Easy Words","Practice short words.","Try CAT, SUN, BOOK, TREE and SCHOOL.",10],
-      ["Space Between Words","Build a small sentence.","Use Spacebar between words. Example: I LOVE MY COMPUTER.",15],
-      ["Typing Star Challenge","Accuracy before speed.","Type carefully, fix mistakes with Backspace and try again.",15]
-    ],
-    challenge:"Type: I LOVE COMPUTERS"
-  },
-  {
-    icon:"🛡️", title:"Internet & Safety", desc:"Internet basics, private information, passwords and asking an adult.", stars:20,
-    lessons:[
-      ["What is the Internet?","A giant network.","The internet connects computers, phones and online services around the world.",10],
-      ["Private Information","Keep personal details safe.","Do not share your home address, phone number or school details with strangers online.",10],
-      ["Passwords","Keep them secret.","A password protects an account. Never share it with an online stranger.",15],
-      ["Ask a Trusted Adult","Safety comes first.","Ask a parent or teacher before opening unknown links, downloads or messages.",15]
-    ],
-    challenge:"Should you share your password with a stranger? Answer: No."
-  },
-  {
-    icon:"🤖", title:"Meet AI", desc:"What AI is, smart tasks and examples of AI around us.", stars:20,
-    lessons:[
-      ["What is AI?","Meet Artificial Intelligence.","AI means Artificial Intelligence. Some AI systems can work with speech, pictures, text and patterns.",10],
-      ["AI Around Us","Spot smart features.","Voice assistants, recommendations and some camera tools can use AI.",10],
-      ["AI or Normal Tool?","Not every device is AI.","A normal calculator follows fixed rules. Some AI systems learn patterns from data.",15],
-      ["AI Can Be Wrong","Always check important answers.","AI may make mistakes. Ask a teacher or parent and verify important information.",15]
-    ],
-    challenge:"Name one AI feature you have seen."
-  },
-  {
-    icon:"✨", title:"My First AI Prompt", desc:"Build simple AI instructions using a character, place and action.", stars:20,
-    lessons:[
-      ["What is a Prompt?","Give AI an instruction.","A prompt is an instruction or question we give to an AI system.",10],
-      ["Who?","Add a character.","Instead of 'robot', try 'a friendly blue robot'.",10],
-      ["Where?","Add a place.","Add a place such as 'in a garden' or 'on the Moon'.",15],
-      ["What Action?","Tell the character what to do.","Example: A friendly robot in a garden watering flowers.",15]
-    ],
-    challenge:"Improve this prompt: Robot."
-  }
-];
-
-const games = [
-  {icon:"🖱️",title:"Mouse Blast",desc:"Tap the correct computer part and earn stars.",sound:"games"},
-  {icon:"🧠",title:"Memory Match",desc:"Match computer icons and remember their positions.",sound:"quiz"},
-  {icon:"🚀",title:"Typing Rocket",desc:"Type a word correctly to launch the rocket.",sound:"rocket"},
-  {icon:"🛡️",title:"Safe Surf",desc:"Choose the safe internet action.",sound:"parents"},
-  {icon:"🤖",title:"Prompt Builder",desc:"Build a simple AI prompt with who, where and action.",sound:"teacher"}
-];
-
-const badges = [
-  ["💻","Computer Explorer","Complete Module 1",true],
-  ["🖥️","Parts Detective","Complete Module 2",false],
-  ["🖱️","Mouse Master","Complete Module 3",false],
-  ["⌨️","Keyboard Hero","Complete Module 4",false],
-  ["🪟","Desktop Explorer","Complete Module 5",false],
-  ["🎨","Digital Artist","Complete Module 6",false],
-  ["✍️","Typing Star","Complete Module 7",false],
-  ["🛡️","Safety Hero","Complete Module 8",false],
-  ["🤖","AI Explorer","Complete Module 9",false],
-  ["✨","Prompt Creator","Complete Module 10",false]
-];
-
-const demoStudents = [{photo:"🧒",name:"Ashaaz",cls:"Class 1",progress:20,focus:"Computer + AI Explorer"}];
-
-const moduleGrid=document.getElementById("moduleGrid");
-const gameGrid=document.getElementById("gameGrid");
-const badgeGrid=document.getElementById("badgeGrid");
-const studentGrid=document.getElementById("studentGrid");
-const modal=document.getElementById("modal");
-const modalBody=document.getElementById("modalBody");
-const modalClose=document.getElementById("modalClose");
-const toast=document.getElementById("toast");
-const soundToggle=document.getElementById("soundToggle");
-const themeToggle=document.getElementById("themeToggle");
-
-let soundEnabled=true;
-let nightMode=false;
-let audioContext=null;
-
-function showPage(id,updateHash=true){
-  if(!document.getElementById(id)) id="home";
-
-  document.querySelectorAll(".page-view").forEach(p=>p.classList.remove("active-page"));
-  document.getElementById(id).classList.add("active-page");
-
-  document.querySelectorAll(".nav-btn").forEach(b=>b.classList.toggle("active",b.dataset.page===id));
-
-  if(updateHash){
-    history.replaceState(null,"",id==="home" ? location.pathname : `#${id}`);
-  }
-
-  window.scrollTo({top:0,behavior:"smooth"});
-}
-
-document.addEventListener("click",e=>{
-  const pageBtn=e.target.closest("[data-page]");
-  if(pageBtn){
-    const id=pageBtn.dataset.page;
-    showPage(id);
-    playSound(pageBtn.dataset.sound||"home");
-    makeSpark(e);
-  }
-});
-
-function renderModules(){
-  moduleGrid.innerHTML=modules.map((m,i)=>`
-    <article class="module-card">
-      <div class="module-icon">${m.icon}</div>
-      <div class="module-body">
-        <small>TANNU SIR • MODULE ${i+1}</small>
-        <h3>${m.title}</h3>
-        <p>${m.desc}</p>
-        <div class="module-meta">
-          <span class="mini-chip">📚 4 lessons</span>
-          <span class="mini-chip">⭐ +${m.stars} stars</span>
-        </div>
-      </div>
-      <button class="module-go" type="button" data-module="${i}" aria-label="Open ${m.title}">→</button>
-    </article>
-  `).join("");
-}
-
-function openModule(index){
-  const m=modules[index];
-  modalBody.innerHTML=`
-    <div class="modal-hero">
-      <div class="big-icon">${m.icon}</div>
-      <small>MODULE ${index+1} • 4 LESSONS</small>
-      <h2>${m.title}</h2>
-      <p>${m.desc}</p>
-    </div>
-    <div class="lesson-list">
-      ${m.lessons.map((l,i)=>`
-        <article class="lesson-item">
-          <small>LESSON ${i+1}</small>
-          <h3>${l[0]}</h3>
-          <p><b>${l[1]}</b></p>
-          <p>${l[2]}</p>
-          <span class="xp">⭐ ${l[3]} XP</span>
-        </article>
-      `).join("")}
-    </div>
-    <div class="challenge-box"><b>🎯 Module Challenge</b><p>${m.challenge}</p></div>
-    <button class="modal-action" data-close-modal="1">Done — Back to Adventure</button>
-  `;
-  openModal();
-  playSound("adventure");
-}
-
-moduleGrid.addEventListener("click",e=>{
-  const btn=e.target.closest("[data-module]");
-  if(!btn) return;
-  openModule(Number(btn.dataset.module));
-  makeSpark(e);
-});
-
-function renderGames(){
-  gameGrid.innerHTML=games.map((g,i)=>`
-    <article class="game-card">
-      <div class="game-icon">${g.icon}</div>
-      <h3>${g.title}</h3>
-      <p>${g.desc}</p>
-      <button type="button" data-game="${i}">Play Now</button>
-    </article>
-  `).join("");
-}
-
-gameGrid.addEventListener("click",e=>{
-  const btn=e.target.closest("[data-game]");
-  if(!btn) return;
-  openGame(Number(btn.dataset.game));
-  makeSpark(e);
-});
-
-function openGame(i){
-  const g=games[i];
-  let content="";
-  if(i===0){
-    content=`<div class="game-stage"><div class="big-play">🖥️ 🖱️ ⌨️ 🖨️</div><h3>Find the Mouse!</h3><p>Tap the correct answer.</p>
-      <div class="quiz-options">
-        <button onclick="gameAnswer(false)">🖥️ Monitor</button>
-        <button onclick="gameAnswer(true)">🖱️ Mouse</button>
-        <button onclick="gameAnswer(false)">⌨️ Keyboard</button>
-      </div></div>`;
-  }else if(i===2){
-    content=`<div class="game-stage"><div class="big-play">🚀</div><h3>Typing Rocket</h3><p>Type this word in your mind or with your teacher: <b>COMPUTER</b></p></div>`;
-  }else{
-    content=`<div class="game-stage"><div class="big-play">${g.icon}</div><h3>${g.title}</h3><p>${g.desc}</p><button class="modal-action" data-close-modal="1">Great! Continue Learning</button></div>`;
-  }
-  modalBody.innerHTML=`<div class="modal-hero"><div class="big-icon">${g.icon}</div><small>TANNU SIR'S GAME ARCADE</small><h2>${g.title}</h2></div>${content}`;
-  openModal();
-  playSound(g.sound);
-}
-
-window.gameAnswer=function(ok){
-  if(ok){showToast("Correct! Great job ⭐");playSound("rewards")}
-  else{showToast("Try again 🙂");playSound("quiz")}
-};
-
-function renderBadges(){
-  badgeGrid.innerHTML=badges.map(b=>`
-    <article class="badge-card ${b[3]?"":"locked"}">
-      <div class="badge-icon">${b[0]}</div>
-      <h4>${b[1]}</h4>
-      <p>${b[2]}</p>
-    </article>
-  `).join("");
-}
-
-function renderStudentCards(students){
-  studentGrid.innerHTML=students.map(s=>`
-    <article class="student-card">
-      <div class="student-top">
-        <div class="student-photo">${s.photo||"🧒"}</div>
-        <div><h3>${s.name}</h3><small>${s.cls||"Class 1"}</small></div>
-      </div>
-      <div class="student-bar"><div class="student-fill" style="width:${Number(s.progress||0)}%"></div></div>
-      <p><b>Progress:</b> ${Number(s.progress||0)}%</p>
-      <p><b>Training:</b> ${s.focus||"Computer + AI Explorer"}</p>
-      <a href="student-login.html" class="tool-btn">Open Student Login</a>
-    </article>
-  `).join("");
-}
-
-async function loadPublicStudents(){
-  try{
-    const res=await fetch("https://brightbyte-kids-api.tanweerstudy25.workers.dev/api/students/public");
-    if(!res.ok) throw new Error("API unavailable");
-    const data=await res.json();
-    const rows=data.students||data.results||[];
-    if(!Array.isArray(rows)||!rows.length){renderStudentCards(demoStudents);return;}
-    renderStudentCards(rows.map(s=>({
-      name:s.display_name||s.name||"Student",
-      cls:`Class ${s.class_number||1}`,
-      progress:s.progress_percent||0,
-      focus:s.training_track||"Computer + AI Explorer",
-      photo:s.photo_url?`<img src="${s.photo_url}" alt="${s.display_name||"Student"}">`:"🧒"
-    })));
-  }catch(e){renderStudentCards(demoStudents)}
-}
-
-function openModal(){
-  modal.classList.add("open");
-  modal.setAttribute("aria-hidden","false");
-  document.body.style.overflow="hidden";
-}
-function closeModal(){
-  modal.classList.remove("open");
-  modal.setAttribute("aria-hidden","true");
-  document.body.style.overflow="";
-}
-modalClose.addEventListener("click",closeModal);
-modal.addEventListener("click",e=>{if(e.target===modal)closeModal()});
-document.addEventListener("click",e=>{if(e.target.closest("[data-close-modal]"))closeModal()});
-document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
-
-document.getElementById("certificateBtn").addEventListener("click",()=>{
-  modalBody.innerHTML=`
-    <div class="modal-hero">
-      <div class="big-icon">🏅</div>
-      <small>CERTIFICATE PREVIEW</small>
-      <h2>Computer & AI Explorer</h2>
-      <p>This certificate preview is for <b>Ashaaz • Class 1</b> in Tannu Sir's BrightByte Kids Lab.</p>
-    </div>
-    <div class="challenge-box"><b>Teacher:</b> Tannu Sir<br><b>Program:</b> Computer + AI Explorer</div>
-    <button class="modal-action" data-close-modal="1">Close Preview</button>`;
-  openModal();playSound("rewards");
-});
-
-document.getElementById("quickQuizBtn").addEventListener("click",()=>{
-  modalBody.innerHTML=`
-    <div class="modal-hero">
-      <div class="big-icon">🧠</div>
-      <small>TANNU SIR'S QUICK QUIZ</small>
-      <h2>Which device helps us type?</h2>
-    </div>
-    <div class="quiz-options">
-      <button onclick="quizAnswer(false)">🖱️ Mouse</button>
-      <button onclick="quizAnswer(true)">⌨️ Keyboard</button>
-      <button onclick="quizAnswer(false)">🖨️ Printer</button>
-    </div>`;
-  openModal();playSound("quiz");
-});
-window.quizAnswer=function(ok){
-  if(ok){showToast("Correct! Keyboard 🎉");playSound("rewards");closeModal()}
-  else{showToast("Good try — choose the typing device!");playSound("quiz")}
-};
-
-themeToggle.addEventListener("click",()=>{
-  nightMode=!nightMode;
-  document.body.classList.toggle("night-mode",nightMode);
-  themeToggle.textContent=nightMode?"🌙 Night":"🌞 Day";
-  playSound("toggle");
-});
-
-soundToggle.addEventListener("click",()=>{
-  soundEnabled=!soundEnabled;
-  soundToggle.textContent=soundEnabled?"🔊 Sound MAX":"🔇 Sound OFF";
-  if(soundEnabled) playSound("toggle");
-});
-
-function showToast(message){
-  toast.textContent=message;
-  toast.classList.add("show");
-  clearTimeout(window.toastTimer);
-  window.toastTimer=setTimeout(()=>toast.classList.remove("show"),1600);
-}
-
-function makeSpark(e){
-  const x=e.clientX||innerWidth/2,y=e.clientY||innerHeight/2;
-  for(let i=0;i<7;i++){
-    const el=document.createElement("span");
-    el.className="spark";
-    el.style.left=x+"px";el.style.top=y+"px";
-    el.style.background=["#ff71be","#7a69ff","#49d7ff","#ffe15e"][i%4];
-    el.style.setProperty("--dx",(Math.random()*110-55).toFixed(0)+"px");
-    el.style.setProperty("--dy",(Math.random()*110-55).toFixed(0)+"px");
-    document.body.appendChild(el);
-    setTimeout(()=>el.remove(),800);
-  }
-}
-
-function initAudio(){
-  if(!audioContext) audioContext=new (window.AudioContext||window.webkitAudioContext)();
-}
-function playTone(start,duration,fromFreq,toFreq,type="sine",gainValue=.22){
-  if(!soundEnabled)return;
-  initAudio();
-  const now=audioContext.currentTime,osc=audioContext.createOscillator(),gain=audioContext.createGain();
-  osc.type=type;
-  osc.frequency.setValueAtTime(fromFreq,now+start);
-  osc.frequency.exponentialRampToValueAtTime(Math.max(toFreq,1),now+start+duration);
-  gain.gain.setValueAtTime(.0001,now+start);
-  gain.gain.exponentialRampToValueAtTime(gainValue,now+start+.02);
-  gain.gain.exponentialRampToValueAtTime(.0001,now+start+duration);
-  osc.connect(gain);gain.connect(audioContext.destination);
-  osc.start(now+start);osc.stop(now+start+duration+.03);
-}
-function playSound(kind){
-  if(!soundEnabled)return;
-  if(kind==="home"){playTone(0,.10,1100,1600,"sine",.29);playTone(.09,.12,900,1400,"sine",.27)}
-  else if(kind==="adventure"||kind==="rocket"){playTone(0,.22,170,1050,"sawtooth",.31);playTone(.18,.12,700,1300,"triangle",.25)}
-  else if(kind==="games"){playTone(0,.08,520,620,"square",.26);playTone(.08,.08,620,780,"square",.25);playTone(.16,.10,780,620,"square",.25)}
-  else if(kind==="rewards"){playTone(0,.08,720,1030,"triangle",.28);playTone(.09,.08,930,1350,"triangle",.27);playTone(.18,.14,1250,1750,"triangle",.24)}
-  else if(kind==="students"){playTone(0,.18,560,330,"sawtooth",.26);playTone(.15,.16,700,400,"triangle",.24)}
-  else if(kind==="parents"){playTone(0,.10,430,300,"square",.28);playTone(.08,.10,370,260,"square",.26)}
-  else if(kind==="teacher"){playTone(0,.16,270,180,"sine",.26);playTone(.14,.18,350,220,"sine",.24)}
-  else if(kind==="quiz"){playTone(0,.08,550,800,"triangle",.27);playTone(.10,.10,720,1020,"triangle",.25)}
-  else{playTone(0,.08,500,720,"triangle",.24)}
-}
-
-renderModules();
-renderGames();
-renderBadges();
-loadPublicStudents();
-
-const initial=(location.hash||"#home").slice(1);
-showPage(document.getElementById(initial)?initial:"home",false);
-setTimeout(()=>showToast("Welcome to Tannu Sir's BrightByte Galaxy!"),600);
+const API="https://brightbyte-kids-api.tanweerstudy25.workers.dev";
+const $=id=>document.getElementById(id);let voiceOn=true,buddy=0,brave=0,course={day:1,stars:120,skills:{digital:0,english:0,safety:0,confidence:0,ai:0},completed:[]},studentProfile=null,recognition=null,recognitionTarget="";
+const devices=[["🖥️","Monitor","Hello! I am a monitor. I show pictures, words and videos."],["🖱️","Mouse","Hello! I am a mouse. I help you point, click, drag and scroll."],["⌨️","Keyboard","Hello! I am a keyboard. I help you type letters, numbers and words."],["🧰","System Unit","Hello! I am the system unit. Important computer parts work inside me."],["🧩","Motherboard","Hello! I am the motherboard. I connect important computer parts."],["🧠","RAM","Hello! I am RAM. I help the computer work smoothly with active tasks."],["💾","SSD","Hello! I am an S S D. I store files, pictures, programs and videos."],["🖨️","Printer","Hello! I am a printer. I put digital work onto paper."],["🔊","Speaker","Hello! I am a speaker. I play sounds, music and voices."],["📷","Webcam","Hello! I am a webcam. I capture pictures and video."]];
+const modules=[["💻","Meet the Computer","What a computer is and where we use it."],["🖥️","Know Your Computer","Monitor, keyboard, mouse, printer and system unit."],["🖱️","Mouse Master","Point, click, double-click, drag and scroll."],["⌨️","Keyboard Explorer","Letters, numbers, Spacebar, Enter and Backspace."],["🪟","Files & Windows","Desktop, icons, files, folders and windows."],["🎨","Digital Artist","Draw, colour, shapes and simple creativity."],["✍️","Typing Adventure","Names, words and short sentences."],["🛡️","Internet Safety","Passwords, private information and trusted adults."],["🤖","Meet AI","What AI is, where we see it and why it can be wrong."],["✨","My First AI Prompt","Who + where + action = clearer prompt."]];
+const phrases=[["👋","Hello!","Hello! Nice to meet you."],["🌞","Good morning","Good morning! Have a happy day."],["🙂","My name is...","My name is Zen Alpha."],["🎂","I am six","I am six years old."],["❤️","I like...","I like computers and drawing."],["🙏","Thank you","Thank you very much."],["🙋","Please help me","Please help me."],["🤔","I don't understand","I do not understand. Please explain again."],["😊","I am happy","I am happy today."]];
+const roles=[["🧑‍🏫","Teacher & Student","Good morning, teacher. May I come in?"],["🛍️","Shopkeeper","Hello. Can I have one apple, please?"],["🧒👧","Meet a Friend","Hello! My name is Zen Alpha. What is your name?"],["🏠","At Home","Please help me with my homework."]];
+const conf=[["👋","Greeting Star","Say hello and good morning clearly.","Hello! Good morning!"],["👂","Good Listener","Listen and wait for your turn.","I will listen carefully."],["🙏","Polite Speaker","Use please, thank you, sorry and excuse me.","Please. Thank you. Sorry. Excuse me."],["🙋","Ask for Help","Ask a trusted adult when you need help.","Please help me. I do not understand."]];
+const braveLines=["Hello! My name is Zen Alpha.","Good morning! How are you?","My favourite colour is blue.","Please help me. I do not understand.","Thank you very much.","I can speak slowly and clearly."];
+const habits=[["🍎🥕","Everyday Foods","Choose a variety of balanced foods, including fruits and vegetables.","Choose different balanced foods every day. Fruits and vegetables are useful everyday choices."],["🍫🍟","Sometimes Foods","Sweets and highly processed snacks are better as occasional foods.","Chocolate, fries and sugary drinks are sometimes foods, not everyday habits."],["💧","Drink Water","Water is a great everyday drink.","Drink water when you are thirsty, especially after active play."],["🌙🛏️","Sleep Routine","A regular bedtime helps the body and brain rest.","Sleep on time. Your body and brain need good rest."],["🪥🧼","Clean & Fresh","Brush teeth and wash hands properly.","Brush your teeth and wash your hands to stay clean and fresh."],["🤸🏃","Move & Play","Active play, stretching and simple breathing can be fun.","Move your body, play safely, and enjoy simple stretching."]];
+const routine=[["🌅","Wake Up","Start the day"],["🪥","Brush","Clean teeth"],["🥣","Breakfast","Balanced meal"],["🏫","School","Learn & listen"],["🏃","Play","Move your body"],["📚","Learn","Short practice"],["🌙","Sleep","Rest on time"]];
+const games=[["🧩","Build My Computer","Place computer parts and learn what each one does.","build"],["🛠️","Fix the Broken PC","Solve simple troubleshooting missions.","fix"],["🖱️","Mouse Mission","Find the correct device and practise clicking.","mouse"],["🚀","Keyboard Racing","Type the word correctly to launch the rocket.","typing"],["🛡️","Cyber Safety Mission","Choose safe online actions.","safe"],["🤖","AI Prompt Challenge","Build a prompt using who + where + action.","prompt"]];
+const badges=[["💻","Computer Explorer","Digital basics",1],["🖱️","Mouse Master","Mouse skill",0],["⌨️","Keyboard Hero","Typing skill",0],["🗣️","English Speaker","Speaking practice",1],["🎤","Brave Speaker","Confidence",0],["👂","Good Listener","Communication",0],["🙏","Polite Star","Manners",0],["🌱","Healthy Hero","Healthy habits",1],["🛡️","Safety Hero","Cyber safety",0],["🤖","AI Explorer","AI basics",0],["✨","Prompt Creator","Prompting",0],["🚀","Mission Champion","90-day mission",0]];
+const buddyQs=["Hello! What is your name?","How are you today?","What is your favourite colour?","What do you like to play?","Can you name one computer part?"];
+const missionPool=[["💻","Digital","Tap 3 computer parts and listen"],["🗣️","English","Say 3 useful English sentences"],["🎮","Game","Complete one technical game"],["🌟","Confidence","Do one brave speaker mission"],["🌱","Habit","Choose one healthy habit"],["🛡️","Safety","Answer one safe/unsafe challenge"],["🤖","AI","Build one simple AI prompt"]];
+function page(id){document.querySelectorAll('.page').forEach(p=>p.classList.toggle('show',p.id===id));document.querySelectorAll('.mainnav button').forEach(b=>b.classList.toggle('active',b.dataset.page===id));history.replaceState(null,'',id==='home'?location.pathname:'#'+id);scrollTo({top:0,behavior:'smooth'});$('adultMenu').hidden=true}
+document.addEventListener('click',e=>{const p=e.target.closest('[data-page]');if(p){e.preventDefault();page(p.dataset.page)}const s=e.target.closest('[data-speak]');if(s)speak(s.dataset.speak)});$('adultBtn').onclick=()=>{$('adultMenu').hidden=!$('adultMenu').hidden};document.addEventListener('click',e=>{if(!e.target.closest('#adultBtn')&&!e.target.closest('#adultMenu'))$('adultMenu').hidden=true});
+function speak(text){if(!voiceOn)return;if(!('speechSynthesis'in window)){toast('Voice is not supported in this browser');return}speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(text);u.lang='en-US';u.rate=.9;u.pitch=1.05;const vs=speechSynthesis.getVoices();const v=vs.find(v=>/en-(US|GB)/i.test(v.lang))||vs.find(v=>/en/i.test(v.lang));if(v)u.voice=v;speechSynthesis.speak(u)}
+$('voiceBtn').onclick=()=>{voiceOn=!voiceOn;$('voiceBtn').textContent=voiceOn?'🔊 Voice':'🔇 Voice';if(voiceOn)speak('Voice guide is on.');else if('speechSynthesis'in window)speechSynthesis.cancel()};$('welcomeVoice').onclick=()=>speak("Hello! Welcome to Tannu Sir's Kids Digital Academy. Look, listen, speak, play and grow. Let's begin your digital adventure.");$('helper').onclick=()=>speak('Hello little explorer! Tap a colourful world. If you are not sure, start with the 90 day program.');
+function renderDevices(){$('deviceGrid').innerHTML=devices.map((d,i)=>`<article class="device-card" data-device="${i}"><button>🔊</button><div class="device-icon">${d[0]}</div><h3>${d[1]}</h3><p>Tap to hear my name and job.</p></article>`).join('');$('deviceGrid').onclick=e=>{const c=e.target.closest('[data-device]');if(c){const d=devices[+c.dataset.device];speak(d[2]);toast(d[1]+' is speaking')}}}
+function renderModules(){$('moduleGrid').innerHTML=modules.map((m,i)=>`<article class="module-card"><span>${m[0]}</span><div><small>MODULE ${i+1}</small><h3>${m[1]}</h3><p>${m[2]}</p></div><button data-module="${i}">→</button></article>`).join('');$('moduleGrid').onclick=e=>{const b=e.target.closest('[data-module]');if(b)openModule(+b.dataset.module)}}
+function openModule(i){const m=modules[i];const qs=(window.TANNU_QUESTION_BANK||[]).filter(q=>q.cat==='Digital').slice(i*4,i*4+4);$('modalBody').innerHTML=`<div class="modal-hero"><span>${m[0]}</span><small>MODULE ${i+1}</small><h2>${m[1]}</h2><p>${m[2]}</p><button class="voice-chip" data-speak="${escAttr(m[1]+'. '+m[2])}">🔊 Hear</button></div><div class="lesson-list">${qs.map((q,j)=>`<article class="lesson"><small>QUICK PRACTICE ${j+1}</small><h3>${q.q}</h3><p>Answer: ${q.a}</p></article>`).join('')}</div><button class="modal-action" data-close>Done</button>`;openModal();speak(m[1])}
+function renderEnglish(){$('phraseGrid').innerHTML=phrases.map((p,i)=>`<button data-phrase="${i}"><span>${p[0]}</span><b>${p[1]}</b></button>`).join('');$('phraseGrid').onclick=e=>{const b=e.target.closest('[data-phrase]');if(b)speak(phrases[+b.dataset.phrase][2])};$('roleGrid').innerHTML=roles.map((r,i)=>`<article class="role-card" data-role="${i}"><span>${r[0]}</span><h3>${r[1]}</h3><p>${r[2]}</p></article>`).join('');$('roleGrid').onclick=e=>{const c=e.target.closest('[data-role]');if(c)speak(roles[+c.dataset.role][2])}}
+function renderConfidence(){$('confidenceGrid').innerHTML=conf.map((c,i)=>`<article class="confidence-card"><span>${c[0]}</span><h3>${c[1]}</h3><p>${c[2]}</p><button data-conf="${i}">🔊 Practise</button></article>`).join('');$('confidenceGrid').onclick=e=>{const b=e.target.closest('[data-conf]');if(b)speak(conf[+b.dataset.conf][3])}}
+function renderHealthy(){$('habitGrid').innerHTML=habits.map((h,i)=>`<article class="habit-card"><span>${h[0]}</span><h3>${h[1]}</h3><p>${h[2]}</p><button data-habit="${i}">🔊 Hear</button></article>`).join('');$('habitGrid').onclick=e=>{const b=e.target.closest('[data-habit]');if(b)speak(habits[+b.dataset.habit][3])};$('routineGrid').innerHTML=routine.map((r,i)=>`<button data-routine="${i}"><span>${r[0]}</span><b>${r[1]}</b><small>${r[2]}</small></button>`).join('');$('routineGrid').onclick=e=>{const b=e.target.closest('[data-routine]');if(b){const r=routine[+b.dataset.routine];speak(r[1]+'. '+r[2])}}}
+function renderGames(){$('gameGrid').innerHTML=games.map((g,i)=>`<article class="game-card"><span>${g[0]}</span><h3>${g[1]}</h3><p>${g[2]}</p><button data-game="${i}">Play Now</button></article>`).join('');$('gameGrid').onclick=e=>{const b=e.target.closest('[data-game]');if(b)openGame(games[+b.dataset.game][3])}}
+function openGame(t){if(t==='mouse')return gameMouse();if(t==='typing')return gameTyping();if(t==='safe')return gameSafe();if(t==='prompt')return gamePrompt();if(t==='build')return gameBuild();if(t==='fix')return gameFix()}
+function gameMouse(){const opts=shuffle(devices.slice(0,6)).slice(0,3),correct=opts[Math.floor(Math.random()*opts.length)];$('modalBody').innerHTML=`<div class="modal-hero"><span>🖱️</span><h2>Find the ${correct[1]}</h2><p>Listen and tap the correct computer part.</p><button id="hearQ" class="voice-chip">🔊 Hear</button></div><div class="choice">${opts.map(o=>`<button data-ok="${o[1]===correct[1]}">${o[0]}<br>${o[1]}</button>`).join('')}</div>`;openModal();setTimeout(()=>speak('Find the '+correct[1]),150);$('hearQ').onclick=()=>speak('Find the '+correct[1]);$('modalBody').onclick=e=>{const b=e.target.closest('[data-ok]');if(!b)return;if(b.dataset.ok==='true'){toast('Correct! ⭐');speak('Correct! Great job!');celebrate();course.stars+=5;saveCourse()}else speak('Good try. Try again.')}}
+function gameTyping(){const words=['CAT','SUN','BOOK','MOUSE','ROBOT','APPLE','COMPUTER'],w=words[Math.floor(Math.random()*words.length)];$('modalBody').innerHTML=`<div class="modal-hero"><span>🚀</span><h2>Keyboard Racing</h2><p>Type the word to launch.</p></div><div class="type-word">${w}</div><input id="typeInput" class="type-input" autocomplete="off"><button id="typeCheck" class="modal-action">Launch 🚀</button>`;openModal();speak('Type '+w);$('typeCheck').onclick=()=>{if($('typeInput').value.trim().toUpperCase()===w){toast('Rocket launched! 🚀');speak('Excellent typing!');celebrate();course.stars+=5;saveCourse();setTimeout(gameTyping,700)}else speak('Look carefully and try again.')}}
+function gameSafe(){const q=[['A stranger asks for your password.','Keep it private','Share it'],['You see an unknown download.','Ask a trusted adult','Click quickly'],['Someone online makes you uncomfortable.','Tell a trusted adult','Keep it secret']][Math.floor(Math.random()*3)];$('modalBody').innerHTML=`<div class="modal-hero"><span>🛡️</span><h2>${q[0]}</h2></div><div class="choice"><button data-safe="1">✅ ${q[1]}</button><button data-safe="0">❌ ${q[2]}</button></div>`;openModal();speak(q[0]);$('modalBody').onclick=e=>{const b=e.target.closest('[data-safe]');if(!b)return;if(b.dataset.safe==='1'){toast('Safety Hero!');speak('Correct. Safety first.');celebrate();course.stars+=5;saveCourse()}else speak('That is not the safest choice. Try again.')}}
+function gamePrompt(){const who=['a friendly robot','a happy cat','a brave astronaut'],where=['on the Moon','in a garden','in a computer lab'],act=['reading a book','waving hello','building a tiny computer'],state=[who[0],where[0],act[0]];$('modalBody').innerHTML=`<div class="modal-hero"><span>🤖✨</span><h2>AI Prompt Challenge</h2><p>Choose Who + Where + Action.</p></div><div class="choice" id="promptChoices"></div><p id="promptOut" class="lesson"></p><button id="sayPrompt" class="modal-action">🔊 Hear My Prompt</button>`;openModal();const pc=$('promptChoices');pc.innerHTML=[who,where,act].map((arr,k)=>arr.map(v=>`<button data-k="${k}" data-v="${escAttr(v)}">${v}</button>`).join('')).join('');const up=()=>{$('promptOut').textContent=state.join(' ') + '.'};up();pc.onclick=e=>{const b=e.target.closest('[data-k]');if(b){state[+b.dataset.k]=b.dataset.v;up()}};$('sayPrompt').onclick=()=>{speak($('promptOut').textContent);celebrate();course.stars+=5;saveCourse()}}
+function gameBuild(){const parts=[['🧠','RAM'],['💾','SSD'],['🧩','Motherboard'],['🌀','Cooling Fan']];$('modalBody').innerHTML=`<div class="modal-hero"><span>🧩</span><h2>Build My Computer</h2><p>Tap parts in the order you want to install them. Every part will explain its job.</p></div><div class="choice">${parts.map((p,i)=>`<button data-part="${i}">${p[0]} ${p[1]}</button>`).join('')}</div><div id="buildList" class="lesson">Cabinet is ready.</div>`;openModal();let installed=[];$('modalBody').onclick=e=>{const b=e.target.closest('[data-part]');if(!b)return;const p=parts[+b.dataset.part];if(installed.includes(p[1]))return toast('Already installed');installed.push(p[1]);$('buildList').textContent='Installed: '+installed.join(' → ');speak(p[1]+' installed. Great job.');if(installed.length===parts.length){celebrate();toast('Computer built! 🏆');course.stars+=10;saveCourse()}}}
+function gameFix(){const cases=[['Computer is not turning on. What should you check first?','Power cable',['Power cable','Printer paper','Mouse pad']],['No sound from the computer. What should you check?','Speaker or volume',['Speaker or volume','Printer ink','Webcam cover']],['Mouse is not moving. What is a good first check?','Mouse connection',['Mouse connection','Monitor brightness','Paper tray']]];const c=cases[Math.floor(Math.random()*cases.length)];$('modalBody').innerHTML=`<div class="modal-hero"><span>🛠️</span><h2>Fix the Broken PC</h2><p>${c[0]}</p></div><div class="choice">${shuffle(c[2]).map(x=>`<button data-fix="${x===c[1]}">${x}</button>`).join('')}</div>`;openModal();speak(c[0]);$('modalBody').onclick=e=>{const b=e.target.closest('[data-fix]');if(!b)return;if(b.dataset.fix==='true'){toast('Technician Star! ⭐');speak('Good troubleshooting!');celebrate();course.stars+=8;saveCourse()}else speak('Good try. Think about the first simple check.')}}
+function renderBadges(){$('badgeGrid').innerHTML=badges.map(b=>`<article class="badge-card ${b[3]?'':'locked'}"><span>${b[0]}</span><h4>${b[1]}</h4><p>${b[2]}</p></article>`).join('')}
+function setupSpeech(){const SR=window.SpeechRecognition||window.webkitSpeechRecognition;if(!SR)return;recognition=new SR();recognition.lang='en-US';recognition.interimResults=false;recognition.maxAlternatives=1;recognition.onstart=()=>{$('micStatus').textContent='🎤 Listening... speak now.'};recognition.onresult=e=>{const t=e.results[0][0].transcript;$('micStatus').textContent='I heard: “'+t+'”';toast('Great speaking! ⭐');speak('Very good! Keep speaking clearly.');celebrate();course.stars+=5;saveCourse()};recognition.onerror=e=>{$('micStatus').textContent='Could not hear clearly. Use Hear + Repeat or try again.'}}
+function mic(target){if(!recognition){toast('Speech recognition is not available here. Hear + Repeat still works.');speak('Listen and repeat after me.');return}recognitionTarget=target;try{recognition.start()}catch{}}
+$('buddyHear').onclick=()=>speak(buddyQs[buddy]);$('buddyNext').onclick=()=>{buddy=(buddy+1)%buddyQs.length;$('buddyQuestion').textContent=buddyQs[buddy];$('buddyHint').textContent='Listen, then answer in a short sentence.';speak(buddyQs[buddy])};$('buddyMic').onclick=()=>mic('buddy');$('braveHear').onclick=()=>speak(braveLines[brave]);$('braveNext').onclick=()=>{brave=(brave+1)%braveLines.length;$('bravePrompt').textContent=braveLines[brave];speak(braveLines[brave])};$('braveMic').onclick=()=>mic('brave');
+function renderCourse(){const day=Math.max(1,Math.min(90,course.day||1)),week=Math.min(12,Math.ceil(day/7)),month=day<=30?1:day<=60?2:3;$('dayNum').textContent=day;$('weekNum').textContent=week;$('courseProgress').textContent=Math.round(day/90*100)+'%';$('courseXP').textContent=course.stars||120;$('courseStudent').textContent=studentProfile?.display_name||'Zen Alpha';$('missionTitle').textContent=`Day ${day} • ${month===1?'Foundation':month===2?'Practice':'Smart Skills'}`;const start=(day*3)%missionPool.length,tasks=[0,1,2,3].map(n=>missionPool[(start+n)%missionPool.length]);$('missionTasks').innerHTML=tasks.map((t,i)=>`<button class="mission-task ${course.completed?.includes(day+'-'+i)?'done':''}" data-task="${i}"><span>${t[0]}</span><b>${t[1]}</b><small>${t[2]}</small></button>`).join('');$('weekStrip').innerHTML=Array.from({length:12},(_,i)=>`<button data-week="${i+1}" class="${week===i+1?'active':''}">Week ${i+1}</button>`).join('');$('missionTasks').onclick=e=>{const b=e.target.closest('[data-task]');if(!b)return;const k=day+'-'+b.dataset.task;course.completed=course.completed||[];if(!course.completed.includes(k)){course.completed.push(k);course.stars=(course.stars||120)+5;b.classList.add('done');toast('Mission step complete! ⭐');celebrate(8);saveCourse();renderCourse()}};$('weekStrip').onclick=e=>{const b=e.target.closest('[data-week]');if(b){course.day=Math.min(90,(+b.dataset.week-1)*7+1);saveCourse();renderCourse()}}}
+async function loadCourse(){const token=localStorage.getItem('brightbyte_student_token');if(token){try{const me=await fetch(API+'/api/auth/me',{headers:{Authorization:'Bearer '+token},cache:'no-store'});if(me.ok){const d=await me.json();if(d.role==='student'){studentProfile=d.profile;const r=await fetch(API+'/api/student/course-progress',{headers:{Authorization:'Bearer '+token},cache:'no-store'});if(r.ok){const x=await r.json();course={day:x.progress.day_number||1,stars:x.progress.stars||d.profile.stars||120,skills:parseMaybe(x.progress.skill_scores,{}),completed:parseMaybe(x.progress.daily_completed,[])};renderCourse();return}}}}catch{}}try{const x=JSON.parse(localStorage.getItem('tannu_demo_course')||'null');if(x)course=x}catch{}renderCourse()}
+async function saveCourse(){const token=localStorage.getItem('brightbyte_student_token');if(token){try{await fetch(API+'/api/student/course-progress',{method:'PATCH',headers:{'Content-Type':'application/json',Authorization:'Bearer '+token},body:JSON.stringify({dayNumber:course.day,stars:course.stars,skillScores:course.skills,dailyCompleted:course.completed})});return}catch{}}localStorage.setItem('tannu_demo_course',JSON.stringify(course))}
+$('projectPreview').onclick=()=>{$('modalBody').innerHTML=`<div class="modal-hero"><span>🚀</span><h2>My First Digital Mission</h2><p>1. Identify 5 computer parts<br>2. Type a short self-introduction<br>3. Speak for 30 seconds<br>4. Complete a cyber safety challenge<br>5. Build one AI prompt<br>6. Solve one troubleshooting case</p></div><button class="modal-action" data-close>Ready!</button>`;openModal()};$('courseVoice').onclick=()=>speak('Your 90 day journey has three stages. Foundation, practice, and smart skills. Complete four short missions each day.');
+async function loadStudents(){const demo={name:'Zen Alpha',cls:'Class 1',progress:20,focus:'90-Day Digital Explorer',photo:'🧒'},token=localStorage.getItem('brightbyte_admin_token')||'';let rows=[demo];try{if(token){const r=await fetch(API+'/api/admin/students',{headers:{Authorization:'Bearer '+token},cache:'no-store'});if(r.ok){const d=await r.json();rows=[demo,...(d.students||[]).filter(s=>s.status==='active').map(s=>({name:s.display_name,cls:'Class '+s.class_number,progress:s.progress_percent||0,focus:s.training_track||'90-Day Digital Explorer',photo:'🧒',userId:s.user_id,hasPhoto:s.has_photo}))];renderStudents(rows);await hydratePhotos(rows,token);return}}const r=await fetch(API+'/api/students/public',{cache:'no-store'});if(r.ok){const d=await r.json();rows=[demo,...(d.students||[]).map(s=>({name:s.display_name,cls:'Class '+s.class_number,progress:s.progress_percent||0,focus:s.training_track||'90-Day Digital Explorer',photoUrl:s.photo_url}))]}}catch{}renderStudents(rows)}
+function renderStudents(rows){$('studentGrid').innerHTML=rows.map((s,i)=>`<article class="student-card"><div class="student-top"><div class="student-photo" id="sp-${i}">${s.photoUrl?`<img src="${escAttr(s.photoUrl)}" alt="">`:(s.photo||'🧒')}</div><div><h3>${esc(s.name)}</h3><small>${esc(s.cls)}</small></div></div><div class="progress"><i style="width:${Math.min(100,+s.progress||0)}%"></i></div><p><b>Progress:</b> ${+s.progress||0}%</p><p><b>Track:</b> ${esc(s.focus)}</p></article>`).join('')}
+async function hydratePhotos(rows,token){for(let i=0;i<rows.length;i++){const s=rows[i];if(!s.userId||!s.hasPhoto)continue;try{const r=await fetch(`${API}/api/admin/students/${s.userId}/photo`,{headers:{Authorization:'Bearer '+token}});if(r.ok){const u=URL.createObjectURL(await r.blob());$('sp-'+i).innerHTML=`<img src="${u}" alt="">`}}catch{}}}
+function openModal(){$('modal').classList.add('open');$('modal').setAttribute('aria-hidden','false');document.body.style.overflow='hidden'}function closeModal(){$('modal').classList.remove('open');$('modal').setAttribute('aria-hidden','true');document.body.style.overflow=''}$('modalClose').onclick=closeModal;$('modal').onclick=e=>{if(e.target===$('modal'))closeModal()};document.addEventListener('click',e=>{if(e.target.closest('[data-close]'))closeModal()});document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});$('celebrateBtn').onclick=()=>celebrate(35);
+function toast(t){$('toast').textContent=t;$('toast').classList.add('show');clearTimeout(window.tt);window.tt=setTimeout(()=>$('toast').classList.remove('show'),1600)}function celebrate(n=22){for(let i=0;i<n;i++){const c=document.createElement('i');c.className='confetti';c.style.left=(innerWidth/2+Math.random()*120-60)+'px';c.style.top=(innerHeight/2)+'px';c.style.background=['#ff67b8','#7363ff','#45d9df','#ffd35e','#39d09d'][i%5];c.style.setProperty('--x',(Math.random()*500-250)+'px');c.style.setProperty('--y',(Math.random()*400+130)+'px');document.body.appendChild(c);setTimeout(()=>c.remove(),1300)}}function shuffle(a){return [...a].sort(()=>Math.random()-.5)}function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}function escAttr(s){return esc(s)}function parseMaybe(x,f){try{return typeof x==='string'?JSON.parse(x):x??f}catch{return f}}
+const ANALYTICS={GA_ID:'',GOAT_CODE:''};
+function analytics(){const GA=ANALYTICS.GA_ID,GOAT=ANALYTICS.GOAT_CODE;if(GA&&/^G-/.test(GA)){const s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id='+encodeURIComponent(GA);document.head.appendChild(s);window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config',GA)}if(GOAT){const s=document.createElement('script');s.async=true;s.dataset.goatcounter='https://'+GOAT+'.goatcounter.com/count';s.src='//gc.zgo.at/count.js';document.body.appendChild(s)}}
+async function loadPublicStats(){try{const r=await fetch(API+'/api/public/stats',{cache:'no-store'});if(r.ok){const d=await r.json();if($('enrolledCount'))$('enrolledCount').textContent=d.active_students??'—';if($('reviewCount'))$('reviewCount').textContent=d.approved_reviews??'—'}}catch{}if($('questionCount'))$('questionCount').textContent=(window.TANNU_QUESTION_COUNT||5000)+'+';const code=ANALYTICS.GOAT_CODE;if(code&&$('visitorCount')){try{const r=await fetch('https://'+code+'.goatcounter.com/counter/TOTAL.json',{cache:'no-store'});if(r.ok){const d=await r.json();$('visitorCount').textContent=d.count||d.count_unique||'—'}}catch{}}}
+renderDevices();renderModules();renderEnglish();renderConfidence();renderHealthy();renderGames();renderBadges();setupSpeech();loadStudents();loadCourse();analytics();loadPublicStats();page((location.hash||'#home').slice(1));
