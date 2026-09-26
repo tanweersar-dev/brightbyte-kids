@@ -5,7 +5,7 @@
 // and keep private students hidden from ordinary public visitors.
 
 (function () {
-  const GALAXY_FIX_VERSION = "11.1-student-galaxy";
+  const GALAXY_FIX_VERSION = "11.2-public-enrollment-cards";
   const API_BASE = "https://brightbyte-kids-api.tanweerstudy25.workers.dev";
 
   const get = (id) => document.getElementById(id);
@@ -39,36 +39,41 @@
       return;
     }
 
-    grid.innerHTML = rows.map((s, i) => `
-      <article class="student-card">
-        <div class="student-top">
-          <div class="student-photo" id="sg-photo-${i}">
-            ${s.photoUrl ? `<img src="${escapeHtml(s.photoUrl)}" alt="">` : (s.photo || "🧒")}
+    grid.innerHTML = rows.map((s, i) => {
+      const publicDetails = s.publicCard
+        ? `
+          <p><b>Guardian:</b> ${escapeHtml(s.guardian || "Not provided")}</p>
+          <p><b>🎓 Enrolled Student</b></p>`
+        : `
+          <div class="progress">
+            <i style="width:${Math.min(100, Number(s.progress || 0))}%"></i>
           </div>
-          <div>
-            <h3>${escapeHtml(s.name)}</h3>
-            <small>${escapeHtml(s.cls)}</small>
+          <p><b>Progress:</b> ${Number(s.progress || 0)}%</p>
+          <p><b>Track:</b> ${escapeHtml(s.focus || "90-Day Digital + English + Confidence Program")}</p>
+          ${
+            s.self
+              ? "<p><b>🔒 My Private Profile</b></p>"
+              : s.admin
+                ? "<p><b>🔒 Admin View</b></p>"
+                : s.demo
+                  ? "<p><b>Demo Student</b></p>"
+                  : ""
+          }`;
+
+      return `
+        <article class="student-card">
+          <div class="student-top">
+            <div class="student-photo" id="sg-photo-${i}">
+              ${s.photoUrl ? `<img src="${escapeHtml(s.photoUrl)}" alt="">` : (s.photo || "🧒")}
+            </div>
+            <div>
+              <h3>${escapeHtml(s.name)}</h3>
+              <small>${escapeHtml(s.cls)}</small>
+            </div>
           </div>
-        </div>
-
-        <div class="progress">
-          <i style="width:${Math.min(100, Number(s.progress || 0))}%"></i>
-        </div>
-
-        <p><b>Progress:</b> ${Number(s.progress || 0)}%</p>
-        <p><b>Track:</b> ${escapeHtml(s.focus || "90-Day Digital + English + Confidence Program")}</p>
-
-        ${
-          s.self
-            ? "<p><b>🔒 My Private Profile</b></p>"
-            : s.admin
-              ? "<p><b>🔒 Admin View</b></p>"
-              : s.demo
-                ? "<p><b>Demo Student</b></p>"
-                : "<p><b>🌐 Public</b></p>"
-        }
-      </article>
-    `).join("");
+          ${publicDetails}
+        </article>`;
+    }).join("");
   }
 
   async function hydrateAdminPhotos(rows, token) {
@@ -253,10 +258,9 @@
         const publicRows = (data.students || []).map((x) => ({
           name: x.display_name || "Student",
           cls: `Class ${x.class_number || 1}`,
-          progress: Number(x.progress_percent || 0),
-          focus: x.training_track || "90-Day Digital + English + Confidence Program",
+          guardian: x.guardian_name || "",
           photoUrl: x.photo_url || "",
-          admin: false
+          publicCard: true
         }));
 
         if (publicRows.length) {
