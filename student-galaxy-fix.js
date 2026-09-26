@@ -5,7 +5,7 @@
 // and keep private students hidden from ordinary public visitors.
 
 (function () {
-  const GALAXY_FIX_VERSION = "11.2-public-enrollment-cards";
+  const GALAXY_FIX_VERSION = "11.3-admin-clickable-progress";
   const API_BASE = "https://brightbyte-kids-api.tanweerstudy25.workers.dev";
 
   const get = (id) => document.getElementById(id);
@@ -60,8 +60,13 @@
                   : ""
           }`;
 
+      const adminAttrs = s.admin && s.userId
+        ? ` data-admin-student="${Number(s.userId)}" tabindex="0" role="button" aria-label="Open ${escapeHtml(s.name)} learning progress"`
+        : "";
+      const adminClass = s.admin && s.userId ? " admin-student-card" : "";
+
       return `
-        <article class="student-card">
+        <article class="student-card${adminClass}"${adminAttrs}>
           <div class="student-top">
             <div class="student-photo" id="sg-photo-${i}">
               ${s.photoUrl ? `<img src="${escapeHtml(s.photoUrl)}" alt="">` : (s.photo || "🧒")}
@@ -72,8 +77,26 @@
             </div>
           </div>
           ${publicDetails}
+          ${s.admin && s.userId ? '<div class="admin-open-hint">👁 View Full Learning Progress →</div>' : ''}
         </article>`;
     }).join("");
+
+    grid.querySelectorAll("[data-admin-student]").forEach((card) => {
+      const openProfile = () => {
+        const id = Number(card.dataset.adminStudent || 0);
+        if (id > 0) location.href = `admin-student-view.html?id=${encodeURIComponent(id)}`;
+      };
+      card.addEventListener("click", (event) => {
+        if (event.target.closest("a,button,input,select,textarea")) return;
+        openProfile();
+      });
+      card.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          openProfile();
+        }
+      });
+    });
   }
 
   async function hydrateAdminPhotos(rows, token) {
