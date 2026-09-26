@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#111747">
+  <title>Virtual IT Lab — Tannu Sir's Kids Digital Academy</title>
+  <link rel="stylesheet" href="virtual-it-lab.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="student-profile.html" aria-label="Back to learning universe">
+      <span class="brand-logo">T</span>
+      <span><b>Virtual IT Lab</b><small>TANNU SIR'S KIDS DIGITAL ACADEMY</small></span>
+    </a>
+    <div class="top-actions">
+      <span id="studentBadge" class="student-badge">👤 Student</span>
+      <button id="soundToggle" class="pill" type="button">🔊 Voice On</button>
+      <a class="pill" href="student-profile.html">← Back to Academy</a>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <section class="hero">
+      <div>
+        <span class="eyebrow">CLASS 1–3 • PRACTICAL DIGITAL SKILLS</span>
+        <h1>🧪 Junior IT Technician Lab</h1>
+        <p>Build a computer, connect the right cables, power it on, connect the internet, and solve simple real-world faults.</p>
+      </div>
+      <div class="hero-status">
+        <div><b id="stars">0</b><small>LAB STARS</small></div>
+        <div><b id="stageStatus">Stage 1</b><small>CURRENT LEVEL</small></div>
+      </div>
+    </section>
+
+    <section class="stage-picker">
+      <button class="stage-card active" data-stage="1" id="stage1Button">
+        <span class="stage-number">1</span>
+        <span><b>Basic Builder</b><small>Build and connect a working computer</small></span>
+        <span class="stage-state" id="stage1State">OPEN</span>
+      </button>
+      <button class="stage-card locked" data-stage="2" id="stage2Button">
+        <span class="stage-number">2</span>
+        <span><b>Junior Technician</b><small>Find faults and complete a tougher setup</small></span>
+        <span class="stage-state" id="stage2State">🔒 LOCKED</span>
+      </button>
+    </section>
+
+    <section class="lab-grid">
+      <aside class="mission-panel">
+        <div class="panel-title">
+          <span>🎯 Mission</span>
+          <button id="resetLab" class="tiny-btn" type="button">↻ Reset</button>
+        </div>
+        <h2 id="missionTitle">Build Your First Computer</h2>
+        <p id="missionText">Place the devices on the desk, then connect every cable to the correct port.</p>
+        <div id="steps" class="steps"></div>
+
+        <div class="hint-box">
+          <b>💡 Kid Tip</b>
+          <p id="hintText">Drag each item to the glowing desk area. Then connect the matching cable.</p>
+          <button id="hearMission" class="speak-btn" type="button">🔊 Hear Mission</button>
+        </div>
+
+        <div class="progress-wrap">
+          <div class="progress-label"><span>Mission Progress</span><b id="progressText">0%</b></div>
+          <div class="progress"><i id="progressBar"></i></div>
+        </div>
+      </aside>
+
+      <section class="lab-room" id="labRoom">
+        <div class="room-wall">
+          <div class="poster">LEARN • CONNECT • FIX</div>
+          <div class="window"><span></span><span></span><span></span><span></span></div>
+        </div>
+
+        <div class="workbench">
+          <div class="desk-surface"></div>
+
+          <div class="drop-zone monitor-zone" data-device-zone="monitor">
+            <span>DROP MONITOR HERE</span>
+          </div>
+          <div class="drop-zone cpu-zone" data-device-zone="cpu">
+            <span>DROP SYSTEM UNIT HERE</span>
+          </div>
+          <div class="drop-zone keyboard-zone" data-device-zone="keyboard">
+            <span>DROP KEYBOARD HERE</span>
+          </div>
+          <div class="drop-zone mouse-zone" data-device-zone="mouse">
+            <span>DROP MOUSE HERE</span>
+          </div>
+
+          <div id="monitorBuilt" class="built-device monitor-built hidden">
+            <div class="monitor-screen" id="monitorScreen">
+              <div class="boot-logo">T</div>
+              <div id="screenMessage">NO SIGNAL</div>
+            </div>
+            <div class="monitor-neck"></div>
+            <div class="monitor-base"></div>
+            <div class="port port-monitor-display" data-port="monitor-display" title="Monitor display port">DISPLAY</div>
+            <div class="port port-monitor-power" data-port="monitor-power" title="Monitor power port">POWER</div>
+            <div class="led" id="monitorLed"></div>
+          </div>
+
+          <div id="cpuBuilt" class="built-device cpu-built hidden">
+            <div class="cpu-panel">
+              <div class="cpu-fan"></div>
+              <div class="cpu-brand">SYSTEM UNIT</div>
+              <div class="cpu-led" id="cpuLed"></div>
+            </div>
+            <div class="port port-cpu-display" data-port="cpu-display">HDMI/VGA</div>
+            <div class="port port-cpu-power" data-port="cpu-power">POWER</div>
+            <div class="port port-usb-1" data-port="usb-keyboard">USB</div>
+            <div class="port port-usb-2" data-port="usb-mouse">USB</div>
+            <div class="port port-lan" data-port="lan">LAN</div>
+          </div>
+
+          <div id="keyboardBuilt" class="built-device keyboard-built hidden">
+            <div class="keys"></div><b>KEYBOARD</b>
+          </div>
+          <div id="mouseBuilt" class="built-device mouse-built hidden">
+            <div class="mouse-wheel"></div><b>MOUSE</b>
+          </div>
+
+          <div class="power-strip">
+            <b>POWER STRIP</b>
+            <div class="socket" data-port="power-strip-1">⚡</div>
+            <div class="socket" data-port="power-strip-2">⚡</div>
+            <button id="powerSwitch" type="button" class="power-switch">OFF</button>
+          </div>
+
+          <div class="router">
+            <div class="antenna a1"></div><div class="antenna a2"></div>
+            <b>Wi-Fi Router</b>
+            <div class="router-port" data-port="router-lan">LAN</div>
+            <div class="router-led" id="routerLed"></div>
+          </div>
+
+          <svg id="cableLayer" class="cable-layer" aria-hidden="true"></svg>
+          <div id="celebration" class="celebration hidden">🌟 GREAT JOB! 🌟</div>
+        </div>
+      </section>
+
+      <aside class="parts-panel">
+        <div class="panel-title"><span>🧰 Parts & Cables</span></div>
+        <p class="panel-sub">Drag devices to the desk. Click a cable, then click its two correct ports.</p>
+
+        <div class="tool-section">
+          <h3>Devices</h3>
+          <div id="deviceTray" class="device-tray"></div>
+        </div>
+
+        <div class="tool-section">
+          <h3>Cables</h3>
+          <div id="cableTray" class="cable-tray"></div>
+        </div>
+
+        <div id="feedback" class="feedback info">
+          👋 Start by placing the monitor on the desk.
+        </div>
+
+        <button id="powerOnButton" class="big-action" type="button" disabled>⚡ Power On Computer</button>
+        <button id="testInternetButton" class="big-action blue" type="button" disabled>🌐 Test Internet</button>
+      </aside>
+    </section>
+
+    <section id="stageComplete" class="completion-card hidden">
+      <div class="completion-icon">🏆</div>
+      <div>
+        <span class="eyebrow">MISSION COMPLETE</span>
+        <h2 id="completionTitle">Stage Complete!</h2>
+        <p id="completionText">Excellent work. You connected the computer correctly.</p>
+      </div>
+      <button id="nextStageButton" class="certificate-btn" type="button">Unlock Stage 2 →</button>
+    </section>
+
+    <section id="certificateSection" class="certificate-section hidden">
+      <div class="certificate-actions">
+        <div>
+          <span class="eyebrow">BOTH LABS COMPLETED</span>
+          <h2>🎓 Junior Technician Certificate Unlocked</h2>
+          <p>Your certificate uses the student's academy profile name.</p>
+        </div>
+        <button id="printCertificate" class="certificate-btn" type="button">🖨️ Print / Save PDF</button>
+      </div>
+
+      <div id="certificate" class="certificate">
+        <div class="certificate-border">
+          <div class="certificate-top">
+            <div class="cert-logo">T</div>
+            <div>
+              <b>TANNU SIR'S KIDS DIGITAL ACADEMY</b>
+              <small>VIRTUAL IT LAB • CLASS 1–3 FOUNDATION</small>
+            </div>
+          </div>
+          <div class="cert-stars">★ ★ ★</div>
+          <h1>Certificate of Achievement</h1>
+          <p class="cert-intro">This certificate is proudly presented to</p>
+          <div id="certificateName" class="certificate-name">Student</div>
+          <p class="cert-body">for successfully completing both practical stages of the</p>
+          <h2>Junior IT Technician Lab</h2>
+          <div class="cert-skills">
+            <span>✓ Computer Assembly</span>
+            <span>✓ Cable Connections</span>
+            <span>✓ Power & Display Setup</span>
+            <span>✓ Basic Networking</span>
+            <span>✓ Troubleshooting</span>
+          </div>
+          <div class="cert-footer">
+            <div><b id="certificateDate">Date</b><small>Completion Date</small></div>
+            <div class="seal"><span>JUNIOR</span><b>IT</b><span>TECHNICIAN</span></div>
+            <div><b>Tannu Sir</b><small>Kids Digital Academy</small></div>
+          </div>
+          <div class="cert-id" id="certificateId">Certificate ID</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <div id="toast" class="toast"></div>
+  <script src="virtual-it-lab.js"></script>
+</body>
+</html>
