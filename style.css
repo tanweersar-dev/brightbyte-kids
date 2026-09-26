@@ -10,3 +10,397 @@
 .helper.cartoon-helper{right:18px;bottom:18px;width:92px;height:112px;padding:0;border:0;border-radius:30px;background:linear-gradient(155deg,#645bff,#d954c7);box-shadow:0 18px 42px rgba(0,0,0,.34),0 0 24px rgba(91,221,214,.34);display:flex;flex-direction:column;align-items:center;justify-content:flex-end;overflow:visible;animation:robotFloat 3.2s ease-in-out infinite,robotGlow 1.8s ease-in-out infinite alternate}.helper.cartoon-helper:hover{filter:brightness(1.1);transform:translateY(-6px) scale(1.05)}.helper.cartoon-helper small{position:absolute;bottom:7px;font-size:8px;font-weight:950;color:#fff;text-shadow:0 1px 2px #0006}.robot-antenna{position:absolute;top:-15px;left:50%;width:4px;height:22px;transform:translateX(-50%);border-radius:5px;background:#d9ddff}.robot-antenna i{position:absolute;left:50%;top:-7px;width:14px;height:14px;transform:translateX(-50%);border-radius:50%;background:#57f6e7;box-shadow:0 0 7px #57f6e7,0 0 18px #57f6e7;animation:antennaBlink .85s ease-in-out infinite alternate}.robot-head{position:absolute;top:16px;left:50%;width:62px;height:48px;transform:translateX(-50%);border-radius:20px 20px 17px 17px;background:linear-gradient(180deg,#f8fbff,#cbd6ff);border:3px solid #17205c;box-shadow:inset 0 -6px 0 #b7c4f0,0 5px 10px #0003}.robot-head:before,.robot-head:after{content:"";position:absolute;top:15px;width:8px;height:15px;border-radius:5px;background:#645bff}.robot-head:before{left:-10px}.robot-head:after{right:-10px}.robot-eye{position:absolute;top:14px;width:11px;height:13px;border-radius:50%;background:#18205b;box-shadow:0 0 8px #3df0e2}.robot-eye.left{left:14px}.robot-eye.right{right:14px}.robot-eye:after{content:"";position:absolute;left:3px;top:2px;width:3px;height:3px;border-radius:50%;background:#fff}.robot-mouth{position:absolute;left:50%;bottom:8px;width:22px;height:8px;transform:translateX(-50%);border-bottom:3px solid #ee5ba7;border-radius:0 0 18px 18px}.robot-body{position:absolute;top:61px;left:50%;width:49px;height:35px;transform:translateX(-50%);border-radius:11px 11px 17px 17px;background:linear-gradient(180deg,#313c91,#17205b);border:2px solid #97a5ff;box-shadow:inset 0 0 0 3px rgba(255,255,255,.04)}.robot-body b{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:20px;height:20px;display:grid;place-items:center;border-radius:50%;font-size:13px;color:#17205b;background:#56eee0;box-shadow:0 0 11px #56eee0}.helper.cartoon-helper:before,.helper.cartoon-helper:after{content:"";position:absolute;top:69px;width:15px;height:7px;border-radius:8px;background:#bac5ff}.helper.cartoon-helper:before{left:9px;transform:rotate(24deg)}.helper.cartoon-helper:after{right:9px;transform:rotate(-24deg)}@keyframes robotFloat{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-13px) rotate(2deg)}}@keyframes robotGlow{from{box-shadow:0 18px 42px rgba(0,0,0,.34),0 0 15px rgba(91,221,214,.22)}to{box-shadow:0 20px 46px rgba(0,0,0,.35),0 0 30px rgba(91,221,214,.68)}}@keyframes antennaBlink{0%{opacity:.38;transform:translateX(-50%) scale(.7);background:#ffdc62;box-shadow:0 0 5px #ffdc62}100%{opacity:1;transform:translateX(-50%) scale(1.15);background:#57f6e7;box-shadow:0 0 9px #57f6e7,0 0 22px #57f6e7}}
 @media(max-width:700px){.helper.cartoon-helper{width:76px;height:94px;right:9px;bottom:10px}.robot-head{width:53px;height:42px;top:13px}.robot-body{top:54px;width:43px;height:31px}.helper.cartoon-helper:before,.helper.cartoon-helper:after{top:60px}.helper.cartoon-helper small{font-size:7px}.robot-antenna{top:-13px}}
 @media(prefers-reduced-motion:reduce){.helper.cartoon-helper,.robot-antenna i{animation:none!important}.student-card.admin-student-card{transition:none}}
+
+
+/* =========================================================
+   V11.6 - REAL ATOM HERO / KIDS DIGITAL ACADEMY
+   SAFE APPEND ONLY - DO NOT DELETE EXISTING CSS
+   ========================================================= */
+
+/* Main atom stage */
+.hero-art{
+  position:relative;
+  min-height:540px;
+  display:grid;
+  place-items:center;
+  overflow:visible;
+  isolation:isolate;
+}
+
+/* Extra space objects inside hero */
+.hero-art::before{
+  content:"🛰️";
+  position:absolute;
+  left:3%;
+  top:12%;
+  font-size:32px;
+  z-index:1;
+  filter:drop-shadow(0 0 14px rgba(82,224,255,.65));
+  animation:atomSatelliteFloat 5.5s ease-in-out infinite;
+}
+
+.hero-art::after{
+  content:"☄️";
+  position:absolute;
+  right:2%;
+  bottom:8%;
+  font-size:32px;
+  z-index:1;
+  filter:drop-shadow(0 0 15px rgba(255,113,205,.65));
+  animation:atomCometFloat 6.5s ease-in-out infinite;
+}
+
+/* Main atomic field */
+.hero-art .orbit{
+  width:min(520px,86vw);
+  aspect-ratio:1;
+  position:relative;
+  border-radius:50%;
+  border:1.5px solid rgba(100,226,255,.28);
+  background:
+    radial-gradient(circle at 50% 50%,
+      rgba(106,87,255,.18) 0%,
+      rgba(38,54,145,.09) 24%,
+      transparent 58%);
+  box-shadow:
+    0 0 35px rgba(73,104,255,.18),
+    inset 0 0 45px rgba(72,225,255,.05);
+  animation:none;
+}
+
+/* Crossing orbital ring 1 */
+.hero-art .orbit::before{
+  content:"";
+  position:absolute;
+  left:-4%;
+  right:-4%;
+  top:23%;
+  bottom:23%;
+  border-radius:50%;
+  border:1.5px solid rgba(123,109,255,.38);
+  box-shadow:
+    0 0 15px rgba(115,99,255,.16),
+    inset 0 0 12px rgba(95,224,255,.06);
+  transform:rotate(32deg);
+  animation:atomRingGlowA 3s ease-in-out infinite alternate;
+}
+
+/* Crossing orbital ring 2 */
+.hero-art .orbit::after{
+  content:"";
+  position:absolute;
+  top:-4%;
+  bottom:-4%;
+  left:23%;
+  right:23%;
+  border-radius:50%;
+  border:1.5px solid rgba(69,225,232,.33);
+  box-shadow:
+    0 0 15px rgba(52,220,226,.14),
+    inset 0 0 12px rgba(255,102,190,.05);
+  transform:rotate(-32deg);
+  animation:atomRingGlowB 3.8s ease-in-out infinite alternate;
+}
+
+/* All orbiting learning icons */
+.hero-art .planet{
+  position:absolute;
+  left:50%;
+  right:auto;
+  top:50%;
+  bottom:auto;
+  width:70px;
+  height:70px;
+  border-radius:23px;
+  display:grid;
+  place-items:center;
+  font-size:34px;
+  z-index:6;
+  background:
+    linear-gradient(145deg,
+      rgba(69,218,235,.96),
+      rgba(102,83,255,.96) 48%,
+      rgba(238,77,169,.94));
+  border:1px solid rgba(255,255,255,.28);
+  box-shadow:
+    0 13px 30px rgba(0,0,0,.34),
+    0 0 18px rgba(82,216,255,.38),
+    0 0 34px rgba(124,91,255,.18);
+}
+
+.hero-art .planet::before{
+  content:"";
+  position:absolute;
+  inset:-6px;
+  border-radius:27px;
+  border:1px solid rgba(105,230,255,.22);
+  animation:atomElectronPulse 2s ease-in-out infinite;
+}
+
+/* PC - fast clockwise */
+.hero-art .p-computer{
+  margin-left:-35px;
+  margin-top:-232px;
+  transform-origin:35px 232px;
+  animation:atomHeroCW 7.5s linear infinite;
+}
+
+/* English - anti-clockwise */
+.hero-art .p-english{
+  margin-left:172px;
+  margin-top:-35px;
+  transform-origin:-172px 35px;
+  animation:atomHeroCCW 9.5s linear infinite;
+}
+
+/* AI Robot - clockwise */
+.hero-art .p-ai{
+  margin-left:-35px;
+  margin-top:162px;
+  transform-origin:35px -162px;
+  animation:atomHeroCW 11s linear infinite;
+}
+
+/* Game - faster anti-clockwise */
+.hero-art .p-game{
+  margin-left:-242px;
+  margin-top:-35px;
+  transform-origin:242px 35px;
+  animation:atomHeroCCW 8.2s linear infinite;
+}
+
+/* Nucleus */
+.hero-art .center-logo{
+  position:absolute;
+  inset:32%;
+  z-index:10;
+  display:grid;
+  place-items:center;
+  align-content:center;
+  text-align:center;
+  padding:13px;
+  overflow:visible;
+  border-radius:50%;
+  background:
+    radial-gradient(circle at 35% 28%,
+      #315dff 0%,
+      #6d56ff 23%,
+      #242d83 51%,
+      #111746 76%,
+      #07102d 100%);
+  border:1px solid rgba(117,224,255,.48);
+  box-shadow:
+    0 0 0 9px rgba(91,94,255,.06),
+    0 0 32px rgba(73,211,255,.48),
+    0 0 75px rgba(106,83,255,.43),
+    0 0 120px rgba(239,78,174,.14);
+  animation:atomNucleusPulse 2.7s ease-in-out infinite;
+}
+
+.hero-art .center-logo .t-logo{
+  width:70px;
+  height:70px;
+  min-width:70px;
+  position:relative;
+  z-index:12;
+}
+
+/* Hide Zen Alpha text without changing HTML */
+.hero-art .center-logo b{
+  font-size:0;
+  position:relative;
+  z-index:12;
+  margin-top:4px;
+}
+
+.hero-art .center-logo b::after{
+  content:"KIDS DIGITAL\A ACADEMY";
+  white-space:pre;
+  display:block;
+  color:#fff;
+  font-size:11px;
+  line-height:1.25;
+  font-weight:950;
+  letter-spacing:.45px;
+  text-shadow:0 0 9px rgba(76,226,255,.55);
+}
+
+/* Hide Demo Learner */
+.hero-art .center-logo small{
+  font-size:0;
+  position:relative;
+  z-index:12;
+}
+
+.hero-art .center-logo small::after{
+  content:"LEARNING NUCLEUS";
+  display:block;
+  margin-top:6px;
+  color:#aeeeff;
+  font-size:7px;
+  font-weight:800;
+  letter-spacing:.65px;
+}
+
+/* Extra Brain electron */
+.hero-art .center-logo::before{
+  content:"🧠";
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:52px;
+  height:52px;
+  margin-left:-26px;
+  margin-top:-174px;
+  transform-origin:26px 174px;
+  display:grid;
+  place-items:center;
+  font-size:27px;
+  border-radius:18px;
+  z-index:8;
+  background:linear-gradient(145deg,#4730a8,#dd4eae);
+  border:1px solid rgba(255,255,255,.25);
+  box-shadow:
+    0 8px 22px rgba(0,0,0,.3),
+    0 0 19px rgba(230,75,180,.35);
+  animation:atomHeroCW 6.4s linear infinite;
+}
+
+/* Extra Science electron */
+.hero-art .center-logo::after{
+  content:"🔬";
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:52px;
+  height:52px;
+  margin-left:-26px;
+  margin-top:122px;
+  transform-origin:26px -122px;
+  display:grid;
+  place-items:center;
+  font-size:27px;
+  border-radius:18px;
+  z-index:8;
+  background:linear-gradient(145deg,#206bc5,#32d9cf);
+  border:1px solid rgba(255,255,255,.25);
+  box-shadow:
+    0 8px 22px rgba(0,0,0,.3),
+    0 0 19px rgba(63,221,231,.35);
+  animation:atomHeroCCW 7.8s linear infinite;
+}
+
+/* Rotations */
+@keyframes atomHeroCW{
+  from{transform:rotate(0deg)}
+  to{transform:rotate(360deg)}
+}
+
+@keyframes atomHeroCCW{
+  from{transform:rotate(0deg)}
+  to{transform:rotate(-360deg)}
+}
+
+/* Electron glow */
+@keyframes atomElectronPulse{
+  0%,100%{
+    opacity:.35;
+    transform:scale(.93);
+  }
+  50%{
+    opacity:1;
+    transform:scale(1.1);
+  }
+}
+
+/* Nucleus energy */
+@keyframes atomNucleusPulse{
+  0%,100%{
+    transform:scale(.96);
+    filter:brightness(.96);
+  }
+  50%{
+    transform:scale(1.035);
+    filter:brightness(1.15);
+  }
+}
+
+/* Orbit glow */
+@keyframes atomRingGlowA{
+  from{
+    opacity:.42;
+    filter:drop-shadow(0 0 2px #655cff);
+  }
+  to{
+    opacity:1;
+    filter:drop-shadow(0 0 10px #655cff);
+  }
+}
+
+@keyframes atomRingGlowB{
+  from{
+    opacity:.40;
+    filter:drop-shadow(0 0 2px #36d6ce);
+  }
+  to{
+    opacity:.95;
+    filter:drop-shadow(0 0 10px #36d6ce);
+  }
+}
+
+/* Added satellite */
+@keyframes atomSatelliteFloat{
+  0%,100%{
+    transform:translate(0,0) rotate(-8deg);
+  }
+  50%{
+    transform:translate(22px,-17px) rotate(9deg);
+  }
+}
+
+/* Added comet */
+@keyframes atomCometFloat{
+  0%,100%{
+    transform:translate(0,0) rotate(-16deg);
+  }
+  50%{
+    transform:translate(-28px,-18px) rotate(-4deg);
+  }
+}
+
+/* Tablet */
+@media(max-width:900px){
+  .hero-art{
+    min-height:470px;
+  }
+
+  .hero-art .orbit{
+    transform:scale(.88);
+  }
+}
+
+/* Mobile */
+@media(max-width:650px){
+  .hero-art{
+    min-height:390px;
+  }
+
+  .hero-art .orbit{
+    transform:scale(.70);
+  }
+}
+
+/* Accessibility */
+@media(prefers-reduced-motion:reduce){
+  .hero-art .planet,
+  .hero-art .center-logo,
+  .hero-art .center-logo::before,
+  .hero-art .center-logo::after,
+  .hero-art::before,
+  .hero-art::after,
+  .hero-art .planet::before,
+  .hero-art .orbit::before,
+  .hero-art .orbit::after{
+    animation:none!important;
+  }
+}
