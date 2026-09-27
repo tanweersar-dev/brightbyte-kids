@@ -47,3 +47,21 @@ const ANALYTICS={GA_ID:'',GOAT_CODE:''};
 function analytics(){const GA=ANALYTICS.GA_ID,GOAT=ANALYTICS.GOAT_CODE;if(GA&&/^G-/.test(GA)){const s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id='+encodeURIComponent(GA);document.head.appendChild(s);window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config',GA)}if(GOAT){const s=document.createElement('script');s.async=true;s.dataset.goatcounter='https://'+GOAT+'.goatcounter.com/count';s.src='//gc.zgo.at/count.js';document.body.appendChild(s)}}
 async function loadPublicStats(){try{const r=await fetch(API+'/api/public/stats',{cache:'no-store'});if(r.ok){const d=await r.json();if($('enrolledCount'))$('enrolledCount').textContent=d.active_students??'—';if($('reviewCount'))$('reviewCount').textContent=d.approved_reviews??'—'}}catch{}if($('questionCount'))$('questionCount').textContent=(window.TANNU_QUESTION_COUNT||5000)+'+';const code=ANALYTICS.GOAT_CODE;if(code&&$('visitorCount')){try{const r=await fetch('https://'+code+'.goatcounter.com/counter/TOTAL.json',{cache:'no-store'});if(r.ok){const d=await r.json();$('visitorCount').textContent=d.count||d.count_unique||'—'}}catch{}}}
 renderDevices();renderModules();renderEnglish();renderConfidence();renderHealthy();renderGames();renderBadges();setupSpeech();loadStudents();loadCourse();analytics();loadPublicStats();page((location.hash||'#home').slice(1));
+document.addEventListener("click", function (e) {
+  for (let i = 0; i < 6; i++) {
+    const star = document.createElement("div");
+    star.className = "star-pop";
+
+    const offsetX = (Math.random() - 0.5) * 40;
+    const offsetY = (Math.random() - 0.5) * 40;
+
+    star.style.left = (e.clientX + offsetX) + "px";
+    star.style.top = (e.clientY + offsetY) + "px";
+
+    document.body.appendChild(star);
+
+    setTimeout(() => {
+      star.remove();
+    }, 700);
+  }
+});
