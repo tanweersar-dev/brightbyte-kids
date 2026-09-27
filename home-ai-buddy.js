@@ -3020,6 +3020,7 @@ function tannuV19UpgradeBuddy(){
    START V19
    ============================================================ */
 
+
 function tannuV19Start(){
 
   tannuV19AddStyle();
@@ -3028,74 +3029,30 @@ function tannuV19Start(){
 
   tannuV19UpgradeBuddy();
 
-
-  /*
-    Existing Buddy is created
-    asynchronously after question bank loads.
-
-    Observer decorates it immediately
-    once it appears.
-  */
-
-  const observer =
-    new MutationObserver(
-      ()=>{
-
-        tannuV19ReorderNavigation();
-
-        tannuV19UpgradeBuddy();
-
-      }
-    );
-
-
-  observer.observe(
-    document.body,
-    {
-      childList:true,
-      subtree:true
-    }
+  setTimeout(
+    ()=>{
+      tannuV19UpgradeBuddy();
+    },
+    500
   );
-
 
   setTimeout(
     ()=>{
-
-      tannuV19ReorderNavigation();
-
       tannuV19UpgradeBuddy();
-
     },
-    400
+    1500
   );
-
 
   setTimeout(
     ()=>{
-
-      tannuV19ReorderNavigation();
-
       tannuV19UpgradeBuddy();
-
     },
-    1200
-  );
-
-
-  setTimeout(
-    ()=>{
-
-      tannuV19ReorderNavigation();
-
-      tannuV19UpgradeBuddy();
-
-    },
-    2500
+    3000
   );
 
 }
 
-
+  
 if(
   document.readyState==="loading"
 ){
