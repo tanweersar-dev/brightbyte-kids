@@ -510,3 +510,193 @@ box-sizing:border-box!important
   }
 
 }
+
+
+/* ===== EXTRA CABLE COLORS ===== */
+.cable-swatch.audio{background:#8d63ff}
+.cable-swatch.printer{background:#8a8a8a}
+.cable-swatch.coax{background:#444}
+.cable-swatch.telephone{background:#b457ff}
+
+.cable-path.audio{stroke:#8d63ff}
+.cable-path.printer{stroke:#8a8a8a}
+
+/* ===== EXTRA CPU PORTS ===== */
+.port-audio-out{right:-22px;top:112px}
+.port-printer-out{left:-18px;top:146px}
+
+/* ===== SPEAKER ===== */
+.speaker-built{
+  left:12%;
+  top:60%;
+  width:76px;
+  height:98px;
+  z-index:16;
+}
+.speaker-body{
+  width:100%;
+  height:100%;
+  border-radius:18px;
+  background:linear-gradient(160deg,#283250,#141c34);
+  box-shadow:0 10px 18px rgba(0,0,0,.22);
+  position:relative;
+  border:3px solid #1b2440;
+}
+.speaker-ring{
+  position:absolute;
+  left:50%;
+  transform:translateX(-50%);
+  border-radius:50%;
+  background:#121827;
+  border:6px solid #3d4c78;
+  box-shadow:inset 0 0 0 3px #6a7ab0;
+}
+.speaker-ring.big{
+  width:34px;
+  height:34px;
+  bottom:18px;
+}
+.speaker-ring.small{
+  width:18px;
+  height:18px;
+  top:16px;
+}
+.port-speaker-in{
+  right:-22px;
+  top:38px;
+}
+
+/* ===== PRINTER ===== */
+.printer-built{
+  left:68%;
+  top:61%;
+  width:132px;
+  height:92px;
+  z-index:16;
+}
+.printer-body{
+  width:100%;
+  height:100%;
+  border-radius:16px;
+  background:linear-gradient(160deg,#eef2f8,#cad3e1);
+  border:3px solid #aeb8ca;
+  box-shadow:0 10px 18px rgba(0,0,0,.18);
+  position:relative;
+}
+.printer-paper{
+  position:absolute;
+  left:24px;
+  top:-18px;
+  width:82px;
+  height:30px;
+  border-radius:8px 8px 2px 2px;
+  background:#fff;
+  border:2px solid #d9deea;
+}
+.printer-slot{
+  position:absolute;
+  left:16px;
+  top:30px;
+  width:100px;
+  height:18px;
+  border-radius:8px;
+  background:#7d879a;
+}
+.printer-light{
+  position:absolute;
+  right:12px;
+  bottom:10px;
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#29f394;
+  box-shadow:0 0 12px #29f394;
+}
+.port-printer-usb{
+  right:-22px;
+  top:32px;
+}
+
+/* ===== ROUND CERTIFICATE LOGO ===== */
+.cert-logo{
+  width:60px;
+  height:60px;
+  border-radius:50%;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,#22cfc2,#6d5dfc,#f04fa8);
+  color:#fff;
+  font-size:32px;
+  font-weight:1000;
+  box-shadow:0 8px 20px rgba(77,61,167,.25);
+}
+.cert-logo span{
+  display:block;
+  transform:translateY(-1px);
+}
+
+/* ===== SIGNATURE ===== */
+.signature-block{
+  border-top:1px solid #777;
+  padding-top:9px;
+}
+.tannu-signature{
+  font-family:"Brush Script MT","Segoe Script","Lucida Handwriting",cursive;
+  font-size:42px;
+  font-weight:700;
+  line-height:1;
+  color:#2549a5;
+  transform:rotate(-6deg);
+  letter-spacing:1px;
+}
+.signature-block small{
+  display:block;
+  margin-top:6px;
+  font-size:10px;
+  color:#777;
+}
+
+/* ===== CELEBRATION EFFECT ===== */
+.celebration{
+  position:absolute;
+  inset:0;
+  z-index:60;
+  pointer-events:none;
+  overflow:hidden;
+  background:radial-gradient(circle at center, rgba(255,255,255,.18), rgba(255,255,255,0) 60%);
+}
+.celebration-center{
+  position:absolute;
+  left:50%;
+  top:14%;
+  transform:translateX(-50%);
+  background:#fff;
+  color:#5e4fd0;
+  font-weight:1000;
+  font-size:28px;
+  padding:16px 28px;
+  border-radius:20px;
+  box-shadow:0 15px 45px rgba(0,0,0,.20);
+  animation:pop .35s ease;
+}
+.fx{
+  position:absolute;
+  font-size:34px;
+  animation:floatParty 3s linear infinite;
+  opacity:.95;
+}
+.fx1{left:6%;top:75%;animation-delay:0s}
+.fx2{left:14%;top:22%;animation-delay:.3s}
+.fx3{left:25%;top:70%;animation-delay:.6s}
+.fx4{left:77%;top:18%;animation-delay:.9s}
+.fx5{left:88%;top:66%;animation-delay:1.2s}
+.fx6{left:60%;top:24%;animation-delay:1.5s}
+.fx7{left:42%;top:74%;animation-delay:1.8s}
+.fx8{left:92%;top:30%;animation-delay:2.1s}
+
+@keyframes floatParty{
+  0%{transform:translateY(0) scale(.9) rotate(0deg);opacity:.1}
+  25%{opacity:1}
+  50%{transform:translateY(-45px) scale(1.08) rotate(10deg)}
+  100%{transform:translateY(-90px) scale(1.2) rotate(-8deg);opacity:0}
+}
