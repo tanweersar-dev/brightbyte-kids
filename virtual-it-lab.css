@@ -246,3 +246,267 @@ box-sizing:border-box!important
 .seal{width:24mm!important;height:24mm!important}
 
 }
+
+/* =========================================================
+   V16 EXACT PORT TARGET FIX
+   Keep every glowing port in its REAL physical position
+   ========================================================= */
+
+/* Never move real ports when they start glowing */
+.port.target{
+  position:absolute !important;
+  transform:none !important;
+}
+
+.router-port.target{
+  position:absolute !important;
+  transform:none !important;
+}
+
+/* Power strip sockets must stay inside their normal row */
+.socket.target{
+  position:relative !important;
+  transform:none !important;
+}
+
+/* Keyboard + Mouse must remain at their original desk positions */
+.keyboard-built.target,
+.mouse-built.target{
+  position:absolute !important;
+  transform:none !important;
+}
+
+
+/* =========================================================
+   DO NOT SHOW PREVIEW CABLE
+   First show ONLY the two correct blinking ports.
+   Cable becomes visible only AFTER connection is completed.
+   ========================================================= */
+
+.cable-path.preview{
+  display:none !important;
+}
+
+
+/* =========================================================
+   HEAVY PORT BLINK WITHOUT MOVING THE PORT
+   ========================================================= */
+
+.port.target,
+.router-port.target,
+.socket.target{
+  border-color:#fff36a !important;
+
+  outline:
+    4px solid rgba(255,221,35,.35) !important;
+
+  box-shadow:
+    0 0 0 4px rgba(255,238,73,.38),
+    0 0 14px 6px rgba(255,216,0,.95),
+    0 0 30px 12px rgba(255,184,0,.78),
+    0 0 52px 20px rgba(255,225,65,.48) !important;
+
+  animation:
+    vitExactPortBlink
+    .38s
+    ease-in-out
+    infinite
+    alternate !important;
+}
+
+
+@keyframes vitExactPortBlink{
+
+  from{
+    filter:
+      brightness(1);
+
+    box-shadow:
+      0 0 0 3px rgba(255,238,73,.28),
+      0 0 12px 5px rgba(255,216,0,.72),
+      0 0 24px 9px rgba(255,184,0,.52);
+  }
+
+  to{
+    filter:
+      brightness(1.45);
+
+    box-shadow:
+      0 0 0 5px rgba(255,248,130,.52),
+      0 0 20px 9px rgba(255,223,0,1),
+      0 0 42px 17px rgba(255,178,0,.90),
+      0 0 65px 26px rgba(255,225,65,.58);
+  }
+
+}
+
+
+/* =========================================================
+   KEYBOARD USB VISUAL TARGET
+   Do not glow the whole keyboard.
+   Show a small realistic USB socket at keyboard edge.
+   ========================================================= */
+
+.keyboard-built.target{
+  box-shadow:
+    inset 0 0 0 2px #505867,
+    0 10px 22px #0003 !important;
+
+  outline:none !important;
+
+  animation:none !important;
+}
+
+
+.keyboard-built.target::after{
+  content:"USB";
+
+  position:absolute;
+
+  right:-19px;
+  top:28px;
+
+  width:28px;
+  height:18px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:5px;
+
+  background:#202538;
+
+  border:2px solid white;
+
+  color:white;
+
+  font-size:6px;
+  font-weight:1000;
+
+  box-shadow:
+    0 0 0 4px #ffe64d66,
+    0 0 18px 8px #ffc400,
+    0 0 38px 15px #ffd84d99;
+
+  animation:
+    vitDeviceUsbBlink
+    .38s
+    infinite
+    alternate;
+}
+
+
+/* =========================================================
+   MOUSE USB VISUAL TARGET
+   ========================================================= */
+
+.mouse-built.target{
+  box-shadow:
+    inset 0 0 0 2px #566171,
+    0 10px 20px #0003 !important;
+
+  outline:none !important;
+
+  animation:none !important;
+}
+
+
+.mouse-built.target::after{
+  content:"USB";
+
+  position:absolute;
+
+  left:-19px;
+  top:38px;
+
+  width:28px;
+  height:18px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:5px;
+
+  background:#202538;
+
+  border:2px solid white;
+
+  color:white;
+
+  font-size:6px;
+  font-weight:1000;
+
+  box-shadow:
+    0 0 0 4px #ffe64d66,
+    0 0 18px 8px #ffc400,
+    0 0 38px 15px #ffd84d99;
+
+  animation:
+    vitDeviceUsbBlink
+    .38s
+    infinite
+    alternate;
+}
+
+
+@keyframes vitDeviceUsbBlink{
+
+  from{
+    filter:brightness(1);
+  }
+
+  to{
+    filter:brightness(1.6);
+
+    box-shadow:
+      0 0 0 5px #fff36a88,
+      0 0 24px 11px #ffc400,
+      0 0 45px 19px #ffd84daa;
+  }
+
+}
+
+
+/* =========================================================
+   SELECTED CABLE BUTTON
+   Button can glow, but nothing on the desk should shift.
+   ========================================================= */
+
+.cable-item.selected{
+  transform:none !important;
+
+  outline:
+    4px solid #ffc72f !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fffbe8,
+      #fff0a8
+    ) !important;
+
+  box-shadow:
+    0 0 0 4px rgba(255,199,47,.18),
+    0 0 24px rgba(255,190,0,.90) !important;
+
+  animation:
+    vitCableButtonOnlyGlow
+    .45s
+    infinite
+    alternate !important;
+}
+
+
+@keyframes vitCableButtonOnlyGlow{
+
+  from{
+    filter:
+      brightness(1);
+  }
+
+  to{
+    filter:
+      brightness(1.15);
+  }
+
+}
