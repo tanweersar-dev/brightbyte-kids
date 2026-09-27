@@ -337,3 +337,738 @@ body{
   }
 
 }
+
+
+/* ============================================================
+   V21 TANNU MAGICAL KIDS UNIVERSE
+   Fairy Wand Cursor + Animated Cosmos
+   ============================================================ */
+
+
+/* ------------------------------------------------------------
+   MAGICAL FAIRY WAND POINTER
+   Only desktop/laptop mouse devices
+   ------------------------------------------------------------ */
+
+@media (pointer:fine){
+
+  body.tannu-wand-ready,
+  body.tannu-wand-ready *{
+    cursor:none !important;
+  }
+
+  .tannu-wand-cursor{
+    --wand-x:-100px;
+    --wand-y:-100px;
+
+    position:fixed;
+
+    left:0;
+    top:0;
+
+    width:58px;
+    height:78px;
+
+    z-index:1000001;
+
+    pointer-events:none;
+
+    transform:
+      translate3d(
+        calc(var(--wand-x) - 15px),
+        calc(var(--wand-y) - 15px),
+        0
+      )
+      rotate(-24deg);
+
+    transform-origin:15px 15px;
+
+    filter:
+      drop-shadow(0 0 5px #fff)
+      drop-shadow(0 0 11px #72eff0)
+      drop-shadow(0 0 18px #ff72c6);
+
+    transition:
+      opacity .12s ease;
+
+    will-change:transform;
+  }
+
+
+  .tannu-wand-star{
+    position:absolute;
+
+    left:0;
+    top:0;
+
+    width:32px;
+    height:32px;
+
+    display:grid;
+    place-items:center;
+
+    font-size:32px;
+
+    line-height:1;
+
+    color:#ffe05d;
+
+    text-shadow:
+      0 0 4px #fff,
+      0 0 10px #ffe05d,
+      0 0 18px #ff78cf;
+
+    animation:
+      tannuWandStarGlow
+      1.1s
+      ease-in-out
+      infinite alternate;
+  }
+
+
+  .tannu-wand-star::after{
+    content:"✦";
+
+    position:absolute;
+
+    font-size:15px;
+
+    color:#7cf7ff;
+
+    right:-8px;
+    top:-5px;
+
+    animation:
+      tannuTinyStar
+      .8s
+      ease-in-out
+      infinite alternate;
+  }
+
+
+  .tannu-wand-stick{
+    position:absolute;
+
+    left:20px;
+    top:27px;
+
+    width:8px;
+    height:43px;
+
+    border-radius:999px;
+
+    background:
+      linear-gradient(
+        180deg,
+        #fffbd0 0%,
+        #ffda64 22%,
+        #ff7ac8 55%,
+        #876dff 100%
+      );
+
+    border:
+      1px solid
+      rgba(255,255,255,.85);
+
+    box-shadow:
+      inset 1px 0 3px #fff,
+      0 0 8px #ff7aca;
+  }
+
+
+  .tannu-wand-stick::after{
+    content:"";
+
+    position:absolute;
+
+    left:50%;
+    bottom:-8px;
+
+    width:14px;
+    height:14px;
+
+    transform:
+      translateX(-50%)
+      rotate(45deg);
+
+    border-radius:4px;
+
+    background:
+      linear-gradient(
+        135deg,
+        #6ffff3,
+        #8b6dff,
+        #ff78c7
+      );
+
+    box-shadow:
+      0 0 9px #74f6ed;
+  }
+
+
+  .tannu-wand-cursor.magic-click{
+    animation:
+      tannuWandTap
+      .28s
+      ease-out;
+  }
+
+}
+
+
+@keyframes tannuWandStarGlow{
+
+  from{
+    transform:
+      scale(.92)
+      rotate(-8deg);
+  }
+
+  to{
+    transform:
+      scale(1.16)
+      rotate(8deg);
+  }
+
+}
+
+
+@keyframes tannuTinyStar{
+
+  from{
+    opacity:.25;
+    transform:
+      scale(.6)
+      rotate(0deg);
+  }
+
+  to{
+    opacity:1;
+    transform:
+      scale(1.25)
+      rotate(60deg);
+  }
+
+}
+
+
+@keyframes tannuWandTap{
+
+  0%{
+    scale:1;
+  }
+
+  45%{
+    scale:.78;
+  }
+
+  100%{
+    scale:1.12;
+  }
+
+}
+
+
+/* ------------------------------------------------------------
+   WAND TRAIL
+   ------------------------------------------------------------ */
+
+.tannu-wand-dust{
+
+  --dust-color:#fff6a8;
+
+  position:fixed;
+
+  width:8px;
+  height:8px;
+
+  z-index:1000000;
+
+  pointer-events:none;
+
+  color:var(--dust-color);
+
+  background:
+    var(--dust-color);
+
+  clip-path:
+    polygon(
+      50% 0,
+      61% 36%,
+      100% 50%,
+      61% 64%,
+      50% 100%,
+      39% 64%,
+      0 50%,
+      39% 36%
+    );
+
+  filter:
+    drop-shadow(
+      0 0 5px
+      var(--dust-color)
+    );
+
+  animation:
+    tannuWandDust
+    .65s
+    ease-out
+    forwards;
+}
+
+
+@keyframes tannuWandDust{
+
+  from{
+    transform:
+      translate(-50%,-50%)
+      scale(1.2);
+
+    opacity:1;
+  }
+
+  to{
+    transform:
+      translate(-50%,18px)
+      scale(.15)
+      rotate(120deg);
+
+    opacity:0;
+  }
+
+}
+
+
+/* ============================================================
+   TANNU COSMOS FIELD
+   ============================================================ */
+
+#tannuCosmosField{
+
+  position:absolute;
+
+  inset:0;
+
+  overflow:hidden;
+
+  pointer-events:none;
+
+  z-index:2;
+}
+
+
+/* giant colourful nebula clouds */
+
+#tannuCosmosField::before{
+
+  content:"";
+
+  position:absolute;
+
+  inset:-22%;
+
+  background:
+
+    radial-gradient(
+      circle at 18% 23%,
+      rgba(119,76,255,.22),
+      transparent 20%
+    ),
+
+    radial-gradient(
+      circle at 76% 18%,
+      rgba(37,221,216,.20),
+      transparent 23%
+    ),
+
+    radial-gradient(
+      circle at 58% 77%,
+      rgba(255,76,169,.13),
+      transparent 25%
+    ),
+
+    radial-gradient(
+      circle at 25% 83%,
+      rgba(255,196,68,.10),
+      transparent 22%
+    );
+
+  filter:
+    blur(22px);
+
+  animation:
+    tannuNebulaDance
+    15s
+    ease-in-out
+    infinite alternate;
+}
+
+
+@keyframes tannuNebulaDance{
+
+  from{
+    transform:
+      translate3d(-2%,-1%,0)
+      scale(1);
+  }
+
+  to{
+    transform:
+      translate3d(3%,2%,0)
+      scale(1.08);
+  }
+
+}
+
+
+/* ------------------------------------------------------------
+   FLYING SPACE OBJECTS
+   ------------------------------------------------------------ */
+
+.tannu-cosmos-fly{
+
+  --space-size:34px;
+  --space-opacity:.85;
+  --space-pos:50%;
+  --space-duration:20s;
+  --space-delay:-4s;
+  --space-drift:30px;
+  --space-spin:360deg;
+
+  position:absolute;
+
+  pointer-events:none;
+
+  font-size:
+    var(--space-size);
+
+  line-height:1;
+
+  opacity:
+    var(--space-opacity);
+
+  filter:
+    drop-shadow(
+      0 0 8px
+      rgba(255,255,255,.22)
+    );
+
+  will-change:transform;
+
+  user-select:none;
+}
+
+
+/* left -> right */
+
+.tannu-space-lr{
+
+  left:-110px;
+
+  top:
+    var(--space-pos);
+
+  animation:
+    tannuSpaceLR
+    var(--space-duration)
+    linear
+    var(--space-delay)
+    infinite;
+}
+
+
+@keyframes tannuSpaceLR{
+
+  from{
+    transform:
+      translate3d(0,0,0)
+      rotate(0deg);
+  }
+
+  to{
+    transform:
+      translate3d(
+        120vw,
+        var(--space-drift),
+        0
+      )
+      rotate(
+        var(--space-spin)
+      );
+  }
+
+}
+
+
+/* right -> left */
+
+.tannu-space-rl{
+
+  right:-110px;
+
+  top:
+    var(--space-pos);
+
+  animation:
+    tannuSpaceRL
+    var(--space-duration)
+    linear
+    var(--space-delay)
+    infinite;
+}
+
+
+@keyframes tannuSpaceRL{
+
+  from{
+    transform:
+      translate3d(0,0,0)
+      rotate(0deg);
+  }
+
+  to{
+    transform:
+      translate3d(
+        -120vw,
+        var(--space-drift),
+        0
+      )
+      rotate(
+        calc(
+          var(--space-spin) * -1
+        )
+      );
+  }
+
+}
+
+
+/* top -> bottom */
+
+.tannu-space-down{
+
+  top:-100px;
+
+  left:
+    var(--space-pos);
+
+  animation:
+    tannuSpaceDown
+    var(--space-duration)
+    linear
+    var(--space-delay)
+    infinite;
+}
+
+
+@keyframes tannuSpaceDown{
+
+  from{
+    transform:
+      translate3d(0,0,0)
+      rotate(0deg);
+  }
+
+  to{
+    transform:
+      translate3d(
+        var(--space-drift),
+        120vh,
+        0
+      )
+      rotate(
+        var(--space-spin)
+      );
+  }
+
+}
+
+
+/* bottom -> top */
+
+.tannu-space-up{
+
+  bottom:-100px;
+
+  left:
+    var(--space-pos);
+
+  animation:
+    tannuSpaceUp
+    var(--space-duration)
+    linear
+    var(--space-delay)
+    infinite;
+}
+
+
+@keyframes tannuSpaceUp{
+
+  from{
+    transform:
+      translate3d(0,0,0)
+      rotate(0deg);
+  }
+
+  to{
+    transform:
+      translate3d(
+        var(--space-drift),
+        -120vh,
+        0
+      )
+      rotate(
+        var(--space-spin)
+      );
+  }
+
+}
+
+
+/* ============================================================
+   CUSTOM PLANETS
+   ============================================================ */
+
+.tannu-cosmos-planet{
+
+  width:
+    var(--space-size);
+
+  height:
+    var(--space-size);
+
+  border-radius:50%;
+
+  font-size:0;
+
+  box-shadow:
+    inset -8px -8px 13px
+    rgba(0,0,0,.20),
+
+    0 0 12px
+    rgba(255,255,255,.16);
+}
+
+
+/* Jupiter */
+
+.tannu-jupiter{
+
+  background:
+    repeating-linear-gradient(
+      180deg,
+      #e6c39d 0 7px,
+      #bd805b 7px 12px,
+      #f0d2a9 12px 18px,
+      #a9684e 18px 22px
+    );
+}
+
+
+.tannu-jupiter::after{
+
+  content:"";
+
+  position:absolute;
+
+  right:18%;
+
+  top:58%;
+
+  width:24%;
+
+  height:12%;
+
+  border-radius:50%;
+
+  background:
+    #b55242;
+
+  opacity:.8;
+}
+
+
+/* Mars */
+
+.tannu-mars{
+
+  background:
+
+    radial-gradient(
+      circle at 30% 28%,
+      #7f291f 0 6%,
+      transparent 7%
+    ),
+
+    radial-gradient(
+      circle at 68% 62%,
+      #7f291f 0 8%,
+      transparent 9%
+    ),
+
+    radial-gradient(
+      circle at 60% 22%,
+      #ef8d5d,
+      #bd4b32 56%,
+      #6f221b 100%
+    );
+}
+
+
+/* Neptune */
+
+.tannu-neptune{
+
+  background:
+    radial-gradient(
+      circle at 35% 28%,
+      #76d9ff,
+      #367de9 48%,
+      #2442a4 100%
+    );
+}
+
+
+/* Venus */
+
+.tannu-venus{
+
+  background:
+    radial-gradient(
+      circle at 30% 25%,
+      #fff2a2,
+      #e9b854 48%,
+      #aa692d 100%
+    );
+}
+
+
+/* ------------------------------------------------------------
+   COSMIC STAR RAIN
+   ------------------------------------------------------------ */
+
+.tannu-star-rain{
+
+  color:#fff3a2;
+
+  text-shadow:
+    0 0 6px #fff,
+    0 0 12px #ffe76e;
+
+  opacity:.7;
+}
+
+
+/* keep animations lighter for accessibility */
+
+@media(prefers-reduced-motion:reduce){
+
+  #tannuCosmosField{
+    display:none!important;
+  }
+
+  .tannu-wand-dust{
+    display:none!important;
+  }
+
+}
