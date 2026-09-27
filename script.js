@@ -47,21 +47,166 @@ const ANALYTICS={GA_ID:'',GOAT_CODE:''};
 function analytics(){const GA=ANALYTICS.GA_ID,GOAT=ANALYTICS.GOAT_CODE;if(GA&&/^G-/.test(GA)){const s=document.createElement('script');s.async=true;s.src='https://www.googletagmanager.com/gtag/js?id='+encodeURIComponent(GA);document.head.appendChild(s);window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config',GA)}if(GOAT){const s=document.createElement('script');s.async=true;s.dataset.goatcounter='https://'+GOAT+'.goatcounter.com/count';s.src='//gc.zgo.at/count.js';document.body.appendChild(s)}}
 async function loadPublicStats(){try{const r=await fetch(API+'/api/public/stats',{cache:'no-store'});if(r.ok){const d=await r.json();if($('enrolledCount'))$('enrolledCount').textContent=d.active_students??'—';if($('reviewCount'))$('reviewCount').textContent=d.approved_reviews??'—'}}catch{}if($('questionCount'))$('questionCount').textContent=(window.TANNU_QUESTION_COUNT||5000)+'+';const code=ANALYTICS.GOAT_CODE;if(code&&$('visitorCount')){try{const r=await fetch('https://'+code+'.goatcounter.com/counter/TOTAL.json',{cache:'no-store'});if(r.ok){const d=await r.json();$('visitorCount').textContent=d.count||d.count_unique||'—'}}catch{}}}
 renderDevices();renderModules();renderEnglish();renderConfidence();renderHealthy();renderGames();renderBadges();setupSpeech();loadStudents();loadCourse();analytics();loadPublicStats();page((location.hash||'#home').slice(1));
-document.addEventListener("click", function (e) {
-  for (let i = 0; i < 6; i++) {
-    const star = document.createElement("div");
-    star.className = "star-pop";
+/* ============================================================
+   V20 MAGICAL POINTER STAR BURST
+   Mouse + touchscreen
+   ============================================================ */
 
-    const offsetX = (Math.random() - 0.5) * 40;
-    const offsetY = (Math.random() - 0.5) * 40;
+document.addEventListener(
+  "pointerdown",
+  function(e){
 
-    star.style.left = (e.clientX + offsetX) + "px";
-    star.style.top = (e.clientY + offsetY) + "px";
+    if(
+      typeof e.button === "number" &&
+      e.button !== 0
+    ){
+      return;
+    }
 
-    document.body.appendChild(star);
+    const colours=[
+      "#ffd95a",
+      "#ff72b8",
+      "#72eff0",
+      "#8d7cff",
+      "#71e49e",
+      "#ff9b62"
+    ];
 
-    setTimeout(() => {
-      star.remove();
-    }, 700);
+
+    /* center magic ring */
+
+    const ring=
+      document.createElement(
+        "span"
+      );
+
+    ring.className=
+      "click-magic-ring";
+
+    ring.style.left=
+      e.clientX+"px";
+
+    ring.style.top=
+      e.clientY+"px";
+
+    document.body
+      .appendChild(ring);
+
+    setTimeout(
+      ()=>ring.remove(),
+      700
+    );
+
+
+    /* flying stars */
+
+    for(
+      let i=0;
+      i<10;
+      i++
+    ){
+
+      const star=
+        document.createElement(
+          "span"
+        );
+
+      star.className=
+        "star-pop";
+
+
+      const angle=
+        (
+          Math.PI*2/10
+        )*i
+        +
+        (
+          Math.random()-.5
+        )*.45;
+
+
+      const distance=
+        34+
+        Math.random()*52;
+
+
+      const dx=
+        Math.cos(angle)
+        *
+        distance;
+
+
+      const dy=
+        Math.sin(angle)
+        *
+        distance;
+
+
+      star.style.left=
+        e.clientX+"px";
+
+      star.style.top=
+        e.clientY+"px";
+
+
+      star.style.setProperty(
+        "--dx",
+        dx+"px"
+      );
+
+
+      star.style.setProperty(
+        "--dy",
+        dy+"px"
+      );
+
+
+      star.style.setProperty(
+        "--rot",
+        (
+          Math.random()*420-210
+        )
+        +"deg"
+      );
+
+
+      star.style.setProperty(
+        "--star-color",
+        colours[
+          Math.floor(
+            Math.random()
+            *
+            colours.length
+          )
+        ]
+      );
+
+
+      const size=
+        10+
+        Math.random()*13;
+
+
+      star.style.width=
+        size+"px";
+
+      star.style.height=
+        size+"px";
+
+
+      document.body
+        .appendChild(star);
+
+
+      setTimeout(
+        ()=>star.remove(),
+        900
+      );
+
+    }
+
+  },
+  {
+    passive:true
   }
-});
+);
