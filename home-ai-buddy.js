@@ -2,8 +2,8 @@
 "use strict";
 
 /*
-  Tannu Learning Buddy V17
-  FREE • GLOBAL • VOICE • CONVERSATION FLOW
+  Tannu Learning Buddy V18
+  FREE • GLOBAL • VOICE • DRAGGABLE • CONVERSATION FLOW
   No paid API. No OpenAI key.
   Loads question-bank.js automatically when needed.
 */
@@ -277,51 +277,126 @@ const OFFTOPIC=/dating|girlfriend|boyfriend|romance|dirty joke|gambling|betting|
 function socialIntent(text){
   const q=normalize(text);
   const n=firstName();
-  if(hasAny(q,["how are you","how r you","kaise ho","kya haal hai","kya hal hai","haal kaisa hai","kya haal bhai","kya haal hai bhai"])){
-    state.lastIntent="how_are_you";saveState();
+
+  const asksHowAreYou =
+    hasAny(q,[
+      "how are you","how r you","how are u",
+      "kaise ho","kaise hain","kaisa ho","kaisi ho",
+      "kya haal hai","kya hal hai","kya haal","kya hal",
+      "haal kaisa hai","hal kaisa hai",
+      "kya haal bhai","kya haal hai bhai",
+      "kya scene hai","sab thik","sab theek"
+    ]) ||
+    ((hasToken(q,"haal")||hasToken(q,"hal")) &&
+      (hasToken(q,"kya")||hasToken(q,"kaisa")||hasToken(q,"kaise"))) ||
+    (hasToken(q,"kaise") && (hasToken(q,"ho")||hasToken(q,"hain")));
+
+  if(asksHowAreYou){
+    state.lastIntent="how_are_you";
+    saveState();
     return hindiMode(text)
-      ? `Main bilkul badhiya hoon 😄 Thank you, ${n}! Tum kaise ho, ${n}? Study se related jo bhi janna ho poochho—Computer, English, GK, Science ya Safety.`
-      : `I'm doing great 😄 Thank you, ${n}! How are you, ${n}? Ask me anything about your studies—Computers, English, GK, Science or Safety.`;
+      ? `Main bilkul badhiya hoon 😄 Thank you, ${n}! Tum kaise ho, ${n}? Study se related jo bhi janna ho poochho—Computer, English, GK, Science, Safety, AI ya Networking.`
+      : `I'm doing great 😄 Thank you, ${n}! How are you, ${n}? Ask me anything about your studies—Computers, English, GK, Science, Safety, AI or Networking.`;
   }
-  if(state.lastIntent==="how_are_you" && hasAny(q,["i am fine","i am good","fine","good","main thik hoon","mai thik hu","main theek hoon","mai theek hu","badhiya hoon","mast hoon"])){
-    state.lastIntent="ready_to_learn";saveState();
+
+  const saysFine =
+    hasAny(q,[
+      "i am fine","i am good","i'm fine","i'm good",
+      "fine","good","great","doing good",
+      "main thik hoon","mai thik hu","main theek hoon","mai theek hu",
+      "hum thik hain","hum theek hain","badhiya hoon","mast hoon",
+      "main badhiya hoon","main mast hoon","thik hoon","theek hoon"
+    ]) ||
+    ((hasToken(q,"thik")||hasToken(q,"theek")||hasToken(q,"badhiya")||hasToken(q,"mast")) &&
+      (hasToken(q,"hoon")||hasToken(q,"hu")||hasToken(q,"hain")));
+
+  if(state.lastIntent==="how_are_you" && saysFine){
+    state.lastIntent="ready_to_learn";
+    saveState();
     return hindiMode(text)
       ? `Ye sunkar achha laga, ${n}! 😄 Chalo learning continue karte hain. Tum koi sawal poochho, ya bolo “quiz do”.`
       : `Glad to hear that, ${n}! 😄 Let's keep learning. Ask me a question or say “quiz me”.`;
   }
-  if(hasAny(q,["hi","hello","hey","namaste","salam","salaam","good morning","good afternoon","good evening"])){
-    state.lastIntent="greeting";saveState();
+
+  if(state.lastIntent==="how_are_you" && hasAny(q,["aur tum","tum batao","aap batao","what about you","and you"])){
     return hindiMode(text)
-      ? `Hi ${n}! 👋 Kaise ho? Main Tannu Learning Buddy hoon. Chalo thodi fun learning aur baat-cheet karte hain.`
-      : `Hi ${n}! 👋 How are you? I'm Tannu Learning Buddy. Let's chat and learn something fun.`;
+      ? `Main bhi bilkul badhiya hoon 😄 ${n}! Main yahin hoon tumhare learning questions ke liye. Bolo—Computer, GK, English, Science ya Quiz?`
+      : `I'm doing great too 😄 ${n}! I'm right here for your learning questions. Computers, GK, English, Science or a Quiz?`;
   }
-  if(hasAny(q,["tum kaun ho","who are you","what are you","are you a robot"])){
-    return hindiMode(text)?`Main Tannu Learning Buddy hoon 🤖, ${n}. Main tumhare saath safe chat, learning, quiz aur practice karta hoon.`:`I'm Tannu Learning Buddy 🤖, ${n}. I can safely chat, teach, quiz and practise with you.`;
+
+  if(hasAny(q,[
+    "hi","hello","hey","namaste","salam","salaam","assalamualaikum",
+    "good morning","good afternoon","good evening","hello bhai","hi bhai"
+  ])){
+    state.lastIntent="greeting";
+    saveState();
+    return hindiMode(text)
+      ? `Hi ${n}! 👋 Main bilkul ready hoon 😄 Tum kaise ho? Chalo friendly baat-cheet ke saath kuch fun learning bhi karte hain.`
+      : `Hi ${n}! 👋 I'm ready 😄 How are you? We can chat and learn something fun together.`;
   }
-  if(hasAny(q,["tum kya kar rahe ho","what are you doing","kya kar rahe ho"])){
-    return hindiMode(text)?`Main abhi tumhare saath learning chat kar raha hoon 😄 ${n}, tum kya seekhna chahte ho?`:`I'm chatting and learning with you right now 😄 ${n}, what would you like to learn?`;
+
+  if(hasAny(q,["tum kaun ho","who are you","what are you","are you a robot","tum robot ho"])){
+    return hindiMode(text)
+      ? `Main Tannu Learning Buddy hoon 🤖, ${n}. Main tumhare saath safe chat, learning, quiz aur practice karta hoon.`
+      : `I'm Tannu Learning Buddy 🤖, ${n}. I can safely chat, teach, quiz and practise with you.`;
   }
-  if(hasAny(q,["dost banoge","friend banoge","are you my friend","will you be my friend"])){
-    return hindiMode(text)?`Main tumhara learning buddy zaroor hoon 😊 Hum saath me questions, quiz aur practice kar sakte hain.`:`I can be your learning buddy 😊 We can do questions, quizzes and practice together.`;
+
+  if(hasAny(q,["tum kya kar rahe ho","what are you doing","kya kar rahe ho","kya kar rahi ho"])){
+    return hindiMode(text)
+      ? `Main abhi tumhare saath learning chat kar raha hoon 😄 ${n}, tum kya seekhna chahte ho?`
+      : `I'm chatting and learning with you right now 😄 ${n}, what would you like to learn?`;
   }
+
+  if(hasAny(q,["dost banoge","friend banoge","are you my friend","will you be my friend","mere dost ho"])){
+    return hindiMode(text)
+      ? `Main tumhara learning buddy zaroor hoon 😊 Hum saath me questions, quiz aur practice kar sakte hain.`
+      : `I can be your learning buddy 😊 We can do questions, quizzes and practice together.`;
+  }
+
   if(hasAny(q,["thank you","thanks","shukriya","dhanyavad","dhanyawaad"])){
-    return hindiMode(text)?`Welcome ${n}! ⭐ Aise hi questions poochhte raho. Mujhe tumhari learning me help karke achha lagta hai.`:`You're welcome, ${n}! ⭐ Keep asking questions. I enjoy helping you learn.`;
+    return hindiMode(text)
+      ? `Welcome ${n}! ⭐ Aise hi questions poochhte raho. Mujhe tumhari learning me help karke achha lagta hai.`
+      : `You're welcome, ${n}! ⭐ Keep asking questions. I enjoy helping you learn.`;
   }
+
   if(hasAny(q,["bye","goodbye","see you","milte hain","allah hafiz","khuda hafiz"])){
-    return hindiMode(text)?`Bye ${n}! 👋 Curious raho, safe raho aur phir learning ke liye aana.`:`Bye ${n}! 👋 Stay curious, stay safe and come back to learn more.`;
+    return hindiMode(text)
+      ? `Bye ${n}! 👋 Curious raho, safe raho aur phir learning ke liye aana.`
+      : `Bye ${n}! 👋 Stay curious, stay safe and come back to learn more.`;
   }
+
   if(hasAny(q,["joke sunao","tell me a joke","joke","mazaak sunao"])){
-    return hindiMode(text)?pick(["Computer school kyun gaya? Kyunki usko apne bytes improve karne the! 😄","Keyboard happy kyun tha? Kyunki uske paas bahut saara space tha! ⌨️😄"]):pick(["Why did the computer go to school? To improve its bytes! 😄","Why was the keyboard happy? Because it had lots of space! ⌨️😄"]);
+    return hindiMode(text)
+      ? pick([
+          "Computer school kyun gaya? Kyunki usko apne bytes improve karne the! 😄",
+          "Keyboard happy kyun tha? Kyunki uske paas bahut saara space tha! ⌨️😄",
+          "Mouse ne computer se kya kaha? Click karke dekho! 🖱️😄"
+        ])
+      : pick([
+          "Why did the computer go to school? To improve its bytes! 😄",
+          "Why was the keyboard happy? Because it had lots of space! ⌨️😄",
+          "What did the mouse say to the computer? Click and see! 🖱️😄"
+        ]);
   }
+
   if(hasAny(q,["i am bored","bore ho raha","bored","boring lag raha"])){
-    return hindiMode(text)?`${n}, chalo bore nahi hote 😄 Bolo “quiz do”, “paheli do”, ya kisi computer part ka naam poochho.`:`Let's beat boredom, ${n}! 😄 Say “quiz me”, “riddle”, or ask about a computer part.`;
+    return hindiMode(text)
+      ? `${n}, chalo bore nahi hote 😄 Bolo “quiz do”, “joke sunao”, ya kisi computer part ka naam poochho.`
+      : `Let's beat boredom, ${n}! 😄 Say “quiz me”, “tell me a joke”, or ask about a computer part.`;
   }
+
   if(hasAny(q,["i am happy","main khush hoon","khush hoon"])){
-    return hindiMode(text)?`Wah ${n}! 😄 Ye sunkar mujhe bhi achha laga. Is happy mood me ek fun quiz karein?`:`Nice, ${n}! 😄 I'm glad to hear that. Want a fun quiz while you're in a happy mood?`;
+    return hindiMode(text)
+      ? `Wah ${n}! 😄 Ye sunkar mujhe bhi achha laga. Is happy mood me ek fun quiz karein?`
+      : `Nice, ${n}! 😄 I'm glad to hear that. Want a fun quiz while you're in a happy mood?`;
   }
+
   if(hasAny(q,["i am sad","main udaas hoon","sad hoon","mood off"])){
-    return hindiMode(text)?`${n}, mujhe afsos hai ki tum sad feel kar rahe ho 💛 Thoda break lo aur kisi trusted adult se baat karo. Hum ek easy fun quiz bhi kar sakte hain.`:`I'm sorry you're feeling sad, ${n} 💛 Take a little break and talk to a trusted adult. We can also do an easy fun quiz.`;
+    return hindiMode(text)
+      ? `${n}, mujhe afsos hai ki tum sad feel kar rahe ho 💛 Thoda break lo aur kisi trusted adult se baat karo. Hum ek easy fun quiz bhi kar sakte hain.`
+      : `I'm sorry you're feeling sad, ${n} 💛 Take a little break and talk to a trusted adult. We can also do an easy fun quiz.`;
   }
+
   return null;
 }
 
@@ -337,9 +412,12 @@ let quiz=null;
 function quizReply(text){
   const q=normalize(text);
   if(quiz){
-    const ok=hasPhrase(q,quiz.a);
+    const answer=quiz.a;
+    const ok=hasPhrase(q,answer);
     quiz=null;
-    return ok?`Correct! 🌟 Great job, ${firstName()}! Bolo “quiz do” for another one.`:`Good try 😊 Correct answer is ${quiz?.a||"the learning answer"}. Bolo “quiz do” for another one.`;
+    return ok
+      ? `Correct! 🌟 Great job, ${firstName()}! Bolo “quiz do” for another one.`
+      : `Good try 😊 Correct answer is ${answer}. Bolo “quiz do” for another one.`;
   }
   if(hasAny(q,["quiz do","quiz me","give me a quiz","question poochho","ask me a question"])){
     quiz=pick(QUIZ);
@@ -429,33 +507,385 @@ function speak(text){
 }
 
 function addStyle(){
-  if($("tannuBuddyV17Style"))return;
-  const s=document.createElement("style");s.id="tannuBuddyV17Style";
+  if($("tannuBuddyV18Style"))return;
+
+  const oldStyle=$("tannuBuddyV17Style");
+  if(oldStyle)oldStyle.remove();
+
+  const s=document.createElement("style");
+  s.id="tannuBuddyV18Style";
   s.textContent=`
-  #tannuBuddyLauncher{position:fixed;right:18px;bottom:18px;z-index:99998;width:74px;height:74px;border:0;border-radius:24px;background:linear-gradient(135deg,#6558f6,#24cfc2);box-shadow:0 14px 35px #241d7250;color:#fff;font-size:36px;cursor:pointer;animation:tannuGlow 1.5s infinite alternate}
-  #tannuBuddyLauncher small{display:block;font-size:9px;font-weight:900;margin-top:2px}
-  #tannuBuddyPanel{position:fixed;right:18px;bottom:104px;width:min(410px,calc(100vw - 24px));max-height:650px;display:none;flex-direction:column;z-index:99999;background:#fff;border:1px solid #e5e7f3;border-radius:26px;overflow:hidden;box-shadow:0 25px 70px rgba(28,34,95,.30);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif}
-  #tannuBuddyPanel.show{display:flex}
-  .tb-head{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:14px;color:#fff;background:linear-gradient(135deg,#11194b,#6758f6 58%,#24cfc2)}
-  .tb-avatar{width:46px;height:46px;display:grid;place-items:center;border-radius:15px;background:#ffffff18;font-size:28px}.tb-head b,.tb-head small{display:block}.tb-head b{font-size:15px}.tb-head small{font-size:9px;opacity:.88}
-  #tbClose{width:34px;height:34px;border:0;border-radius:50%;background:#ffffff18;color:#fff;font-size:22px}
-  #tbChat{min-height:270px;max-height:335px;overflow:auto;padding:13px;background:linear-gradient(180deg,#f7f8ff,#fff)}
-  .tb-bubble{max-width:88%;margin:7px 0;padding:11px 13px;border-radius:16px;font-size:12px;line-height:1.5;font-weight:700}.tb-bubble.bot{background:#efedff;color:#4d46a2;border-bottom-left-radius:5px}.tb-bubble.user{margin-left:auto;background:#e8fff7;color:#177459;border-bottom-right-radius:5px}
-  .tb-quick{display:grid;grid-template-columns:1fr 1fr;gap:7px;padding:9px 12px;border-top:1px solid #edf0f7}.tb-quick button{min-height:38px;border:0;border-radius:12px;background:#f4f3ff;color:#554ac5;font-size:10px;font-weight:1000}
-  .tb-input{display:grid;grid-template-columns:1fr 42px 42px 42px;gap:6px;padding:10px 12px;border-top:1px solid #edf0f7}.tb-input input{min-width:0;padding:10px;border:2px solid #dde1ef;border-radius:13px;outline:none;font-size:12px}.tb-input button{border:0;border-radius:13px;font-weight:900}
-  #tbLang{background:#fff4d7;color:#795c00;font-size:10px}#tbMic{background:#ffe6f3;font-size:17px}#tbSend{background:linear-gradient(135deg,#6c5cff,#24cfc2);color:#fff;font-size:17px}
-  #tbStatus{padding:7px 10px;text-align:center;background:#fafbff;color:#737b97;font-size:9px;font-weight:800}.tb-footer{padding:7px;text-align:center;background:#f6f7ff;color:#737b97;font-size:9px;font-weight:900}
-  @keyframes tannuGlow{from{transform:translateY(0);filter:drop-shadow(0 0 4px #6c5cff55)}to{transform:translateY(-3px);filter:drop-shadow(0 0 12px #24cfc2cc)}}
-  @media(max-width:600px){#tannuBuddyPanel{right:8px;bottom:92px;width:calc(100vw - 16px)}#tannuBuddyLauncher{right:12px;bottom:12px;width:66px;height:66px}}
-  @media(prefers-reduced-motion:reduce){#tannuBuddyLauncher{animation:none}}
+  #tannuBuddyLauncher,
+  #tannuBuddyPanel,
+  #tannuBuddyPanel *{
+    box-sizing:border-box;
+  }
+
+  #tannuBuddyLauncher{
+    position:fixed;
+    right:22px;
+    bottom:22px;
+    z-index:99998;
+    width:92px;
+    height:92px;
+    border:3px solid rgba(255,255,255,.78);
+    border-radius:30px;
+    background:
+      radial-gradient(circle at 30% 20%,rgba(255,255,255,.48),transparent 24%),
+      linear-gradient(145deg,#7c5cff 0%,#ff5db1 48%,#20d7d0 100%);
+    box-shadow:
+      0 16px 42px rgba(50,34,150,.40),
+      0 0 0 8px rgba(124,92,255,.10),
+      0 0 28px rgba(36,207,194,.42);
+    color:#fff;
+    font-size:44px;
+    cursor:grab;
+    user-select:none;
+    touch-action:none;
+    animation:tannuGlow 1.7s infinite alternate;
+  }
+
+  #tannuBuddyLauncher:active{cursor:grabbing}
+
+  #tannuBuddyLauncher small{
+    display:block;
+    margin-top:1px;
+    font-size:10px;
+    font-weight:1000;
+    letter-spacing:.2px;
+    text-shadow:0 1px 3px rgba(0,0,0,.22);
+  }
+
+  #tannuBuddyPanel{
+    position:fixed;
+    right:22px;
+    bottom:126px;
+    width:min(470px,calc(100vw - 24px));
+    height:min(690px,calc(100vh - 40px));
+    display:none;
+    flex-direction:column;
+    z-index:99999;
+    overflow:hidden;
+    border:2px solid rgba(255,255,255,.88);
+    border-radius:34px;
+    background:#fff;
+    box-shadow:
+      0 28px 80px rgba(24,28,88,.36),
+      0 0 0 7px rgba(111,89,255,.08);
+    font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+    color:#182052;
+  }
+
+  #tannuBuddyPanel.show{
+    display:flex;
+    animation:tbPop .20s ease-out;
+  }
+
+  .tb-head{
+    display:grid;
+    grid-template-columns:auto 1fr auto;
+    gap:12px;
+    align-items:center;
+    min-height:88px;
+    padding:14px 16px;
+    color:#fff;
+    background:
+      radial-gradient(circle at 82% 12%,rgba(255,255,255,.24),transparent 24%),
+      linear-gradient(120deg,#34277e 0%,#7058ff 40%,#ff5eb3 72%,#24cfc2 100%);
+    cursor:grab;
+    user-select:none;
+    touch-action:none;
+  }
+
+  .tb-head:active{cursor:grabbing}
+
+  .tb-avatar{
+    width:62px;
+    height:62px;
+    display:grid;
+    place-items:center;
+    border-radius:22px;
+    border:2px solid rgba(255,255,255,.48);
+    background:rgba(255,255,255,.16);
+    box-shadow:inset 0 0 18px rgba(255,255,255,.18);
+    font-size:38px;
+  }
+
+  .tb-head b,
+  .tb-head small{
+    display:block;
+    width:auto!important;
+    max-width:none!important;
+    white-space:normal!important;
+  }
+
+  .tb-head b{
+    font-size:18px;
+    line-height:1.15;
+    font-weight:1000;
+  }
+
+  .tb-head small{
+    margin-top:5px;
+    font-size:10px;
+    font-weight:900;
+    opacity:.95;
+    letter-spacing:.35px;
+  }
+
+  #tbClose{
+    width:40px;
+    height:40px;
+    border:0;
+    border-radius:50%;
+    background:rgba(255,255,255,.18);
+    color:#fff;
+    font-size:25px;
+    cursor:pointer;
+  }
+
+  #tbChat{
+    flex:1 1 auto;
+    min-height:280px;
+    overflow:auto;
+    padding:16px;
+    background:
+      radial-gradient(circle at 12% 5%,rgba(124,92,255,.08),transparent 28%),
+      radial-gradient(circle at 90% 95%,rgba(36,207,194,.08),transparent 30%),
+      linear-gradient(180deg,#f8f8ff,#ffffff);
+  }
+
+  #tannuBuddyPanel #tbChat > .tb-bubble{
+    display:block!important;
+    position:static!important;
+    float:none!important;
+    clear:both!important;
+    width:fit-content!important;
+    min-width:0!important;
+    max-width:84%!important;
+    height:auto!important;
+    min-height:0!important;
+    margin:8px 0!important;
+    padding:12px 15px!important;
+    border-radius:18px!important;
+    font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif!important;
+    font-size:13px!important;
+    line-height:1.55!important;
+    font-weight:800!important;
+    letter-spacing:0!important;
+    text-align:left!important;
+    text-indent:0!important;
+    white-space:normal!important;
+    word-break:normal!important;
+    overflow-wrap:anywhere!important;
+    writing-mode:horizontal-tb!important;
+    text-orientation:mixed!important;
+    transform:none!important;
+    animation:none!important;
+  }
+
+  #tannuBuddyPanel #tbChat > .tb-bubble.tb-msg-bot{
+    margin-right:auto!important;
+    background:linear-gradient(135deg,#eeeaff,#f4f1ff)!important;
+    color:#4b409e!important;
+    border:1px solid #ded8ff!important;
+    border-bottom-left-radius:6px!important;
+    box-shadow:0 5px 15px rgba(86,69,180,.08)!important;
+  }
+
+  #tannuBuddyPanel #tbChat > .tb-bubble.tb-msg-user{
+    margin-left:auto!important;
+    margin-right:0!important;
+    background:linear-gradient(135deg,#dffcf2,#e8fff9)!important;
+    color:#11745d!important;
+    border:1px solid #c8f2e6!important;
+    border-bottom-right-radius:6px!important;
+    box-shadow:0 5px 15px rgba(36,180,145,.08)!important;
+  }
+
+  .tb-quick{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    padding:10px 12px;
+    border-top:1px solid #edf0f7;
+    background:#fff;
+  }
+
+  .tb-quick button{
+    min-height:42px;
+    border:0;
+    border-radius:15px;
+    font-size:11px;
+    font-weight:1000;
+    cursor:pointer;
+    box-shadow:0 4px 12px rgba(70,62,150,.07);
+  }
+
+  .tb-quick button:nth-child(1){background:#fff0f7;color:#a73072}
+  .tb-quick button:nth-child(2){background:#eaf8ff;color:#2575a5}
+  .tb-quick button:nth-child(3){background:#fff8df;color:#8b6800}
+  .tb-quick button:nth-child(4){background:#eeeaff;color:#5948bd}
+
+  .tb-input{
+    display:grid;
+    grid-template-columns:minmax(0,1fr) 44px 46px 46px;
+    gap:7px;
+    padding:11px 12px;
+    border-top:1px solid #edf0f7;
+    background:#fff;
+  }
+
+  .tb-input input{
+    min-width:0;
+    width:100%;
+    height:46px;
+    padding:10px 12px;
+    border:2px solid #dfe3f2;
+    border-radius:15px;
+    outline:none;
+    background:#fff;
+    color:#1a2458;
+    font-size:13px;
+    font-weight:700;
+  }
+
+  .tb-input input:focus{
+    border-color:#765cff;
+    box-shadow:0 0 0 4px rgba(118,92,255,.10);
+  }
+
+  .tb-input button{
+    border:0;
+    border-radius:15px;
+    font-weight:1000;
+    cursor:pointer;
+  }
+
+  #tbLang{
+    background:#fff2c8;
+    color:#785900;
+    font-size:10px;
+  }
+
+  #tbMic{
+    background:linear-gradient(135deg,#ffe1f0,#ffd0e7);
+    color:#8f2a65;
+    font-size:19px;
+  }
+
+  #tbMic.listening{
+    color:#fff;
+    background:linear-gradient(135deg,#ff4f88,#ff6b5e);
+    animation:micPulse .8s infinite alternate;
+  }
+
+  #tbSend{
+    background:linear-gradient(135deg,#6c5cff,#24cfc2);
+    color:#fff;
+    font-size:18px;
+  }
+
+  #tbStatus{
+    min-height:28px;
+    padding:7px 10px;
+    text-align:center;
+    background:#fafbff;
+    color:#737b97;
+    font-size:9px;
+    font-weight:900;
+  }
+
+  .tb-footer{
+    padding:8px;
+    text-align:center;
+    background:#f4f5ff;
+    color:#737b97;
+    font-size:9px;
+    font-weight:1000;
+  }
+
+  @keyframes tannuGlow{
+    from{
+      transform:translateY(0) rotate(-1deg);
+      filter:drop-shadow(0 0 4px rgba(108,92,255,.35));
+    }
+    to{
+      transform:translateY(-4px) rotate(1deg);
+      filter:drop-shadow(0 0 13px rgba(36,207,194,.85));
+    }
+  }
+
+  @keyframes tbPop{
+    from{opacity:0;transform:scale(.96) translateY(8px)}
+    to{opacity:1;transform:scale(1) translateY(0)}
+  }
+
+  @keyframes micPulse{
+    from{transform:scale(1)}
+    to{transform:scale(1.08)}
+  }
+
+  @media(max-width:600px){
+    #tannuBuddyPanel{
+      left:8px!important;
+      right:8px!important;
+      top:10px!important;
+      bottom:84px!important;
+      width:auto!important;
+      height:auto!important;
+      max-height:none!important;
+      border-radius:26px;
+    }
+
+    #tannuBuddyLauncher{
+      width:76px;
+      height:76px;
+      right:12px;
+      bottom:12px;
+      border-radius:25px;
+      font-size:36px;
+    }
+
+    #tbChat{
+      min-height:220px;
+    }
+
+    .tb-head{
+      min-height:76px;
+      padding:10px 12px;
+    }
+
+    .tb-avatar{
+      width:52px;
+      height:52px;
+      border-radius:18px;
+      font-size:31px;
+    }
+
+    .tb-head b{font-size:16px}
+
+    #tannuBuddyPanel #tbChat > .tb-bubble{
+      max-width:90%!important;
+      font-size:13px!important;
+    }
+  }
+
+  @media(prefers-reduced-motion:reduce){
+    #tannuBuddyLauncher,
+    #tbMic.listening{
+      animation:none;
+    }
+  }
   `;
   document.head.appendChild(s);
 }
 
 function ensureLauncher(){
   addStyle();
-  let old=$("helper");
+  const old=$("helper");
   let b=$("tannuBuddyLauncher");
+
   if(!b){
     b=document.createElement("button");
     b.id="tannuBuddyLauncher";
@@ -464,32 +894,79 @@ function ensureLauncher(){
     b.setAttribute("aria-label","Open Tannu Learning Buddy");
     document.body.appendChild(b);
   }
+
   if(old)old.style.display="none";
-  b.onclick=()=>panelOpen?closePanel():openPanel();
+
+  makeDraggable(b,{
+    storageKey:"tannu_buddy_launcher_pos",
+    handle:b,
+    clickOpens:true
+  });
 }
 
 function buildPanel(){
   if($("tannuBuddyPanel"))return;
-  const p=document.createElement("div");p.id="tannuBuddyPanel";
+
+  const p=document.createElement("div");
+  p.id="tannuBuddyPanel";
   p.innerHTML=`
-  <div class="tb-head"><div class="tb-avatar">🤖</div><div><b>Tannu Learning Buddy</b><small>FREE • VOICE • KIDS SAFE</small></div><button id="tbClose">×</button></div>
-  <div id="tbChat"></div>
-  <div class="tb-quick">
-    <button data-q="Kya haal hai bhai?">😊 Chat</button>
-    <button data-q="Internet nahi chal raha hai">🌐 Network</button>
-    <button data-q="Password kya hai?">🔐 Safety</button>
-    <button data-q="Quiz do">🎯 Quiz</button>
-  </div>
-  <div class="tb-input"><input id="tbInput" maxlength="300" placeholder="Ask or speak..."><button id="tbLang" title="Change voice language">${voiceLang==="hi-IN"?"HI":"EN"}</button><button id="tbMic" title="Speak">🎤</button><button id="tbSend" title="Send">➤</button></div>
-  <div id="tbStatus">Tap 🎤 and allow microphone permission.</div>
-  <div class="tb-footer">${Math.max(5000,selfMadeBank.length+questionBank.length)}+ LEARNING Q&A • NO PAID API</div>`;
+    <div class="tb-head" id="tbDragHandle">
+      <div class="tb-avatar">🤖</div>
+      <div>
+        <b>Tannu Learning Buddy</b>
+        <small>FREE • VOICE • KIDS SAFE • DRAG ME</small>
+      </div>
+      <button id="tbClose" type="button">×</button>
+    </div>
+
+    <div id="tbChat"></div>
+
+    <div class="tb-quick">
+      <button data-q="Hello bhai kya haal hai?">😊 Chat</button>
+      <button data-q="Internet nahi chal raha hai">🌐 Network</button>
+      <button data-q="Password kya hai?">🔐 Safety</button>
+      <button data-q="Quiz do">🎯 Quiz</button>
+    </div>
+
+    <div class="tb-input">
+      <input id="tbInput" maxlength="300" placeholder="Ask or speak...">
+      <button id="tbLang" type="button" title="Change voice language">${voiceLang==="hi-IN"?"HI":"EN"}</button>
+      <button id="tbMic" type="button" title="Speak">🎤</button>
+      <button id="tbSend" type="button" title="Send">➤</button>
+    </div>
+
+    <div id="tbStatus">Tap 🎤 and allow microphone permission.</div>
+
+    <div class="tb-footer">
+      ${Math.max(5000,selfMadeBank.length+questionBank.length)}+ LEARNING Q&A • NO PAID API
+    </div>
+  `;
+
   document.body.appendChild(p);
-  $("tbClose").onclick=closePanel;
+
+  $("tbClose").onclick=e=>{
+    e.stopPropagation();
+    closePanel();
+  };
+
   $("tbSend").onclick=sendTyped;
   $("tbMic").onclick=startVoice;
   $("tbLang").onclick=toggleVoiceLang;
-  $("tbInput").addEventListener("keydown",e=>{if(e.key==="Enter")sendTyped()});
-  p.querySelectorAll("[data-q]").forEach(x=>x.onclick=()=>ask(x.dataset.q));
+
+  $("tbInput").addEventListener("keydown",e=>{
+    if(e.key==="Enter")sendTyped();
+  });
+
+  p.querySelectorAll("[data-q]").forEach(x=>{
+    x.onclick=()=>ask(x.dataset.q);
+  });
+
+  makeDraggable(p,{
+    storageKey:"tannu_buddy_panel_pos",
+    handle:$("tbDragHandle"),
+    clickOpens:false
+  });
+
   restoreConversation();
 }
 
@@ -504,9 +981,20 @@ function restoreConversation(){
 }
 
 function bubble(text,type="bot",store=true){
-  const c=$("tbChat");if(!c)return;
-  const d=document.createElement("div");d.className=`tb-bubble ${type}`;d.textContent=text;c.appendChild(d);c.scrollTop=c.scrollHeight;
-  if(store)remember(type==="user"?"user":"bot",text);
+  const c=$("tbChat");
+  if(!c)return;
+
+  const d=document.createElement("div");
+  const safeType=type==="user"?"tb-msg-user":"tb-msg-bot";
+  d.className=`tb-bubble ${safeType}`;
+  d.textContent=String(text||"");
+
+  c.appendChild(d);
+  c.scrollTop=c.scrollHeight;
+
+  if(store){
+    remember(type==="user"?"user":"bot",text);
+  }
 }
 function ask(text){
   text=String(text||"").trim();if(!text)return;
@@ -525,64 +1013,197 @@ function toggleVoiceLang(){
 
 async function startVoice(){
   const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  const mic=$("tbMic");
+  const status=$("tbStatus");
+  const input=$("tbInput");
+
   if(!SR){
-    $("tbStatus").textContent="Voice recognition is not supported here. Use Chrome/Edge or your phone keyboard microphone.";
-    $("tbInput").focus();
+    status.textContent="This browser does not support built-in speech recognition. Try Chrome/Edge, or use the microphone on your phone keyboard.";
+    input.focus();
     return;
   }
+
   if(recognition){
     try{recognition.abort()}catch{}
     recognition=null;
   }
-  // Ask microphone permission explicitly on the user's tap.
+
+  // On supported browsers this permission prompt helps us give a clear error.
+  // If permission API is unavailable, SpeechRecognition can still request access itself.
   if(navigator.mediaDevices?.getUserMedia){
     try{
       const stream=await navigator.mediaDevices.getUserMedia({audio:true});
       stream.getTracks().forEach(t=>t.stop());
     }catch(err){
-      $("tbStatus").textContent="Microphone permission blocked. Browser settings → Site settings → Microphone → Allow.";
+      status.textContent="Microphone is blocked. Open browser Site settings → Microphone → Allow, then tap 🎤 again.";
       return;
     }
   }
+
   recognition=new SR();
   recognition.lang=voiceLang;
   recognition.continuous=false;
   recognition.interimResults=true;
-  recognition.maxAlternatives=1;
+  recognition.maxAlternatives=3;
+
   let finalText="";
-  $("tbMic").textContent="🔴";
-  $("tbStatus").textContent=voiceLang==="hi-IN"?"Listening... bolo 🎤":"Listening... speak 🎤";
+  let hadError=false;
+
+  mic.textContent="🎙️";
+  mic.classList.add("listening");
+  status.textContent=voiceLang==="hi-IN"
+    ?"Listening... ab bolo 🎤"
+    :"Listening... speak now 🎤";
+
+  recognition.onstart=()=>{
+    status.textContent=voiceLang==="hi-IN"
+      ?"Sun raha hoon... bolo 🎤"
+      :"I'm listening... speak 🎤";
+  };
+
   recognition.onresult=e=>{
     let interim="";
     for(let i=e.resultIndex;i<e.results.length;i++){
       const tx=e.results[i][0].transcript;
-      if(e.results[i].isFinal)finalText+=tx; else interim+=tx;
+      if(e.results[i].isFinal){
+        finalText+=(finalText?" ":"")+tx;
+      }else{
+        interim+=(interim?" ":"")+tx;
+      }
     }
-    $("tbInput").value=(finalText||interim).trim();
+    input.value=(finalText||interim).trim();
   };
+
   recognition.onerror=e=>{
+    hadError=true;
     const map={
-      "not-allowed":"Microphone permission denied. Please Allow microphone in browser Site settings.",
-      "service-not-allowed":"Voice service is blocked by this browser/device.",
+      "not-allowed":"Microphone permission denied. Site settings → Microphone → Allow.",
+      "service-not-allowed":"Voice recognition service is blocked on this browser/device.",
       "audio-capture":"No microphone was found. Check your device microphone.",
-      "no-speech":"I could not hear you. Tap 🎤 and speak a little closer.",
-      "network":"Voice recognition needs browser speech service/network. Try again or type your question."
+      "no-speech":"Awaaz clear nahi mili. 🎤 dobara tap karke thoda paas se bolo.",
+      "network":"Browser speech recognition could not reach its speech service. Try again, switch network, or type your question.",
+      "aborted":"Voice listening stopped. Tap 🎤 to try again."
     };
-    $("tbStatus").textContent=map[e.error]||`Voice error: ${e.error}. Try again or type your question.`;
+    status.textContent=map[e.error]||`Voice error: ${e.error}. Tap 🎤 and try again.`;
   };
+
   recognition.onend=()=>{
-    $("tbMic").textContent="🎤";
-    const text=$("tbInput").value.trim();
-    if(text){
-      $("tbStatus").textContent=`Heard: ${text}`;
-      $("tbInput").value="";
-      ask(text);
-    }else if(!$("tbStatus").textContent.startsWith("Voice error")&&!$("tbStatus").textContent.includes("permission")){
-      $("tbStatus").textContent="Tap 🎤 to speak again.";
+    mic.textContent="🎤";
+    mic.classList.remove("listening");
+
+    const heard=input.value.trim();
+
+    if(heard && !hadError){
+      status.textContent=`Heard: ${heard}`;
+      input.value="";
+      ask(heard);
+    }else if(!hadError){
+      status.textContent="Tap 🎤 and speak again.";
     }
+
     recognition=null;
   };
-  try{recognition.start()}catch(e){$("tbStatus").textContent="Could not start microphone. Refresh the page and try again."}
+
+  try{
+    recognition.start();
+  }catch(e){
+    mic.textContent="🎤";
+    mic.classList.remove("listening");
+    recognition=null;
+    status.textContent="Could not start voice. Refresh once, allow microphone, and try again.";
+  }
+}
+
+function makeDraggable(element,{storageKey,handle,clickOpens=false}){
+  if(!element||!handle||element.dataset.dragReady==="1")return;
+  element.dataset.dragReady="1";
+
+  let moved=false;
+  let startX=0,startY=0,startLeft=0,startTop=0;
+  let activePointer=null;
+
+  const saved=localStorage.getItem(storageKey);
+  if(saved){
+    try{
+      const pos=JSON.parse(saved);
+      if(Number.isFinite(pos.left)&&Number.isFinite(pos.top)&&window.innerWidth>600){
+        element.style.left=Math.max(0,Math.min(pos.left,window.innerWidth-element.offsetWidth))+"px";
+        element.style.top=Math.max(0,Math.min(pos.top,window.innerHeight-element.offsetHeight))+"px";
+        element.style.right="auto";
+        element.style.bottom="auto";
+      }
+    }catch{}
+  }
+
+  handle.addEventListener("pointerdown",e=>{
+    if(e.button!==undefined&&e.button!==0)return;
+    if(e.target.closest("#tbClose"))return;
+
+    moved=false;
+    activePointer=e.pointerId;
+    const rect=element.getBoundingClientRect();
+
+    startX=e.clientX;
+    startY=e.clientY;
+    startLeft=rect.left;
+    startTop=rect.top;
+
+    if(window.innerWidth>600){
+      element.style.left=rect.left+"px";
+      element.style.top=rect.top+"px";
+      element.style.right="auto";
+      element.style.bottom="auto";
+    }
+
+    try{handle.setPointerCapture(e.pointerId)}catch{}
+  });
+
+  handle.addEventListener("pointermove",e=>{
+    if(activePointer!==e.pointerId)return;
+    if(window.innerWidth<=600)return;
+
+    const dx=e.clientX-startX;
+    const dy=e.clientY-startY;
+
+    if(Math.abs(dx)>4||Math.abs(dy)>4)moved=true;
+
+    const maxLeft=Math.max(0,window.innerWidth-element.offsetWidth);
+    const maxTop=Math.max(0,window.innerHeight-element.offsetHeight);
+
+    const left=Math.max(0,Math.min(startLeft+dx,maxLeft));
+    const top=Math.max(0,Math.min(startTop+dy,maxTop));
+
+    element.style.left=left+"px";
+    element.style.top=top+"px";
+  });
+
+  const finish=e=>{
+    if(activePointer!==e.pointerId)return;
+    activePointer=null;
+
+    try{handle.releasePointerCapture(e.pointerId)}catch{}
+
+    if(window.innerWidth>600){
+      const rect=element.getBoundingClientRect();
+      localStorage.setItem(storageKey,JSON.stringify({
+        left:Math.round(rect.left),
+        top:Math.round(rect.top)
+      }));
+    }
+
+    if(clickOpens&&!moved){
+      panelOpen?closePanel():openPanel();
+    }
+  };
+
+  handle.addEventListener("pointerup",finish);
+  handle.addEventListener("pointercancel",e=>{
+    if(activePointer===e.pointerId)activePointer=null;
+  });
+
+  if(clickOpens){
+    element.onclick=e=>e.preventDefault();
+  }
 }
 
 function openPanel(){buildPanel();$("tannuBuddyPanel").classList.add("show");panelOpen=true}
