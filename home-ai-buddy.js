@@ -1218,4 +1218,1896 @@ async function boot(){
 
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",boot);
 else boot();
+  /* ============================================================
+   TANNU ACADEMY V19
+   HOMEPAGE COLOR NAV + ORIGINAL TANNU BOT
+   ------------------------------------------------------------
+   • No new file
+   • Keeps existing chatbot / 5000+ Q&A
+   • Keeps voice
+   • Keeps drag & move
+   • Original CSS robot — not copied from any character
+   • Reorders homepage navigation
+   ============================================================ */
+
+function tannuV19RobotMarkup(){
+
+  return `
+    <div class="tannu-bot-v19" aria-hidden="true">
+
+      <div class="tb19-antenna">
+        <i></i>
+      </div>
+
+      <div class="tb19-ear tb19-ear-left"></div>
+      <div class="tb19-ear tb19-ear-right"></div>
+
+      <div class="tb19-head">
+
+        <div class="tb19-face">
+
+          <div class="tb19-eyes">
+            <i></i>
+            <i></i>
+          </div>
+
+          <div class="tb19-mouth"></div>
+
+        </div>
+
+        <div class="tb19-t-badge">
+          T
+        </div>
+
+      </div>
+
+      <div class="tb19-neck"></div>
+
+      <div class="tb19-body">
+
+        <div class="tb19-star">
+          ★
+        </div>
+
+        <div class="tb19-body-light"></div>
+
+      </div>
+
+      <div class="tb19-arm tb19-arm-left"></div>
+      <div class="tb19-arm tb19-arm-right"></div>
+
+    </div>
+
+    <small class="tb19-ask">
+      Ask Me!
+    </small>
+  `;
+
+}
+
+
+function tannuV19MiniRobot(){
+
+  return `
+    <div class="tb19-mini">
+
+      <span class="tb19-mini-ant"></span>
+
+      <div class="tb19-mini-face">
+
+        <i class="tb19-mini-eye"></i>
+        <i class="tb19-mini-eye"></i>
+
+        <b>T</b>
+
+      </div>
+
+    </div>
+  `;
+
+}
+
+
+/* ============================================================
+   REORDER HOMEPAGE NAVIGATION
+   ============================================================ */
+
+function tannuV19ReorderNavigation(){
+
+  const nav =
+    document.querySelector(
+      ".mainnav"
+    );
+
+  if(!nav){
+    return;
+  }
+
+  /*
+    Requested logical order.
+
+    Rewards is intentionally kept
+    before Admin Center so the
+    existing Rewards page is not lost.
+  */
+
+  const order = [
+    "Home",
+    "Students",
+    "Parent View",
+    "Parent Reviews",
+    "90-Day",
+    "Digital",
+    "English",
+    "Games",
+    "Confidence",
+    "Healthy",
+    "Rewards",
+    "Admin Center"
+  ];
+
+
+  const buttons =
+    [
+      ...nav.querySelectorAll(
+        "button"
+      )
+    ];
+
+
+  const getName = button => {
+
+    const span =
+      button.querySelector(
+        "span"
+      );
+
+    return (
+      span
+        ?
+        span.textContent
+        :
+        button.textContent
+    )
+      .trim();
+
+  };
+
+
+  order.forEach(
+    name => {
+
+      const button =
+        buttons.find(
+          item =>
+            getName(item) === name
+        );
+
+      if(button){
+        nav.appendChild(button);
+      }
+
+    }
+  );
+
+}
+
+
+/* ============================================================
+   V19 CSS
+   ============================================================ */
+
+function tannuV19AddStyle(){
+
+  if(
+    document.getElementById(
+      "tannuHomeV19Style"
+    )
+  ){
+    return;
+  }
+
+
+  const style =
+    document.createElement(
+      "style"
+    );
+
+
+  style.id =
+    "tannuHomeV19Style";
+
+
+  style.textContent = `
+
+
+/* ============================================================
+   HOMEPAGE NAVIGATION — INDIVIDUAL COLORS
+   ============================================================ */
+
+.mainnav{
+  gap:7px !important;
+}
+
+
+.mainnav > button{
+
+  position:relative !important;
+
+  overflow:hidden !important;
+
+  min-height:42px !important;
+
+  padding:
+    9px 13px !important;
+
+  border:
+    1px solid
+    rgba(255,255,255,.28) !important;
+
+  border-radius:
+    15px !important;
+
+  color:
+    #fff !important;
+
+  font-weight:
+    1000 !important;
+
+  text-shadow:
+    0 1px 4px
+    rgba(0,0,0,.28) !important;
+
+  transform:
+    translateZ(0);
+
+  transition:
+    transform .20s ease,
+    filter .20s ease !important;
+
+  animation:
+    tannuNavGlowV19
+    1.75s
+    ease-in-out
+    infinite
+    alternate !important;
+}
+
+
+.mainnav > button::before{
+
+  content:"";
+
+  position:absolute;
+
+  inset:-55%;
+
+  pointer-events:none;
+
+  background:
+    linear-gradient(
+      115deg,
+      transparent 34%,
+      rgba(255,255,255,.38) 48%,
+      transparent 62%
+    );
+
+  transform:
+    translateX(-70%);
+
+  animation:
+    tannuNavShineV19
+    3.8s
+    linear
+    infinite;
+
+}
+
+
+.mainnav > button span{
+
+  position:relative;
+
+  z-index:2;
+
+}
+
+
+/* HOME */
+
+.mainnav button[data-page="home"]{
+
+  background:
+    linear-gradient(
+      135deg,
+      #168dff,
+      #23d6d0
+    ) !important;
+
+  box-shadow:
+    0 0 16px
+    rgba(36,207,194,.55) !important;
+
+}
+
+
+/* STUDENTS */
+
+.mainnav button[data-page="students"]{
+
+  background:
+    linear-gradient(
+      135deg,
+      #00a976,
+      #39dbb1
+    ) !important;
+
+  box-shadow:
+    0 0 16px
+    rgba(57,219,177,.48) !important;
+
+}
+
+
+/* PARENT VIEW */
+
+.mainnav button[data-page="parents"]{
+
+  background:
+    linear-gradient(
+      135deg,
+      #ff7848,
+      #ff4fa1
+    ) !important;
+
+  box-shadow:
+    0 0 16px
+    rgba(255,79,161,.45) !important;
+
+}
+
+
+/* PARENT REVIEWS */
+
+.mainnav button[onclick*="reviews.html"]{
+
+  background:
+    linear-gradient(
+      135deg,
+      #ffb51f,
+      #ff5c79
+    ) !important;
+
+  box-shadow:
+    0 0 16px
+    rgba(255,181,31,.48) !important;
+
+}
+
+
+/* 90 DAY */
+
+.mainnav button[data-page="course"]{
+
+  background:
+    linear-gradient(
+      135deg,
+      #6356ff,
+      #8f53ff
+    ) !important;
+
+  box-shadow:
+    0 0 16px
+    rgba(111,89,255,.54) !important;
+
+}
+
+
+/* DIGITAL */
+
+.mainnav button[data-page="digital"]{
+
+  background:
+    linear-gradient(
+      135deg,
+      #0074d9,
+      #24c7ff
+    ) !important;
+
+  box-shadow:
+    0 0 16px
+    rgba(36,199,255,.48) !important;
+
+}
+
+
+/* ENGLISH */
+
+.mainnav button[data-page="english"]{
+
+  background:
+    linear-gradient(
+      135deg,
+      #c144db,
+      #ff5eb3
+    ) !important;
+
+  box-shadow:
+    0 0 16px
+    rgba(255,94,179,.47) !important;
+
+}
+
+
+/* GAMES */
+
+.mainnav button[data-page="games"]{
+
+  background:
+    linear-gradient(
+      135deg,
+      #663be8,
+      #a456ff
+    ) !important;
+
+  box-shadow:
+    0 0 16px
+    rgba(164,86,255,.48) !important;
+
+}
+
+
+/* CONFIDENCE */
+
+.mainnav button[data-page="confidence"]{
+
+  background:
+    linear-gradient(
+      135deg,
+      #ff9b16,
+      #ffd22e
+    ) !important;
+
+  color:
+    #442c00 !important;
+
+  text-shadow:
+    0 1px 2px
+    rgba(255,255,255,.25) !important;
+
+  box-shadow:
+    0 0 17px
+    rgba(255,202,42,.55) !important;
+
+}
+
+
+/* HEALTHY */
+
+.mainnav button[data-page="healthy"]{
+
+  background:
+    linear-gradient(
+      135deg,
+      #29a84b,
+      #67dc72
+    ) !important;
+
+  box-shadow:
+    0 0 16px
+    rgba(103,220,114,.48) !important;
+
+}
+
+
+/* REWARDS */
+
+.mainnav button[data-page="rewards"]{
+
+  background:
+    linear-gradient(
+      135deg,
+      #f04766,
+      #ef54cc
+    ) !important;
+
+  box-shadow:
+    0 0 16px
+    rgba(239,84,204,.46) !important;
+
+}
+
+
+/* ADMIN */
+
+.mainnav button[onclick*="admin.html"]{
+
+  background:
+    linear-gradient(
+      135deg,
+      #7c334f,
+      #7e55e6
+    ) !important;
+
+  box-shadow:
+    0 0 16px
+    rgba(126,85,230,.48) !important;
+
+}
+
+
+/* DIFFERENT BLINK TIMING */
+
+.mainnav > button:nth-child(2n){
+
+  animation-delay:
+    .18s !important;
+
+}
+
+
+.mainnav > button:nth-child(3n){
+
+  animation-delay:
+    .36s !important;
+
+}
+
+
+.mainnav > button:nth-child(4n){
+
+  animation-delay:
+    .54s !important;
+
+}
+
+
+/* HOVER */
+
+.mainnav > button:hover{
+
+  transform:
+    translateY(-4px)
+    scale(1.06) !important;
+
+  filter:
+    brightness(1.18)
+    saturate(1.12) !important;
+
+  z-index:5;
+
+}
+
+
+/* ACTIVE */
+
+.mainnav > button.active{
+
+  border:
+    2px solid
+    rgba(255,255,255,.90) !important;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(255,255,255,.12),
+    0 0 25px
+    rgba(63,224,255,.72) !important;
+
+}
+
+
+/* ============================================================
+   COLORFUL VOICE BUTTON
+   ============================================================ */
+
+#voiceBtn{
+
+  position:relative !important;
+
+  overflow:hidden !important;
+
+  min-height:43px !important;
+
+  padding:
+    9px 17px !important;
+
+  border:
+    2px solid
+    rgba(255,255,255,.75) !important;
+
+  border-radius:
+    15px !important;
+
+  background:
+    linear-gradient(
+      120deg,
+      #ff557d,
+      #765cff,
+      #22d6cc,
+      #ffc94b
+    ) !important;
+
+  background-size:
+    300% 300% !important;
+
+  color:
+    #fff !important;
+
+  font-weight:
+    1000 !important;
+
+  box-shadow:
+    0 0 20px
+    rgba(117,91,255,.60) !important;
+
+  text-shadow:
+    0 1px 4px
+    rgba(0,0,0,.28) !important;
+
+  animation:
+    tannuVoiceGradientV19
+    3s
+    ease
+    infinite,
+    tannuVoicePulseV19
+    1.3s
+    ease-in-out
+    infinite
+    alternate !important;
+
+}
+
+
+#voiceBtn:hover{
+
+  transform:
+    translateY(-3px)
+    scale(1.07) !important;
+
+}
+
+
+/* ============================================================
+   ORIGINAL TANNU BOT LAUNCHER
+   ============================================================ */
+
+#tannuBuddyLauncher{
+
+  position:fixed !important;
+
+  width:
+    122px !important;
+
+  height:
+    132px !important;
+
+  padding:
+    4px 7px 8px !important;
+
+  border:
+    0 !important;
+
+  border-radius:
+    38px !important;
+
+  background:
+    radial-gradient(
+      circle at 50% 42%,
+      rgba(71,239,233,.25),
+      transparent 43%
+    ) !important;
+
+  box-shadow:
+    none !important;
+
+  overflow:
+    visible !important;
+
+  color:
+    #fff !important;
+
+  cursor:
+    grab !important;
+
+  animation:
+    tannuBotFloatV19
+    1.35s
+    ease-in-out
+    infinite
+    alternate !important;
+
+}
+
+
+#tannuBuddyLauncher:active{
+
+  cursor:
+    grabbing !important;
+
+}
+
+
+#tannuBuddyLauncher::before{
+
+  content:"";
+
+  position:absolute;
+
+  left:50%;
+
+  top:49%;
+
+  width:112px;
+
+  height:112px;
+
+  transform:
+    translate(-50%,-50%);
+
+  border-radius:50%;
+
+  pointer-events:none;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(59,235,225,.32),
+      rgba(116,82,255,.16) 45%,
+      transparent 70%
+    );
+
+  filter:
+    blur(3px);
+
+  animation:
+    tannuBotHaloV19
+    1.2s
+    ease-in-out
+    infinite
+    alternate;
+
+}
+
+
+.tannu-bot-v19{
+
+  width:
+    102px;
+
+  height:
+    103px;
+
+  position:
+    relative;
+
+  margin:
+    0 auto;
+
+  filter:
+    drop-shadow(
+      0 10px 9px
+      rgba(10,13,65,.32)
+    );
+
+}
+
+
+/* ANTENNA */
+
+.tb19-antenna{
+
+  position:absolute;
+
+  width:4px;
+
+  height:20px;
+
+  left:50%;
+
+  top:0;
+
+  transform:
+    translateX(-50%);
+
+  border-radius:8px;
+
+  background:
+    linear-gradient(
+      #52eee5,
+      #7562ff
+    );
+
+}
+
+
+.tb19-antenna i{
+
+  position:absolute;
+
+  width:13px;
+
+  height:13px;
+
+  left:50%;
+
+  top:-7px;
+
+  transform:
+    translateX(-50%);
+
+  border-radius:50%;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ffe85b,
+      #ff60a9
+    );
+
+  box-shadow:
+    0 0 14px
+    #ffda45;
+
+  animation:
+    tannuAntennaBlinkV19
+    .8s
+    infinite
+    alternate;
+
+}
+
+
+/* EARS */
+
+.tb19-ear{
+
+  position:absolute;
+
+  top:38px;
+
+  width:15px;
+
+  height:31px;
+
+  border-radius:10px;
+
+  z-index:1;
+
+  background:
+    linear-gradient(
+      180deg,
+      #40ded9,
+      #6659e8
+    );
+
+  border:
+    2px solid
+    rgba(255,255,255,.55);
+
+}
+
+
+.tb19-ear-left{
+
+  left:1px;
+
+}
+
+
+.tb19-ear-right{
+
+  right:1px;
+
+}
+
+
+/* HEAD */
+
+.tb19-head{
+
+  position:absolute;
+
+  width:88px;
+
+  height:66px;
+
+  left:7px;
+
+  top:18px;
+
+  border-radius:
+    25px 25px 19px 19px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #6b5aff,
+      #2ecfd1 55%,
+      #ff5ead
+    );
+
+  border:
+    3px solid
+    rgba(255,255,255,.88);
+
+  box-shadow:
+    inset 0 0 15px
+    rgba(255,255,255,.27),
+    0 0 18px
+    rgba(65,215,218,.55);
+
+  z-index:2;
+
+}
+
+
+/* FACE SCREEN */
+
+.tb19-face{
+
+  position:absolute;
+
+  left:10px;
+
+  right:10px;
+
+  top:10px;
+
+  height:39px;
+
+  border-radius:15px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #101941,
+      #17255c
+    );
+
+  border:
+    2px solid
+    rgba(142,240,239,.72);
+
+  box-shadow:
+    inset 0 0 12px
+    rgba(41,215,223,.24);
+
+}
+
+
+/* EYES */
+
+.tb19-eyes{
+
+  display:flex;
+
+  justify-content:center;
+
+  gap:19px;
+
+  margin-top:10px;
+
+}
+
+
+.tb19-eyes i{
+
+  display:block;
+
+  width:13px;
+
+  height:13px;
+
+  border-radius:
+    50%;
+
+  background:
+    radial-gradient(
+      circle at 38% 34%,
+      #fff 0 22%,
+      #5df5ee 27% 55%,
+      #0d4f71 58% 100%
+    );
+
+  box-shadow:
+    0 0 10px
+    #53efe7;
+
+  animation:
+    tannuEyesV19
+    2.4s
+    infinite;
+
+}
+
+
+/* SMILE */
+
+.tb19-mouth{
+
+  width:24px;
+
+  height:8px;
+
+  margin:
+    4px auto 0;
+
+  border-bottom:
+    3px solid
+    #ff91d0;
+
+  border-radius:
+    0 0 50% 50%;
+
+}
+
+
+/* T BADGE */
+
+.tb19-t-badge{
+
+  position:absolute;
+
+  left:50%;
+
+  bottom:-9px;
+
+  transform:
+    translateX(-50%);
+
+  width:26px;
+
+  height:26px;
+
+  display:grid;
+
+  place-items:center;
+
+  border-radius:50%;
+
+  color:#fff;
+
+  font-size:15px;
+
+  font-weight:1000;
+
+  background:
+    linear-gradient(
+      135deg,
+      #17235e,
+      #6657ed
+    );
+
+  border:
+    2px solid
+    #fff;
+
+  box-shadow:
+    0 0 10px
+    rgba(255,91,180,.70);
+
+}
+
+
+/* NECK */
+
+.tb19-neck{
+
+  position:absolute;
+
+  width:18px;
+
+  height:10px;
+
+  left:42px;
+
+  top:80px;
+
+  background:
+    #38438c;
+
+  border-radius:
+    3px;
+
+}
+
+
+/* BODY */
+
+.tb19-body{
+
+  position:absolute;
+
+  width:56px;
+
+  height:28px;
+
+  left:23px;
+
+  bottom:0;
+
+  border-radius:
+    10px 10px 19px 19px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #584df0,
+      #27c9c9,
+      #f350a4
+    );
+
+  border:
+    2px solid
+    rgba(255,255,255,.80);
+
+  box-shadow:
+    inset 0 0 10px
+    rgba(255,255,255,.18);
+
+}
+
+
+/* BODY STAR */
+
+.tb19-star{
+
+  position:absolute;
+
+  left:50%;
+
+  top:4px;
+
+  transform:
+    translateX(-50%);
+
+  color:
+    #ffe75d;
+
+  font-size:
+    13px;
+
+  text-shadow:
+    0 0 7px
+    #ffe75d;
+
+}
+
+
+/* BODY LIGHT */
+
+.tb19-body-light{
+
+  position:absolute;
+
+  width:6px;
+
+  height:6px;
+
+  right:8px;
+
+  top:8px;
+
+  border-radius:50%;
+
+  background:
+    #54ffb1;
+
+  box-shadow:
+    0 0 8px
+    #54ffb1;
+
+}
+
+
+/* ARMS */
+
+.tb19-arm{
+
+  position:absolute;
+
+  width:25px;
+
+  height:7px;
+
+  bottom:10px;
+
+  border-radius:
+    99px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #45ded9,
+      #725dff
+    );
+
+  z-index:-1;
+
+}
+
+
+.tb19-arm-left{
+
+  left:7px;
+
+  transform:
+    rotate(22deg);
+
+}
+
+
+.tb19-arm-right{
+
+  right:7px;
+
+  transform:
+    rotate(-22deg);
+
+}
+
+
+/* ASK ME LABEL */
+
+#tannuBuddyLauncher
+.tb19-ask{
+
+  position:absolute;
+
+  left:50%;
+
+  bottom:-4px;
+
+  transform:
+    translateX(-50%);
+
+  display:block !important;
+
+  min-width:
+    70px;
+
+  margin:0 !important;
+
+  padding:
+    5px 9px;
+
+  border-radius:
+    999px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #6258f7,
+      #ef58ae,
+      #28cbc8
+    );
+
+  border:
+    2px solid
+    rgba(255,255,255,.88);
+
+  color:
+    #fff;
+
+  font-size:
+    10px !important;
+
+  font-weight:
+    1000 !important;
+
+  white-space:
+    nowrap;
+
+  box-shadow:
+    0 5px 14px
+    rgba(43,37,137,.38);
+
+}
+
+
+/* ============================================================
+   CHAT PANEL ROBOT
+   ============================================================ */
+
+.tb-avatar{
+
+  overflow:
+    visible !important;
+
+  background:
+    rgba(255,255,255,.13) !important;
+
+}
+
+
+.tb19-mini{
+
+  position:relative;
+
+  width:48px;
+
+  height:48px;
+
+  margin:auto;
+
+}
+
+
+.tb19-mini-ant{
+
+  position:absolute;
+
+  width:3px;
+
+  height:10px;
+
+  left:50%;
+
+  top:0;
+
+  transform:
+    translateX(-50%);
+
+  background:
+    #ffe75c;
+
+}
+
+
+.tb19-mini-ant::before{
+
+  content:"";
+
+  position:absolute;
+
+  width:8px;
+
+  height:8px;
+
+  border-radius:50%;
+
+  left:50%;
+
+  top:-5px;
+
+  transform:
+    translateX(-50%);
+
+  background:
+    #ff67b3;
+
+  box-shadow:
+    0 0 8px
+    #ff67b3;
+
+}
+
+
+.tb19-mini-face{
+
+  position:absolute;
+
+  left:2px;
+
+  right:2px;
+
+  top:10px;
+
+  height:34px;
+
+  display:flex;
+
+  justify-content:center;
+
+  align-items:center;
+
+  gap:11px;
+
+  border-radius:13px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #332b8d,
+      #22cfc2
+    );
+
+  border:
+    2px solid
+    rgba(255,255,255,.85);
+
+}
+
+
+.tb19-mini-eye{
+
+  width:7px;
+
+  height:7px;
+
+  border-radius:50%;
+
+  background:
+    #fff;
+
+  box-shadow:
+    0 0 7px
+    #fff;
+
+}
+
+
+.tb19-mini-face b{
+
+  position:absolute;
+
+  bottom:-9px;
+
+  left:50%;
+
+  transform:
+    translateX(-50%);
+
+  width:19px !important;
+
+  height:19px;
+
+  display:grid !important;
+
+  place-items:center;
+
+  border-radius:50%;
+
+  color:#fff;
+
+  background:
+    #5e55e9;
+
+  font-size:
+    10px !important;
+
+  border:
+    2px solid
+    #fff;
+
+}
+
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+
+@keyframes tannuNavGlowV19{
+
+  from{
+
+    filter:
+      brightness(.90);
+
+    transform:
+      translateY(0)
+      scale(1);
+
+  }
+
+  to{
+
+    filter:
+      brightness(1.22)
+      saturate(1.13);
+
+    transform:
+      translateY(-2px)
+      scale(1.025);
+
+  }
+
+}
+
+
+@keyframes tannuNavShineV19{
+
+  0%{
+
+    transform:
+      translateX(-85%);
+
+  }
+
+  35%,
+  100%{
+
+    transform:
+      translateX(85%);
+
+  }
+
+}
+
+
+@keyframes tannuVoiceGradientV19{
+
+  0%{
+    background-position:
+      0% 50%;
+  }
+
+  50%{
+    background-position:
+      100% 50%;
+  }
+
+  100%{
+    background-position:
+      0% 50%;
+  }
+
+}
+
+
+@keyframes tannuVoicePulseV19{
+
+  from{
+
+    box-shadow:
+      0 0 10px
+      rgba(117,91,255,.42);
+
+  }
+
+  to{
+
+    box-shadow:
+      0 0 27px
+      rgba(35,226,216,.86),
+      0 0 14px
+      rgba(255,91,180,.55);
+
+  }
+
+}
+
+
+@keyframes tannuBotFloatV19{
+
+  from{
+
+    transform:
+      translateY(0)
+      rotate(-1deg);
+
+    filter:
+      drop-shadow(
+        0 0 6px
+        rgba(94,83,241,.34)
+      );
+
+  }
+
+  to{
+
+    transform:
+      translateY(-7px)
+      rotate(1deg);
+
+    filter:
+      drop-shadow(
+        0 0 18px
+        rgba(35,223,218,.76)
+      );
+
+  }
+
+}
+
+
+@keyframes tannuBotHaloV19{
+
+  from{
+
+    transform:
+      translate(-50%,-50%)
+      scale(.92);
+
+    opacity:.55;
+
+  }
+
+  to{
+
+    transform:
+      translate(-50%,-50%)
+      scale(1.14);
+
+    opacity:1;
+
+  }
+
+}
+
+
+@keyframes tannuAntennaBlinkV19{
+
+  from{
+
+    transform:
+      translateX(-50%)
+      scale(.82);
+
+    filter:
+      brightness(.9);
+
+  }
+
+  to{
+
+    transform:
+      translateX(-50%)
+      scale(1.18);
+
+    filter:
+      brightness(1.4);
+
+  }
+
+}
+
+
+@keyframes tannuEyesV19{
+
+  0%,
+  44%,
+  52%,
+  100%{
+
+    transform:
+      scaleY(1);
+
+  }
+
+  48%{
+
+    transform:
+      scaleY(.13);
+
+  }
+
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media(max-width:1250px){
+
+  .mainnav > button{
+
+    padding:
+      8px 9px !important;
+
+    font-size:
+      10px !important;
+
+  }
+
+}
+
+
+@media(max-width:800px){
+
+  #tannuBuddyLauncher{
+
+    width:
+      94px !important;
+
+    height:
+      103px !important;
+
+  }
+
+
+  .tannu-bot-v19{
+
+    transform:
+      scale(.78);
+
+    transform-origin:
+      top center;
+
+  }
+
+
+  #tannuBuddyLauncher
+  .tb19-ask{
+
+    bottom:
+      0;
+
+  }
+
+}
+
+
+@media(
+  prefers-reduced-motion:
+  reduce
+){
+
+  .mainnav > button,
+  #voiceBtn,
+  #tannuBuddyLauncher,
+  .tb19-antenna i{
+
+    animation:
+      none !important;
+
+  }
+
+}
+
+  `;
+
+
+  document.head.appendChild(
+    style
+  );
+
+}
+
+
+/* ============================================================
+   APPLY NEW ROBOT
+   ============================================================ */
+
+function tannuV19UpgradeBuddy(){
+
+  const launcher =
+    document.getElementById(
+      "tannuBuddyLauncher"
+    );
+
+
+  if(
+    launcher &&
+    launcher.dataset.v19Bot!=="1"
+  ){
+
+    launcher.dataset.v19Bot=
+      "1";
+
+
+    launcher.innerHTML =
+      tannuV19RobotMarkup();
+
+
+    launcher.setAttribute(
+      "aria-label",
+      "Open Tannu Learning Buddy"
+    );
+
+
+    launcher.title =
+      "Hi! Ask Tannu Learning Buddy";
+
+  }
+
+
+  const avatar =
+    document.querySelector(
+      "#tannuBuddyPanel .tb-avatar"
+    );
+
+
+  if(
+    avatar &&
+    avatar.dataset.v19Bot!=="1"
+  ){
+
+    avatar.dataset.v19Bot=
+      "1";
+
+
+    avatar.innerHTML =
+      tannuV19MiniRobot();
+
+  }
+
+}
+
+
+/* ============================================================
+   START V19
+   ============================================================ */
+
+function tannuV19Start(){
+
+  tannuV19AddStyle();
+
+  tannuV19ReorderNavigation();
+
+  tannuV19UpgradeBuddy();
+
+
+  /*
+    Existing Buddy is created
+    asynchronously after question bank loads.
+
+    Observer decorates it immediately
+    once it appears.
+  */
+
+  const observer =
+    new MutationObserver(
+      ()=>{
+
+        tannuV19ReorderNavigation();
+
+        tannuV19UpgradeBuddy();
+
+      }
+    );
+
+
+  observer.observe(
+    document.body,
+    {
+      childList:true,
+      subtree:true
+    }
+  );
+
+
+  setTimeout(
+    ()=>{
+
+      tannuV19ReorderNavigation();
+
+      tannuV19UpgradeBuddy();
+
+    },
+    400
+  );
+
+
+  setTimeout(
+    ()=>{
+
+      tannuV19ReorderNavigation();
+
+      tannuV19UpgradeBuddy();
+
+    },
+    1200
+  );
+
+
+  setTimeout(
+    ()=>{
+
+      tannuV19ReorderNavigation();
+
+      tannuV19UpgradeBuddy();
+
+    },
+    2500
+  );
+
+}
+
+
+if(
+  document.readyState==="loading"
+){
+
+  document.addEventListener(
+    "DOMContentLoaded",
+    tannuV19Start
+  );
+
+}else{
+
+  tannuV19Start();
+
+}
 })();
