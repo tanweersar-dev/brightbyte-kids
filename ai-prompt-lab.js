@@ -1,21 +1,31 @@
 (() => {
 "use strict";
 
+/*
+  Tannu AI Prompt Lab - FREE MODE
+  --------------------------------
+  No OpenAI API
+  No paid credits
+  No Cloudflare AI Worker
+
+  Features:
+  - Prompt Builder
+  - Voice Prompt
+  - Hear Prompt
+  - Improve Prompt
+  - Local Visual Preview
+  - Local Tiny Story
+  - Kids Safety
+*/
+
 const ACADEMY_API =
   "https://brightbyte-kids-api.tanweerstudy25.workers.dev";
-
-/*
-  AI Worker deploy hone ke baad uska URL yahan use hoga.
-  Example:
-  https://kids-ai.tanweerstudy25.workers.dev
-*/
-const AI_API =
-  "https://kids-ai.tanweerstudy25.workers.dev";
 
 const token =
   localStorage.getItem("brightbyte_student_token") || "";
 
-const $ = id => document.getElementById(id);
+const $ = id =>
+  document.getElementById(id);
 
 let mode = "image";
 
@@ -26,6 +36,10 @@ let selection = {
   style: "colorful cartoon style"
 };
 
+
+/* =========================
+   CHOICES
+========================= */
 
 const data = {
 
@@ -66,87 +80,154 @@ const data = {
 };
 
 
-function toast(text) {
+/* =========================
+   HELPERS
+========================= */
+
+function toast(text){
 
   const box = $("toast");
+
+  if(!box) return;
 
   box.textContent = text;
 
   box.classList.add("show");
 
-  clearTimeout(window.__pt);
+  clearTimeout(
+    window.__promptToast
+  );
 
-  window.__pt =
+  window.__promptToast =
     setTimeout(
-      () => box.classList.remove("show"),
+      () =>
+        box.classList.remove("show"),
       1800
     );
-
 }
 
 
-function speak(text) {
+function isHindi(text){
 
-  if (!("speechSynthesis" in window)) return;
+  return /[\u0900-\u097F]/.test(
+    text
+  );
+}
+
+
+function isHinglish(text){
+
+  const t =
+    text.toLowerCase();
+
+  const words = [
+    "kya",
+    "kaise",
+    "hai",
+    "hain",
+    "karo",
+    "banao",
+    "mera",
+    "mujhe",
+    "ek",
+    "mein",
+    "me",
+    "wala",
+    "wali"
+  ];
+
+  return words.some(
+    word =>
+      new RegExp(
+        `\\b${word}\\b`
+      ).test(t)
+  );
+}
+
+
+function speak(text){
+
+  if(
+    !("speechSynthesis" in window)
+  ){
+    return;
+  }
 
   speechSynthesis.cancel();
 
   const u =
-    new SpeechSynthesisUtterance(text);
+    new SpeechSynthesisUtterance(
+      text
+    );
 
-  /*
-    Hindi/Hinglish support:
-    If Hindi characters are found,
-    try Hindi voice.
-  */
-
-  if (/[\u0900-\u097F]/.test(text)) {
-
+  if(
+    isHindi(text) ||
+    isHinglish(text)
+  ){
     u.lang = "hi-IN";
-
-  } else {
-
+  }else{
     u.lang = "en-US";
-
   }
 
-  u.rate = 0.72;
-  u.pitch = 1.05;
+  u.rate = 0.75;
+  u.pitch = 1.04;
 
   const voices =
     speechSynthesis.getVoices();
 
-  const preferred =
-    voices.find(v =>
-      v.lang &&
-      v.lang.toLowerCase()
-        .startsWith(
-          u.lang.toLowerCase().split("-")[0]
-        )
+  const base =
+    u.lang
+      .toLowerCase()
+      .split("-")[0];
+
+  const voice =
+    voices.find(
+      v =>
+        (v.lang || "")
+          .toLowerCase()
+          .startsWith(base)
     );
 
-  if (preferred) {
-    u.voice = preferred;
+  if(voice){
+    u.voice = voice;
   }
 
   speechSynthesis.speak(u);
-
 }
 
 
-function clean(value) {
+function clean(value){
 
   return value.replace(
     /^\S+\s/,
     ""
   );
-
 }
 
 
-function renderChoices(key,id) {
+function escapeXml(text){
+
+  return String(text)
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&apos;");
+}
+
+
+/* =========================
+   RENDER CHOICES
+========================= */
+
+function renderChoices(
+  key,
+  id
+){
 
   const box = $(id);
+
+  if(!box) return;
 
   box.innerHTML =
     data[key]
@@ -158,7 +239,8 @@ function renderChoices(key,id) {
         return `
           <button
             class="${
-              cleaned === selection[key]
+              cleaned ===
+              selection[key]
                 ? "active"
                 : ""
             }"
@@ -171,26 +253,10 @@ function renderChoices(key,id) {
 
       })
       .join("");
-
 }
 
 
-function buildPrompt() {
-
-  const p =
-    `A ${selection.subject} ` +
-    `${selection.action} in a ` +
-    `${selection.place}, ` +
-    `${selection.style}.`;
-
-  $("prompt").value =
-    p.charAt(0).toUpperCase() +
-    p.slice(1);
-
-}
-
-
-function renderAll() {
+function renderAll(){
 
   renderChoices(
     "subject",
@@ -211,46 +277,63 @@ function renderAll() {
     "style",
     "styleChoices"
   );
-
 }
 
 
-async function loadStudent() {
+/* =========================
+   PROMPT BUILDER
+========================= */
 
-  if (!token) {
+function buildPrompt(){
+
+  const p =
+    `A ${selection.subject} ` +
+    `${selection.action} in a ` +
+    `${selection.place}, ` +
+    `${selection.style}.`;
+
+  $("prompt").value =
+    p.charAt(0).toUpperCase() +
+    p.slice(1);
+}
+
+
+/* =========================
+   STUDENT
+========================= */
+
+async function loadStudent(){
+
+  if(!token){
 
     location.href =
       "student-login.html";
 
     return;
-
   }
 
-  try {
+  try{
 
     const response =
       await fetch(
         ACADEMY_API +
         "/api/auth/me",
         {
-          headers: {
+          headers:{
             Authorization:
               `Bearer ${token}`
           },
-
-          cache: "no-store"
+          cache:"no-store"
         }
       );
-
 
     const result =
       await response.json();
 
-
-    if (
+    if(
       response.ok &&
       result.role === "student"
-    ) {
+    ){
 
       const name =
         result.profile?.display_name ||
@@ -261,342 +344,632 @@ async function loadStudent() {
       $("studentName").textContent =
         "👤 " + name;
 
-    }
-
-    else {
+    }else{
 
       location.href =
         "student-login.html";
-
     }
 
-  }
-
-  catch {
+  }catch{
 
     $("studentName").textContent =
       "👤 Student";
-
   }
-
 }
 
 
-function safeLocalPrompt(prompt) {
+/* =========================
+   SAFETY
+========================= */
 
-  /*
-    Basic local safety check.
-    Main safety should also exist
-    inside the AI Worker.
-  */
+function safeLocalPrompt(prompt){
 
   const blocked =
-    /password|otp|home address|phone number|nude|sexual|weapon|kill|blood|drug/i;
+    /password|otp|home address|phone number|nude|sexual|porn|kill|bomb|weapon|drug/i;
 
-  return !blocked.test(prompt);
-
+  return !blocked.test(
+    prompt
+  );
 }
 
 
-async function callAI(path,body) {
+/* =========================
+   VISUAL PREVIEW
+========================= */
 
-  if (!AI_API) {
+function subjectEmoji(prompt){
 
-    throw new Error(
-      "AI Worker is not connected yet."
-    );
+  const p =
+    prompt.toLowerCase();
 
-  }
+  if(p.includes("robot"))
+    return "🤖";
 
+  if(p.includes("elephant"))
+    return "🐘";
 
-  const response =
-    await fetch(
-      AI_API + path,
-      {
-        method: "POST",
+  if(p.includes("cat"))
+    return "🐱";
 
-        headers: {
-          "Content-Type":
-            "application/json"
-        },
+  if(
+    p.includes("rocket") ||
+    p.includes("space")
+  )
+    return "🚀";
 
-        body:
-          JSON.stringify(body)
-      }
-    );
+  if(
+    p.includes("fish")
+  )
+    return "🐟";
 
+  if(
+    p.includes("child") ||
+    p.includes("student") ||
+    p.includes("boy") ||
+    p.includes("girl")
+  )
+    return "🧒";
 
-  let result = {};
+  if(
+    p.includes("tree") ||
+    p.includes("plant")
+  )
+    return "🌳";
 
-  try {
-
-    result =
-      await response.json();
-
-  }
-
-  catch {
-
-    throw new Error(
-      "AI returned an invalid response."
-    );
-
-  }
-
-
-  if (!response.ok) {
-
-    throw new Error(
-      result.error ||
-      "AI request failed"
-    );
-
-  }
-
-
-  return result;
-
+  return "✨";
 }
 
 
-async function create() {
+function placeEmoji(prompt){
+
+  const p =
+    prompt.toLowerCase();
+
+  if(p.includes("garden"))
+    return "🌳";
+
+  if(p.includes("school"))
+    return "🏫";
+
+  if(p.includes("moon"))
+    return "🌙";
+
+  if(p.includes("space"))
+    return "🌌";
+
+  if(p.includes("beach"))
+    return "🏖️";
+
+  if(
+    p.includes("village") ||
+    p.includes("field")
+  )
+    return "🌾";
+
+  return "🌈";
+}
+
+
+function actionEmoji(prompt){
+
+  const p =
+    prompt.toLowerCase();
+
+  if(
+    p.includes("book") ||
+    p.includes("reading")
+  )
+    return "📖";
+
+  if(
+    p.includes("computer") ||
+    p.includes("learning")
+  )
+    return "💻";
+
+  if(
+    p.includes("paint")
+  )
+    return "🎨";
+
+  if(
+    p.includes("play")
+  )
+    return "⚽";
+
+  if(
+    p.includes("plant")
+  )
+    return "🌱";
+
+  if(
+    p.includes("wave")
+  )
+    return "👋";
+
+  return "⭐";
+}
+
+
+function createVisualPreview(
+  prompt
+){
+
+  const subject =
+    subjectEmoji(prompt);
+
+  const place =
+    placeEmoji(prompt);
+
+  const action =
+    actionEmoji(prompt);
+
+  const safePrompt =
+    escapeXml(
+      prompt.slice(0,90)
+    );
+
+  const svg = `
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="1024"
+    height="1024"
+    viewBox="0 0 1024 1024"
+  >
+
+    <defs>
+
+      <linearGradient
+        id="bg"
+        x1="0"
+        y1="0"
+        x2="1"
+        y2="1"
+      >
+
+        <stop
+          offset="0%"
+          stop-color="#6658f6"
+        />
+
+        <stop
+          offset="52%"
+          stop-color="#24cfc2"
+        />
+
+        <stop
+          offset="100%"
+          stop-color="#ff9f67"
+        />
+
+      </linearGradient>
+
+      <filter id="shadow">
+
+        <feDropShadow
+          dx="0"
+          dy="18"
+          stdDeviation="20"
+          flood-opacity=".25"
+        />
+
+      </filter>
+
+    </defs>
+
+
+    <rect
+      width="1024"
+      height="1024"
+      rx="70"
+      fill="url(#bg)"
+    />
+
+
+    <circle
+      cx="140"
+      cy="130"
+      r="80"
+      fill="#ffffff22"
+    />
+
+    <circle
+      cx="890"
+      cy="170"
+      r="120"
+      fill="#ffffff18"
+    />
+
+    <circle
+      cx="850"
+      cy="840"
+      r="150"
+      fill="#ffffff14"
+    />
+
+
+    <text
+      x="512"
+      y="175"
+      text-anchor="middle"
+      font-size="80"
+    >
+      ${place}
+    </text>
+
+
+    <g filter="url(#shadow)">
+
+      <rect
+        x="205"
+        y="235"
+        width="614"
+        height="460"
+        rx="70"
+        fill="#ffffffdd"
+      />
+
+    </g>
+
+
+    <text
+      x="512"
+      y="500"
+      text-anchor="middle"
+      font-size="220"
+    >
+      ${subject}
+    </text>
+
+
+    <text
+      x="512"
+      y="635"
+      text-anchor="middle"
+      font-size="100"
+    >
+      ${action}
+    </text>
+
+
+    <rect
+      x="120"
+      y="760"
+      width="784"
+      height="130"
+      rx="40"
+      fill="#11194bdd"
+    />
+
+
+    <text
+      x="512"
+      y="810"
+      text-anchor="middle"
+      fill="#ffffff"
+      font-family="Arial,sans-serif"
+      font-size="26"
+      font-weight="700"
+    >
+      FREE VISUAL PROMPT PREVIEW
+    </text>
+
+
+    <text
+      x="512"
+      y="855"
+      text-anchor="middle"
+      fill="#dfe4ff"
+      font-family="Arial,sans-serif"
+      font-size="18"
+    >
+      ${safePrompt}
+    </text>
+
+  </svg>
+  `;
+
+  return (
+    "data:image/svg+xml;charset=utf-8," +
+    encodeURIComponent(svg)
+  );
+}
+
+
+/* =========================
+   LOCAL STORY
+========================= */
+
+function makeStory(prompt){
+
+  if(
+    isHindi(prompt) ||
+    isHinglish(prompt)
+  ){
+
+    return (
+      "Ek din ek pyara character ek nayi jagah par gaya. " +
+      "Wahan usne kuch interesting seekha aur khushi se apna kaam complete kiya. " +
+      "Usne jaana ki curiosity aur practice se hum har din kuch naya seekh sakte hain. ⭐"
+    );
+  }
+
+
+  const subject =
+    selection.subject;
+
+  const place =
+    selection.place;
+
+  const action =
+    selection.action;
+
+
+  const stories = [
+
+    `One bright day, a ${subject} went to the ${place}. ` +
+    `It started ${action}. ` +
+    `It learned something new and felt very proud. ` +
+    `Learning can be a fun adventure! ⭐`,
+
+    `In a happy ${place}, a ${subject} had a little mission. ` +
+    `The mission was ${action}. ` +
+    `With patience and a smile, the mission was completed. ` +
+    `What a smart learning day! 🌟`,
+
+    `A ${subject} visited the ${place}. ` +
+    `It enjoyed ${action} and discovered something interesting. ` +
+    `Then it shared the new idea with a friend. ` +
+    `Learning together made the day special. 😊`
+
+  ];
+
+
+  return stories[
+    Math.floor(
+      Math.random() *
+      stories.length
+    )
+  ];
+}
+
+
+/* =========================
+   CREATE
+========================= */
+
+function create(){
 
   const prompt =
-    $("prompt").value.trim();
+    $("prompt")
+      .value
+      .trim();
 
 
-  if (prompt.length < 3) {
+  if(prompt.length < 3){
 
     toast(
       "Say or write a prompt first"
     );
 
     return;
-
   }
 
 
-  if (!safeLocalPrompt(prompt)) {
+  if(
+    !safeLocalPrompt(prompt)
+  ){
+
+    $("status").className =
+      "status bad";
+
+    $("status").textContent =
+      "🛡️ Please use a safe learning prompt.";
 
     toast(
       "Please use a safe learning prompt"
     );
 
     return;
-
   }
 
 
-  $("createBtn").disabled = true;
-
-  $("status").className =
-    "status busy";
-
-  $("status").textContent =
-    "✨ AI is creating...";
+  $("createBtn").disabled =
+    true;
 
 
-  try {
-
-    if (mode === "image") {
-
-      const result =
-        await callAI(
-          "/image",
-          {
-            prompt
-          }
-        );
-
-
-      $("outputEmpty").hidden =
-        true;
-
-      $("storyOutput").hidden =
-        true;
-
-      $("generatedImage").hidden =
-        false;
-
-
-      $("generatedImage").src =
-        result.dataUrl ||
-        result.url;
-
-
-      $("status").className =
-        "status good";
-
-      $("status").textContent =
-        "✅ Picture ready! Compare it with your prompt.";
-
-    }
-
-
-    else {
-
-      const result =
-        await callAI(
-          "/chat",
-          {
-
-            message:
-              "Create a very short, cheerful, " +
-              "safe Class 1-3 children's story " +
-              "from this prompt. " +
-              "Use very easy words. " +
-              "Reply in the same language as " +
-              "the child's prompt when possible. " +
-              "Prompt: " +
-              prompt
-
-          }
-        );
-
-
-      $("outputEmpty").hidden =
-        true;
-
-      $("generatedImage").hidden =
-        true;
-
-      $("storyOutput").hidden =
-        false;
-
-
-      $("storyOutput").textContent =
-        result.text ||
-        "Story could not be created.";
-
-
-      $("status").className =
-        "status good";
-
-      $("status").textContent =
-        "✅ Tiny story ready.";
-
-
-      if (result.text) {
-
-        speak(
-          result.text
-        );
-
-      }
-
-    }
-
-  }
-
-  catch(error) {
+  if(mode === "image"){
 
     $("status").className =
-      "status bad";
+      "status busy";
 
     $("status").textContent =
-      "⚠️ " +
-      error.message;
+      "🎨 Building your free visual preview...";
 
 
-    toast(
-      error.message
+    setTimeout(
+      () => {
+
+        $("outputEmpty").hidden =
+          true;
+
+        $("storyOutput").hidden =
+          true;
+
+        $("generatedImage").hidden =
+          false;
+
+
+        $("generatedImage").src =
+          createVisualPreview(
+            prompt
+          );
+
+
+        $("status").className =
+          "status good";
+
+        $("status").textContent =
+          "✅ Free visual preview ready! No paid AI used.";
+
+
+        $("createBtn").disabled =
+          false;
+
+      },
+      300
     );
 
   }
 
-  finally {
 
-    $("createBtn").disabled =
-      false;
+  else{
+
+    $("status").className =
+      "status busy";
+
+    $("status").textContent =
+      "📖 Building your tiny story...";
+
+
+    setTimeout(
+      () => {
+
+        const story =
+          makeStory(prompt);
+
+
+        $("outputEmpty").hidden =
+          true;
+
+        $("generatedImage").hidden =
+          true;
+
+        $("storyOutput").hidden =
+          false;
+
+
+        $("storyOutput").textContent =
+          story;
+
+
+        $("status").className =
+          "status good";
+
+        $("status").textContent =
+          "✅ Free tiny story ready!";
+
+
+        speak(story);
+
+
+        $("createBtn").disabled =
+          false;
+
+      },
+      300
+    );
 
   }
 
 }
 
 
-function improve() {
+/* =========================
+   IMPROVE PROMPT
+========================= */
+
+function improve(){
 
   const prompt =
-    $("prompt").value.trim();
+    $("prompt")
+      .value
+      .trim();
 
 
-  if (!prompt) {
+  if(!prompt){
 
     buildPrompt();
 
+    toast(
+      "✨ Prompt created"
+    );
+
     return;
+  }
+
+
+  if(
+    isHindi(prompt)
+  ){
+
+    $("prompt").value =
+      prompt.replace(
+        /[।.]?$/,
+        ""
+      ) +
+      "। साफ रंग, प्यारा बैकग्राउंड, बच्चों के लिए सुरक्षित और मजेदार स्टाइल में।";
 
   }
 
 
-  /*
-    Hindi prompt ko English me force nahi karte.
-    Sirf extra useful details add karte hain.
-  */
+  else if(
+    isHinglish(prompt)
+  ){
 
-  if (
-    prompt.split(/\s+/).length < 6
-  ) {
+    $("prompt").value =
+      prompt.replace(
+        /[.]?$/,
+        ""
+      ) +
+      ", bright colors ke saath, friendly background aur kids-safe cartoon style mein.";
 
-    if (/[\u0900-\u097F]/.test(prompt)) {
+  }
 
-      $("prompt").value =
-        prompt.replace(
-          /[।.]?$/,
-          ""
-        ) +
-        "। साफ रंग, प्यारा बैकग्राउंड और बच्चों के लिए सुरक्षित कार्टून स्टाइल में।";
 
-    }
+  else{
 
-    else {
-
-      $("prompt").value =
-        prompt.replace(
-          /[.]?$/,
-          ""
-        ) +
-        ", with clear colors, a friendly background and a simple child-safe storybook style.";
-
-    }
+    $("prompt").value =
+      prompt.replace(
+        /[.]?$/,
+        ""
+      ) +
+      ", with bright colors, a friendly background, clear details and a child-safe storybook style.";
 
   }
 
 
   toast(
-    "✨ Added clearer details"
+    "✨ Prompt improved"
   );
 
 }
 
 
-function voice() {
+/* =========================
+   VOICE INPUT
+========================= */
+
+function voice(){
 
   const SpeechRecognition =
     window.SpeechRecognition ||
     window.webkitSpeechRecognition;
 
 
-  if (!SpeechRecognition) {
+  if(!SpeechRecognition){
 
     toast(
       "Voice typing is not available in this browser"
     );
 
     return;
-
   }
 
 
   const recognition =
     new SpeechRecognition();
 
-
-  /*
-    Default Hinglish-friendly setting.
-    Chrome can still recognize
-    many English words inside Hindi speech.
-  */
 
   recognition.lang =
     "hi-IN";
@@ -656,10 +1029,11 @@ function voice() {
   recognition.onend =
     () => {
 
-      if (
-        $("status").textContent ===
+      if(
+        $("status")
+          .textContent ===
         "🎤 Listening... bolo."
-      ) {
+      ){
 
         $("status").className =
           "status";
@@ -672,16 +1046,18 @@ function voice() {
     };
 
 
-  try {
+  try{
 
     recognition.start();
 
-  }
-
-  catch {}
+  }catch{}
 
 }
 
+
+/* =========================
+   CHOICE CLICK
+========================= */
 
 document.addEventListener(
   "click",
@@ -693,7 +1069,7 @@ document.addEventListener(
       );
 
 
-    if (!button) return;
+    if(!button) return;
 
 
     selection[
@@ -709,6 +1085,10 @@ document.addEventListener(
   }
 );
 
+
+/* =========================
+   MODE BUTTONS
+========================= */
 
 document
   .querySelectorAll(
@@ -740,16 +1120,29 @@ document
             );
 
 
-          $("createBtn").textContent =
+          if(
             mode === "image"
-              ? "✨ Create Picture"
-              : "📖 Create Tiny Story";
+          ){
+
+            $("createBtn").textContent =
+              "🎨 Create Free Visual";
+
+          }else{
+
+            $("createBtn").textContent =
+              "📖 Create Free Tiny Story";
+
+          }
 
         };
 
     }
   );
 
+
+/* =========================
+   BUTTONS
+========================= */
 
 $("voicePrompt").onclick =
   voice;
@@ -759,17 +1152,20 @@ $("hearPrompt").onclick =
   () => {
 
     const text =
-      $("prompt").value.trim();
+      $("prompt")
+        .value
+        .trim();
 
-    if (!text) {
+
+    if(!text){
 
       toast(
         "Write a prompt first"
       );
 
       return;
-
     }
+
 
     speak(text);
 
@@ -783,6 +1179,10 @@ $("improvePrompt").onclick =
 $("createBtn").onclick =
   create;
 
+
+/* =========================
+   START
+========================= */
 
 renderAll();
 
