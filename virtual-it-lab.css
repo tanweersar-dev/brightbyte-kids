@@ -55,3 +55,194 @@ button{cursor:pointer}
 @keyframes targetBlinkStrong{0%{transform:scale(1);opacity:1}100%{transform:scale(1.07);opacity:1;box-shadow:0 0 0 3px rgba(255,216,77,.45),0 0 26px 9px rgba(255,216,77,1),0 0 46px 17px rgba(255,216,77,.65)}}
 @keyframes ledBlinkStrong{0%{opacity:.32;transform:scale(.92)}100%{opacity:1;transform:scale(1.22)}}
 @keyframes cablePreviewGlow{0%{opacity:.42}100%{opacity:1}}
+
+
+/* ===== V15 SAFE POLISH ===== */
+
+.port.target,.socket.target,.router-port.target,.keyboard-built.target,.mouse-built.target{
+border-color:#ffe45c!important;
+box-shadow:0 0 0 4px #ffe45c66,0 0 22px 8px #ffc400,0 0 45px 18px #ffd84d88!important;
+animation:v15blink .35s infinite alternate!important
+}
+
+.cable-item.selected{
+outline:4px solid #ffc72f!important;
+background:#fff4b8!important;
+box-shadow:0 0 22px #ffc400!important
+}
+
+@keyframes v15blink{
+from{transform:scale(.97)}
+to{transform:scale(1.08)}
+}
+
+.keyboard-built{
+width:258px!important;
+height:88px!important;
+background:linear-gradient(#292e38,#11141a)!important;
+border:2px solid #080a0e!important;
+border-radius:10px!important
+}
+
+.keyboard-built .keys{
+height:59px!important;
+background:#171b22!important;
+padding:4px!important;
+display:flex!important;
+flex-direction:column;
+gap:3px
+}
+
+.vit-key-row{display:flex;flex:1;gap:3px}
+.vit-key{
+flex:1;
+border-radius:3px;
+background:linear-gradient(#fff,#cdd2d9);
+border:1px solid #8f98a5;
+border-bottom:2px solid #68717d
+}
+.vit-key.wide{flex:1.55}
+.vit-key.space{flex:5}
+
+.mouse-built{
+width:78px!important;
+height:98px!important;
+background:linear-gradient(100deg,#202731 0 48%,#303a46 49%)!important;
+border:2px solid #10141a!important;
+border-radius:48% 48% 43% 43%/38% 38% 60% 60%!important
+}
+
+.cpu-built{
+background:linear-gradient(90deg,#171b26 0 9%,#303744 9% 94%,#181c25 94%)!important;
+border:2px solid #11151d!important;
+border-radius:12px!important
+}
+
+.vit-modal-backdrop{
+position:fixed;
+inset:0;
+z-index:200000;
+display:none;
+place-items:center;
+background:#0e123294;
+backdrop-filter:blur(7px)
+}
+
+.vit-modal-backdrop.show{display:grid}
+
+.vit-reset-modal{
+width:min(470px,94vw);
+background:white;
+border-radius:26px;
+overflow:hidden;
+box-shadow:0 30px 90px #0c113766
+}
+
+.vit-modal-top{
+padding:22px;
+color:white;
+background:linear-gradient(135deg,#25245c,#6d5dfc,#25cfc1)
+}
+
+.vit-modal-body{padding:20px}
+.vit-reset-note{
+padding:13px;
+border-radius:14px;
+background:#fff7e3;
+font-weight:800
+}
+
+.vit-modal-actions{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:10px;
+margin-top:15px
+}
+
+.vit-modal-actions button{
+border:0;
+min-height:46px;
+border-radius:14px;
+font-weight:900
+}
+
+#vitResetConfirm{
+color:white;
+background:linear-gradient(135deg,#ed526f,#ff8a56)
+}
+
+/* ONE PAGE CERTIFICATE */
+
+@media print{
+
+@page{
+size:A4 landscape;
+margin:0
+}
+
+html,body{
+width:297mm!important;
+height:210mm!important;
+margin:0!important;
+overflow:hidden!important
+}
+
+body *{
+visibility:hidden!important
+}
+
+.certificate-section,
+.certificate-section *{
+visibility:visible!important
+}
+
+.certificate-section{
+position:fixed!important;
+inset:0!important;
+width:297mm!important;
+height:210mm!important;
+padding:0!important;
+margin:0!important;
+background:white!important;
+overflow:hidden!important
+}
+
+.certificate-actions{
+display:none!important
+}
+
+.certificate{
+width:297mm!important;
+height:210mm!important;
+padding:0!important;
+margin:0!important;
+display:flex!important;
+align-items:center!important;
+justify-content:center!important;
+background:white!important;
+overflow:hidden!important
+}
+
+.certificate-border{
+width:279mm!important;
+min-width:279mm!important;
+height:190mm!important;
+min-height:190mm!important;
+max-height:190mm!important;
+margin:0!important;
+padding:10mm 15mm!important;
+transform:none!important;
+overflow:hidden!important;
+box-sizing:border-box!important
+}
+
+.cert-stars{margin-top:4mm!important}
+.certificate h1{font-size:29pt!important;margin:2mm 0!important}
+.certificate-name{font-size:26pt!important;margin:3mm auto!important}
+.certificate h2{font-size:18pt!important}
+.cert-skills{margin:4mm 0!important;flex-wrap:nowrap!important}
+.cert-skills span{font-size:7pt!important;padding:1.3mm 2mm!important}
+.cert-footer{margin-top:7mm!important}
+.seal{width:24mm!important;height:24mm!important}
+
+}
