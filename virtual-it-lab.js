@@ -496,4 +496,799 @@ loadLocal();
 prepareStage2Challenge();
 wirePorts();
 loadProfile().finally(()=>renderStage());
+
+
+/* =========================================================
+   V15 VIRTUAL IT LAB FUNCTIONAL POLISH
+   Paste just BEFORE the final })();
+   ========================================================= */
+
+
+/* ===== FIX SVG CABLE ALIGNMENT ===== */
+
+function vitSyncCableViewBox(){
+
+  const svg = $("cableLayer");
+  const room = $("labRoom");
+
+  if(!svg || !room) return;
+
+  const width =
+    Math.max(
+      1,
+      room.clientWidth
+    );
+
+  const height =
+    Math.max(
+      1,
+      room.clientHeight
+    );
+
+  svg.setAttribute(
+    "viewBox",
+    `0 0 ${width} ${height}`
+  );
+
+  svg.setAttribute(
+    "preserveAspectRatio",
+    "none"
+  );
+
+}
+
+
+/*
+  Override the old center calculation.
+  Now cable always uses SVG's real coordinate system.
+*/
+
+centerOf = function(el){
+
+  const svg =
+    $("cableLayer");
+
+  const svgRect =
+    svg.getBoundingClientRect();
+
+  const elRect =
+    el.getBoundingClientRect();
+
+  const box =
+    svg.viewBox.baseVal;
+
+  const scaleX =
+    box.width /
+    svgRect.width;
+
+  const scaleY =
+    box.height /
+    svgRect.height;
+
+  return {
+
+    x:
+      (
+        elRect.left -
+        svgRect.left +
+        elRect.width / 2
+      ) * scaleX,
+
+    y:
+      (
+        elRect.top -
+        svgRect.top +
+        elRect.height / 2
+      ) * scaleY
+
+  };
+
+};
+
+
+/*
+  Keep old cable drawing logic,
+  but sync SVG first.
+*/
+
+const vitOriginalDrawCables =
+  drawCables;
+
+
+drawCables = function(){
+
+  vitSyncCableViewBox();
+
+  vitOriginalDrawCables();
+
+};
+
+
+/* ===== REAL KEYBOARD ===== */
+
+function vitMakeKeys(
+  amount,
+  extra=""
+){
+
+  return Array
+    .from(
+      {
+        length:
+          amount
+      }
+    )
+    .map(
+      () =>
+        `<i class="vit-key ${extra}"></i>`
+    )
+    .join("");
+
+}
+
+
+function vitUpgradeHardware(){
+
+  const keys =
+    document.querySelector(
+      "#keyboardBuilt .keys"
+    );
+
+
+  if(
+    keys &&
+    !keys.dataset.realKeyboard
+  ){
+
+    keys.dataset.realKeyboard =
+      "yes";
+
+
+    keys.innerHTML = `
+
+      <div class="vit-key-row">
+
+        ${vitMakeKeys(12)}
+
+      </div>
+
+
+      <div class="vit-key-row">
+
+        <i class="vit-key wide"></i>
+
+        ${vitMakeKeys(9)}
+
+        <i class="vit-key wide"></i>
+
+      </div>
+
+
+      <div class="vit-key-row">
+
+        <i class="vit-key wide"></i>
+
+        ${vitMakeKeys(3)}
+
+        <i class="vit-key space"></i>
+
+        ${vitMakeKeys(3)}
+
+        <i class="vit-key wide"></i>
+
+      </div>
+
+    `;
+
+  }
+
+
+  /* Realistic mouse buttons */
+
+  const mouse =
+    $("mouseBuilt");
+
+
+  if(
+    mouse &&
+    !mouse.querySelector(
+      ".vit-mouse-buttons"
+    )
+  ){
+
+    const buttons =
+      document.createElement(
+        "div"
+      );
+
+
+    buttons.className =
+      "vit-mouse-buttons";
+
+
+    mouse.prepend(
+      buttons
+    );
+
+  }
+
+
+  /* System Unit front details */
+
+  const cpuPanel =
+    document.querySelector(
+      "#cpuBuilt .cpu-panel"
+    );
+
+
+  if(
+    cpuPanel &&
+    !cpuPanel.querySelector(
+      ".vit-cpu-details"
+    )
+  ){
+
+    const details =
+      document.createElement(
+        "div"
+      );
+
+
+    details.className =
+      "vit-cpu-details";
+
+
+    details.innerHTML = `
+
+      <div
+        class="vit-drive-slot"
+      ></div>
+
+      <div
+        class="vit-front-io"
+      >
+
+        <i></i>
+
+        <i></i>
+
+        <i></i>
+
+      </div>
+
+    `;
+
+
+    cpuPanel.prepend(
+      details
+    );
+
+  }
+
+}
+
+
+/* =========================================================
+   PROFESSIONAL RESET POPUP
+   ========================================================= */
+
+function vitCreateResetPopup(){
+
+  if(
+    $("vitResetModal")
+  ){
+    return;
+  }
+
+
+  document.body
+    .insertAdjacentHTML(
+      "beforeend",
+      `
+
+      <div
+        id="vitResetModal"
+        class="vit-modal-backdrop"
+        aria-hidden="true"
+      >
+
+        <div
+          class="vit-reset-modal"
+          role="dialog"
+          aria-modal="true"
+        >
+
+          <div
+            class="vit-modal-top"
+          >
+
+            <div
+              class="vit-modal-icon"
+            >
+              ↻
+            </div>
+
+
+            <h3>
+              Reset Junior IT Lab?
+            </h3>
+
+
+            <p>
+
+              Do you want to start
+              the practical lab again
+              from the beginning?
+
+            </p>
+
+          </div>
+
+
+          <div
+            class="vit-modal-body"
+          >
+
+            <div
+              class="vit-reset-note"
+            >
+
+              ⚠️ Reset will clear
+              Stage 1, Stage 2,
+              Lab Stars and the
+              unlocked certificate.
+
+              Your student login and
+              profile will stay safe.
+
+            </div>
+
+
+            <div
+              class="vit-modal-actions"
+            >
+
+              <button
+                id="vitResetCancel"
+                type="button"
+              >
+                Keep My Progress
+              </button>
+
+
+              <button
+                id="vitResetConfirm"
+                type="button"
+              >
+                Yes, Reset Lab
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      `
+    );
+
+}
+
+
+/* ===== OPEN RESET ===== */
+
+function vitOpenReset(){
+
+  const modal =
+    $("vitResetModal");
+
+
+  if(!modal) return;
+
+
+  modal.classList.add(
+    "show"
+  );
+
+
+  modal.setAttribute(
+    "aria-hidden",
+    "false"
+  );
+
+
+  setTimeout(
+    () => {
+
+      $("vitResetCancel")
+        ?.focus();
+
+    },
+    40
+  );
+
+}
+
+
+/* ===== CLOSE RESET ===== */
+
+function vitCloseReset(){
+
+  const modal =
+    $("vitResetModal");
+
+
+  if(!modal) return;
+
+
+  modal.classList.remove(
+    "show"
+  );
+
+
+  modal.setAttribute(
+    "aria-hidden",
+    "true"
+  );
+
+}
+
+
+/* ===== FULL SAFE RESET ===== */
+
+function vitResetWholeLab(){
+
+  /*
+    Only Virtual IT Lab progress
+    is removed.
+
+    Student login/profile stays.
+  */
+
+  localStorage.removeItem(
+    STORAGE_KEY
+  );
+
+
+  /*
+    Hide certificate immediately
+  */
+
+  $("certificateSection")
+    ?.classList
+    .add(
+      "hidden"
+    );
+
+
+  $("stageComplete")
+    ?.classList
+    .add(
+      "hidden"
+    );
+
+
+  vitCloseReset();
+
+
+  /*
+    Reload gives completely fresh
+    lab state:
+    Stage 1
+    0 Stars
+    No Certificate
+  */
+
+  location.reload();
+
+}
+
+
+/* ===== INSTALL PROFESSIONAL RESET ===== */
+
+function vitInstallReset(){
+
+  vitCreateResetPopup();
+
+
+  const resetButton =
+    $("resetLab");
+
+
+  if(resetButton){
+
+    /*
+      Capture mode prevents old
+      browser confirm popup from
+      opening.
+    */
+
+    resetButton.addEventListener(
+      "click",
+      event => {
+
+        event.preventDefault();
+
+        event.stopImmediatePropagation();
+
+        vitOpenReset();
+
+      },
+      true
+    );
+
+  }
+
+
+  $("vitResetCancel")
+    ?.addEventListener(
+      "click",
+      vitCloseReset
+    );
+
+
+  $("vitResetConfirm")
+    ?.addEventListener(
+      "click",
+      vitResetWholeLab
+    );
+
+
+  $("vitResetModal")
+    ?.addEventListener(
+      "click",
+      event => {
+
+        if(
+          event.target.id ===
+          "vitResetModal"
+        ){
+
+          vitCloseReset();
+
+        }
+
+      }
+    );
+
+
+  document.addEventListener(
+    "keydown",
+    event => {
+
+      if(
+        event.key ===
+        "Escape"
+      ){
+
+        vitCloseReset();
+
+      }
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   HEAVY CLICK / TOUCH FEEDBACK
+   ========================================================= */
+
+function vitInstallTouchFlash(){
+
+  document.addEventListener(
+    "pointerdown",
+    event => {
+
+      const target =
+        event.target.closest(
+          [
+            ".cable-item",
+            ".device-item",
+            ".big-action",
+            ".socket",
+            ".port",
+            ".router-port"
+          ].join(",")
+        );
+
+
+      if(!target){
+        return;
+      }
+
+
+      target.classList.remove(
+        "vit-pressed"
+      );
+
+
+      /*
+        Force animation restart
+      */
+
+      void target.offsetWidth;
+
+
+      target.classList.add(
+        "vit-pressed"
+      );
+
+
+      setTimeout(
+        () => {
+
+          target.classList.remove(
+            "vit-pressed"
+          );
+
+        },
+        360
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   EXTRA TARGET EFFECT
+   ========================================================= */
+
+function vitWatchSelectedCable(){
+
+  const tray =
+    $("cableTray");
+
+
+  if(
+    !tray ||
+    !("MutationObserver" in window)
+  ){
+    return;
+  }
+
+
+  const observer =
+    new MutationObserver(
+      () => {
+
+        vitSyncCableViewBox();
+
+        requestAnimationFrame(
+          () => {
+
+            /*
+              Core system already adds
+              .target to correct endpoints.
+
+              This makes redraw happen
+              after the new button state
+              is painted.
+            */
+
+            drawCables();
+
+          }
+        );
+
+      }
+    );
+
+
+  observer.observe(
+    tray,
+    {
+      childList:true,
+      subtree:true
+    }
+  );
+
+}
+
+
+/* =========================================================
+   RESIZE FIX
+   ========================================================= */
+
+function vitInstallResizeFix(){
+
+  vitSyncCableViewBox();
+
+
+  if(
+    "ResizeObserver"
+    in window
+  ){
+
+    const observer =
+      new ResizeObserver(
+        () => {
+
+          vitSyncCableViewBox();
+
+          requestAnimationFrame(
+            drawCables
+          );
+
+        }
+      );
+
+
+    observer.observe(
+      $("labRoom")
+    );
+
+  }
+
+
+  window.addEventListener(
+    "resize",
+    () => {
+
+      vitSyncCableViewBox();
+
+      requestAnimationFrame(
+        drawCables
+      );
+
+    }
+  );
+
+}
+
+
+/* =========================================================
+   START V15 PATCH
+   ========================================================= */
+
+function vitStartPolish(){
+
+  vitUpgradeHardware();
+
+  vitInstallReset();
+
+  vitInstallTouchFlash();
+
+  vitInstallResizeFix();
+
+  vitWatchSelectedCable();
+
+
+  /*
+    Browser layout settles slightly
+    after page load.
+  */
+
+  setTimeout(
+    () => {
+
+      vitSyncCableViewBox();
+
+      drawCables();
+
+    },
+    150
+  );
+
+
+  setTimeout(
+    () => {
+
+      vitSyncCableViewBox();
+
+      drawCables();
+
+    },
+    600
+  );
+
+}
+
+
+vitStartPolish();
 })();
