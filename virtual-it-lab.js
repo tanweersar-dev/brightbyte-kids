@@ -575,33 +575,190 @@ function renderTray(){
 
 function wireDraggables(){
 
-  qa(
-    ".device-item[draggable='true']"
-  )
-    .forEach(
-      el=>{
+  const touchMode=
+    window.matchMedia(
+      "(max-width:900px), (pointer:coarse)"
+    ).matches;
 
-        el.addEventListener(
-          "dragstart",
-          e=>{
 
-            e.dataTransfer
-              .setData(
-                "text/plain",
-                el.dataset.device
+  /* =========================================================
+     MOBILE / TABLET
+     Tap device = automatically place on correct desk position
+     ========================================================= */
+
+  if(touchMode){
+
+    const panelText=
+      q(".parts-panel .panel-sub");
+
+
+    if(panelText){
+
+      panelText.textContent=
+        "📱 Mobile Mode: Tap a device to place it on the desk. Then tap a cable and tap its two glowing ports.";
+
+    }
+
+
+    if(
+      state.activeStage===1 &&
+      $("hintText")
+    ){
+
+      $("hintText").textContent=
+        "Tap Monitor, System Unit, Keyboard and Mouse below. Each device will move to its correct desk position automatically.";
+
+    }
+
+
+    qa(
+      ".device-item[draggable='true']"
+    )
+      .forEach(
+        el=>{
+
+          el.setAttribute(
+            "draggable",
+            "false"
+          );
+
+
+          el.setAttribute(
+            "role",
+            "button"
+          );
+
+
+          el.setAttribute(
+            "tabindex",
+            "0"
+          );
+
+
+          const activate=
+            e=>{
+
+              e.preventDefault();
+              e.stopPropagation();
+
+
+              const id=
+                el.dataset.device;
+
+
+              if(!id){
+                return;
+              }
+
+
+              el.classList.add(
+                "mobile-tapped"
               );
 
-            e.dataTransfer
-              .effectAllowed=
-              "move";
 
-          }
-        );
+              setTimeout(
+                ()=>{
+                  placeDevice(id);
+                },
+                110
+              );
 
-      }
-    );
 
-  qa("[data-device-zone]")
+              setTimeout(
+                ()=>{
+
+                  const room=
+                    $("labRoom");
+
+
+                  if(room){
+
+                    room.scrollIntoView({
+                      behavior:"smooth",
+                      block:"center"
+                    });
+
+                  }
+
+                },
+                260
+              );
+
+            };
+
+
+          el.addEventListener(
+            "click",
+            activate
+          );
+
+
+          el.addEventListener(
+            "keydown",
+            e=>{
+
+              if(
+                e.key==="Enter" ||
+                e.key===" "
+              ){
+
+                activate(e);
+
+              }
+
+            }
+          );
+
+        }
+      );
+
+  }
+
+
+  /* =========================================================
+     DESKTOP / LAPTOP
+     Existing drag-and-drop remains unchanged
+     ========================================================= */
+
+  else{
+
+    qa(
+      ".device-item[draggable='true']"
+    )
+      .forEach(
+        el=>{
+
+          el.addEventListener(
+            "dragstart",
+            e=>{
+
+              e.dataTransfer
+                .setData(
+                  "text/plain",
+                  el.dataset.device
+                );
+
+
+              e.dataTransfer
+                .effectAllowed=
+                "move";
+
+            }
+          );
+
+        }
+      );
+
+  }
+
+
+  /* =========================================================
+     DESKTOP DROP ZONES
+     ========================================================= */
+
+  qa(
+    "[data-device-zone]"
+  )
     .forEach(
       zone=>{
 
@@ -609,7 +766,13 @@ function wireDraggables(){
           "dragover",
           e=>{
 
+            if(touchMode){
+              return;
+            }
+
+
             e.preventDefault();
+
 
             zone.classList.add(
               "dragover"
@@ -618,29 +781,42 @@ function wireDraggables(){
           }
         );
 
+
         zone.addEventListener(
           "dragleave",
-          ()=>
+          ()=>{
+
             zone.classList.remove(
               "dragover"
-            )
+            );
+
+          }
         );
+
 
         zone.addEventListener(
           "drop",
           e=>{
 
+            if(touchMode){
+              return;
+            }
+
+
             e.preventDefault();
+
 
             zone.classList.remove(
               "dragover"
             );
+
 
             const id=
               e.dataTransfer
                 .getData(
                   "text/plain"
                 );
+
 
             if(
               id===
@@ -649,19 +825,26 @@ function wireDraggables(){
 
               placeDevice(id);
 
-            }else{
+            }
+
+            else{
 
               zone.classList.add(
                 "wrong"
               );
 
+
               setTimeout(
-                ()=>
+                ()=>{
+
                   zone.classList.remove(
                     "wrong"
-                  ),
+                  );
+
+                },
                 350
               );
+
 
               feedback(
                 "❌ Wrong place. Match the device with its picture area.",
