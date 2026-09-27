@@ -1,1 +1,225 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Parent Reviews — Tannu Sir's Kids Digital Academy</title><style>body{margin:0;font-family:Inter,system-ui,sans-serif;background:linear-gradient(145deg,#101641,#0c2141);color:#fff}*{box-sizing:border-box}.wrap{max-width:1100px;margin:auto;padding:20px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{display:flex;align-items:center;gap:10px}.t-logo{display:inline-grid;width:52px;height:52px}.t-logo svg{width:100%}a{color:#fff;text-decoration:none}.hero{padding:45px 0 20px}.hero h1{font-size:clamp(42px,6vw,70px);margin:10px 0}.hero p{color:#c6ceef;max-width:720px;line-height:1.6}.grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:16px}.card{background:#fff;color:#283052;border-radius:25px;padding:22px}label{display:block;font-size:11px;font-weight:900;margin-top:12px;margin-bottom:5px}input,select,textarea{width:100%;padding:12px;border:1px solid #dfe2f0;border-radius:12px;font:inherit}button{width:100%;margin-top:15px;border:0;border-radius:13px;padding:12px;color:#fff;background:linear-gradient(135deg,#6c5cff,#29cfc1);font-weight:900}.review{padding:15px;border:1px solid #eceaf8;border-radius:16px;margin-bottom:10px}.review b,.review small{display:block}.review small{color:#7b829e;margin-top:5px}.notice{font-size:10px;color:#77809b;margin-top:10px}@media(max-width:750px){.grid{grid-template-columns:1fr}}</style></head><body><div class="wrap"><div class="top"><div class="brand"><span class="t-logo" aria-label="Tannu Sir logo"><svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="tg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#46e4df"/><stop offset=".48" stop-color="#7765ff"/><stop offset="1" stop-color="#ff67b8"/></linearGradient></defs><circle cx="32" cy="32" r="29" fill="url(#tg)"/><circle cx="32" cy="32" r="23" fill="#12194b" opacity=".94"/><path d="M17 18h30v8H36v23h-8V26H17z" fill="#fff"/><path d="M13 35c8 10 30 15 40-1" fill="none" stroke="#55e1d7" stroke-width="2.5" stroke-linecap="round" opacity=".9"/><circle cx="52" cy="33" r="3.3" fill="#ffd65c"/></svg></span><div><b>Tannu Sir's Kids Digital Academy</b><br><small>Parent Reviews & Suggestions</small></div></div><a href="index.html">🏠 Home</a></div><section class="hero"><span>⭐ PARENT VOICE</span><h1>Help Us Make Learning Better</h1><p>Parents can share a rating, review and improvement suggestion. New reviews stay pending until the academy approves them for public display.</p></section><div class="grid"><form id="reviewForm" class="card"><h2>Share Your Experience</h2><label>Name</label><input id="parentName" placeholder="Parent / Guardian or Anonymous"><label>Child's Class</label><select id="classNo"><option value="1">Class 1</option><option value="2">Class 2</option><option value="3">Class 3</option><option value="4">Class 4</option><option value="5">Class 5</option></select><label>Rating</label><select id="rating"><option value="5">⭐⭐⭐⭐⭐</option><option value="4">⭐⭐⭐⭐</option><option value="3">⭐⭐⭐</option><option value="2">⭐⭐</option><option value="1">⭐</option></select><label>Type</label><select id="type"><option>Review</option><option>Suggestion</option><option>Problem</option><option>Course Request</option></select><label>Your Thoughts</label><textarea id="reviewText" rows="5" maxlength="600" required placeholder="What did you like? What should we improve?"></textarea><button>Submit for Review</button><p id="msg" class="notice"></p><p class="notice">Do not include passwords, phone numbers, medical details or other sensitive child information.</p></form><section class="card"><h2>Approved Parent Reviews</h2><div id="reviews">Loading...</div></section></div></div><script>const API='https://brightbyte-kids-api.tanweerstudy25.workers.dev',$=id=>document.getElementById(id);async function load(){try{const r=await fetch(API+'/api/reviews/public',{cache:'no-store'}),d=await r.json();const a=d.reviews||[];$("reviews").innerHTML=a.length?a.map(x=>`<article class="review"><b>${'⭐'.repeat(x.rating)} ${esc(x.parent_name||'Anonymous Parent')}</b><p>${esc(x.review_text)}</p><small>Class ${x.class_number} • ${esc(x.review_type)}</small></article>`).join(''):'No approved reviews yet.'}catch{$("reviews").textContent='Reviews are temporarily unavailable.'}}$("reviewForm").onsubmit=async e=>{e.preventDefault();$("msg").textContent='Sending...';try{const r=await fetch(API+'/api/reviews',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({parentName:$("parentName").value.trim()||'Anonymous Parent',classNumber:+$("classNo").value,rating:+$("rating").value,reviewType:$("type").value,reviewText:$("reviewText").value.trim()})}),d=await r.json();if(!r.ok)throw new Error(d.error||'Could not submit');$("msg").textContent='Thank you! Your review is pending approval.';e.target.reset()}catch(err){$("msg").textContent=err.message}};function esc(s){return String(s??'').replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}load();</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Parent Reviews — Tannu Sir's Kids Digital Academy</title>
+<style>
+*{box-sizing:border-box}
+:root{--ink:#23294f;--muted:#78809d;--line:#e8eaf4;--purple:#6b5cff;--cyan:#2ecdc2;--pink:#ff5ea8}
+body{margin:0;min-height:100vh;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;background:radial-gradient(circle at 10% 10%,#6657ff38,transparent 26%),radial-gradient(circle at 90% 10%,#2ecdc22c,transparent 28%),linear-gradient(145deg,#101641,#0c2141);color:#fff}
+button,input,select,textarea{font:inherit}button{cursor:pointer}.wrap{max-width:1180px;margin:auto;padding:22px}.top{display:flex;justify-content:space-between;align-items:center;gap:12px}.brand{display:flex;align-items:center;gap:10px}.t-logo{display:inline-grid;width:54px;height:54px}.t-logo svg{width:100%}.home-link{color:#fff;text-decoration:none;padding:10px 14px;border-radius:13px;background:#ffffff10;border:1px solid #ffffff20;font-weight:900}.hero{padding:45px 0 22px}.kicker{display:inline-block;padding:7px 11px;border-radius:999px;background:#ffffff10;border:1px solid #ffffff20;font-size:11px;font-weight:900}.hero h1{font-size:clamp(42px,6vw,70px);line-height:1.04;margin:13px 0 10px}.hero p{color:#c9d1ef;max-width:800px;line-height:1.65;margin:0}.grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:18px;align-items:start}.card{background:#fff;color:var(--ink);border-radius:25px;padding:22px;box-shadow:0 22px 60px #050a2733}.card h2{margin:0 0 8px}label{display:block;font-size:11px;font-weight:900;margin-top:12px;margin-bottom:5px}input,select,textarea{width:100%;padding:12px;border:1px solid #dfe2f0;border-radius:12px;color:#242a4d;outline:none}textarea{resize:vertical}.primary{width:100%;margin-top:15px;border:0;border-radius:13px;padding:12px;color:#fff;background:linear-gradient(135deg,#6c5cff,#29cfc1);font-weight:900}.notice{font-size:10px;color:#77809b;line-height:1.5}.submit-msg{min-height:18px;font-size:11px;font-weight:900}.reviews-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin-bottom:12px}.refresh{border:0;border-radius:11px;padding:8px 11px;background:#efedff;color:#5549c7;font-weight:900}.review{padding:16px;border:1px solid #eceaf8;border-radius:18px;margin-bottom:12px;background:linear-gradient(180deg,#fff,#fcfbff)}.review-name{font-weight:950}.meta{display:block;color:#7b829e;margin-top:5px;font-size:10px}.review-text{white-space:pre-wrap;line-height:1.6}.actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.action-btn{border:0;border-radius:999px;padding:8px 11px;background:#f1f2fa;color:#515978;font-size:10px;font-weight:900}.action-btn.liked{background:#ffe7f2;color:#b42d6d}.action-btn.admin{background:#e5fbf6;color:#13725f}.inline-form{display:none;margin-top:10px;padding:10px;border:1px solid #ececf7;border-radius:13px;background:#fafaff}.inline-form.open{display:block}.inline-grid{display:grid;grid-template-columns:140px 1fr auto;gap:8px}.inline-grid button{border:0;border-radius:11px;padding:10px 12px;background:linear-gradient(135deg,#6c5cff,#29cfc1);color:#fff;font-weight:900}.comment-box{margin-top:12px;padding-top:11px;border-top:1px solid var(--line)}.comment{margin-top:8px;padding:10px 11px;border-radius:13px;background:#f5f6fb}.comment.reply{margin-left:24px}.comment.admin-comment{background:#e9faf5;border:1px solid #d1f0e7}.comment-head{display:flex;align-items:center;gap:6px;flex-wrap:wrap}.badge{padding:3px 6px;border-radius:999px;background:#dff9f1;color:#16745f;font-size:8px;font-weight:950}.comment p{margin:7px 0;white-space:pre-wrap}.comment small{color:#8188a3;font-size:9px}.admin-tools{display:none;margin-bottom:18px;background:#fff9e8;border:2px solid #ffe19a}.admin-tools.show{display:block}.pending-item{padding:11px;border:1px solid #eee1b9;border-radius:13px;margin-top:9px;background:#fff}.pending-actions{display:flex;gap:7px;flex-wrap:wrap}.pending-actions button{border:0;border-radius:9px;padding:7px 9px;font-size:10px;font-weight:900}.approve{background:#dff8ed;color:#14745e}.reject{background:#ffe7ed;color:#b73d59}.empty{color:#7b829e;font-size:11px}.error{color:#b53b55}@media(max-width:800px){.grid{grid-template-columns:1fr}.inline-grid{grid-template-columns:1fr}.comment.reply{margin-left:12px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <div class="brand">
+      <span class="t-logo" aria-label="Tannu Sir logo">
+        <svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="tg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#46e4df"/><stop offset=".48" stop-color="#7765ff"/><stop offset="1" stop-color="#ff67b8"/></linearGradient></defs><circle cx="32" cy="32" r="29" fill="url(#tg)"/><circle cx="32" cy="32" r="23" fill="#12194b" opacity=".94"/><path d="M17 18h30v8H36v23h-8V26H17z" fill="#fff"/><path d="M13 35c8 10 30 15 40-1" fill="none" stroke="#55e1d7" stroke-width="2.5" stroke-linecap="round" opacity=".9"/><circle cx="52" cy="33" r="3.3" fill="#ffd65c"/></svg>
+      </span>
+      <div><b>Tannu Sir's Kids Digital Academy</b><br><small>Parent Reviews & Suggestions</small></div>
+    </div>
+    <a class="home-link" href="index.html">🏠 Home</a>
+  </div>
+
+  <section class="hero">
+    <span class="kicker">⭐ PARENT VOICE</span>
+    <h1>Help Us Make Learning Better</h1>
+    <p>Parents can submit reviews and suggestions. Approved reviews can receive likes, comments and direct academy replies. New reviews and parent comments stay pending until approval.</p>
+  </section>
+
+  <section id="adminTools" class="card admin-tools">
+    <h2>🛡️ Pending Parent Comments</h2>
+    <p class="notice">Visible only when Admin Center is already logged in on this browser.</p>
+    <div id="pendingComments">Checking...</div>
+  </section>
+
+  <div class="grid">
+    <form id="reviewForm" class="card">
+      <h2>Share Your Experience</h2>
+      <label>Name</label>
+      <input id="parentName" maxlength="80" placeholder="Parent / Guardian or Anonymous">
+      <label>Child's Class</label>
+      <select id="classNo"><option value="1">Class 1</option><option value="2">Class 2</option><option value="3">Class 3</option><option value="4">Class 4</option><option value="5">Class 5</option></select>
+      <label>Rating</label>
+      <select id="rating"><option value="5">⭐⭐⭐⭐⭐</option><option value="4">⭐⭐⭐⭐</option><option value="3">⭐⭐⭐</option><option value="2">⭐⭐</option><option value="1">⭐</option></select>
+      <label>Type</label>
+      <select id="type"><option>Review</option><option>Suggestion</option><option>Problem</option><option>Course Request</option></select>
+      <label>Your Thoughts</label>
+      <textarea id="reviewText" rows="6" maxlength="600" required placeholder="What did you like? What should we improve?"></textarea>
+      <button class="primary" type="submit">Submit for Review</button>
+      <p id="msg" class="submit-msg"></p>
+      <p class="notice">Do not include passwords, OTPs, phone numbers, home addresses, medical details or other sensitive child information.</p>
+    </form>
+
+    <section class="card">
+      <div class="reviews-head"><div><h2>Approved Parent Reviews</h2><small>Likes • Comments • Replies</small></div><button id="refreshBtn" class="refresh" type="button">↻ Refresh</button></div>
+      <div id="reviews">Loading...</div>
+    </section>
+  </div>
+</div>
+
+<script>
+const API="https://brightbyte-kids-api.tanweerstudy25.workers.dev";
+const $=id=>document.getElementById(id);
+let isAdmin=false;
+
+function esc(s){return String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));}
+function formatDate(v){if(!v)return"";const t=String(v).includes("T")?String(v):String(v).replace(" ","T")+"Z";const d=new Date(t);return Number.isNaN(d.getTime())?"":d.toLocaleString();}
+function visitorKey(){let k=localStorage.getItem("tannu_review_visitor_key");if(!k){k="rv_"+(crypto.randomUUID?crypto.randomUUID().replaceAll("-",""):Date.now().toString(36)+Math.random().toString(36).slice(2));localStorage.setItem("tannu_review_visitor_key",k);}return k;}
+function adminToken(){return localStorage.getItem("brightbyte_admin_token")||"";}
+async function api(path,opt={}){const headers={...(opt.headers||{})};if(opt.body&&!headers["Content-Type"])headers["Content-Type"]="application/json";if(opt.admin&&adminToken())headers.Authorization=`Bearer ${adminToken()}`;return fetch(API+path,{...opt,headers,cache:"no-store"});}
+
+async function checkAdmin(){
+  if(!adminToken())return;
+  try{
+    const r=await api("/api/auth/me",{admin:true});
+    const d=await r.json();
+    if(r.ok&&d.role==="admin"){
+      isAdmin=true;
+      $("adminTools").classList.add("show");
+      await loadPendingComments();
+    }
+  }catch{}
+}
+
+function buildCommentTree(comments,reviewId){
+  const rows=Array.isArray(comments)?comments:[];
+  const groups=new Map();
+  rows.forEach(c=>{const p=Number(c.parent_comment_id||0);if(!groups.has(p))groups.set(p,[]);groups.get(p).push(c);});
+  function branch(parentId,depth=0){
+    return (groups.get(Number(parentId||0))||[]).map(c=>{
+      const id=Number(c.id), admin=Number(c.is_admin||0)===1;
+      return `<div class="comment ${admin?"admin-comment":""} ${depth?"reply":""}">
+        <div class="comment-head"><b>${esc(c.author_name||"Anonymous Parent")}</b>${admin?'<span class="badge">ACADEMY REPLY</span>':""}</div>
+        <p>${esc(c.comment_text)}</p><small>${esc(formatDate(c.created_at))}</small>
+        <div class="actions">
+          <button class="action-btn" type="button" onclick="toggleReply(${id})">↩ Reply</button>
+          ${isAdmin?`<button class="action-btn admin" type="button" onclick="toggleAcademyReply(${reviewId},${id})">🎓 Academy Reply</button>`:""}
+        </div>
+        <div id="replyForm-${id}" class="inline-form"><div class="inline-grid"><input id="replyName-${id}" maxlength="80" placeholder="Your name"><input id="replyText-${id}" maxlength="500" placeholder="Write reply..."><button type="button" onclick="submitComment(${reviewId},${id},true)">Send</button></div><p id="replyMsg-${id}" class="notice"></p></div>
+        <div id="academyReply-${reviewId}-${id}" class="inline-form"><div class="inline-grid" style="grid-template-columns:1fr auto"><input id="academyText-${reviewId}-${id}" maxlength="500" placeholder="Write Academy reply..."><button type="button" onclick="academyReply(${reviewId},${id})">Post Reply</button></div></div>
+        ${branch(id,depth+1)}
+      </div>`;
+    }).join("");
+  }
+  return branch(0);
+}
+
+function renderReviews(rows){
+  const list=Array.isArray(rows)?rows:[];
+  if(!list.length){$("reviews").innerHTML='<p class="empty">No approved reviews yet.</p>';return;}
+  $("reviews").innerHTML=list.map(x=>{
+    const id=Number(x.id);
+    return `<article class="review">
+      <div class="review-name">${"⭐".repeat(Number(x.rating)||0)} ${esc(x.parent_name||"Anonymous Parent")}</div>
+      <small class="meta">Class ${Number(x.class_number)||1} • ${esc(x.review_type||"Review")} ${x.created_at?"• "+esc(formatDate(x.created_at)):""}</small>
+      <p class="review-text">${esc(x.review_text)}</p>
+      <div class="actions">
+        <button id="like-${id}" class="action-btn ${x.liked_by_me?"liked":""}" type="button" onclick="toggleLike(${id})">❤️ <span id="likeCount-${id}">${Number(x.likes)||0}</span> Like</button>
+        <button class="action-btn" type="button" onclick="toggleComment(${id})">💬 ${Number(x.comment_count)||0} Comments</button>
+        ${isAdmin?`<button class="action-btn admin" type="button" onclick="toggleAcademyReply(${id},0)">🎓 Academy Reply</button>`:""}
+      </div>
+      <div id="commentForm-${id}" class="inline-form"><div class="inline-grid"><input id="commentName-${id}" maxlength="80" placeholder="Parent name"><input id="commentText-${id}" maxlength="500" placeholder="Write comment..."><button type="button" onclick="submitComment(${id},0,false)">Comment</button></div><p id="commentMsg-${id}" class="notice"></p></div>
+      <div id="academyReply-${id}-0" class="inline-form"><div class="inline-grid" style="grid-template-columns:1fr auto"><input id="academyText-${id}-0" maxlength="500" placeholder="Write Academy reply..."><button type="button" onclick="academyReply(${id},0)">Post Reply</button></div></div>
+      <div class="comment-box">${buildCommentTree(x.comments||[],id)||'<p class="empty">No comments yet.</p>'}</div>
+    </article>`;
+  }).join("");
+}
+
+async function loadReviews(){
+  try{
+    const r=await api("/api/reviews/public?visitorKey="+encodeURIComponent(visitorKey()));
+    const d=await r.json();
+    if(!r.ok)throw new Error(d.error||"Could not load reviews");
+    renderReviews(d.reviews||[]);
+  }catch(err){$("reviews").innerHTML='<p class="error">Reviews are temporarily unavailable.</p>';}
+}
+
+async function toggleLike(id){
+  try{
+    const r=await api(`/api/reviews/${id}/like`,{method:"POST",body:JSON.stringify({visitorKey:visitorKey()})});
+    const d=await r.json();
+    if(!r.ok)throw new Error(d.error||"Like failed");
+    $("likeCount-"+id).textContent=Number(d.likes)||0;
+    $("like-"+id).classList.toggle("liked",!!d.liked);
+  }catch(err){alert(err.message||"Like failed");}
+}
+function toggleComment(id){$("commentForm-"+id)?.classList.toggle("open");}
+function toggleReply(id){$("replyForm-"+id)?.classList.toggle("open");}
+function toggleAcademyReply(reviewId,parentId){$("academyReply-"+reviewId+"-"+parentId)?.classList.toggle("open");}
+
+async function submitComment(reviewId,parentCommentId=0,reply=false){
+  const name=$(reply?"replyName-"+parentCommentId:"commentName-"+reviewId);
+  const text=$(reply?"replyText-"+parentCommentId:"commentText-"+reviewId);
+  const msg=$(reply?"replyMsg-"+parentCommentId:"commentMsg-"+reviewId);
+  const value=(text?.value||"").trim();
+  if(value.length<2){if(msg)msg.textContent="Please write a little more.";return;}
+  if(msg)msg.textContent="Sending...";
+  try{
+    const r=await api(`/api/reviews/${reviewId}/comments`,{method:"POST",body:JSON.stringify({authorName:(name?.value||"").trim()||"Anonymous Parent",commentText:value,parentCommentId:parentCommentId||null})});
+    const d=await r.json();
+    if(!r.ok)throw new Error(d.error||"Could not send comment");
+    text.value="";if(msg)msg.textContent="✅ Sent — pending academy approval.";
+  }catch(err){if(msg)msg.textContent=err.message;}
+}
+
+async function academyReply(reviewId,parentCommentId=0){
+  if(!isAdmin)return;
+  const input=$("academyText-"+reviewId+"-"+parentCommentId);
+  const text=(input?.value||"").trim();
+  if(text.length<2)return;
+  try{
+    const r=await api(`/api/admin/reviews/${reviewId}/reply`,{method:"POST",admin:true,body:JSON.stringify({commentText:text,parentCommentId:parentCommentId||null})});
+    const d=await r.json();
+    if(!r.ok)throw new Error(d.error||"Reply failed");
+    input.value="";
+    await loadReviews();
+  }catch(err){alert(err.message||"Reply failed");}
+}
+
+async function loadPendingComments(){
+  if(!isAdmin)return;
+  try{
+    const r=await api("/api/admin/review-comments",{admin:true});
+    const d=await r.json();
+    if(!r.ok)throw new Error(d.error||"Could not load pending comments");
+    const rows=d.comments||[];
+    $("pendingComments").innerHTML=rows.length?rows.map(c=>`<div class="pending-item"><b>${esc(c.author_name||"Anonymous Parent")}</b><p>${esc(c.comment_text)}</p><small class="meta">Review #${Number(c.review_id)}${c.parent_comment_id?" • Reply to comment #"+Number(c.parent_comment_id):""}</small><div class="pending-actions"><button class="approve" type="button" onclick="moderateComment(${Number(c.id)},'approved')">✓ Approve</button><button class="reject" type="button" onclick="moderateComment(${Number(c.id)},'rejected')">✕ Reject</button></div></div>`).join(""):'<p class="empty">No pending comments.</p>';
+  }catch(err){$("pendingComments").innerHTML='<p class="error">'+esc(err.message)+'</p>';}
+}
+
+async function moderateComment(id,status){
+  try{
+    const r=await api(`/api/admin/review-comments/${id}`,{method:"PATCH",admin:true,body:JSON.stringify({status})});
+    const d=await r.json();
+    if(!r.ok)throw new Error(d.error||"Moderation failed");
+    await loadPendingComments();
+    await loadReviews();
+  }catch(err){alert(err.message||"Moderation failed");}
+}
+
+$("reviewForm").onsubmit=async e=>{
+  e.preventDefault();
+  const msg=$("msg");msg.textContent="Sending...";
+  try{
+    const r=await api("/api/reviews",{method:"POST",body:JSON.stringify({parentName:$("parentName").value.trim()||"Anonymous Parent",classNumber:+$("classNo").value,rating:+$("rating").value,reviewType:$("type").value,reviewText:$("reviewText").value.trim()})});
+    const d=await r.json();
+    if(!r.ok)throw new Error(d.error||"Could not submit");
+    msg.textContent="✅ Thank you! Your review is pending academy approval.";
+    e.target.reset();
+  }catch(err){msg.textContent=err.message;}
+};
+
+$("refreshBtn").onclick=loadReviews;
+
+(async()=>{
+  await checkAdmin();
+  await loadReviews();
+  setInterval(loadReviews,20000);
+  setInterval(()=>{if(isAdmin)loadPendingComments();},25000);
+})();
+</script>
+</body>
+</html>
