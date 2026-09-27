@@ -210,3 +210,978 @@ document.addEventListener(
     passive:true
   }
 );
+/* ============================================================
+   V21 TANNU MAGICAL KIDS UNIVERSE
+   Wand Pointer + Cosmos Rain + Kid Click Sounds
+   ============================================================ */
+
+
+/* ------------------------------------------------------------
+   FAIRY WAND CURSOR
+   ------------------------------------------------------------ */
+
+(function tannuMagicWand(){
+
+  const finePointer=
+    window.matchMedia(
+      "(pointer:fine)"
+    );
+
+
+  if(!finePointer.matches){
+    return;
+  }
+
+
+  if(
+    document.getElementById(
+      "tannuMagicCursor"
+    )
+  ){
+    return;
+  }
+
+
+  const cursor=
+    document.createElement(
+      "div"
+    );
+
+
+  cursor.id=
+    "tannuMagicCursor";
+
+
+  cursor.className=
+    "tannu-wand-cursor";
+
+
+  cursor.innerHTML=`
+
+    <span class="tannu-wand-star">
+      ★
+    </span>
+
+    <span class="tannu-wand-stick">
+    </span>
+
+  `;
+
+
+  document.body
+    .appendChild(cursor);
+
+
+  document.body
+    .classList
+    .add(
+      "tannu-wand-ready"
+    );
+
+
+  let x=-100;
+  let y=-100;
+
+  let frame=0;
+
+  let lastDust=0;
+
+
+  const dustColours=[
+    "#fff27a",
+    "#ff76c7",
+    "#75f5ef",
+    "#9b83ff",
+    "#7cf092"
+  ];
+
+
+  function updateCursor(){
+
+    cursor.style.setProperty(
+      "--wand-x",
+      x+"px"
+    );
+
+    cursor.style.setProperty(
+      "--wand-y",
+      y+"px"
+    );
+
+    frame=0;
+
+  }
+
+
+  document.addEventListener(
+    "pointermove",
+    function(e){
+
+      x=e.clientX;
+      y=e.clientY;
+
+
+      if(!frame){
+
+        frame=
+          requestAnimationFrame(
+            updateCursor
+          );
+
+      }
+
+
+      const now=
+        performance.now();
+
+
+      if(
+        now-lastDust > 42
+      ){
+
+        lastDust=now;
+
+
+        const dust=
+          document.createElement(
+            "i"
+          );
+
+
+        dust.className=
+          "tannu-wand-dust";
+
+
+        dust.style.left=
+          (
+            x+
+            Math.random()*12-6
+          )
+          +"px";
+
+
+        dust.style.top=
+          (
+            y+
+            Math.random()*12-6
+          )
+          +"px";
+
+
+        dust.style.setProperty(
+          "--dust-color",
+          dustColours[
+            Math.floor(
+              Math.random()
+              *
+              dustColours.length
+            )
+          ]
+        );
+
+
+        document.body
+          .appendChild(dust);
+
+
+        setTimeout(
+          ()=>dust.remove(),
+          700
+        );
+
+      }
+
+    },
+    {
+      passive:true
+    }
+  );
+
+
+  document.addEventListener(
+    "pointerdown",
+    function(){
+
+      cursor.classList
+        .remove(
+          "magic-click"
+        );
+
+
+      void cursor.offsetWidth;
+
+
+      cursor.classList
+        .add(
+          "magic-click"
+        );
+
+
+      setTimeout(
+        ()=>{
+          cursor.classList
+            .remove(
+              "magic-click"
+            );
+        },
+        300
+      );
+
+    },
+    {
+      passive:true
+    }
+  );
+
+
+  document.documentElement
+    .addEventListener(
+      "mouseleave",
+      ()=>{
+        cursor.style.opacity="0";
+      }
+    );
+
+
+  document.documentElement
+    .addEventListener(
+      "mouseenter",
+      ()=>{
+        cursor.style.opacity="1";
+      }
+    );
+
+})();
+
+
+
+/* ============================================================
+   KID-FRIENDLY CLICK SOUNDS
+   No MP3 required - Web Audio generated
+   ============================================================ */
+
+let tannuMagicAudio=null;
+
+
+function tannuTone(
+  frequency,
+  delay,
+  duration,
+  type="sine",
+  endFrequency=null,
+  volume=.035
+){
+
+  if(!tannuMagicAudio){
+    return;
+  }
+
+
+  const ctx=
+    tannuMagicAudio;
+
+
+  const start=
+    ctx.currentTime
+    +
+    delay;
+
+
+  const oscillator=
+    ctx.createOscillator();
+
+
+  const gain=
+    ctx.createGain();
+
+
+  oscillator.type=
+    type;
+
+
+  oscillator.frequency
+    .setValueAtTime(
+      Math.max(
+        1,
+        frequency
+      ),
+      start
+    );
+
+
+  oscillator.frequency
+    .exponentialRampToValueAtTime(
+      Math.max(
+        1,
+        endFrequency
+        ||
+        frequency
+      ),
+      start+
+      duration
+    );
+
+
+  gain.gain
+    .setValueAtTime(
+      .0001,
+      start
+    );
+
+
+  gain.gain
+    .exponentialRampToValueAtTime(
+      volume,
+      start+.012
+    );
+
+
+  gain.gain
+    .exponentialRampToValueAtTime(
+      .0001,
+      start+duration
+    );
+
+
+  oscillator
+    .connect(gain);
+
+
+  gain
+    .connect(
+      ctx.destination
+    );
+
+
+  oscillator.start(
+    start
+  );
+
+
+  oscillator.stop(
+    start+
+    duration+
+    .02
+  );
+
+}
+
+
+
+function tannuPlayKidSound(){
+
+  if(
+    typeof voiceOn!=="undefined"
+    &&
+    !voiceOn
+  ){
+    return;
+  }
+
+
+  const AudioClass=
+    window.AudioContext
+    ||
+    window.webkitAudioContext;
+
+
+  if(!AudioClass){
+    return;
+  }
+
+
+  if(!tannuMagicAudio){
+
+    tannuMagicAudio=
+      new AudioClass();
+
+  }
+
+
+  if(
+    tannuMagicAudio.state
+    ===
+    "suspended"
+  ){
+
+    tannuMagicAudio
+      .resume();
+
+  }
+
+
+  const sound=
+    Math.floor(
+      Math.random()*6
+    );
+
+
+  /* TWINKLE */
+
+  if(sound===0){
+
+    tannuTone(
+      880,
+      0,
+      .12,
+      "sine",
+      1180,
+      .028
+    );
+
+    tannuTone(
+      1320,
+      .08,
+      .15,
+      "sine",
+      1580,
+      .024
+    );
+
+  }
+
+
+  /* BUBBLE POP */
+
+  else if(sound===1){
+
+    tannuTone(
+      260,
+      0,
+      .16,
+      "sine",
+      620,
+      .035
+    );
+
+  }
+
+
+  /* MAGIC BELL */
+
+  else if(sound===2){
+
+    tannuTone(
+      660,
+      0,
+      .22,
+      "sine",
+      660,
+      .028
+    );
+
+    tannuTone(
+      990,
+      0,
+      .18,
+      "sine",
+      990,
+      .018
+    );
+
+  }
+
+
+  /* LITTLE ROCKET */
+
+  else if(sound===3){
+
+    tannuTone(
+      860,
+      0,
+      .20,
+      "triangle",
+      280,
+      .025
+    );
+
+  }
+
+
+  /* FAIRY CHIME */
+
+  else if(sound===4){
+
+    tannuTone(
+      1046,
+      0,
+      .10,
+      "sine",
+      1046,
+      .024
+    );
+
+    tannuTone(
+      1318,
+      .07,
+      .10,
+      "sine",
+      1318,
+      .023
+    );
+
+    tannuTone(
+      1568,
+      .14,
+      .13,
+      "sine",
+      1568,
+      .020
+    );
+
+  }
+
+
+  /* BOING */
+
+  else{
+
+    tannuTone(
+      340,
+      0,
+      .17,
+      "triangle",
+      520,
+      .030
+    );
+
+    tannuTone(
+      520,
+      .08,
+      .11,
+      "sine",
+      430,
+      .018
+    );
+
+  }
+
+}
+
+
+document.addEventListener(
+  "pointerdown",
+  tannuPlayKidSound,
+  {
+    passive:true
+  }
+);
+
+
+
+/* ============================================================
+   GALAXY + PLANET + ALIEN + ROCKET RAIN
+   ============================================================ */
+
+(function tannuBuildCosmos(){
+
+  const host=
+    document.querySelector(
+      ".space"
+    );
+
+
+  if(!host){
+    return;
+  }
+
+
+  if(
+    document.getElementById(
+      "tannuCosmosField"
+    )
+  ){
+    return;
+  }
+
+
+  const field=
+    document.createElement(
+      "div"
+    );
+
+
+  field.id=
+    "tannuCosmosField";
+
+
+  host.appendChild(
+    field
+  );
+
+
+  const reduced=
+    window.matchMedia(
+      "(prefers-reduced-motion:reduce)"
+    )
+    .matches;
+
+
+  if(reduced){
+    return;
+  }
+
+
+  const mobile=
+    window.innerWidth < 700;
+
+
+  const emojis=[
+
+    "🚀",
+    "👽",
+    "🛸",
+    "☄️",
+    "🛰️",
+    "🌍",
+    "🌙",
+    "☀️",
+    "🪐",
+    "⭐",
+    "✨",
+    "🌟",
+    "💫"
+
+  ];
+
+
+  const planetClasses=[
+
+    "tannu-jupiter",
+    "tannu-mars",
+    "tannu-neptune",
+    "tannu-venus"
+
+  ];
+
+
+  const directions=[
+
+    "tannu-space-lr",
+    "tannu-space-rl",
+    "tannu-space-down",
+    "tannu-space-up"
+
+  ];
+
+
+  const objectCount=
+    mobile
+    ?
+    18
+    :
+    32;
+
+
+  function random(
+    min,
+    max
+  ){
+
+    return (
+      min+
+      Math.random()*
+      (
+        max-min
+      )
+    );
+
+  }
+
+
+  for(
+    let i=0;
+    i<objectCount;
+    i++
+  ){
+
+    const item=
+      document.createElement(
+        "span"
+      );
+
+
+    const direction=
+      directions[
+        Math.floor(
+          Math.random()
+          *
+          directions.length
+        )
+      ];
+
+
+    const specialPlanet=
+      i%6===0;
+
+
+    item.className=
+      "tannu-cosmos-fly "
+      +
+      direction;
+
+
+    if(specialPlanet){
+
+      item.classList.add(
+        "tannu-cosmos-planet"
+      );
+
+
+      item.classList.add(
+        planetClasses[
+          Math.floor(
+            Math.random()
+            *
+            planetClasses.length
+          )
+        ]
+      );
+
+    }
+    else{
+
+      item.textContent=
+        emojis[
+          Math.floor(
+            Math.random()
+            *
+            emojis.length
+          )
+        ];
+
+    }
+
+
+    const duration=
+      random(
+        14,
+        36
+      );
+
+
+    item.style.setProperty(
+      "--space-pos",
+      random(
+        3,
+        95
+      )
+      +"%"
+    );
+
+
+    item.style.setProperty(
+      "--space-duration",
+      duration+"s"
+    );
+
+
+    item.style.setProperty(
+      "--space-delay",
+      (
+        -Math.random()
+        *
+        duration
+      )
+      +"s"
+    );
+
+
+    item.style.setProperty(
+      "--space-drift",
+      random(
+        -90,
+        90
+      )
+      +"px"
+    );
+
+
+    item.style.setProperty(
+      "--space-spin",
+      random(
+        140,
+        700
+      )
+      +"deg"
+    );
+
+
+    item.style.setProperty(
+      "--space-size",
+      (
+        specialPlanet
+        ?
+        random(
+          30,
+          72
+        )
+        :
+        random(
+          18,
+          45
+        )
+      )
+      +"px"
+    );
+
+
+    item.style.setProperty(
+      "--space-opacity",
+      random(
+        .38,
+        .90
+      )
+    );
+
+
+    field.appendChild(
+      item
+    );
+
+  }
+
+
+
+  /* ----------------------------------------------------------
+     STAR RAIN
+     ---------------------------------------------------------- */
+
+  const starCount=
+    mobile
+    ?
+    12
+    :
+    28;
+
+
+  const stars=[
+    "✦",
+    "✧",
+    "⋆",
+    "★",
+    "✶"
+  ];
+
+
+  for(
+    let i=0;
+    i<starCount;
+    i++
+  ){
+
+    const star=
+      document.createElement(
+        "span"
+      );
+
+
+    star.className=
+      "tannu-cosmos-fly tannu-star-rain";
+
+
+    const direction=
+      directions[
+        Math.floor(
+          Math.random()
+          *
+          directions.length
+        )
+      ];
+
+
+    star.classList.add(
+      direction
+    );
+
+
+    star.textContent=
+      stars[
+        Math.floor(
+          Math.random()
+          *
+          stars.length
+        )
+      ];
+
+
+    const duration=
+      random(
+        7,
+        18
+      );
+
+
+    star.style.setProperty(
+      "--space-pos",
+      random(
+        1,
+        98
+      )
+      +"%"
+    );
+
+
+    star.style.setProperty(
+      "--space-duration",
+      duration+"s"
+    );
+
+
+    star.style.setProperty(
+      "--space-delay",
+      (
+        -Math.random()
+        *
+        duration
+      )
+      +"s"
+    );
+
+
+    star.style.setProperty(
+      "--space-drift",
+      random(
+        -120,
+        120
+      )
+      +"px"
+    );
+
+
+    star.style.setProperty(
+      "--space-spin",
+      random(
+        180,
+        620
+      )
+      +"deg"
+    );
+
+
+    star.style.setProperty(
+      "--space-size",
+      random(
+        8,
+        18
+      )
+      +"px"
+    );
+
+
+    star.style.setProperty(
+      "--space-opacity",
+      random(
+        .30,
+        .75
+      )
+    );
+
+
+    field.appendChild(
+      star
+    );
+
+  }
+
+})();
