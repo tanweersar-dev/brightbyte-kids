@@ -5,7 +5,7 @@ const ACADEMY_API =
   "https://brightbyte-kids-api.tanweerstudy25.workers.dev";
 
 const AI_API =
-  localStorage.getItem("kids_ai_api") || "";
+  "https://kids-ai.tanweerstudy25.workers.dev";
 
 const token =
   localStorage.getItem("brightbyte_student_token") || "";
