@@ -700,3 +700,1093 @@ box-sizing:border-box!important
   50%{transform:translateY(-45px) scale(1.08) rotate(10deg)}
   100%{transform:translateY(-90px) scale(1.2) rotate(-8deg);opacity:0}
 }
+/* ============================================================
+   V17 MOBILE-FIRST VIRTUAL IT LAB
+   Full mobile desk + touch-friendly controls
+   Desktop layout remains unchanged
+   ============================================================ */
+
+@media (max-width:900px){
+
+  html,
+  body{
+    width:100%;
+    max-width:100%;
+    overflow-x:hidden;
+  }
+
+
+  body{
+    background:
+      radial-gradient(
+        circle at 0 0,
+        #ddf8ff,
+        transparent 30%
+      ),
+      radial-gradient(
+        circle at 100% 8%,
+        #f2e6ff,
+        transparent 32%
+      ),
+      #f5f7ff;
+  }
+
+
+  /* =========================================================
+     TOP HEADER
+     ========================================================= */
+
+  .topbar{
+    position:sticky;
+    top:0;
+
+    z-index:100;
+
+    width:100%;
+
+    padding:9px 10px;
+
+    gap:8px;
+
+    align-items:stretch !important;
+
+    background:
+      rgba(255,255,255,.96);
+
+    box-shadow:
+      0 5px 18px
+      rgba(38,40,90,.08);
+  }
+
+
+  .brand{
+    gap:8px;
+  }
+
+
+  .brand-logo{
+    width:40px;
+    height:40px;
+
+    min-width:40px;
+
+    border-radius:13px;
+
+    font-size:22px;
+  }
+
+
+  .brand b{
+    font-size:16px;
+  }
+
+
+  .brand small{
+    font-size:7px;
+    letter-spacing:.8px;
+  }
+
+
+  .top-actions{
+    display:grid !important;
+
+    grid-template-columns:
+      repeat(3,minmax(0,1fr));
+
+    width:100%;
+
+    gap:5px;
+  }
+
+
+  .top-actions .pill,
+  .top-actions .student-badge{
+    min-width:0;
+
+    padding:8px 5px;
+
+    text-align:center;
+
+    font-size:9px;
+
+    overflow:hidden;
+
+    text-overflow:ellipsis;
+
+    white-space:nowrap;
+  }
+
+
+  /* =========================================================
+     MAIN PAGE
+     ========================================================= */
+
+  .app-shell{
+    width:100%;
+
+    padding:
+      10px 7px 55px !important;
+  }
+
+
+  .hero{
+    padding:16px !important;
+
+    border-radius:20px;
+
+    gap:13px;
+
+    flex-direction:column;
+
+    align-items:stretch !important;
+  }
+
+
+  .hero h1{
+    font-size:
+      clamp(
+        27px,
+        8vw,
+        38px
+      );
+
+    line-height:1.05;
+
+    margin:
+      9px 0;
+  }
+
+
+  .hero p{
+    font-size:12px;
+
+    line-height:1.55;
+  }
+
+
+  .hero-status{
+    width:100%;
+
+    display:grid;
+
+    grid-template-columns:
+      1fr 1fr;
+
+    gap:7px;
+  }
+
+
+  .hero-status div{
+    min-width:0;
+
+    padding:11px 6px;
+  }
+
+
+  .hero-status b{
+    font-size:18px;
+  }
+
+
+  /* =========================================================
+     STAGE CARDS
+     ========================================================= */
+
+  .stage-picker{
+    grid-template-columns:1fr !important;
+
+    gap:9px;
+
+    margin:
+      10px 0;
+  }
+
+
+  .stage-card{
+    grid-template-columns:
+      42px 1fr auto !important;
+
+    padding:11px;
+
+    gap:9px;
+
+    border-radius:17px;
+  }
+
+
+  .stage-number{
+    width:40px;
+    height:40px;
+
+    border-radius:12px;
+
+    font-size:17px;
+  }
+
+
+  .stage-card b{
+    font-size:12px;
+  }
+
+
+  .stage-card small{
+    font-size:8px;
+  }
+
+
+  .stage-state{
+    grid-column:auto !important;
+
+    font-size:8px;
+  }
+
+
+  /* =========================================================
+     MOBILE ORDER
+
+     1 Mission
+     2 Parts & Cables
+     3 Interactive Desk
+     ========================================================= */
+
+  .lab-grid{
+    display:flex !important;
+
+    flex-direction:column;
+
+    width:100%;
+
+    gap:10px;
+  }
+
+
+  .mission-panel{
+    order:1;
+  }
+
+
+  .parts-panel{
+    order:2;
+  }
+
+
+  .lab-room{
+    order:3;
+  }
+
+
+  .mission-panel,
+  .parts-panel{
+    width:100%;
+
+    margin:0 !important;
+
+    padding:14px;
+
+    border-radius:20px;
+  }
+
+
+  .mission-panel h2{
+    font-size:18px;
+  }
+
+
+  .mission-panel > p,
+  .panel-sub{
+    font-size:11px;
+
+    line-height:1.5;
+  }
+
+
+  /* =========================================================
+     TOUCH-FRIENDLY PARTS
+     ========================================================= */
+
+  .device-tray,
+  .cable-tray{
+    grid-template-columns:
+      repeat(2,minmax(0,1fr))
+      !important;
+
+    gap:8px;
+  }
+
+
+  .device-item,
+  .cable-item{
+    position:relative;
+
+    min-width:0;
+
+    min-height:82px;
+
+    padding:10px 7px;
+
+    border-radius:16px;
+
+    font-size:11px;
+
+    touch-action:manipulation;
+
+    -webkit-tap-highlight-color:
+      transparent;
+  }
+
+
+  .device-item:not(.used){
+    cursor:pointer;
+
+    background:
+      linear-gradient(
+        145deg,
+        #fff,
+        #f1f4ff
+      );
+
+    border:
+      2px solid
+      #dfe3f3;
+
+    box-shadow:
+      0 5px 13px
+      rgba(62,68,140,.08);
+  }
+
+
+  .device-item:not(.used)::after{
+    content:"TAP TO PLACE";
+
+    display:block;
+
+    margin-top:5px;
+
+    color:#6558d7;
+
+    font-size:7px;
+
+    font-weight:1000;
+
+    letter-spacing:.5px;
+  }
+
+
+  .device-item:active,
+  .cable-item:active{
+    transform:
+      scale(.96);
+  }
+
+
+  .device-icon{
+    font-size:31px;
+  }
+
+
+  .cable-swatch{
+    width:52px;
+
+    height:8px;
+  }
+
+
+  .cable-item.selected{
+    outline:
+      4px solid
+      #ffc72f !important;
+
+    box-shadow:
+      0 0 22px
+      rgba(255,196,0,.75)
+      !important;
+  }
+
+
+  .feedback{
+    font-size:11px;
+
+    padding:11px;
+  }
+
+
+  .big-action{
+    min-height:48px;
+
+    font-size:11px;
+  }
+
+
+  /* =========================================================
+     MOBILE LAB ROOM
+     Everything remains INSIDE phone width
+     ========================================================= */
+
+  .lab-room{
+    position:relative;
+
+    width:100%;
+
+    height:760px;
+
+    min-height:760px !important;
+
+    overflow:hidden !important;
+
+    border-radius:22px;
+
+    border:
+      2px solid
+      #dfe4f3;
+
+    background:
+      linear-gradient(
+        #d9f3ff 0 55%,
+        #cda47d 55% 100%
+      );
+
+    box-shadow:
+      0 15px 35px
+      rgba(47,48,100,.14);
+  }
+
+
+  .room-wall{
+    inset:
+      0 0 45% 0;
+
+    border-bottom-width:6px;
+  }
+
+
+  .poster{
+    left:11px;
+    top:14px;
+
+    max-width:48%;
+
+    padding:
+      8px 9px;
+
+    border-width:4px;
+
+    border-radius:10px;
+
+    font-size:8px;
+  }
+
+
+  .window{
+    right:10px;
+    top:14px;
+
+    width:112px;
+    height:78px;
+
+    padding:4px;
+
+    border-width:6px;
+  }
+
+
+  /* =========================================================
+     DESK
+     ========================================================= */
+
+  .desk-surface{
+    left:4%;
+    right:4%;
+
+    top:55%;
+
+    height:22px;
+  }
+
+
+  .desk-surface::before,
+  .desk-surface::after{
+    top:20px;
+
+    width:22px;
+
+    height:295px;
+  }
+
+
+  /* =========================================================
+     NON-OVERLAPPING DROP ZONES
+     ========================================================= */
+
+  .monitor-zone{
+    left:4%;
+
+    top:19%;
+
+    width:53%;
+
+    height:160px;
+  }
+
+
+  .cpu-zone{
+    left:auto;
+
+    right:4%;
+
+    top:23%;
+
+    width:30%;
+
+    height:205px;
+  }
+
+
+  .keyboard-zone{
+    left:5%;
+
+    top:58%;
+
+    width:56%;
+
+    height:78px;
+  }
+
+
+  .mouse-zone{
+    left:auto;
+
+    right:6%;
+
+    top:58%;
+
+    width:24%;
+
+    height:78px;
+  }
+
+
+  .drop-zone{
+    border-width:2px;
+
+    border-radius:13px;
+
+    padding:4px;
+
+    font-size:7px;
+
+    line-height:1.2;
+  }
+
+
+  /* =========================================================
+     BUILT MONITOR
+     ========================================================= */
+
+  .monitor-built{
+    left:5% !important;
+
+    top:18% !important;
+
+    width:52% !important;
+
+    height:175px !important;
+  }
+
+
+  .monitor-screen{
+    height:112px;
+
+    border-width:8px;
+
+    border-radius:10px;
+
+    font-size:10px;
+  }
+
+
+  .boot-logo{
+    width:36px;
+    height:36px;
+
+    border-radius:10px;
+
+    font-size:18px;
+  }
+
+
+  .monitor-neck{
+    width:22px;
+    height:23px;
+  }
+
+
+  .monitor-base{
+    width:78px;
+
+    height:10px;
+  }
+
+
+  .port-monitor-display{
+    left:-5px !important;
+
+    top:111px !important;
+  }
+
+
+  .port-monitor-power{
+    right:-5px !important;
+
+    top:111px !important;
+  }
+
+
+  .led{
+    right:10px;
+
+    top:98px;
+  }
+
+
+  /* =========================================================
+     BUILT SYSTEM UNIT
+     ========================================================= */
+
+  .cpu-built{
+    left:auto !important;
+
+    right:5% !important;
+
+    top:22% !important;
+
+    width:29% !important;
+
+    max-width:118px;
+
+    height:215px !important;
+
+    border-radius:13px !important;
+  }
+
+
+  .cpu-panel{
+    padding:
+      13px 5px;
+  }
+
+
+  .cpu-fan{
+    width:48px;
+
+    height:48px;
+
+    border-width:6px;
+
+    margin:
+      7px auto 15px;
+  }
+
+
+  .cpu-brand{
+    font-size:7px;
+  }
+
+
+  .cpu-led{
+    width:8px;
+    height:8px;
+
+    margin:
+      11px auto;
+  }
+
+
+  .port-cpu-display{
+    left:-8px !important;
+
+    top:18px !important;
+  }
+
+
+  .port-usb-1{
+    left:-8px !important;
+
+    top:68px !important;
+  }
+
+
+  .port-usb-2{
+    left:-8px !important;
+
+    top:108px !important;
+  }
+
+
+  .port-printer-out{
+    left:-8px !important;
+
+    top:148px !important;
+  }
+
+
+  .port-lan{
+    right:-8px !important;
+
+    top:67px !important;
+  }
+
+
+  .port-audio-out{
+    right:-8px !important;
+
+    top:108px !important;
+  }
+
+
+  .port-cpu-power{
+    right:-8px !important;
+
+    bottom:12px !important;
+  }
+
+
+  /* =========================================================
+     KEYBOARD
+     ========================================================= */
+
+  .keyboard-built{
+    left:5% !important;
+
+    top:58% !important;
+
+    width:56% !important;
+
+    max-width:220px !important;
+
+    height:76px !important;
+
+    padding:7px !important;
+  }
+
+
+  .keyboard-built .keys{
+    height:48px !important;
+  }
+
+
+  .keyboard-built b{
+    font-size:7px;
+  }
+
+
+  /* =========================================================
+     MOUSE
+     ========================================================= */
+
+  .mouse-built{
+    left:auto !important;
+
+    right:8% !important;
+
+    top:58% !important;
+
+    width:61px !important;
+
+    height:78px !important;
+
+    padding-top:9px;
+  }
+
+
+  .mouse-wheel{
+    height:14px;
+
+    margin-bottom:5px;
+  }
+
+
+  .mouse-built b{
+    font-size:6px;
+  }
+
+
+  /* =========================================================
+     STAGE 2 SPEAKER + PRINTER
+     ========================================================= */
+
+  .speaker-built{
+    left:6% !important;
+
+    top:70% !important;
+
+    width:62px !important;
+  }
+
+
+  .printer-built{
+    left:34% !important;
+
+    top:69% !important;
+
+    width:100px !important;
+  }
+
+
+  /* =========================================================
+     POWER STRIP
+     ========================================================= */
+
+  .power-strip{
+    left:4% !important;
+
+    right:auto !important;
+
+    bottom:3% !important;
+
+    width:58%;
+
+    min-width:0;
+
+    display:flex;
+
+    gap:4px;
+
+    padding:
+      7px 6px;
+
+    font-size:6px;
+
+    border-width:2px;
+
+    border-radius:10px;
+  }
+
+
+  .power-strip b{
+    font-size:6px;
+  }
+
+
+  .socket{
+    width:30px;
+
+    height:30px;
+
+    min-width:30px;
+
+    font-size:11px;
+  }
+
+
+  .power-switch{
+    padding:7px 5px;
+
+    font-size:6px;
+  }
+
+
+  /* =========================================================
+     ROUTER
+     ========================================================= */
+
+  .router{
+    left:auto !important;
+
+    right:4% !important;
+
+    bottom:4% !important;
+
+    width:31%;
+
+    min-width:105px;
+
+    height:66px;
+
+    padding:
+      16px 4px 8px;
+  }
+
+
+  .router b{
+    font-size:7px;
+  }
+
+
+  .antenna{
+    top:-34px;
+
+    height:40px;
+  }
+
+
+  .a1{
+    left:24px;
+  }
+
+
+  .a2{
+    right:24px;
+  }
+
+
+  /* =========================================================
+     BIGGER TOUCH PORTS
+     ========================================================= */
+
+  .port,
+  .router-port{
+    min-width:34px;
+
+    min-height:27px;
+
+    display:grid;
+
+    place-items:center;
+
+    padding:3px;
+
+    font-size:6px;
+
+    touch-action:manipulation;
+
+    -webkit-tap-highlight-color:
+      transparent;
+  }
+
+
+  .socket{
+    touch-action:manipulation;
+
+    -webkit-tap-highlight-color:
+      transparent;
+  }
+
+
+  .port.target,
+  .router-port.target,
+  .socket.target{
+    z-index:60;
+  }
+
+
+  /* connected cables easier to see */
+
+  .cable-path{
+    stroke-width:8px;
+  }
+
+
+  .cable-layer{
+    overflow:visible;
+  }
+
+
+  /* =========================================================
+     CELEBRATION
+     ========================================================= */
+
+  .celebration{
+    top:11%;
+
+    width:
+      calc(100% - 24px);
+
+    max-width:330px;
+
+    padding:
+      14px 10px;
+
+    font-size:18px;
+
+    text-align:center;
+  }
+
+
+  /* =========================================================
+     COMPLETION
+     ========================================================= */
+
+  .completion-card{
+    grid-template-columns:1fr !important;
+
+    text-align:center;
+
+    padding:17px;
+  }
+
+
+  .certificate-actions{
+    flex-direction:column;
+
+    align-items:stretch !important;
+  }
+
+}
+
+
+/* ============================================================
+   EXTRA SMALL PHONES
+   ============================================================ */
+
+@media (max-width:390px){
+
+  .lab-room{
+    height:720px;
+
+    min-height:720px !important;
+  }
+
+
+  .poster{
+    font-size:7px;
+
+    padding:7px;
+  }
+
+
+  .window{
+    width:96px;
+
+    height:68px;
+  }
+
+
+  .monitor-zone{
+    width:52%;
+  }
+
+
+  .monitor-built{
+    width:51% !important;
+  }
+
+
+  .cpu-zone{
+    width:31%;
+  }
+
+
+  .cpu-built{
+    width:30% !important;
+  }
+
+
+  .device-item,
+  .cable-item{
+    min-height:76px;
+
+    font-size:10px;
+  }
+
+
+  .power-strip{
+    width:60%;
+  }
+
+
+  .router{
+    width:30%;
+    min-width:98px;
+  }
+
+}
