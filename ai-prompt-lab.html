@@ -1,0 +1,343 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AI Prompt Lab — Tannu Sir's Kids Digital Academy</title>
+<link rel="stylesheet" href="ai-prompt-lab.css">
+</head>
+
+<body>
+
+<header class="topbar">
+
+  <a href="student-profile.html" class="back">
+    ← Back to Academy
+  </a>
+
+  <div>
+    <b>🤖 AI Prompt Lab</b>
+    <small>Say it • Build it • Create it</small>
+  </div>
+
+  <span id="studentName">Student</span>
+
+</header>
+
+
+<main class="shell">
+
+  <section class="hero">
+
+    <div>
+
+      <span class="tag">
+        CLASS 1–3 • KIDS SAFE
+      </span>
+
+      <h1>
+        Prompt Magic Lab ✨
+      </h1>
+
+      <p>
+        Choose simple words, build a prompt,
+        then ask AI to create a picture or a tiny story.
+      </p>
+
+    </div>
+
+    <div class="mascot">
+      🤖
+      <span>Prompt Buddy</span>
+    </div>
+
+  </section>
+
+
+  <section class="learn-strip">
+
+    <div>1️⃣ Pick</div>
+
+    <div>2️⃣ Build</div>
+
+    <div>3️⃣ Ask AI</div>
+
+    <div>4️⃣ See Output</div>
+
+  </section>
+
+
+  <section class="grid">
+
+    <article class="panel builder">
+
+      <h2>
+        🧩 Build My Prompt
+      </h2>
+
+      <p class="short">
+        Tap one from each group.
+      </p>
+
+
+      <div class="builder-row">
+
+        <b>Who?</b>
+
+        <div
+          id="subjectChoices"
+          class="chips"
+        ></div>
+
+      </div>
+
+
+      <div class="builder-row">
+
+        <b>Where?</b>
+
+        <div
+          id="placeChoices"
+          class="chips"
+        ></div>
+
+      </div>
+
+
+      <div class="builder-row">
+
+        <b>Doing?</b>
+
+        <div
+          id="actionChoices"
+          class="chips"
+        ></div>
+
+      </div>
+
+
+      <div class="builder-row">
+
+        <b>Style?</b>
+
+        <div
+          id="styleChoices"
+          class="chips"
+        ></div>
+
+      </div>
+
+
+      <label class="prompt-label">
+        My Prompt
+      </label>
+
+
+      <textarea
+        id="prompt"
+        rows="4"
+        maxlength="500"
+        placeholder="Example: A friendly robot reading a book in a garden, colorful cartoon style."
+      ></textarea>
+
+
+      <div class="actions">
+
+        <button
+          id="voicePrompt"
+          class="btn mic"
+        >
+          🎤 Say Prompt
+        </button>
+
+
+        <button
+          id="hearPrompt"
+          class="btn hear"
+        >
+          🔊 Hear
+        </button>
+
+
+        <button
+          id="improvePrompt"
+          class="btn magic"
+        >
+          ✨ Make It Better
+        </button>
+
+      </div>
+
+    </article>
+
+
+    <article class="panel output">
+
+      <div class="mode-tabs">
+
+        <button
+          data-mode="image"
+          class="active"
+        >
+          🖼️ Picture
+        </button>
+
+
+        <button
+          data-mode="story"
+        >
+          📖 Tiny Story
+        </button>
+
+      </div>
+
+
+      <div
+        id="outputEmpty"
+        class="empty"
+      >
+
+        <div>
+          🎨
+        </div>
+
+        <b>
+          Your creation will appear here
+        </b>
+
+        <span>
+          Write or say a safe prompt.
+        </span>
+
+      </div>
+
+
+      <img
+        id="generatedImage"
+        alt="AI generated kid-safe creation"
+        hidden
+      >
+
+
+      <div
+        id="storyOutput"
+        class="story"
+        hidden
+      ></div>
+
+
+      <button
+        id="createBtn"
+        class="create"
+      >
+        ✨ Create with AI
+      </button>
+
+
+      <div
+        id="status"
+        class="status"
+      >
+        Ready.
+      </div>
+
+    </article>
+
+  </section>
+
+
+  <section class="panel lesson">
+
+    <h2>
+      🧠 What is a Prompt?
+    </h2>
+
+
+    <div class="compare">
+
+      <div>
+
+        <small>
+          SHORT
+        </small>
+
+        <b>
+          “cat”
+        </b>
+
+      </div>
+
+
+      <div>
+        ➡️
+      </div>
+
+
+      <div>
+
+        <small>
+          BETTER
+        </small>
+
+        <b>
+          “A white cat reading a book
+          in a sunny garden,
+          colorful cartoon style.”
+        </b>
+
+      </div>
+
+    </div>
+
+
+    <p>
+      A prompt is an instruction you give to AI.
+      Clear details usually make the output easier
+      to understand.
+    </p>
+
+  </section>
+
+
+  <section class="panel safety">
+
+    <h2>
+      🛡️ Safe AI Rules
+    </h2>
+
+
+    <div class="rules">
+
+      <span>
+        🔐 Keep passwords private
+      </span>
+
+      <span>
+        🏠 Do not share home address
+      </span>
+
+      <span>
+        👨‍👩‍👧 Ask a grown-up when unsure
+      </span>
+
+      <span>
+        ✅ AI can make mistakes
+      </span>
+
+    </div>
+
+  </section>
+
+</main>
+
+
+<div
+  id="toast"
+  class="toast"
+></div>
+
+
+<script src="ai-prompt-lab.js"></script>
+
+</body>
+</html>
