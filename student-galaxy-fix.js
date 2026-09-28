@@ -40,25 +40,23 @@
     }
 
     grid.innerHTML = rows.map((s, i) => {
-      const publicDetails = s.publicCard
-        ? `
-          <p><b>Guardian:</b> ${escapeHtml(s.guardian || "Not provided")}</p>
-          <p><b>🎓 Enrolled Student</b></p>`
-        : `
-          <div class="progress">
-            <i style="width:${Math.min(100, Number(s.progress || 0))}%"></i>
-          </div>
-          <p><b>Progress:</b> ${Number(s.progress || 0)}%</p>
-          <p><b>Track:</b> ${escapeHtml(s.focus || "90-Day Digital + English + Confidence Program")}</p>
-          ${
-            s.self
-              ? "<p><b>🔒 My Private Profile</b></p>"
-              : s.admin
-                ? "<p><b>🔒 Admin View</b></p>"
-                : s.demo
-                  ? "<p><b>Demo Student</b></p>"
-                  : ""
-          }`;
+    const publicDetails = s.publicCard
+  ? `
+    <p><b>Guardian:</b> ${escapeHtml(s.guardian || "Not provided")}</p>
+    <p><b>🎓 Enrolled Student</b></p>`
+  : s.admin
+    ? `
+      <div class="progress">
+        <i style="width:${Math.min(100, Number(s.progress || 0))}%"></i>
+      </div>
+      <p><b>Progress:</b> ${Number(s.progress || 0)}%</p>
+      <p><b>Track:</b> ${escapeHtml(s.focus || "90-Day Digital + English + Confidence Program")}</p>
+      <p><b>🔒 Admin View</b></p>`
+    : s.self
+      ? `<p><b>🔒 My Private Profile</b></p>`
+      : s.demo
+        ? `<p><b>Demo Student</b></p>`
+        : `<p><b>🎓 Academy Student</b></p>`; 
 
       const adminAttrs = s.admin && s.userId
         ? ` data-admin-student="${Number(s.userId)}" tabindex="0" role="button" aria-label="Open ${escapeHtml(s.name)} learning progress"`
