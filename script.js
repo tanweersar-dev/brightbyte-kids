@@ -1754,3 +1754,806 @@ document.addEventListener(
   }
 
 })();
+/* ============================================================
+   V23 NAVIGATION ORDER + KIDS GLOW BUTTONS + CLEAR REWARDS
+   Append at the VERY END of script.js
+   ============================================================ */
+
+(() => {
+  "use strict";
+
+  function setupV23Navigation(){
+
+    const nav =
+      document.querySelector(".mainnav");
+
+    if(!nav){
+      return;
+    }
+
+    const buttons =
+      [...nav.querySelectorAll("button")];
+
+    function findButton(label){
+
+      const wanted =
+        label
+          .toLowerCase()
+          .replace(/\s+/g,"")
+          .trim();
+
+      return buttons.find(btn=>{
+
+        const text =
+          String(btn.textContent || "")
+            .replace(/[^\p{L}\p{N}\s-]/gu,"")
+            .toLowerCase()
+            .replace(/\s+/g,"")
+            .trim();
+
+        return (
+          text === wanted ||
+          text.includes(wanted)
+        );
+
+      });
+    }
+
+
+    /*
+      HOME stays first.
+      Then user's requested order.
+    */
+
+    const orderedLabels = [
+      "Home",
+      "90-Day",
+      "Students",
+      "Parent View",
+      "Parent Reviews",
+      "Rewards",
+      "Digital",
+      "English",
+      "Games",
+      "Confidence",
+      "Healthy",
+      "Admin Center"
+    ];
+
+
+    orderedLabels.forEach(label=>{
+
+      const button =
+        findButton(label);
+
+      if(button){
+        nav.appendChild(button);
+      }
+
+    });
+
+
+    /*
+      Assign permanent colour classes
+      AFTER reordering.
+    */
+
+    [...nav.querySelectorAll("button")]
+      .forEach((button,index)=>{
+
+        button.classList.remove(
+          "tannu-nav-1",
+          "tannu-nav-2",
+          "tannu-nav-3",
+          "tannu-nav-4",
+          "tannu-nav-5",
+          "tannu-nav-6",
+          "tannu-nav-7",
+          "tannu-nav-8",
+          "tannu-nav-9",
+          "tannu-nav-10",
+          "tannu-nav-11",
+          "tannu-nav-12"
+        );
+
+        button.classList.add(
+          `tannu-nav-${index + 1}`
+        );
+
+      });
+
+  }
+
+
+  /* =========================================================
+     STYLE
+     ========================================================= */
+
+  if(
+    !document.getElementById(
+      "tannuV23NavRewardStyle"
+    )
+  ){
+
+    const style =
+      document.createElement("style");
+
+    style.id =
+      "tannuV23NavRewardStyle";
+
+    style.textContent = `
+
+/* ============================================================
+   TOP NAV — COLOURFUL KIDS BUTTONS
+   ============================================================ */
+
+.mainnav{
+  gap:7px !important;
+}
+
+.mainnav button{
+  position:relative !important;
+
+  overflow:hidden !important;
+
+  border:
+    1px solid rgba(255,255,255,.42)
+    !important;
+
+  color:#fff !important;
+
+  font-weight:950 !important;
+
+  text-shadow:
+    0 1px 5px rgba(20,15,75,.78)
+    !important;
+
+  transition:
+    transform .18s ease,
+    filter .18s ease,
+    box-shadow .18s ease
+    !important;
+
+  animation:
+    tannuV23NavPulse 2.4s
+    ease-in-out infinite
+    !important;
+}
+
+
+/* moving light across every button */
+
+.mainnav button::after{
+
+  content:"";
+
+  position:absolute;
+
+  top:-35%;
+
+  left:-65%;
+
+  width:40%;
+
+  height:170%;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,.72),
+      transparent
+    );
+
+  transform:
+    rotate(18deg);
+
+  animation:
+    tannuV23NavShine 3.4s
+    linear infinite;
+
+  pointer-events:none;
+}
+
+
+/* ------------------------------------------------------------
+   INDIVIDUAL BUTTON COLOURS
+   ------------------------------------------------------------ */
+
+/* HOME */
+.mainnav .tannu-nav-1{
+  background:
+    linear-gradient(
+      135deg,
+      #27c7ff,
+      #5265ff
+    ) !important;
+
+  animation-delay:0s !important;
+}
+
+
+/* 90-DAY */
+.mainnav .tannu-nav-2{
+  background:
+    linear-gradient(
+      135deg,
+      #11c9a4,
+      #22a9e8
+    ) !important;
+
+  animation-delay:.12s !important;
+}
+
+
+/* STUDENTS */
+.mainnav .tannu-nav-3{
+  background:
+    linear-gradient(
+      135deg,
+      #9b5cff,
+      #cf57dc
+    ) !important;
+
+  animation-delay:.24s !important;
+}
+
+
+/* PARENT VIEW */
+.mainnav .tannu-nav-4{
+  background:
+    linear-gradient(
+      135deg,
+      #ff8c42,
+      #ffba45
+    ) !important;
+
+  animation-delay:.36s !important;
+}
+
+
+/* PARENT REVIEWS */
+.mainnav .tannu-nav-5{
+  background:
+    linear-gradient(
+      135deg,
+      #f25ba6,
+      #d859e8
+    ) !important;
+
+  animation-delay:.48s !important;
+}
+
+
+/* REWARDS */
+.mainnav .tannu-nav-6{
+  background:
+    linear-gradient(
+      135deg,
+      #ffd447,
+      #ff8750,
+      #ff5e98
+    ) !important;
+
+  animation-delay:.60s !important;
+}
+
+
+/* DIGITAL */
+.mainnav .tannu-nav-7{
+  background:
+    linear-gradient(
+      135deg,
+      #27d9cf,
+      #1a8cff
+    ) !important;
+
+  animation-delay:.72s !important;
+}
+
+
+/* ENGLISH */
+.mainnav .tannu-nav-8{
+  background:
+    linear-gradient(
+      135deg,
+      #8759ff,
+      #e15ed4
+    ) !important;
+
+  animation-delay:.84s !important;
+}
+
+
+/* GAMES */
+.mainnav .tannu-nav-9{
+  background:
+    linear-gradient(
+      135deg,
+      #ec4d91,
+      #823de9
+    ) !important;
+
+  animation-delay:.96s !important;
+}
+
+
+/* CONFIDENCE */
+.mainnav .tannu-nav-10{
+  background:
+    linear-gradient(
+      135deg,
+      #f6b62b,
+      #ff713d
+    ) !important;
+
+  animation-delay:1.08s !important;
+}
+
+
+/* HEALTHY */
+.mainnav .tannu-nav-11{
+  background:
+    linear-gradient(
+      135deg,
+      #35c66f,
+      #1bb5a8
+    ) !important;
+
+  animation-delay:1.20s !important;
+}
+
+
+/* ADMIN */
+.mainnav .tannu-nav-12{
+  background:
+    linear-gradient(
+      135deg,
+      #5f66e8,
+      #8938c9
+    ) !important;
+
+  animation-delay:1.32s !important;
+}
+
+
+/* ============================================================
+   HOVER
+   ============================================================ */
+
+.mainnav button:hover{
+
+  transform:
+    translateY(-4px)
+    scale(1.06)
+    !important;
+
+  filter:
+    brightness(1.15)
+    saturate(1.15)
+    !important;
+
+  box-shadow:
+    0 0 12px rgba(255,255,255,.65),
+    0 0 28px rgba(91,191,255,.55),
+    0 10px 25px rgba(5,9,39,.35)
+    !important;
+}
+
+
+/* current selected page */
+
+.mainnav button.active{
+
+  transform:
+    translateY(-2px)
+    scale(1.04)
+    !important;
+
+  border:
+    2px solid #fff
+    !important;
+
+  box-shadow:
+    0 0 10px #fff,
+    0 0 23px rgba(91,232,255,.92),
+    0 0 42px rgba(161,91,255,.68)
+    !important;
+}
+
+
+/* ============================================================
+   SOFT CONTINUOUS KIDS BLINK / GLOW
+   Not harsh rapid flashing
+   ============================================================ */
+
+@keyframes tannuV23NavPulse{
+
+  0%,100%{
+
+    filter:
+      brightness(.96)
+      saturate(1);
+
+    box-shadow:
+      0 0 5px
+      rgba(255,255,255,.12);
+
+  }
+
+  50%{
+
+    filter:
+      brightness(1.18)
+      saturate(1.22);
+
+    box-shadow:
+      0 0 9px
+      rgba(255,255,255,.58),
+      0 0 20px
+      rgba(103,170,255,.38);
+
+  }
+
+}
+
+
+@keyframes tannuV23NavShine{
+
+  0%{
+    left:-70%;
+  }
+
+  42%{
+    left:135%;
+  }
+
+  100%{
+    left:135%;
+  }
+
+}
+
+
+/* ============================================================
+   VOICE BUTTON
+   Keep at its current RIGHT position
+   ============================================================ */
+
+#voiceBtn{
+
+  position:relative;
+
+  overflow:hidden;
+
+  color:#fff !important;
+
+  border:
+    1px solid rgba(255,255,255,.65)
+    !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      #29c8ef,
+      #6758ef,
+      #e65bc2
+    ) !important;
+
+  background-size:
+    220% 220%
+    !important;
+
+  box-shadow:
+    0 0 15px
+    rgba(96,187,255,.55)
+    !important;
+
+  animation:
+    tannuV23VoiceGlow 2.2s
+    ease-in-out infinite
+    !important;
+}
+
+
+@keyframes tannuV23VoiceGlow{
+
+  0%,100%{
+
+    background-position:
+      0% 50%;
+
+    box-shadow:
+      0 0 8px
+      rgba(69,221,232,.38);
+
+  }
+
+  50%{
+
+    background-position:
+      100% 50%;
+
+    box-shadow:
+      0 0 14px
+      rgba(255,255,255,.65),
+      0 0 29px
+      rgba(156,95,255,.72);
+
+  }
+
+}
+
+
+/* ============================================================
+   REWARDS — MAKE LOCKED BADGES FULLY VISIBLE
+   ============================================================ */
+
+#badgeGrid .badge-card{
+
+  position:relative !important;
+
+  opacity:1 !important;
+
+  filter:none !important;
+
+  visibility:visible !important;
+
+  transform:none;
+
+  color:#272b58 !important;
+
+  border:
+    2px solid
+    rgba(255,255,255,.78)
+    !important;
+
+  box-shadow:
+    0 12px 28px
+    rgba(8,13,54,.23)
+    !important;
+}
+
+
+/* Locked cards are NOT faded anymore */
+
+#badgeGrid .badge-card.locked{
+
+  opacity:1 !important;
+
+  filter:none !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff,
+      #edf1ff,
+      #e7f8ff
+    ) !important;
+
+  color:#25295d !important;
+
+  border:
+    2px solid
+    rgba(150,151,255,.55)
+    !important;
+
+}
+
+
+/* Make locked icon clear */
+
+#badgeGrid .badge-card.locked > span{
+
+  opacity:1 !important;
+
+  filter:none !important;
+
+  transform:
+    scale(1.05);
+
+}
+
+
+/* clear heading */
+
+#badgeGrid .badge-card.locked h4{
+
+  opacity:1 !important;
+
+  color:#292e64 !important;
+
+  font-weight:950 !important;
+
+}
+
+
+/* clear subtitle */
+
+#badgeGrid .badge-card.locked p{
+
+  opacity:1 !important;
+
+  color:#667092 !important;
+
+}
+
+
+/* LOCK label */
+
+#badgeGrid .badge-card.locked::after{
+
+  content:"🔒 LOCKED";
+
+  position:absolute;
+
+  right:9px;
+
+  top:9px;
+
+  padding:
+    4px 7px;
+
+  border-radius:
+    999px;
+
+  color:#fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #7561ef,
+      #e05cae
+    );
+
+  font-size:
+    7px;
+
+  letter-spacing:
+    .5px;
+
+  font-weight:
+    950;
+
+  box-shadow:
+    0 4px 12px
+    rgba(87,66,193,.25);
+
+}
+
+
+/* UNLOCKED badge */
+
+#badgeGrid .badge-card:not(.locked)::after{
+
+  content:"🏆 EARNED";
+
+  position:absolute;
+
+  right:9px;
+
+  top:9px;
+
+  padding:
+    4px 7px;
+
+  border-radius:
+    999px;
+
+  color:#fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #23b86f,
+      #2ec8a3
+    );
+
+  font-size:
+    7px;
+
+  letter-spacing:
+    .5px;
+
+  font-weight:
+    950;
+
+}
+
+
+/* reward card hover */
+
+#badgeGrid .badge-card:hover{
+
+  transform:
+    translateY(-8px)
+    scale(1.025)
+    !important;
+
+  box-shadow:
+    0 18px 38px
+    rgba(5,12,55,.34),
+    0 0 24px
+    rgba(96,124,255,.46)
+    !important;
+
+}
+
+
+/* ============================================================
+   SMALL SCREEN NAVIGATION
+   ============================================================ */
+
+@media(max-width:1100px){
+
+  .mainnav{
+
+    overflow-x:auto;
+
+    justify-content:flex-start
+    !important;
+
+    scrollbar-width:
+      thin;
+
+    padding-bottom:
+      3px;
+
+  }
+
+  .mainnav button{
+
+    flex:
+      0 0 auto;
+
+  }
+
+}
+
+
+@media(prefers-reduced-motion:reduce){
+
+  .mainnav button,
+  .mainnav button::after,
+  #voiceBtn{
+
+    animation:
+      none !important;
+
+  }
+
+}
+
+`;
+
+    document.head.appendChild(
+      style
+    );
+
+  }
+
+
+  /* =========================================================
+     RUN
+     ========================================================= */
+
+  if(
+    document.readyState ===
+    "loading"
+  ){
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      setupV23Navigation,
+      {
+        once:true
+      }
+    );
+
+  }else{
+
+    setupV23Navigation();
+
+  }
+
+})();
