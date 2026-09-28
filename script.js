@@ -2558,3 +2558,674 @@ document.addEventListener(
 
 })();
 
+/* ============================================================
+   V24 COLORFUL STUDENT GALAXY CARDS
+   Append at the VERY END of script.js
+   ============================================================ */
+
+(() => {
+  "use strict";
+
+  if(document.getElementById("tannuV24StudentCards")){
+    return;
+  }
+
+  const style=document.createElement("style");
+  style.id="tannuV24StudentCards";
+
+  style.textContent=`
+
+/* ============================================================
+   STUDENT GRID
+   ============================================================ */
+
+#studentGrid{
+  display:grid !important;
+  grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+  gap:18px !important;
+  align-items:stretch !important;
+}
+
+
+/* ============================================================
+   MAIN CARD
+   ============================================================ */
+
+#studentGrid .student-card{
+  --card-a:#7868ff;
+  --card-b:#39d9da;
+  --card-c:#f35daf;
+
+  position:relative !important;
+  isolation:isolate !important;
+
+  min-height:190px !important;
+  padding:22px 20px 18px !important;
+
+  overflow:hidden !important;
+
+  border-radius:28px !important;
+
+  border:
+    2px solid rgba(255,255,255,.34)
+    !important;
+
+  background:
+    radial-gradient(
+      circle at 85% 15%,
+      rgba(255,255,255,.23),
+      transparent 25%
+    ),
+    linear-gradient(
+      145deg,
+      color-mix(in srgb,var(--card-a) 28%,#151d59),
+      color-mix(in srgb,var(--card-b) 17%,#131a50) 52%,
+      color-mix(in srgb,var(--card-c) 18%,#101744)
+    )
+    !important;
+
+  box-shadow:
+    0 16px 35px rgba(5,9,45,.30),
+    inset 0 1px 0 rgba(255,255,255,.16)
+    !important;
+
+  transition:
+    transform .28s ease,
+    box-shadow .28s ease,
+    border-color .28s ease
+    !important;
+
+  animation:
+    tannuStudentCardGlow 4s ease-in-out infinite
+    !important;
+}
+
+
+/* rainbow light strip */
+
+#studentGrid .student-card::before{
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  right:0;
+  top:0;
+
+  height:7px;
+
+  background:
+    linear-gradient(
+      90deg,
+      var(--card-a),
+      var(--card-b),
+      #ffe45e,
+      var(--card-c),
+      var(--card-a)
+    );
+
+  background-size:220% 100%;
+
+  animation:
+    tannuStudentRainbow 4s linear infinite;
+
+  z-index:2;
+}
+
+
+/* cute learner label */
+
+#studentGrid .student-card::after{
+  content:"⭐ LEARNER";
+
+  position:absolute;
+
+  right:14px;
+  top:15px;
+
+  padding:5px 9px;
+
+  border-radius:999px;
+
+  font-size:8px;
+  font-weight:950;
+  letter-spacing:.7px;
+
+  color:#33335f;
+
+  background:
+    linear-gradient(
+      135deg,
+      #fff8bf,
+      #ffe15e
+    );
+
+  box-shadow:
+    0 5px 14px rgba(0,0,0,.18);
+
+  z-index:4;
+}
+
+
+/* ============================================================
+   DIFFERENT COLOR FOR EACH STUDENT
+   ============================================================ */
+
+#studentGrid .student-card:nth-child(6n+1){
+  --card-a:#7262ff;
+  --card-b:#28d9d0;
+  --card-c:#ef5fb0;
+}
+
+#studentGrid .student-card:nth-child(6n+2){
+  --card-a:#ff6d9e;
+  --card-b:#bd5cff;
+  --card-c:#ffb84d;
+}
+
+#studentGrid .student-card:nth-child(6n+3){
+  --card-a:#24c8ef;
+  --card-b:#4f72ff;
+  --card-c:#a962ff;
+}
+
+#studentGrid .student-card:nth-child(6n+4){
+  --card-a:#ff9e45;
+  --card-b:#ff5f96;
+  --card-c:#9d63ff;
+}
+
+#studentGrid .student-card:nth-child(6n+5){
+  --card-a:#2dd497;
+  --card-b:#24c9e7;
+  --card-c:#7268ff;
+}
+
+#studentGrid .student-card:nth-child(6n){
+  --card-a:#f4c542;
+  --card-b:#ff775e;
+  --card-c:#e456ba;
+}
+
+
+/* ============================================================
+   HOVER — LITTLE 3D FLOAT
+   ============================================================ */
+
+#studentGrid .student-card:hover{
+  transform:
+    translateY(-9px)
+    scale(1.025)
+    rotateX(1deg)
+    !important;
+
+  border-color:
+    rgba(255,255,255,.72)
+    !important;
+
+  box-shadow:
+    0 23px 45px rgba(5,8,45,.42),
+    0 0 25px color-mix(in srgb,var(--card-a) 55%,transparent),
+    0 0 42px color-mix(in srgb,var(--card-b) 28%,transparent)
+    !important;
+}
+
+
+/* ============================================================
+   STUDENT TOP SECTION
+   ============================================================ */
+
+#studentGrid .student-top{
+  position:relative;
+  z-index:3;
+
+  display:flex !important;
+  align-items:center !important;
+
+  gap:15px !important;
+
+  margin-bottom:14px !important;
+
+  padding-right:65px !important;
+}
+
+
+/* ============================================================
+   PHOTO
+   ============================================================ */
+
+#studentGrid .student-photo{
+  position:relative !important;
+
+  width:72px !important;
+  height:72px !important;
+
+  min-width:72px !important;
+
+  display:grid !important;
+  place-items:center !important;
+
+  overflow:hidden !important;
+
+  border-radius:24px !important;
+
+  font-size:38px !important;
+
+  color:#25305e !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff,
+      #e8faff
+    )
+    !important;
+
+  border:
+    4px solid rgba(255,255,255,.90)
+    !important;
+
+  box-shadow:
+    0 0 0 3px
+      color-mix(
+        in srgb,
+        var(--card-b) 55%,
+        transparent
+      ),
+    0 10px 22px
+      rgba(5,10,55,.27)
+    !important;
+
+  animation:
+    tannuStudentPhotoFloat
+    3.2s ease-in-out infinite;
+}
+
+
+/* uploaded student photo */
+
+#studentGrid .student-photo img{
+  width:100% !important;
+  height:100% !important;
+
+  display:block !important;
+
+  object-fit:cover !important;
+
+  border-radius:19px !important;
+}
+
+
+/* ============================================================
+   NAME
+   ============================================================ */
+
+#studentGrid .student-top h3{
+  margin:0 0 7px !important;
+
+  color:#fff !important;
+
+  font-size:20px !important;
+  line-height:1.08 !important;
+
+  font-weight:950 !important;
+
+  letter-spacing:-.2px !important;
+
+  text-shadow:
+    0 3px 10px rgba(0,0,0,.28)
+    !important;
+}
+
+
+/* ============================================================
+   CLASS PILL
+   ============================================================ */
+
+#studentGrid .student-top small{
+  display:inline-flex !important;
+
+  width:max-content !important;
+
+  padding:5px 10px !important;
+
+  border-radius:999px !important;
+
+  color:#fff !important;
+
+  font-size:10px !important;
+  font-weight:900 !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      var(--card-a),
+      var(--card-b)
+    )
+    !important;
+
+  border:
+    1px solid rgba(255,255,255,.38)
+    !important;
+
+  box-shadow:
+    0 4px 10px
+    rgba(0,0,0,.15)
+    !important;
+}
+
+
+/* ============================================================
+   INFORMATION ROWS
+   ============================================================ */
+
+#studentGrid .student-card > p{
+  position:relative;
+  z-index:3;
+
+  margin:7px 0 !important;
+
+  padding:7px 10px !important;
+
+  border-radius:11px !important;
+
+  color:#f7f9ff !important;
+
+  font-size:11px !important;
+  line-height:1.35 !important;
+
+  background:
+    rgba(255,255,255,.085)
+    !important;
+
+  border:
+    1px solid rgba(255,255,255,.09)
+    !important;
+}
+
+
+#studentGrid .student-card > p b{
+  color:#fff !important;
+  font-weight:950 !important;
+}
+
+
+/* status line */
+
+#studentGrid .student-card > p:last-child{
+  display:inline-flex !important;
+
+  width:auto !important;
+
+  margin-top:10px !important;
+
+  padding:6px 11px !important;
+
+  border-radius:999px !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(45,215,148,.92),
+      rgba(38,193,209,.92)
+    )
+    !important;
+
+  border:
+    1px solid rgba(255,255,255,.35)
+    !important;
+
+  box-shadow:
+    0 5px 14px
+    rgba(10,84,91,.22)
+    !important;
+}
+
+
+/* ============================================================
+   PROGRESS BAR
+   ============================================================ */
+
+#studentGrid .progress{
+  position:relative !important;
+  z-index:3;
+
+  height:9px !important;
+
+  overflow:hidden !important;
+
+  margin:10px 0 11px !important;
+
+  border-radius:999px !important;
+
+  background:
+    rgba(255,255,255,.14)
+    !important;
+
+  border:
+    1px solid rgba(255,255,255,.10)
+    !important;
+}
+
+
+#studentGrid .progress i{
+  position:relative !important;
+
+  display:block !important;
+
+  height:100% !important;
+
+  border-radius:999px !important;
+
+  background:
+    linear-gradient(
+      90deg,
+      #ffe45c,
+      var(--card-b),
+      #ff6ab3
+    )
+    !important;
+
+  box-shadow:
+    0 0 12px
+    color-mix(
+      in srgb,
+      var(--card-b) 70%,
+      transparent
+    )
+    !important;
+}
+
+
+/* animated shine in progress */
+
+#studentGrid .progress i::after{
+  content:"";
+
+  position:absolute;
+
+  inset:0;
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,.8),
+      transparent
+    );
+
+  transform:
+    translateX(-100%);
+
+  animation:
+    tannuStudentProgressShine
+    2.4s ease-in-out infinite;
+}
+
+
+/* ============================================================
+   DECORATIVE BUBBLES
+   ============================================================ */
+
+#studentGrid .student-card .student-top::after{
+  content:"✦";
+
+  position:absolute;
+
+  right:-32px;
+  bottom:-4px;
+
+  color:
+    rgba(255,255,255,.36);
+
+  font-size:28px;
+
+  filter:
+    drop-shadow(
+      0 0 8px
+      var(--card-b)
+    );
+
+  animation:
+    tannuStudentSparkle
+    2.3s ease-in-out infinite;
+}
+
+
+/* ============================================================
+   ANIMATIONS
+   ============================================================ */
+
+@keyframes tannuStudentCardGlow{
+
+  0%,100%{
+    filter:brightness(1);
+  }
+
+  50%{
+    filter:brightness(1.06);
+  }
+
+}
+
+
+@keyframes tannuStudentRainbow{
+
+  from{
+    background-position:0% 50%;
+  }
+
+  to{
+    background-position:220% 50%;
+  }
+
+}
+
+
+@keyframes tannuStudentPhotoFloat{
+
+  0%,100%{
+    transform:translateY(0);
+  }
+
+  50%{
+    transform:translateY(-4px);
+  }
+
+}
+
+
+@keyframes tannuStudentProgressShine{
+
+  0%,45%{
+    transform:translateX(-120%);
+  }
+
+  75%,100%{
+    transform:translateX(120%);
+  }
+
+}
+
+
+@keyframes tannuStudentSparkle{
+
+  0%,100%{
+    transform:
+      rotate(0deg)
+      scale(.85);
+
+    opacity:.4;
+  }
+
+  50%{
+    transform:
+      rotate(22deg)
+      scale(1.2);
+
+    opacity:1;
+  }
+
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media(max-width:1200px){
+
+  #studentGrid{
+    grid-template-columns:
+      repeat(3,minmax(0,1fr))
+      !important;
+  }
+
+}
+
+
+@media(max-width:850px){
+
+  #studentGrid{
+    grid-template-columns:
+      repeat(2,minmax(0,1fr))
+      !important;
+  }
+
+}
+
+
+@media(max-width:560px){
+
+  #studentGrid{
+    grid-template-columns:
+      1fr
+      !important;
+
+    gap:14px !important;
+  }
+
+  #studentGrid .student-card{
+    min-height:175px !important;
+  }
+
+}
+
+
+@media(prefers-reduced-motion:reduce){
+
+  #studentGrid .student-card,
+  #studentGrid .student-photo,
+  #studentGrid .progress i::after,
+  #studentGrid .student-card .student-top::after,
+  #studentGrid .student-card::before{
+    animation:none !important;
+  }
+
+}
+
+`;
+
+  document.head.appendChild(style);
+
+})();
