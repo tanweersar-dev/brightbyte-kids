@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#111747">
+  <title>Future Skills Universe — Tannu Sir's Kids Digital Academy</title>
+  <link rel="stylesheet" href="advanced-universe.css">
+</head>
+<body>
+  <div class="aurora a1"></div>
+  <div class="aurora a2"></div>
+  <div class="starfield"></div>
+
+  <header class="topbar">
+    <a class="brand" href="advanced-universe.html">
+      <span class="brand-logo">T</span>
+      <span>
+        <b>Future Skills Universe</b>
+        <small>TANNU SIR'S KIDS DIGITAL ACADEMY • CLASS 4–6</small>
+      </span>
+    </a>
+
+    <div class="top-actions">
+      <span id="studentChip" class="chip">👤 Student</span>
+      <span id="classChip" class="chip">🎓 Class —</span>
+      <button id="voiceBtn" class="chip button-chip" type="button">🔊 Voice On</button>
+      <button id="logoutBtn" class="chip button-chip danger-chip" type="button">🚪 Logout</button>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">LEVEL 2 • FUTURE READY DIGITAL SKILLS</span>
+        <h1 id="heroTitle">Explore. Apply. Create. Solve.</h1>
+        <p id="heroText">
+          Hardware, software, AI, coding, cyber safety, research, data, communication,
+          creativity and real-world projects — all in one advanced learning universe.
+        </p>
+
+        <div class="mode-row" aria-label="Learning modes">
+          <button class="mode-btn active" data-mode="learn" type="button">📘 Learn Mode</button>
+          <button class="mode-btn" data-mode="challenge" type="button">🎯 Challenge Mode</button>
+          <button class="mode-btn" data-mode="create" type="button">🛠️ Create Mode</button>
+        </div>
+      </div>
+
+      <div class="hero-stats">
+        <article><span>⭐</span><b id="xpCount">0</b><small>XP STARS</small></article>
+        <article><span>✅</span><b id="skillCount">0</b><small>SKILLS</small></article>
+        <article><span>🔥</span><b id="streakCount">1</b><small>DAY STREAK</small></article>
+        <article><span>🗂️</span><b id="projectCount">0</b><small>PROJECTS</small></article>
+      </div>
+    </section>
+
+    <section class="mission-strip">
+      <div>
+        <span class="eyebrow dark">TODAY'S SMART MISSIONS</span>
+        <h2>Three short missions. One stronger skillset.</h2>
+      </div>
+      <div id="dailyMissions" class="daily-missions"></div>
+    </section>
+
+    <section class="section-head">
+      <div>
+        <span class="eyebrow dark">CHOOSE YOUR WORLD</span>
+        <h2>Advanced Learning Universe</h2>
+        <p>Every world follows Learn → Challenge → Create → Demonstrate.</p>
+      </div>
+      <div class="section-actions">
+        <button id="passportBtn" class="soft-btn" type="button">🪪 Skill Passport</button>
+        <button id="portfolioBtn" class="soft-btn" type="button">🎒 My Portfolio</button>
+        <button id="reportBtn" class="soft-btn" type="button">📊 Parent Report</button>
+      </div>
+    </section>
+
+    <section id="worldGrid" class="world-grid"></section>
+
+    <section id="workspace" class="workspace hidden">
+      <div class="workspace-head">
+        <div>
+          <button id="backWorlds" class="back-btn" type="button">← All Worlds</button>
+          <span id="workspaceEyebrow" class="eyebrow dark">WORLD</span>
+          <h2 id="workspaceTitle">World Title</h2>
+          <p id="workspaceDesc"></p>
+        </div>
+        <div id="workspaceBadge" class="world-badge">LEVEL</div>
+      </div>
+
+      <div class="workspace-tabs">
+        <button class="workspace-tab active" data-work-mode="learn" type="button">📘 Learn</button>
+        <button class="workspace-tab" data-work-mode="challenge" type="button">🎯 Challenge</button>
+        <button class="workspace-tab" data-work-mode="create" type="button">🛠️ Create</button>
+      </div>
+
+      <div id="learnView" class="work-view show">
+        <div id="lessonGrid" class="lesson-grid"></div>
+        <div id="specialLab" class="special-lab"></div>
+      </div>
+
+      <div id="challengeView" class="work-view">
+        <div class="challenge-shell">
+          <div class="challenge-top">
+            <span id="challengeLabel">QUESTION 1</span>
+            <span id="challengeScore">Score 0</span>
+          </div>
+          <h3 id="challengeQuestion">Choose a world first.</h3>
+          <div id="challengeOptions" class="challenge-options"></div>
+          <div id="challengeFeedback" class="challenge-feedback"></div>
+          <button id="nextChallenge" class="primary-btn" type="button" disabled>Next Question →</button>
+        </div>
+      </div>
+
+      <div id="createView" class="work-view">
+        <div class="create-shell">
+          <span class="eyebrow dark">BUILD SOMETHING</span>
+          <h3 id="projectTitle">Project</h3>
+          <p id="projectPrompt"></p>
+          <div id="projectChecklist" class="project-checklist"></div>
+          <label for="projectWork">My work / notes</label>
+          <textarea id="projectWork" rows="8" placeholder="Write your plan, answer, script, idea or project notes here..."></textarea>
+          <div class="button-row">
+            <button id="saveProject" class="primary-btn" type="button">💾 Save to Portfolio</button>
+            <button id="speakProject" class="soft-btn" type="button">🔊 Hear Project Brief</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="roadmap">
+      <div class="section-head compact">
+        <div>
+          <span class="eyebrow dark">CLASS PROGRESSION</span>
+          <h2>One universe, three maturity levels</h2>
+        </div>
+      </div>
+      <div class="roadmap-grid">
+        <article>
+          <span>4️⃣</span>
+          <h3>Class 4 • Explore</h3>
+          <p>Identify, understand, follow guided steps, build confidence with tools.</p>
+        </article>
+        <article>
+          <span>5️⃣</span>
+          <h3>Class 5 • Apply</h3>
+          <p>Compare, practise, troubleshoot, create useful digital work and explain choices.</p>
+        </article>
+        <article>
+          <span>6️⃣</span>
+          <h3>Class 6 • Create & Solve</h3>
+          <p>Build projects, evaluate information, use AI responsibly and solve realistic problems.</p>
+        </article>
+      </div>
+    </section>
+  </main>
+
+  <div id="modal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-card">
+      <button id="modalClose" class="modal-close" type="button">×</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="advanced-universe.js"></script>
+</body>
+</html>
