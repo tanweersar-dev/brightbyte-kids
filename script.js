@@ -3229,3 +3229,1239 @@ document.addEventListener(
   document.head.appendChild(style);
 
 })();
+/* ============================================================
+   V25 CLEAR & FRIENDLY PARENT VIEW
+   Explains purpose, demo data and parent progress flow
+   Append at the VERY END of script.js
+   ============================================================ */
+
+(() => {
+  "use strict";
+
+  function setupClearParentView(){
+
+    const section =
+      document.getElementById("parents");
+
+    if(
+      !section ||
+      section.dataset.v25ParentReady === "1"
+    ){
+      return;
+    }
+
+    section.dataset.v25ParentReady = "1";
+
+
+    /* ========================================================
+       1. CLEAR SUBTITLE UNDER MAIN HEADING
+       ======================================================== */
+
+    const headText =
+      section.querySelector(
+        ".section-head > div"
+      );
+
+    if(
+      headText &&
+      !headText.querySelector(
+        ".parent-purpose-text"
+      )
+    ){
+
+      const p =
+        document.createElement("p");
+
+      p.className =
+        "parent-purpose-text";
+
+      p.innerHTML = `
+        This page helps parents and visitors understand
+        <b>what a child is learning</b>,
+        <b>how much practice is happening</b>,
+        and <b>what may need attention next</b>.
+        It focuses on learning progress — not just time spent on a screen.
+      `;
+
+      headText.appendChild(p);
+
+    }
+
+
+    /* ========================================================
+       2. PURPOSE / DEMO NOTICE
+       ======================================================== */
+
+    const parentGrid =
+      section.querySelector(
+        ".parent-grid"
+      );
+
+    if(parentGrid){
+
+      const intro =
+        document.createElement("div");
+
+      intro.className =
+        "parent-view-intro";
+
+      intro.innerHTML = `
+
+        <div class="parent-demo-note">
+
+          <div class="parent-demo-icon">
+            👨‍👩‍👧
+          </div>
+
+          <div>
+
+            <small>
+              WHAT IS PARENT VIEW?
+            </small>
+
+            <h3>
+              A simple learning progress preview for parents
+            </h3>
+
+            <p>
+              Parent View shows how learning can be summarized
+              across digital skills, English, safety, confidence
+              and AI activities.
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <div class="parent-demo-warning">
+
+          <span>
+            ℹ️
+          </span>
+
+          <div>
+
+            <b>
+              Demo Preview
+            </b>
+
+            <p>
+              Zen Alpha is a fictional demo learner.
+              The percentages and weekly activity shown below
+              are sample data used to explain how a progress
+              summary can look.
+            </p>
+
+          </div>
+
+        </div>
+
+      `;
+
+      parentGrid
+        .insertAdjacentElement(
+          "beforebegin",
+          intro
+        );
+
+    }
+
+
+    /* ========================================================
+       3. EXPLAIN WHAT EACH PART MEANS
+       ======================================================== */
+
+    if(parentGrid){
+
+      const guide =
+        document.createElement("div");
+
+      guide.className =
+        "parent-guide-grid";
+
+      guide.innerHTML = `
+
+        <article class="parent-guide-card pg-purple">
+
+          <span>
+            📊
+          </span>
+
+          <div>
+
+            <small>
+              SKILL SNAPSHOT
+            </small>
+
+            <h3>
+              What is the child practising?
+            </h3>
+
+            <p>
+              The skill panel gives a quick view of areas such as
+              Computer, English, Safety, Confidence and AI.
+            </p>
+
+          </div>
+
+        </article>
+
+
+        <article class="parent-guide-card pg-blue">
+
+          <span>
+            📅
+          </span>
+
+          <div>
+
+            <small>
+              WEEKLY ACTIVITY
+            </small>
+
+            <h3>
+              What happened this week?
+            </h3>
+
+            <p>
+              See a simple summary of lessons, speaking practice,
+              games and newly earned badges.
+            </p>
+
+          </div>
+
+        </article>
+
+
+        <article class="parent-guide-card pg-orange">
+
+          <span>
+            🧭
+          </span>
+
+          <div>
+
+            <small>
+              NEXT STEP
+            </small>
+
+            <h3>
+              What should be practised next?
+            </h3>
+
+            <p>
+              Weekly progress can help identify strong areas,
+              areas needing more practice and the next learning step.
+            </p>
+
+          </div>
+
+        </article>
+
+
+        <article class="parent-guide-card pg-green">
+
+          <span>
+            🛡️
+          </span>
+
+          <div>
+
+            <small>
+              SAFE LEARNING
+            </small>
+
+            <h3>
+              How is the learning environment designed?
+            </h3>
+
+            <p>
+              The academy highlights private profiles,
+              no stranger chat, teacher guidance,
+              short learning sessions and an ad-free experience.
+            </p>
+
+          </div>
+
+        </article>
+
+      `;
+
+      parentGrid
+        .insertAdjacentElement(
+          "beforebegin",
+          guide
+        );
+
+    }
+
+
+    /* ========================================================
+       4. IMPROVE EXISTING TWO MAIN CARDS
+       ======================================================== */
+
+    const cards =
+      section.querySelectorAll(
+        ".parent-card"
+      );
+
+    if(cards[0]){
+
+      const title =
+        cards[0].querySelector("h3");
+
+      if(title){
+
+        title.innerHTML = `
+          📊 Skill Progress Snapshot
+          <small class="parent-card-label">
+            Zen Alpha • Demo Learner
+          </small>
+        `;
+
+      }
+
+
+      const note =
+        document.createElement("div");
+
+      note.className =
+        "parent-mini-note";
+
+      note.innerHTML = `
+        <span>💡</span>
+        <p>
+          These demo percentages are progress indicators for this sample.
+          They are not school exam marks or grades.
+        </p>
+      `;
+
+      cards[0].appendChild(note);
+
+    }
+
+
+    if(cards[1]){
+
+      const title =
+        cards[1].querySelector("h3");
+
+      if(title){
+
+        title.innerHTML = `
+          📅 Example Weekly Summary
+          <small class="parent-card-label">
+            Sample activity report
+          </small>
+        `;
+
+      }
+
+
+      const report =
+        cards[1].querySelector(
+          ".report-sample"
+        );
+
+      if(report){
+
+        const label =
+          document.createElement("small");
+
+        label.className =
+          "sample-data-label";
+
+        label.textContent =
+          "SAMPLE DATA";
+
+        report.prepend(label);
+
+      }
+
+    }
+
+
+    /* ========================================================
+       5. LEARNING FLOW
+       ======================================================== */
+
+    const trust =
+      section.querySelector(
+        ".trust-panel"
+      );
+
+    if(trust){
+
+      const flow =
+        document.createElement("div");
+
+      flow.className =
+        "parent-learning-flow";
+
+      flow.innerHTML = `
+
+        <div class="parent-flow-title">
+
+          <small>
+            HOW PARENT VIEW SHOULD BE READ
+          </small>
+
+          <h3>
+            Learning → Practice → Track → Review → Next Step
+          </h3>
+
+        </div>
+
+
+        <div class="parent-flow-steps">
+
+          <div>
+            <span>📚</span>
+            <b>Learn</b>
+            <small>Short guided lessons</small>
+          </div>
+
+          <i>→</i>
+
+          <div>
+            <span>🎮</span>
+            <b>Practice</b>
+            <small>Activities & games</small>
+          </div>
+
+          <i>→</i>
+
+          <div>
+            <span>📊</span>
+            <b>Track</b>
+            <small>Progress summary</small>
+          </div>
+
+          <i>→</i>
+
+          <div>
+            <span>👨‍👩‍👧</span>
+            <b>Review</b>
+            <small>Parent understanding</small>
+          </div>
+
+          <i>→</i>
+
+          <div>
+            <span>🚀</span>
+            <b>Next Step</b>
+            <small>Continue learning</small>
+          </div>
+
+        </div>
+
+      `;
+
+      trust
+        .insertAdjacentElement(
+          "beforebegin",
+          flow
+        );
+
+    }
+
+
+    /* ========================================================
+       6. PARENT VIEW vs PARENT REVIEWS
+       ======================================================== */
+
+    if(trust){
+
+      const difference =
+        document.createElement("div");
+
+      difference.className =
+        "parent-difference";
+
+      difference.innerHTML = `
+
+        <div>
+
+          <span>
+            👨‍👩‍👧
+          </span>
+
+          <section>
+
+            <small>
+              PARENT VIEW
+            </small>
+
+            <b>
+              Understand the learning progress
+            </b>
+
+            <p>
+              Shows the idea of skills, weekly activity,
+              safety and learning progress.
+            </p>
+
+          </section>
+
+        </div>
+
+
+        <div class="parent-vs">
+          VS
+        </div>
+
+
+        <div>
+
+          <span>
+            ⭐
+          </span>
+
+          <section>
+
+            <small>
+              PARENT REVIEWS
+            </small>
+
+            <b>
+              Read or send feedback
+            </b>
+
+            <p>
+              Reviews & Suggestions is for parent feedback,
+              experiences and suggestions about the academy.
+            </p>
+
+          </section>
+
+        </div>
+
+      `;
+
+      trust
+        .insertAdjacentElement(
+          "afterend",
+          difference
+        );
+
+    }
+
+  }
+
+
+  /* ==========================================================
+     STYLE
+     ========================================================== */
+
+  if(
+    !document.getElementById(
+      "tannuV25ParentStyle"
+    )
+  ){
+
+    const style =
+      document.createElement("style");
+
+    style.id =
+      "tannuV25ParentStyle";
+
+    style.textContent = `
+
+/* ============================================================
+   MAIN DESCRIPTION
+   ============================================================ */
+
+#parents .parent-purpose-text{
+  max-width:820px;
+  margin-top:12px !important;
+  color:#d9e1ff !important;
+  font-size:15px !important;
+  line-height:1.65 !important;
+}
+
+#parents .parent-purpose-text b{
+  color:#fff;
+}
+
+
+/* ============================================================
+   WHAT IS PARENT VIEW
+   ============================================================ */
+
+.parent-view-intro{
+  display:grid;
+  grid-template-columns:1.35fr .9fr;
+  gap:14px;
+  margin-bottom:17px;
+}
+
+.parent-demo-note,
+.parent-demo-warning{
+  position:relative;
+  overflow:hidden;
+
+  display:flex;
+  align-items:center;
+  gap:16px;
+
+  min-height:120px;
+  padding:19px 21px;
+
+  border-radius:24px;
+
+  border:
+    1px solid rgba(255,255,255,.20);
+
+  box-shadow:
+    0 14px 32px rgba(5,10,50,.22);
+}
+
+.parent-demo-note{
+  background:
+    linear-gradient(
+      135deg,
+      rgba(110,91,255,.82),
+      rgba(46,199,213,.63)
+    );
+}
+
+.parent-demo-warning{
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255,160,70,.92),
+      rgba(239,84,159,.82)
+    );
+}
+
+.parent-demo-icon,
+.parent-demo-warning > span{
+  min-width:68px;
+  width:68px;
+  height:68px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:22px;
+
+  background:
+    rgba(255,255,255,.20);
+
+  font-size:34px;
+
+  border:
+    1px solid rgba(255,255,255,.30);
+}
+
+.parent-demo-note small,
+.parent-demo-warning small{
+  font-size:8px;
+  font-weight:950;
+  letter-spacing:1px;
+}
+
+.parent-demo-note h3,
+.parent-demo-warning h3{
+  margin:5px 0 6px;
+  color:#fff;
+}
+
+.parent-demo-note p,
+.parent-demo-warning p{
+  margin:0;
+  color:#f4f5ff;
+  line-height:1.5;
+  font-size:12px;
+}
+
+.parent-demo-warning b{
+  display:block;
+  margin-bottom:6px;
+  font-size:16px;
+  color:#fff;
+}
+
+
+/* ============================================================
+   FOUR EXPLANATION CARDS
+   ============================================================ */
+
+.parent-guide-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+
+  margin-bottom:18px;
+}
+
+.parent-guide-card{
+  position:relative;
+  overflow:hidden;
+
+  min-height:165px;
+
+  padding:18px;
+
+  border-radius:22px;
+
+  border:
+    1px solid rgba(255,255,255,.26);
+
+  color:#fff;
+
+  box-shadow:
+    0 14px 30px rgba(5,9,48,.22);
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease;
+}
+
+.parent-guide-card:hover{
+  transform:
+    translateY(-6px);
+
+  box-shadow:
+    0 19px 38px rgba(5,9,48,.35);
+}
+
+.parent-guide-card > span{
+  display:block;
+  font-size:34px;
+  margin-bottom:10px;
+}
+
+.parent-guide-card small{
+  font-size:8px;
+  font-weight:950;
+  letter-spacing:1px;
+  opacity:.86;
+}
+
+.parent-guide-card h3{
+  margin:5px 0 7px;
+  font-size:16px;
+}
+
+.parent-guide-card p{
+  margin:0;
+  font-size:11px;
+  line-height:1.48;
+  color:#f1f3ff;
+}
+
+.pg-purple{
+  background:
+    linear-gradient(
+      145deg,
+      #725cff,
+      #9a55df
+    );
+}
+
+.pg-blue{
+  background:
+    linear-gradient(
+      145deg,
+      #269fdc,
+      #4e6ce6
+    );
+}
+
+.pg-orange{
+  background:
+    linear-gradient(
+      145deg,
+      #f2943f,
+      #e86578
+    );
+}
+
+.pg-green{
+  background:
+    linear-gradient(
+      145deg,
+      #29b684,
+      #1b9eb4
+    );
+}
+
+
+/* ============================================================
+   EXISTING PARENT CARDS
+   ============================================================ */
+
+#parents .parent-card{
+  border:
+    1px solid rgba(255,255,255,.19)
+    !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(30,42,111,.96),
+      rgba(18,29,84,.95)
+    )
+    !important;
+
+  box-shadow:
+    0 18px 38px rgba(3,8,43,.25)
+    !important;
+}
+
+#parents .parent-card h3{
+  color:#fff;
+  font-size:19px;
+}
+
+.parent-card-label{
+  display:block;
+
+  width:max-content;
+
+  margin-top:6px;
+  padding:5px 9px;
+
+  border-radius:999px;
+
+  background:
+    rgba(255,255,255,.10);
+
+  color:#becaff;
+
+  font-size:8px;
+  letter-spacing:.5px;
+  font-weight:900;
+}
+
+
+/* ============================================================
+   SKILL BARS
+   ============================================================ */
+
+#parents .skills span{
+  border:
+    1px solid rgba(255,255,255,.08);
+
+  background:
+    linear-gradient(
+      90deg,
+      rgba(255,255,255,.085),
+      rgba(255,255,255,.045)
+    )
+    !important;
+
+  transition:
+    transform .2s ease,
+    background .2s ease;
+}
+
+#parents .skills span:hover{
+  transform:translateX(5px);
+
+  background:
+    rgba(255,255,255,.13)
+    !important;
+}
+
+#parents .skills span:nth-child(1){
+  border-left:4px solid #4fd6f4;
+}
+
+#parents .skills span:nth-child(2){
+  border-left:4px solid #d66bff;
+}
+
+#parents .skills span:nth-child(3){
+  border-left:4px solid #48d9a2;
+}
+
+#parents .skills span:nth-child(4){
+  border-left:4px solid #ffd45f;
+}
+
+#parents .skills span:nth-child(5){
+  border-left:4px solid #ff75aa;
+}
+
+
+/* ============================================================
+   NOTES
+   ============================================================ */
+
+.parent-mini-note{
+  display:flex;
+  gap:9px;
+  align-items:flex-start;
+
+  margin-top:13px;
+
+  padding:11px 12px;
+
+  border-radius:14px;
+
+  background:
+    rgba(72,216,204,.10);
+
+  border:
+    1px solid rgba(72,216,204,.22);
+}
+
+.parent-mini-note span{
+  font-size:20px;
+}
+
+.parent-mini-note p{
+  margin:0 !important;
+
+  color:#cad9f8 !important;
+
+  font-size:10px !important;
+  line-height:1.45 !important;
+}
+
+
+/* ============================================================
+   SAMPLE DATA LABEL
+   ============================================================ */
+
+.sample-data-label{
+  display:inline-flex;
+
+  margin-bottom:8px;
+
+  padding:4px 8px;
+
+  border-radius:999px;
+
+  background:
+    linear-gradient(
+      135deg,
+      #ffac50,
+      #ef61a5
+    );
+
+  color:#fff;
+
+  font-size:7px;
+  letter-spacing:.7px;
+  font-weight:950;
+}
+
+
+/* ============================================================
+   PARENT LEARNING FLOW
+   ============================================================ */
+
+.parent-learning-flow{
+  margin-top:18px;
+  margin-bottom:18px;
+
+  padding:20px;
+
+  border-radius:25px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(105,89,243,.22),
+      rgba(42,204,196,.16)
+    );
+
+  border:
+    1px solid rgba(255,255,255,.16);
+
+  box-shadow:
+    0 15px 34px rgba(5,9,48,.20);
+}
+
+.parent-flow-title small{
+  font-size:8px;
+  font-weight:950;
+  letter-spacing:1px;
+  color:#78e6df;
+}
+
+.parent-flow-title h3{
+  margin:6px 0 17px;
+  color:#fff;
+}
+
+.parent-flow-steps{
+  display:grid;
+
+  grid-template-columns:
+    1fr auto
+    1fr auto
+    1fr auto
+    1fr auto
+    1fr;
+
+  gap:9px;
+
+  align-items:center;
+}
+
+.parent-flow-steps > div{
+  min-height:105px;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  padding:12px;
+
+  text-align:center;
+
+  border-radius:17px;
+
+  background:
+    rgba(255,255,255,.08);
+
+  border:
+    1px solid rgba(255,255,255,.09);
+}
+
+.parent-flow-steps > div span{
+  font-size:28px;
+}
+
+.parent-flow-steps > div b{
+  margin-top:4px;
+  color:#fff;
+}
+
+.parent-flow-steps > div small{
+  margin-top:3px;
+  color:#bdc9ee;
+  font-size:9px;
+}
+
+.parent-flow-steps > i{
+  color:#6be3dd;
+  font-size:22px;
+  font-style:normal;
+  font-weight:950;
+}
+
+
+/* ============================================================
+   PARENT VIEW vs REVIEWS
+   ============================================================ */
+
+.parent-difference{
+  display:grid;
+
+  grid-template-columns:
+    1fr auto 1fr;
+
+  align-items:center;
+
+  gap:14px;
+
+  margin-top:16px;
+}
+
+.parent-difference > div:not(.parent-vs){
+  display:flex;
+  align-items:center;
+
+  gap:14px;
+
+  padding:18px;
+
+  border-radius:22px;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(88,75,202,.78),
+      rgba(24,39,104,.86)
+    );
+
+  border:
+    1px solid rgba(255,255,255,.14);
+}
+
+.parent-difference > div:last-child{
+  background:
+    linear-gradient(
+      145deg,
+      rgba(213,78,151,.70),
+      rgba(80,57,169,.84)
+    );
+}
+
+.parent-difference span{
+  font-size:37px;
+}
+
+.parent-difference section small{
+  display:block;
+
+  color:#ffd76c;
+
+  font-size:8px;
+  letter-spacing:1px;
+  font-weight:950;
+}
+
+.parent-difference section b{
+  display:block;
+
+  margin:5px 0;
+
+  color:#fff;
+}
+
+.parent-difference section p{
+  margin:0;
+
+  color:#d9dff8;
+
+  font-size:10px;
+  line-height:1.45;
+}
+
+.parent-vs{
+  width:42px;
+  height:42px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:50%;
+
+  color:#433e91;
+  background:#fff;
+
+  font-size:10px;
+  font-weight:950;
+}
+
+
+/* ============================================================
+   SAFE LEARNING PROMISE MORE VISIBLE
+   ============================================================ */
+
+#parents .trust-panel{
+  margin-top:18px !important;
+
+  padding:17px !important;
+
+  border:
+    1px solid rgba(88,226,209,.25)
+    !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(27,54,112,.88),
+      rgba(20,86,109,.65)
+    )
+    !important;
+}
+
+#parents .trust-panel > b{
+  color:#fff;
+  font-size:14px;
+}
+
+#parents .trust-panel span{
+  border:
+    1px solid rgba(255,255,255,.11);
+
+  background:
+    rgba(255,255,255,.08)
+    !important;
+}
+
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+
+@media(max-width:1050px){
+
+  .parent-guide-grid{
+    grid-template-columns:
+      repeat(2,1fr);
+  }
+
+  .parent-view-intro{
+    grid-template-columns:1fr;
+  }
+
+}
+
+
+@media(max-width:800px){
+
+  .parent-flow-steps{
+    grid-template-columns:1fr;
+  }
+
+  .parent-flow-steps > i{
+    transform:rotate(90deg);
+    text-align:center;
+  }
+
+  .parent-difference{
+    grid-template-columns:1fr;
+  }
+
+  .parent-vs{
+    margin:auto;
+  }
+
+}
+
+
+@media(max-width:560px){
+
+  .parent-guide-grid{
+    grid-template-columns:1fr;
+  }
+
+  .parent-demo-note,
+  .parent-demo-warning{
+    align-items:flex-start;
+  }
+
+}
+
+`;
+
+    document.head.appendChild(
+      style
+    );
+
+  }
+
+
+  /* ==========================================================
+     RUN
+     ========================================================== */
+
+  if(
+    document.readyState === "loading"
+  ){
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      setupClearParentView,
+      {
+        once:true
+      }
+    );
+
+  }else{
+
+    setupClearParentView();
+
+  }
+
+})();
