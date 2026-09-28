@@ -1185,3 +1185,572 @@ document.addEventListener(
   }
 
 })();
+/* ============================================================
+   V22 CHATBOT GLOW + INTERACTIVE REWARDS
+   Append this block at the VERY END of script.js
+   ============================================================ */
+
+(() => {
+  "use strict";
+
+  /* ----------------------------------------------------------
+     1) REMOVE OLD OVERLAPPING HELPER + BIG GLOWING CHATBOT
+     ---------------------------------------------------------- */
+
+  if (!document.getElementById("tannuV22BuddyRewardStyle")) {
+    const style = document.createElement("style");
+    style.id = "tannuV22BuddyRewardStyle";
+    style.textContent = `
+
+#helper{
+  display:none !important;
+}
+
+#tannuBuddyLaunch{
+  width:116px !important;
+  height:116px !important;
+  right:26px !important;
+  bottom:26px !important;
+  border-radius:38px !important;
+  border:3px solid rgba(255,255,255,.96) !important;
+  background:
+    linear-gradient(135deg,#28e6e0,#665cff 38%,#bd57ef 68%,#ff5fa6) !important;
+  background-size:300% 300% !important;
+  box-shadow:
+    0 0 0 6px rgba(91,96,255,.16),
+    0 0 24px rgba(61,232,224,.90),
+    0 0 48px rgba(116,92,255,.82),
+    0 0 78px rgba(255,91,176,.55),
+    0 18px 38px rgba(5,11,44,.45) !important;
+  animation:
+    tannuV22BuddyGlow 1.9s ease-in-out infinite,
+    tannuV22BuddyGradient 5s linear infinite !important;
+  transform-origin:center center !important;
+  overflow:visible !important;
+  isolation:isolate;
+}
+
+#tannuBuddyLaunch::before{
+  content:"";
+  position:absolute;
+  inset:-13px;
+  border-radius:48px;
+  border:2px solid rgba(89,235,255,.72);
+  box-shadow:
+    0 0 18px rgba(75,230,255,.75),
+    inset 0 0 18px rgba(139,92,246,.28);
+  pointer-events:none;
+  animation:tannuV22Ring 1.9s ease-out infinite;
+}
+
+#tannuBuddyLaunch::after{
+  content:"✨";
+  position:absolute;
+  right:-9px;
+  top:-13px;
+  font-size:23px;
+  filter:drop-shadow(0 0 9px #fff);
+  animation:tannuV22Spark 1.25s ease-in-out infinite alternate;
+  pointer-events:none;
+}
+
+#tannuBuddyLaunch .bot{
+  font-size:52px !important;
+  line-height:1 !important;
+  filter:
+    drop-shadow(0 0 8px rgba(255,255,255,.95))
+    drop-shadow(0 0 18px rgba(54,220,255,.75));
+  animation:tannuV22BotFloat 2.2s ease-in-out infinite;
+}
+
+#tannuBuddyLaunch small{
+  margin-top:5px !important;
+  font-size:13px !important;
+  font-weight:950 !important;
+  letter-spacing:.2px !important;
+  color:#fff !important;
+  text-shadow:0 2px 8px rgba(32,18,95,.9) !important;
+}
+
+#tannuBuddyLaunch:hover{
+  transform:scale(1.08) translateY(-3px) !important;
+}
+
+#tannuBuddyLaunch:active{
+  transform:scale(.98) !important;
+}
+
+@keyframes tannuV22BuddyGlow{
+  0%,100%{
+    box-shadow:
+      0 0 0 6px rgba(91,96,255,.14),
+      0 0 20px rgba(61,232,224,.76),
+      0 0 42px rgba(116,92,255,.66),
+      0 0 68px rgba(255,91,176,.42),
+      0 18px 38px rgba(5,11,44,.45);
+  }
+
+  50%{
+    box-shadow:
+      0 0 0 10px rgba(62,231,224,.18),
+      0 0 34px rgba(61,232,224,1),
+      0 0 66px rgba(116,92,255,.94),
+      0 0 96px rgba(255,91,176,.72),
+      0 22px 48px rgba(5,11,44,.52);
+  }
+}
+
+@keyframes tannuV22BuddyGradient{
+  0%{background-position:0% 50%}
+  50%{background-position:100% 50%}
+  100%{background-position:0% 50%}
+}
+
+@keyframes tannuV22Ring{
+  0%{
+    transform:scale(.88);
+    opacity:.95;
+  }
+
+  70%{
+    transform:scale(1.13);
+    opacity:.15;
+  }
+
+  100%{
+    transform:scale(1.16);
+    opacity:0;
+  }
+}
+
+@keyframes tannuV22Spark{
+  from{
+    transform:rotate(-12deg) scale(.82);
+    opacity:.72;
+  }
+
+  to{
+    transform:rotate(14deg) scale(1.18);
+    opacity:1;
+  }
+}
+
+@keyframes tannuV22BotFloat{
+  0%,100%{
+    transform:translateY(0);
+  }
+
+  50%{
+    transform:translateY(-5px);
+  }
+}
+
+/* Rewards look clickable */
+
+#badgeGrid .badge-card{
+  cursor:pointer !important;
+  transition:
+    transform .22s ease,
+    box-shadow .22s ease,
+    filter .22s ease !important;
+}
+
+#badgeGrid .badge-card:hover{
+  transform:translateY(-7px) scale(1.025) !important;
+  box-shadow:
+    0 18px 40px rgba(0,0,0,.28),
+    0 0 25px rgba(117,99,255,.35) !important;
+}
+
+#badgeGrid .badge-card:focus-visible{
+  outline:3px solid #72e7ff !important;
+  outline-offset:4px !important;
+}
+
+#badgeGrid .badge-card.locked:hover{
+  filter:brightness(1.08) !important;
+}
+
+@media(max-width:600px){
+
+  #tannuBuddyLaunch{
+    width:98px !important;
+    height:98px !important;
+    right:16px !important;
+    bottom:16px !important;
+    border-radius:32px !important;
+  }
+
+  #tannuBuddyLaunch .bot{
+    font-size:44px !important;
+  }
+
+  #tannuBuddyLaunch small{
+    font-size:12px !important;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+
+  #tannuBuddyLaunch,
+  #tannuBuddyLaunch::before,
+  #tannuBuddyLaunch::after,
+  #tannuBuddyLaunch .bot{
+    animation:none !important;
+  }
+}
+
+`;
+
+    document.head.appendChild(style);
+  }
+
+
+  /* ----------------------------------------------------------
+     2) REWARDS — CLICK EVERY BADGE
+     ---------------------------------------------------------- */
+
+  const rewardHelp = [
+    "Explore the Digital World and learn the basic computer parts.",
+    "Practise pointing, clicking, double-clicking, dragging and scrolling.",
+    "Practise typing letters, words and short sentences correctly.",
+    "Complete English speaking and listen-and-repeat activities.",
+    "Complete Brave Speaker activities and speak clearly with confidence.",
+    "Practise listening carefully and waiting for your turn to speak.",
+    "Use polite words such as please, thank you, sorry and excuse me.",
+    "Practise water, healthy food, sleep, cleanliness and movement habits.",
+    "Complete cyber-safety activities about passwords, links and trusted adults.",
+    "Learn what AI is, what it can do and why its answers should be checked.",
+    "Complete the AI Prompt Challenge using Who + Where + Action.",
+    "Complete your 90-day Digital Mission and final learning challenges."
+  ];
+
+  const rewardMessages = [
+    "Computer Explorer badge celebrates your first digital skills.",
+    "Mouse Master badge celebrates strong mouse-control practice.",
+    "Keyboard Hero badge celebrates your typing practice.",
+    "English Speaker badge celebrates your speaking practice.",
+    "Brave Speaker badge celebrates confidence and clear speaking.",
+    "Good Listener badge celebrates careful listening and communication.",
+    "Polite Star badge celebrates kind and respectful manners.",
+    "Healthy Hero badge celebrates healthy daily habits.",
+    "Safety Hero badge celebrates smart and safe online choices.",
+    "AI Explorer badge celebrates learning the basics of artificial intelligence.",
+    "Prompt Creator badge celebrates building clear AI prompts.",
+    "Mission Champion is the big reward for completing the 90-day mission."
+  ];
+
+  function decorateRewardCards(){
+
+    const grid =
+      document.getElementById("badgeGrid");
+
+    if(!grid){
+      return;
+    }
+
+    [
+      ...grid.querySelectorAll(".badge-card")
+    ].forEach((card,index)=>{
+
+      card.dataset.rewardIndex =
+        String(index);
+
+      card.setAttribute(
+        "role",
+        "button"
+      );
+
+      card.setAttribute(
+        "tabindex",
+        "0"
+      );
+
+      card.setAttribute(
+        "aria-label",
+        `${badges[index]?.[1] || "Reward"} reward details`
+      );
+
+    });
+  }
+
+
+  function openRewardCard(index){
+
+    const badge =
+      badges[index];
+
+    if(!badge){
+      return;
+    }
+
+    const unlocked =
+      Boolean(badge[3]);
+
+    const statusText =
+      unlocked
+        ? "UNLOCKED"
+        : "LOCKED";
+
+    const statusIcon =
+      unlocked
+        ? "🏆"
+        : "🔒";
+
+    const statusMessage =
+      unlocked
+
+        ? "Excellent! You have already earned this badge."
+
+        : "Keep learning — this badge will unlock when you complete its skill challenge.";
+
+
+    const modalBody =
+      document.getElementById("modalBody");
+
+    if(!modalBody){
+      return;
+    }
+
+
+    modalBody.innerHTML = `
+
+      <div class="modal-hero">
+
+        <span style="font-size:72px">
+          ${badge[0]}
+        </span>
+
+        <small>
+          ${statusIcon} ${statusText}
+        </small>
+
+        <h2>
+          ${badge[1]}
+        </h2>
+
+        <p>
+          ${badge[2]}
+        </p>
+
+      </div>
+
+
+      <article class="lesson">
+
+        <small>
+          ABOUT THIS BADGE
+        </small>
+
+        <h3>
+          ${rewardMessages[index] || badge[1]}
+        </h3>
+
+      </article>
+
+
+      <article class="lesson">
+
+        <small>
+          HOW TO EARN IT
+        </small>
+
+        <h3>
+          ${rewardHelp[index] || "Keep completing academy activities."}
+        </h3>
+
+      </article>
+
+
+      <article class="lesson">
+
+        <small>
+          YOUR STATUS
+        </small>
+
+        <h3>
+          ${statusMessage}
+        </h3>
+
+      </article>
+
+
+      <div class="button-row">
+
+        <button
+          id="rewardHearBtn"
+          class="voice-chip">
+          🔊 Hear Badge
+        </button>
+
+        <button
+          class="modal-action"
+          data-close>
+          Done
+        </button>
+
+      </div>
+    `;
+
+
+    openModal();
+
+
+    const hear =
+      document.getElementById(
+        "rewardHearBtn"
+      );
+
+
+    if(hear){
+
+      hear.onclick = ()=>{
+
+        speak(
+          `${badge[1]}. ${rewardMessages[index]} ${statusMessage}`
+        );
+
+      };
+    }
+
+
+    if(unlocked){
+
+      celebrate(12);
+
+    }
+  }
+
+
+  function setupInteractiveRewards(){
+
+    const grid =
+      document.getElementById("badgeGrid");
+
+
+    if(!grid){
+      return;
+    }
+
+
+    if(
+      grid.dataset.v22RewardsReady !== "1"
+    ){
+
+      grid.dataset.v22RewardsReady =
+        "1";
+
+
+      grid.addEventListener(
+        "click",
+        event=>{
+
+          const card =
+            event.target.closest(
+              ".badge-card"
+            );
+
+
+          if(
+            !card ||
+            !grid.contains(card)
+          ){
+            return;
+          }
+
+
+          const index =
+            Number(
+              card.dataset.rewardIndex
+            );
+
+
+          if(
+            Number.isInteger(index)
+          ){
+            openRewardCard(index);
+          }
+
+        }
+      );
+
+
+      grid.addEventListener(
+        "keydown",
+        event=>{
+
+          if(
+            event.key !== "Enter" &&
+            event.key !== " "
+          ){
+            return;
+          }
+
+
+          const card =
+            event.target.closest(
+              ".badge-card"
+            );
+
+
+          if(
+            !card ||
+            !grid.contains(card)
+          ){
+            return;
+          }
+
+
+          event.preventDefault();
+
+
+          const index =
+            Number(
+              card.dataset.rewardIndex
+            );
+
+
+          if(
+            Number.isInteger(index)
+          ){
+            openRewardCard(index);
+          }
+
+        }
+      );
+
+
+      new MutationObserver(
+        decorateRewardCards
+      ).observe(
+        grid,
+        {
+          childList:true
+        }
+      );
+    }
+
+
+    decorateRewardCards();
+  }
+
+
+  if(
+    document.readyState === "loading"
+  ){
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      setupInteractiveRewards,
+      {
+        once:true
+      }
+    );
+
+  }else{
+
+    setupInteractiveRewards();
+
+  }
+
+})();
