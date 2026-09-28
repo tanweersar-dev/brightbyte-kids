@@ -221,5 +221,1116 @@ $("refreshBtn").onclick=loadReviews;
   setInterval(()=>{if(isAdmin)loadPendingComments();},25000);
 })();
 </script>
+  <!-- =========================================================
+     V26 PROFESSIONAL PARENT REVIEWS PAGE
+     Paste JUST BEFORE </body> in reviews.html
+========================================================= -->
+
+<style id="tannuV26ReviewsStyle">
+
+/* ============================================================
+   PAGE BACKGROUND
+============================================================ */
+
+body{
+  background:
+    radial-gradient(circle at 8% 8%,rgba(112,88,255,.28),transparent 28%),
+    radial-gradient(circle at 92% 10%,rgba(43,212,207,.20),transparent 27%),
+    radial-gradient(circle at 50% 100%,rgba(255,88,164,.12),transparent 35%),
+    linear-gradient(145deg,#0d143d,#0a2543) !important;
+}
+
+
+/* ============================================================
+   WRAPPER
+============================================================ */
+
+.wrap{
+  max-width:1240px !important;
+  padding:24px 26px 48px !important;
+}
+
+
+/* ============================================================
+   TOP HEADER
+============================================================ */
+
+.top{
+  position:sticky;
+  top:12px;
+  z-index:50;
+
+  padding:12px 14px;
+
+  border-radius:22px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(23,31,91,.92),
+      rgba(15,42,79,.88)
+    );
+
+  border:1px solid rgba(255,255,255,.16);
+
+  box-shadow:
+    0 18px 45px rgba(1,7,35,.32);
+
+  backdrop-filter:blur(18px);
+}
+
+
+/* academy brand */
+
+.brand{
+  gap:12px !important;
+}
+
+.brand b{
+  display:block;
+  color:#fff;
+  font-size:15px;
+  font-weight:950;
+}
+
+.brand small{
+  display:inline-block;
+
+  margin-top:4px;
+  padding:4px 8px;
+
+  border-radius:999px;
+
+  color:#dce4ff;
+
+  background:rgba(255,255,255,.08);
+
+  font-size:9px;
+  letter-spacing:.4px;
+}
+
+
+/* ============================================================
+   VERY CLEAR HOME BUTTON
+============================================================ */
+
+.home-link{
+  position:relative;
+
+  display:flex !important;
+  align-items:center;
+  justify-content:center;
+
+  min-width:190px;
+
+  padding:12px 17px !important;
+
+  border-radius:15px !important;
+
+  color:#fff !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      #6d5dfc,
+      #20cbd1,
+      #f15ba8
+    ) !important;
+
+  background-size:220% 220% !important;
+
+  border:
+    2px solid rgba(255,255,255,.78)
+    !important;
+
+  box-shadow:
+    0 0 12px rgba(60,215,235,.42),
+    0 8px 24px rgba(4,9,42,.30)
+    !important;
+
+  font-size:13px !important;
+  font-weight:950 !important;
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
+
+  animation:
+    tannuV26HomeGlow 3s ease-in-out infinite;
+}
+
+.home-link:hover{
+  transform:
+    translateY(-3px)
+    scale(1.03);
+
+  box-shadow:
+    0 0 18px rgba(255,255,255,.58),
+    0 0 34px rgba(70,218,229,.42),
+    0 12px 28px rgba(4,9,42,.38)
+    !important;
+}
+
+@keyframes tannuV26HomeGlow{
+
+  0%,100%{
+    background-position:0% 50%;
+  }
+
+  50%{
+    background-position:100% 50%;
+  }
+
+}
+
+
+/* ============================================================
+   HERO
+============================================================ */
+
+.hero{
+  padding:48px 0 24px !important;
+}
+
+.kicker{
+  color:#fff !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(111,91,255,.88),
+      rgba(244,89,166,.75)
+    ) !important;
+
+  border:
+    1px solid rgba(255,255,255,.32)
+    !important;
+
+  padding:8px 13px !important;
+
+  box-shadow:
+    0 7px 20px rgba(10,12,58,.18);
+}
+
+.hero h1{
+  max-width:900px;
+
+  margin-top:16px !important;
+
+  background:
+    linear-gradient(
+      90deg,
+      #ffffff,
+      #e8ecff,
+      #8ef5ec
+    );
+
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+
+  letter-spacing:-1.5px;
+}
+
+.hero p{
+  max-width:850px !important;
+
+  color:#cbd5f6 !important;
+
+  font-size:14px !important;
+  line-height:1.75 !important;
+}
+
+
+/* ============================================================
+   PAGE EXPLAINER
+============================================================ */
+
+.v26-review-intro{
+  display:grid;
+
+  grid-template-columns:
+    repeat(3,1fr);
+
+  gap:14px;
+
+  margin:
+    4px 0 22px;
+}
+
+.v26-review-intro article{
+  position:relative;
+  overflow:hidden;
+
+  min-height:135px;
+
+  padding:18px;
+
+  border-radius:22px;
+
+  color:#fff;
+
+  border:
+    1px solid rgba(255,255,255,.18);
+
+  box-shadow:
+    0 15px 34px rgba(3,8,43,.20);
+
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease;
+}
+
+.v26-review-intro article:hover{
+  transform:translateY(-5px);
+
+  box-shadow:
+    0 20px 40px rgba(3,8,43,.32);
+}
+
+.v26-review-intro article:nth-child(1){
+  background:
+    linear-gradient(
+      145deg,
+      #6859e9,
+      #8e58d6
+    );
+}
+
+.v26-review-intro article:nth-child(2){
+  background:
+    linear-gradient(
+      145deg,
+      #1fa7ce,
+      #28bfa9
+    );
+}
+
+.v26-review-intro article:nth-child(3){
+  background:
+    linear-gradient(
+      145deg,
+      #ed7a4a,
+      #df578c
+    );
+}
+
+.v26-review-intro .icon{
+  display:block;
+  margin-bottom:8px;
+  font-size:29px;
+}
+
+.v26-review-intro small{
+  display:block;
+
+  font-size:8px;
+  font-weight:950;
+  letter-spacing:1px;
+
+  opacity:.86;
+}
+
+.v26-review-intro h3{
+  margin:5px 0 7px;
+
+  color:#fff;
+
+  font-size:15px;
+}
+
+.v26-review-intro p{
+  margin:0;
+
+  color:#f5f7ff;
+
+  font-size:11px;
+  line-height:1.5;
+}
+
+
+/* ============================================================
+   MAIN GRID
+============================================================ */
+
+.grid{
+  gap:22px !important;
+}
+
+
+/* ============================================================
+   CARDS
+============================================================ */
+
+.card{
+  position:relative;
+
+  border-radius:28px !important;
+
+  border:
+    1px solid rgba(255,255,255,.45);
+
+  box-shadow:
+    0 22px 60px rgba(3,7,31,.25)
+    !important;
+}
+
+
+/* subtle top accent */
+
+.card::before{
+  content:"";
+
+  position:absolute;
+
+  left:22px;
+  right:22px;
+  top:0;
+
+  height:4px;
+
+  border-radius:
+    0 0 10px 10px;
+
+  background:
+    linear-gradient(
+      90deg,
+      #6c5cff,
+      #2ecdc2,
+      #ff5ea8
+    );
+}
+
+
+/* ============================================================
+   FORM CARD
+============================================================ */
+
+#reviewForm{
+  padding:26px !important;
+}
+
+#reviewForm h2{
+  font-size:23px;
+
+  margin-bottom:5px !important;
+}
+
+#reviewForm h2::before{
+  content:"✍️ ";
+}
+
+
+/* helper text */
+
+.v26-form-sub{
+  margin:
+    0 0 16px;
+
+  color:#77809b;
+
+  font-size:11px;
+  line-height:1.5;
+}
+
+
+/* labels */
+
+#reviewForm label{
+  color:#31375e;
+
+  font-size:10px !important;
+
+  letter-spacing:.25px;
+}
+
+
+/* inputs */
+
+#reviewForm input,
+#reviewForm select,
+#reviewForm textarea{
+
+  border:
+    2px solid #e4e7f3
+    !important;
+
+  background:
+    linear-gradient(
+      180deg,
+      #fff,
+      #fcfcff
+    );
+
+  transition:
+    border-color .2s ease,
+    box-shadow .2s ease,
+    transform .2s ease;
+}
+
+#reviewForm input:focus,
+#reviewForm select:focus,
+#reviewForm textarea:focus{
+
+  border-color:
+    #7163ef
+    !important;
+
+  box-shadow:
+    0 0 0 4px
+    rgba(113,99,239,.10);
+
+  transform:
+    translateY(-1px);
+}
+
+
+/* textarea */
+
+#reviewForm textarea{
+  min-height:145px;
+}
+
+
+/* ============================================================
+   SUBMIT BUTTON
+============================================================ */
+
+#reviewForm .primary{
+  min-height:48px;
+
+  border-radius:15px !important;
+
+  background:
+    linear-gradient(
+      90deg,
+      #695aff,
+      #4b77ee,
+      #27c8c1
+    ) !important;
+
+  background-size:200% 100% !important;
+
+  box-shadow:
+    0 10px 24px
+    rgba(75,83,210,.24);
+
+  transition:
+    transform .2s ease,
+    box-shadow .2s ease;
+
+  animation:
+    tannuV26SubmitFlow 4s linear infinite;
+}
+
+#reviewForm .primary:hover{
+  transform:translateY(-2px);
+
+  box-shadow:
+    0 15px 30px
+    rgba(75,83,210,.32);
+}
+
+@keyframes tannuV26SubmitFlow{
+
+  from{
+    background-position:0% 50%;
+  }
+
+  to{
+    background-position:200% 50%;
+  }
+
+}
+
+
+/* safety notice */
+
+#reviewForm .notice{
+  margin-top:16px;
+
+  padding:11px 12px;
+
+  border-radius:12px;
+
+  color:#6f7896 !important;
+
+  background:#f7f8fc;
+
+  border:
+    1px solid #e9ebf4;
+}
+
+
+/* ============================================================
+   REVIEW PANEL
+============================================================ */
+
+.grid > .card:last-child{
+  padding:26px !important;
+}
+
+.reviews-head{
+  padding-bottom:14px;
+
+  border-bottom:
+    1px solid #eceef6;
+}
+
+.reviews-head h2{
+  font-size:23px;
+
+  margin-bottom:4px !important;
+}
+
+.reviews-head h2::before{
+  content:"💬 ";
+}
+
+.reviews-head small{
+  color:#8991ab;
+}
+
+
+/* refresh */
+
+.refresh{
+  min-width:100px;
+
+  padding:9px 12px !important;
+
+  border:
+    1px solid #e0dcff
+    !important;
+
+  background:
+    linear-gradient(
+      135deg,
+      #efedff,
+      #e9f8ff
+    ) !important;
+
+  box-shadow:
+    0 5px 12px rgba(84,73,199,.10);
+
+  transition:
+    transform .2s ease;
+}
+
+.refresh:hover{
+  transform:
+    rotate(-2deg)
+    scale(1.04);
+}
+
+
+/* ============================================================
+   INDIVIDUAL REVIEW
+============================================================ */
+
+.review{
+  position:relative;
+
+  padding:18px !important;
+
+  border-radius:20px !important;
+
+  border:
+    1px solid #e6e8f3
+    !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff,
+      #fafbff
+    )
+    !important;
+
+  box-shadow:
+    0 8px 18px
+    rgba(21,29,78,.05);
+
+  transition:
+    transform .22s ease,
+    box-shadow .22s ease,
+    border-color .22s ease;
+}
+
+.review:hover{
+  transform:
+    translateY(-3px);
+
+  border-color:
+    #d8d4ff
+    !important;
+
+  box-shadow:
+    0 14px 28px
+    rgba(21,29,78,.10);
+}
+
+
+/* accent strip */
+
+.review::before{
+  content:"";
+
+  position:absolute;
+
+  left:0;
+  top:15px;
+  bottom:15px;
+
+  width:4px;
+
+  border-radius:
+    0 8px 8px 0;
+
+  background:
+    linear-gradient(
+      #6c5cff,
+      #2ecdc2,
+      #ff5ea8
+    );
+}
+
+
+/* parent name */
+
+.review-name{
+  color:#20274e;
+
+  font-size:14px;
+
+  font-weight:950 !important;
+}
+
+
+/* metadata */
+
+.meta{
+  padding-top:2px;
+}
+
+
+/* review text */
+
+.review-text{
+  margin:
+    14px 0 12px;
+
+  color:#343b60;
+
+  font-size:13px;
+  line-height:1.65 !important;
+}
+
+
+/* ============================================================
+   LIKE / COMMENT BUTTONS
+============================================================ */
+
+.action-btn{
+  border:
+    1px solid #eaebf4
+    !important;
+
+  padding:
+    7px 11px !important;
+
+  transition:
+    transform .18s ease,
+    background .18s ease;
+}
+
+.action-btn:hover{
+  transform:
+    translateY(-2px)
+    scale(1.02);
+}
+
+.action-btn.liked{
+  border-color:
+    #ffc8df !important;
+}
+
+
+/* ============================================================
+   COMMENTS
+============================================================ */
+
+.comment-box{
+  margin-top:14px !important;
+}
+
+.comment{
+  border:
+    1px solid #eceef6;
+
+  background:
+    linear-gradient(
+      145deg,
+      #f7f8fd,
+      #f4f6fb
+    )
+    !important;
+}
+
+.comment.admin-comment{
+  border:
+    1px solid #ccefe5
+    !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      #eafbf5,
+      #f4fffb
+    )
+    !important;
+}
+
+
+/* ============================================================
+   TRUST / MODERATION MESSAGE
+============================================================ */
+
+.v26-trust{
+  display:flex;
+
+  align-items:center;
+  justify-content:space-between;
+
+  gap:12px;
+
+  margin-top:22px;
+
+  padding:
+    15px 18px;
+
+  border-radius:20px;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(38,55,125,.78),
+      rgba(22,102,113,.58)
+    );
+
+  border:
+    1px solid rgba(255,255,255,.14);
+
+  box-shadow:
+    0 15px 30px rgba(4,9,39,.18);
+}
+
+.v26-trust strong{
+  color:#fff;
+
+  font-size:12px;
+}
+
+.v26-trust-list{
+  display:flex;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.v26-trust-list span{
+  padding:
+    7px 10px;
+
+  border-radius:999px;
+
+  color:#e9f5ff;
+
+  background:
+    rgba(255,255,255,.08);
+
+  border:
+    1px solid rgba(255,255,255,.10);
+
+  font-size:9px;
+  font-weight:800;
+}
+
+
+/* ============================================================
+   MOBILE
+============================================================ */
+
+@media(max-width:800px){
+
+  .top{
+    position:relative;
+    top:auto;
+
+    align-items:flex-start;
+  }
+
+  .home-link{
+    min-width:0;
+  }
+
+  .v26-review-intro{
+    grid-template-columns:1fr;
+  }
+
+  .v26-trust{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+
+}
+
+
+@media(max-width:520px){
+
+  .top{
+    flex-direction:column;
+  }
+
+  .home-link{
+    width:100%;
+  }
+
+  .hero{
+    padding-top:30px !important;
+  }
+
+}
+
+</style>
+
+
+<script>
+(() => {
+  "use strict";
+
+  function setupV26Reviews(){
+
+    if(
+      document.body.dataset.v26ReviewsReady === "1"
+    ){
+      return;
+    }
+
+    document.body.dataset.v26ReviewsReady = "1";
+
+
+    /* ---------------------------------------------
+       CLEAR HOME BUTTON
+    --------------------------------------------- */
+
+    const home =
+      document.querySelector(".home-link");
+
+    if(home){
+
+      home.innerHTML =
+        "← 🏠 Back to Academy Home";
+
+      home.setAttribute(
+        "aria-label",
+        "Return to Tannu Sir's Kids Digital Academy Home"
+      );
+
+      home.title =
+        "Return to Academy Home";
+
+    }
+
+
+    /* ---------------------------------------------
+       FORM EXPLANATION
+    --------------------------------------------- */
+
+    const formTitle =
+      document.querySelector(
+        "#reviewForm h2"
+      );
+
+    if(formTitle){
+
+      const sub =
+        document.createElement("p");
+
+      sub.className =
+        "v26-form-sub";
+
+      sub.textContent =
+        "Share a review, suggestion, problem or course request. Submissions are checked before appearing publicly.";
+
+      formTitle.insertAdjacentElement(
+        "afterend",
+        sub
+      );
+
+    }
+
+
+    /* ---------------------------------------------
+       THREE PURPOSE CARDS
+    --------------------------------------------- */
+
+    const grid =
+      document.querySelector(".grid");
+
+    if(grid){
+
+      const intro =
+        document.createElement("section");
+
+      intro.className =
+        "v26-review-intro";
+
+      intro.innerHTML = `
+
+        <article>
+
+          <span class="icon">
+            ✍️
+          </span>
+
+          <small>
+            SHARE
+          </small>
+
+          <h3>
+            Tell us your experience
+          </h3>
+
+          <p>
+            Parents and guardians can share reviews,
+            suggestions, problems or course requests.
+          </p>
+
+        </article>
+
+
+        <article>
+
+          <span class="icon">
+            🛡️
+          </span>
+
+          <small>
+            MODERATED
+          </small>
+
+          <h3>
+            Safer public feedback
+          </h3>
+
+          <p>
+            New reviews and parent comments are reviewed
+            before they are published publicly.
+          </p>
+
+        </article>
+
+
+        <article>
+
+          <span class="icon">
+            💬
+          </span>
+
+          <small>
+            COMMUNITY
+          </small>
+
+          <h3>
+            Read, like and discuss
+          </h3>
+
+          <p>
+            Approved reviews can receive likes,
+            comments and academy replies.
+          </p>
+
+        </article>
+
+      `;
+
+      grid.insertAdjacentElement(
+        "beforebegin",
+        intro
+      );
+
+    }
+
+
+    /* ---------------------------------------------
+       TRUST STRIP
+    --------------------------------------------- */
+
+    const wrap =
+      document.querySelector(".wrap");
+
+    if(wrap){
+
+      const trust =
+        document.createElement("section");
+
+      trust.className =
+        "v26-trust";
+
+      trust.innerHTML = `
+
+        <strong>
+          🔐 Parent Feedback Safety
+        </strong>
+
+        <div class="v26-trust-list">
+
+          <span>
+            ✅ Moderated Reviews
+          </span>
+
+          <span>
+            🛡️ Sensitive Info Warning
+          </span>
+
+          <span>
+            💬 Approved Comments
+          </span>
+
+          <span>
+            🎓 Academy Replies
+          </span>
+
+        </div>
+
+      `;
+
+      wrap.appendChild(trust);
+
+    }
+
+  }
+
+
+  if(
+    document.readyState === "loading"
+  ){
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      setupV26Reviews,
+      {
+        once:true
+      }
+    );
+
+  }else{
+
+    setupV26Reviews();
+
+  }
+
+})();
+</script>
 </body>
 </html>
