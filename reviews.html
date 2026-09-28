@@ -2694,5 +2694,1072 @@ body{
 
 })();
 </script>
+  <!-- =========================================================
+     V28 SAME MAGICAL POINTER AS MAIN ACADEMY
+     Fairy Wand + Dust Trail + Star Click Burst
+========================================================= -->
+
+<style id="tannuV28MagicPointerStyle">
+
+/* ============================================================
+   HIDE NORMAL CURSOR — DESKTOP/LAPTOP ONLY
+============================================================ */
+
+@media (pointer:fine){
+
+  body.tannu-wand-ready,
+  body.tannu-wand-ready *{
+    cursor:none !important;
+  }
+
+
+  /* ==========================================================
+     FAIRY WAND
+  ========================================================== */
+
+  .tannu-wand-cursor{
+
+    --wand-x:-100px;
+    --wand-y:-100px;
+
+    position:fixed;
+
+    left:0;
+    top:0;
+
+    width:58px;
+    height:78px;
+
+    z-index:1000001;
+
+    pointer-events:none;
+
+    transform:
+      translate3d(
+        calc(var(--wand-x) - 15px),
+        calc(var(--wand-y) - 15px),
+        0
+      )
+      rotate(-24deg);
+
+    transform-origin:
+      15px 15px;
+
+    filter:
+      drop-shadow(0 0 5px #fff)
+      drop-shadow(0 0 11px #72eff0)
+      drop-shadow(0 0 18px #ff72c6);
+
+    transition:
+      opacity .12s ease;
+
+    will-change:
+      transform;
+
+  }
+
+
+  /* STAR TOP */
+
+  .tannu-wand-star{
+
+    position:absolute;
+
+    left:0;
+    top:0;
+
+    width:32px;
+    height:32px;
+
+    display:grid;
+    place-items:center;
+
+    font-size:32px;
+
+    line-height:1;
+
+    color:#ffe05d;
+
+    text-shadow:
+      0 0 4px #fff,
+      0 0 10px #ffe05d,
+      0 0 18px #ff78cf;
+
+    animation:
+      tannuWandStarGlow
+      1.1s
+      ease-in-out
+      infinite alternate;
+
+  }
+
+
+  .tannu-wand-star::after{
+
+    content:"✦";
+
+    position:absolute;
+
+    font-size:15px;
+
+    color:#7cf7ff;
+
+    right:-8px;
+    top:-5px;
+
+    animation:
+      tannuTinyStar
+      .8s
+      ease-in-out
+      infinite alternate;
+
+  }
+
+
+  /* WAND STICK */
+
+  .tannu-wand-stick{
+
+    position:absolute;
+
+    left:20px;
+    top:27px;
+
+    width:8px;
+    height:43px;
+
+    border-radius:999px;
+
+    background:
+      linear-gradient(
+        180deg,
+        #fffbd0 0%,
+        #ffda64 22%,
+        #ff7ac8 55%,
+        #876dff 100%
+      );
+
+    border:
+      1px solid
+      rgba(255,255,255,.85);
+
+    box-shadow:
+      inset 1px 0 3px #fff,
+      0 0 8px #ff7aca;
+
+  }
+
+
+  .tannu-wand-stick::after{
+
+    content:"";
+
+    position:absolute;
+
+    left:50%;
+    bottom:-8px;
+
+    width:14px;
+    height:14px;
+
+    transform:
+      translateX(-50%)
+      rotate(45deg);
+
+    border-radius:4px;
+
+    background:
+      linear-gradient(
+        135deg,
+        #6ffff3,
+        #8b6dff,
+        #ff78c7
+      );
+
+    box-shadow:
+      0 0 9px #74f6ed;
+
+  }
+
+
+  .tannu-wand-cursor.magic-click{
+
+    animation:
+      tannuWandTap
+      .28s
+      ease-out;
+
+  }
+
+}
+
+
+/* ============================================================
+   WAND STAR ANIMATION
+============================================================ */
+
+@keyframes tannuWandStarGlow{
+
+  from{
+
+    transform:
+      scale(.92)
+      rotate(-8deg);
+
+  }
+
+  to{
+
+    transform:
+      scale(1.16)
+      rotate(8deg);
+
+  }
+
+}
+
+
+@keyframes tannuTinyStar{
+
+  from{
+
+    opacity:.25;
+
+    transform:
+      scale(.6)
+      rotate(0deg);
+
+  }
+
+  to{
+
+    opacity:1;
+
+    transform:
+      scale(1.25)
+      rotate(60deg);
+
+  }
+
+}
+
+
+@keyframes tannuWandTap{
+
+  0%{
+    scale:1;
+  }
+
+  45%{
+    scale:.78;
+  }
+
+  100%{
+    scale:1.12;
+  }
+
+}
+
+
+/* ============================================================
+   WAND DUST TRAIL
+============================================================ */
+
+.tannu-wand-dust{
+
+  --dust-color:#fff6a8;
+
+  position:fixed;
+
+  width:8px;
+  height:8px;
+
+  z-index:1000000;
+
+  pointer-events:none;
+
+  color:
+    var(--dust-color);
+
+  background:
+    var(--dust-color);
+
+  clip-path:
+    polygon(
+      50% 0,
+      61% 36%,
+      100% 50%,
+      61% 64%,
+      50% 100%,
+      39% 64%,
+      0 50%,
+      39% 36%
+    );
+
+  filter:
+    drop-shadow(
+      0 0 5px
+      var(--dust-color)
+    );
+
+  animation:
+    tannuWandDust
+    .65s
+    ease-out
+    forwards;
+
+}
+
+
+@keyframes tannuWandDust{
+
+  from{
+
+    transform:
+      translate(-50%,-50%)
+      scale(1.2);
+
+    opacity:1;
+
+  }
+
+  to{
+
+    transform:
+      translate(-50%,18px)
+      scale(.15)
+      rotate(120deg);
+
+    opacity:0;
+
+  }
+
+}
+
+
+/* ============================================================
+   STAR CLICK BURST
+============================================================ */
+
+.star-pop{
+
+  --dx:0px;
+  --dy:0px;
+  --rot:180deg;
+  --star-color:#ffd95a;
+
+  position:fixed;
+
+  left:0;
+  top:0;
+
+  width:18px;
+  height:18px;
+
+  pointer-events:none;
+
+  z-index:999999;
+
+  background:
+    var(--star-color);
+
+  clip-path:
+    polygon(
+      50% 0%,
+      61% 35%,
+      98% 35%,
+      68% 57%,
+      79% 93%,
+      50% 72%,
+      21% 93%,
+      32% 57%,
+      2% 35%,
+      39% 35%
+    );
+
+  filter:
+    drop-shadow(
+      0 0 5px
+      rgba(255,255,255,.9)
+    )
+    drop-shadow(
+      0 0 10px
+      var(--star-color)
+    );
+
+  animation:
+    tannuStarBlast
+    850ms
+    cubic-bezier(.15,.75,.25,1)
+    forwards;
+
+}
+
+
+@keyframes tannuStarBlast{
+
+  0%{
+
+    transform:
+      translate(-50%,-50%)
+      translate(0,0)
+      rotate(0deg)
+      scale(.15);
+
+    opacity:1;
+
+  }
+
+  65%{
+
+    opacity:1;
+
+    transform:
+      translate(-50%,-50%)
+      translate(
+        var(--dx),
+        var(--dy)
+      )
+      rotate(var(--rot))
+      scale(1.15);
+
+  }
+
+  100%{
+
+    opacity:0;
+
+    transform:
+      translate(-50%,-50%)
+      translate(
+        var(--dx),
+        var(--dy)
+      )
+      rotate(var(--rot))
+      scale(.25);
+
+  }
+
+}
+
+
+/* ============================================================
+   CLICK MAGIC RING
+============================================================ */
+
+.click-magic-ring{
+
+  position:fixed;
+
+  width:16px;
+  height:16px;
+
+  border:
+    3px solid
+    rgba(105,235,224,.95);
+
+  border-radius:50%;
+
+  pointer-events:none;
+
+  z-index:999998;
+
+  transform:
+    translate(-50%,-50%);
+
+  box-shadow:
+    0 0 13px
+    rgba(86,235,223,.8);
+
+  animation:
+    tannuMagicRing
+    650ms
+    ease-out
+    forwards;
+
+}
+
+
+@keyframes tannuMagicRing{
+
+  from{
+
+    width:12px;
+    height:12px;
+
+    opacity:1;
+
+  }
+
+  to{
+
+    width:80px;
+    height:80px;
+
+    opacity:0;
+
+  }
+
+}
+
+
+/* accessibility */
+
+@media(prefers-reduced-motion:reduce){
+
+  .star-pop,
+  .click-magic-ring{
+
+    animation-duration:
+      .01ms !important;
+
+  }
+
+  .tannu-wand-dust{
+
+    display:none !important;
+
+  }
+
+}
+
+</style>
+
+
+<script>
+
+(() => {
+
+  "use strict";
+
+
+  /* ==========================================================
+     DESKTOP FAIRY WAND
+  ========================================================== */
+
+  function setupTannuMagicPointer(){
+
+    const finePointer =
+      window.matchMedia(
+        "(pointer:fine)"
+      );
+
+
+    if(
+      !finePointer.matches
+    ){
+      return;
+    }
+
+
+    if(
+      document.getElementById(
+        "tannuMagicCursor"
+      )
+    ){
+      return;
+    }
+
+
+    const cursor =
+      document.createElement(
+        "div"
+      );
+
+
+    cursor.id =
+      "tannuMagicCursor";
+
+
+    cursor.className =
+      "tannu-wand-cursor";
+
+
+    cursor.innerHTML = `
+
+      <span class="tannu-wand-star">
+        ★
+      </span>
+
+      <span class="tannu-wand-stick">
+      </span>
+
+    `;
+
+
+    document.body
+      .appendChild(
+        cursor
+      );
+
+
+    document.body
+      .classList
+      .add(
+        "tannu-wand-ready"
+      );
+
+
+    let x = -100;
+
+    let y = -100;
+
+    let frame = 0;
+
+    let lastDust = 0;
+
+
+    const dustColours = [
+
+      "#fff27a",
+
+      "#ff76c7",
+
+      "#75f5ef",
+
+      "#9b83ff",
+
+      "#7cf092"
+
+    ];
+
+
+    function updateCursor(){
+
+      cursor.style.setProperty(
+        "--wand-x",
+        x+"px"
+      );
+
+
+      cursor.style.setProperty(
+        "--wand-y",
+        y+"px"
+      );
+
+
+      frame = 0;
+
+    }
+
+
+    /* ========================================================
+       MOUSE MOVEMENT
+    ======================================================== */
+
+    document.addEventListener(
+
+      "pointermove",
+
+      function(e){
+
+        x = e.clientX;
+
+        y = e.clientY;
+
+
+        if(!frame){
+
+          frame =
+            requestAnimationFrame(
+              updateCursor
+            );
+
+        }
+
+
+        /* MAGIC DUST */
+
+        const now =
+          performance.now();
+
+
+        if(
+          now-lastDust > 42
+        ){
+
+          lastDust = now;
+
+
+          const dust =
+            document.createElement(
+              "i"
+            );
+
+
+          dust.className =
+            "tannu-wand-dust";
+
+
+          dust.style.left =
+            (
+              x+
+              Math.random()*12-6
+            )
+            +"px";
+
+
+          dust.style.top =
+            (
+              y+
+              Math.random()*12-6
+            )
+            +"px";
+
+
+          dust.style.setProperty(
+
+            "--dust-color",
+
+            dustColours[
+              Math.floor(
+                Math.random()
+                *
+                dustColours.length
+              )
+            ]
+
+          );
+
+
+          document.body
+            .appendChild(
+              dust
+            );
+
+
+          setTimeout(
+            ()=>dust.remove(),
+            700
+          );
+
+        }
+
+      },
+
+      {
+        passive:true
+      }
+
+    );
+
+
+    /* ========================================================
+       CLICK WAND ANIMATION
+    ======================================================== */
+
+    document.addEventListener(
+
+      "pointerdown",
+
+      function(){
+
+        cursor.classList
+          .remove(
+            "magic-click"
+          );
+
+
+        void cursor.offsetWidth;
+
+
+        cursor.classList
+          .add(
+            "magic-click"
+          );
+
+
+        setTimeout(
+          ()=>{
+
+            cursor.classList
+              .remove(
+                "magic-click"
+              );
+
+          },
+          300
+        );
+
+      },
+
+      {
+        passive:true
+      }
+
+    );
+
+
+    /* cursor leave */
+
+    document.documentElement
+      .addEventListener(
+
+        "mouseleave",
+
+        ()=>{
+
+          cursor.style.opacity =
+            "0";
+
+        }
+
+      );
+
+
+    document.documentElement
+      .addEventListener(
+
+        "mouseenter",
+
+        ()=>{
+
+          cursor.style.opacity =
+            "1";
+
+        }
+
+      );
+
+  }
+
+
+  /* ==========================================================
+     CLICK STAR BURST
+  ========================================================== */
+
+  function setupTannuClickMagic(){
+
+    document.addEventListener(
+
+      "pointerdown",
+
+      function(e){
+
+        if(
+          typeof e.button === "number"
+          &&
+          e.button !== 0
+        ){
+          return;
+        }
+
+
+        const colours = [
+
+          "#ffd95a",
+
+          "#ff72b8",
+
+          "#72eff0",
+
+          "#8d7cff",
+
+          "#71e49e",
+
+          "#ff9b62"
+
+        ];
+
+
+        /* CENTER RING */
+
+        const ring =
+          document.createElement(
+            "span"
+          );
+
+
+        ring.className =
+          "click-magic-ring";
+
+
+        ring.style.left =
+          e.clientX+"px";
+
+
+        ring.style.top =
+          e.clientY+"px";
+
+
+        document.body
+          .appendChild(
+            ring
+          );
+
+
+        setTimeout(
+          ()=>ring.remove(),
+          700
+        );
+
+
+        /* FLYING STARS */
+
+        for(
+          let i=0;
+          i<10;
+          i++
+        ){
+
+          const star =
+            document.createElement(
+              "span"
+            );
+
+
+          star.className =
+            "star-pop";
+
+
+          const angle =
+
+            (
+              Math.PI*2/10
+            )*i
+
+            +
+
+            (
+              Math.random()-.5
+            )*.45;
+
+
+          const distance =
+            34+
+            Math.random()*52;
+
+
+          const dx =
+            Math.cos(angle)
+            *
+            distance;
+
+
+          const dy =
+            Math.sin(angle)
+            *
+            distance;
+
+
+          star.style.left =
+            e.clientX+"px";
+
+
+          star.style.top =
+            e.clientY+"px";
+
+
+          star.style.setProperty(
+            "--dx",
+            dx+"px"
+          );
+
+
+          star.style.setProperty(
+            "--dy",
+            dy+"px"
+          );
+
+
+          star.style.setProperty(
+
+            "--rot",
+
+            (
+              Math.random()*420-210
+            )
+            +"deg"
+
+          );
+
+
+          star.style.setProperty(
+
+            "--star-color",
+
+            colours[
+              Math.floor(
+                Math.random()
+                *
+                colours.length
+              )
+            ]
+
+          );
+
+
+          const size =
+            10+
+            Math.random()*13;
+
+
+          star.style.width =
+            size+"px";
+
+
+          star.style.height =
+            size+"px";
+
+
+          document.body
+            .appendChild(
+              star
+            );
+
+
+          setTimeout(
+            ()=>star.remove(),
+            900
+          );
+
+        }
+
+      },
+
+      {
+        passive:true
+      }
+
+    );
+
+  }
+
+
+  /* ==========================================================
+     START
+  ========================================================== */
+
+  function start(){
+
+    setupTannuMagicPointer();
+
+    setupTannuClickMagic();
+
+  }
+
+
+  if(
+    document.readyState ===
+    "loading"
+  ){
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      start,
+      {
+        once:true
+      }
+    );
+
+  }else{
+
+    start();
+
+  }
+
+})();
+
+</script>
 </body>
 </html>
