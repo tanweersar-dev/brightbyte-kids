@@ -5,7 +5,7 @@
 // and keep private students hidden from ordinary public visitors.
 
 (function () {
-  const GALAXY_FIX_VERSION = "11.3-admin-clickable-progress";
+  const GALAXY_FIX_VERSION = "11.4-role-isolation";
   const API_BASE = "https://brightbyte-kids-api.tanweerstudy25.workers.dev";
 
   const get = (id) => document.getElementById(id);
@@ -153,8 +153,11 @@
     const grid = get("studentGrid");
     if (!grid) return;
 
-    const adminToken = localStorage.getItem("brightbyte_admin_token") || "";
-    const studentToken = localStorage.getItem("brightbyte_student_token") || "";
+   const studentToken = localStorage.getItem("brightbyte_student_token") || "";
+
+const adminToken = studentToken
+  ? ""
+  : (localStorage.getItem("brightbyte_admin_token") || "");
 
     // 1) ADMIN VIEW FIRST.
     // If Admin is logged in, all active enrolled students are shown,
