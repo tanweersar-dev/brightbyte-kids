@@ -431,7 +431,24 @@ function showPassport(){const c=Number(profile.class_number);const items=worlds.
 function showPortfolio(){const items=state.projects.length?state.projects.map(p=>`<article class="portfolio-item"><b>🛠️ ${esc(p.title)}</b><small>${esc(p.worldTitle)} • Class ${p.classNumber} • ${esc(p.date)}</small><small style="margin-top:8px;color:#3f496d">${esc(p.text.slice(0,260))}${p.text.length>260?"…":""}</small></article>`).join(""):`<article class="portfolio-item"><b>No projects yet</b><small>Open a world → Create Mode → save your work.</small></article>`;openModal(`<h2 class="modal-title">🎒 My Digital Portfolio</h2><p class="modal-sub">Saved project notes stay on this device in V22. They can later be synced to the academy database.</p><div class="portfolio-grid">${items}</div>`)}
 function showReport(){const c=Number(profile.class_number),wins=Object.values(state.challengeWins),avg=wins.length?Math.round(wins.reduce((a,b)=>a+Number(b||0),0)/wins.length):0;const strong=worlds.filter(w=>c>=w.minClass&&worldProgress(w)>=60).map(w=>w.title).slice(0,4);const practice=worlds.filter(w=>c>=w.minClass&&worldProgress(w)<60).map(w=>w.title).slice(0,4);openModal(`<h2 class="modal-title">📊 Parent Progress Snapshot</h2><p class="modal-sub">A simple skills-first view for parents. This is not a school grade or psychological assessment.</p><div class="report-grid"><article class="report-item"><b>⭐ ${state.xp} XP</b><small>Practice and project activity</small></article><article class="report-item"><b>✅ ${state.completedLessons.length} Skills Completed</b><small>Marked learning units</small></article><article class="report-item"><b>🎯 ${avg}% Avg Challenge Best</b><small>Across attempted worlds</small></article><article class="report-item"><b>🛠️ ${state.projects.length} Projects</b><small>Saved portfolio work</small></article><article class="report-item"><b>🌟 Strong Progress</b><small>${strong.length?esc(strong.join(", ")):"Keep learning to build evidence."}</small></article><article class="report-item"><b>📘 Keep Practising</b><small>${practice.length?esc(practice.join(", ")):"Excellent coverage so far."}</small></article></div>`)}
 
-function bindStatic(){qa(".mode-btn").forEach(b=>b.onclick=()=>{globalMode=b.dataset.mode;saveState();renderModes();if(activeWorld)setWorkMode(globalMode)});qa(".workspace-tab").forEach(b=>b.onclick=()=>setWorkMode(b.dataset.workMode));$("backWorlds").onclick=closeWorld;$("nextChallenge").onclick=nextChallenge;$("saveProject").onclick=saveProject;$("speakProject").onclick=()=>{if(activeWorld){const p=projectFor(activeWorld);speak(`${p[0]}. ${p[1]}. Steps: ${p[2].join(". ")}`)}};$("passportBtn").onclick=showPassport;$("portfolioBtn").onclick=showPortfolio;$("reportBtn").onclick=showReport;$("voiceBtn").onclick=()=>{voiceOn=!voiceOn;$("voiceBtn").textContent=voiceOn?"🔊 Voice On":"🔇 Voice Off";if(voiceOn)speak("Voice guide is on");else if("speechSynthesis" in window)speechSynthesis.cancel()};$("logoutBtn").onclick=async()=>{try{await api("/api/auth/logout",{method:"POST"})}catch{}localStorage.removeItem(TOKEN_KEY);location.href="student-login.html"};$("modalClose").onclick=closeModal;$("modal").onclick=e=>{if(e.target===$("modal"))closeModal()};document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()})}
+function bindStatic(){ qa(".mode-btn").forEach(b=>b.onclick=()=>{
+  globalMode=b.dataset.mode;
+  saveState();
+  renderModes();
+
+  if(activeWorld){
+    setWorkMode(globalMode);
+    return;
+  }
+
+  const firstWorld=worlds.find(
+    w=>Number(w.minClass)<=Number(profile.class_number)
+  );
+
+  if(firstWorld){
+    openWorld(firstWorld.id,globalMode);
+  }
+});  qa(".workspace-tab").forEach(b=>b.onclick=()=>setWorkMode(b.dataset.workMode));$("backWorlds").onclick=closeWorld;$("nextChallenge").onclick=nextChallenge;$("saveProject").onclick=saveProject;$("speakProject").onclick=()=>{if(activeWorld){const p=projectFor(activeWorld);speak(`${p[0]}. ${p[1]}. Steps: ${p[2].join(". ")}`)}};$("passportBtn").onclick=showPassport;$("portfolioBtn").onclick=showPortfolio;$("reportBtn").onclick=showReport;$("voiceBtn").onclick=()=>{voiceOn=!voiceOn;$("voiceBtn").textContent=voiceOn?"🔊 Voice On":"🔇 Voice Off";if(voiceOn)speak("Voice guide is on");else if("speechSynthesis" in window)speechSynthesis.cancel()};$("logoutBtn").onclick=async()=>{try{await api("/api/auth/logout",{method:"POST"})}catch{}localStorage.removeItem(TOKEN_KEY);location.href="student-login.html"};$("modalClose").onclick=closeModal;$("modal").onclick=e=>{if(e.target===$("modal"))closeModal()};document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()})}
 
 async function init(){const ok=await loadProfile();if(!ok)return;bindStatic();renderStats();renderModes();renderDailyMissions();renderWorlds();toast(`Welcome to Class ${profile.class_number} Future Skills Universe 🚀`)}
 init();
