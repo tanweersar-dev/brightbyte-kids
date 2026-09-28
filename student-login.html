@@ -57,6 +57,7 @@ $("form").onsubmit=async e=>{
   const d=await r.json();
   if(!r.ok||d.role!=="student")throw new Error(d.error||"Login failed");
   localStorage.setItem("brightbyte_student_token",d.token);
+  localStorage.removeItem("brightbyte_admin_token");
   message("Login successful! Opening your class universe...",true);
   setTimeout(()=>routeStudent(d.token).catch(err=>message(err.message)),250);
  }catch(err){message(err.message)}
