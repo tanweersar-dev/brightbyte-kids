@@ -1332,5 +1332,1367 @@ body{
 
 })();
 </script>
+  <!-- =========================================================
+     V27 REVIEWS PAGE — MAIN ACADEMY HEADER + SPACE UNIVERSE
+     Paste JUST BEFORE </body> in reviews.html
+========================================================= -->
+
+<style id="tannuV27AcademyUniverse">
+
+/* ============================================================
+   SAME ACADEMY SPACE BACKGROUND
+============================================================ */
+
+#reviewAcademySpace{
+  position:fixed;
+  inset:0;
+  z-index:-10;
+  overflow:hidden;
+  pointer-events:none;
+
+  background:
+    radial-gradient(
+      circle at 12% 12%,
+      rgba(119,101,255,.28),
+      transparent 29%
+    ),
+    radial-gradient(
+      circle at 92% 33%,
+      rgba(54,219,211,.23),
+      transparent 28%
+    ),
+    linear-gradient(
+      155deg,
+      #111747,
+      #0b1236 58%,
+      #092a4b
+    );
+}
+
+
+/* star field */
+
+#reviewAcademySpace::after{
+  content:"";
+
+  position:absolute;
+  inset:0;
+
+  opacity:.34;
+
+  background-image:
+    radial-gradient(
+      circle,
+      #fff 0 1px,
+      transparent 1.5px
+    );
+
+  background-size:
+    83px 83px;
+
+  animation:
+    reviewStarTwinkle
+    4s ease-in-out infinite alternate;
+}
+
+
+@keyframes reviewStarTwinkle{
+
+  from{
+    opacity:.25;
+  }
+
+  to{
+    opacity:.60;
+  }
+
+}
+
+
+/* nebula glow */
+
+.review-neb{
+  position:absolute;
+
+  width:520px;
+  height:520px;
+
+  border-radius:50%;
+
+  filter:
+    blur(115px);
+
+  opacity:.36;
+}
+
+
+.review-neb.one{
+  left:-240px;
+  top:20px;
+
+  background:#6c54ff;
+}
+
+
+.review-neb.two{
+  right:-230px;
+  top:170px;
+
+  background:#27dccc;
+}
+
+
+.review-neb.three{
+  left:35%;
+  bottom:-380px;
+
+  background:#3470ff;
+
+  opacity:.18;
+}
+
+
+/* ============================================================
+   MOVING COSMOS OBJECTS
+============================================================ */
+
+.review-cosmos-item{
+  position:absolute;
+
+  left:0;
+  top:var(--cosmos-y);
+
+  font-size:
+    var(--cosmos-size);
+
+  opacity:
+    var(--cosmos-opacity);
+
+  filter:
+    drop-shadow(
+      0 0 10px
+      rgba(255,255,255,.28)
+    );
+
+  animation:
+    reviewCosmosTravel
+    var(--cosmos-duration)
+    linear infinite;
+
+  animation-delay:
+    var(--cosmos-delay);
+
+  will-change:transform;
+}
+
+
+.review-cosmos-item.reverse{
+  left:auto;
+  right:0;
+
+  animation-name:
+    reviewCosmosReverse;
+}
+
+
+@keyframes reviewCosmosTravel{
+
+  from{
+    transform:
+      translateX(-130px)
+      translateY(0)
+      rotate(0deg);
+  }
+
+  to{
+    transform:
+      translateX(calc(100vw + 180px))
+      translateY(var(--cosmos-drift))
+      rotate(var(--cosmos-spin));
+  }
+
+}
+
+
+@keyframes reviewCosmosReverse{
+
+  from{
+    transform:
+      translateX(130px)
+      translateY(0)
+      rotate(0deg);
+  }
+
+  to{
+    transform:
+      translateX(calc(-100vw - 180px))
+      translateY(var(--cosmos-drift))
+      rotate(var(--cosmos-spin));
+  }
+
+}
+
+
+/* floating decorative planets */
+
+.review-big-planet{
+  position:absolute;
+
+  width:var(--planet-size);
+  height:var(--planet-size);
+
+  border-radius:50%;
+
+  opacity:.45;
+
+  box-shadow:
+    inset -15px -15px 30px
+      rgba(0,0,0,.25),
+    0 0 25px
+      rgba(255,255,255,.10);
+
+  animation:
+    reviewPlanetFloat
+    var(--planet-speed)
+    ease-in-out infinite alternate;
+}
+
+
+@keyframes reviewPlanetFloat{
+
+  from{
+    transform:
+      translateY(-15px)
+      rotate(-8deg);
+  }
+
+  to{
+    transform:
+      translateY(25px)
+      rotate(8deg);
+  }
+
+}
+
+
+/* ============================================================
+   HIDE OLD SMALL REVIEWS HEADER
+============================================================ */
+
+.wrap > .top{
+  display:none !important;
+}
+
+
+/* ============================================================
+   MAIN ACADEMY HEADER
+============================================================ */
+
+#reviewAcademyHeader{
+  position:sticky;
+
+  top:7px;
+
+  z-index:500;
+
+  width:
+    min(
+      1660px,
+      calc(100% - 16px)
+    );
+
+  margin:
+    8px auto 0;
+
+  padding:
+    9px 12px;
+
+  border-radius:24px;
+
+  display:grid;
+
+  grid-template-columns:
+    230px
+    minmax(0,1fr)
+    auto;
+
+  gap:10px;
+
+  align-items:center;
+
+  background:
+    linear-gradient(
+      180deg,
+      rgba(25,35,92,.97),
+      rgba(13,22,65,.94)
+    );
+
+  border:
+    1px solid
+    rgba(255,255,255,.12);
+
+  backdrop-filter:
+    blur(17px);
+
+  box-shadow:
+    0 18px 50px
+    rgba(0,0,0,.24);
+}
+
+
+/* ============================================================
+   BRAND
+============================================================ */
+
+.review-academy-brand{
+  display:flex;
+
+  align-items:center;
+
+  gap:10px;
+
+  min-width:0;
+
+  color:#fff;
+
+  text-decoration:none;
+}
+
+
+.review-academy-brand .t-logo{
+  width:54px !important;
+  height:54px !important;
+
+  min-width:54px !important;
+}
+
+
+.review-brand-copy{
+  min-width:0;
+}
+
+
+.review-brand-copy b{
+  display:block;
+
+  color:#fff;
+
+  font-size:17px;
+  font-weight:950;
+
+  white-space:nowrap;
+}
+
+
+.review-brand-copy small{
+  display:block;
+
+  margin-top:2px;
+
+  color:#ffd16d;
+
+  font-size:8px;
+
+  letter-spacing:1.3px;
+
+  font-weight:950;
+
+  white-space:nowrap;
+}
+
+
+/* ============================================================
+   MAIN NAV
+============================================================ */
+
+.review-mainnav{
+  display:flex;
+
+  gap:6px;
+
+  justify-content:center;
+
+  min-width:0;
+}
+
+
+.review-mainnav a{
+  position:relative;
+
+  overflow:hidden;
+
+  display:inline-flex;
+
+  align-items:center;
+  justify-content:center;
+
+  gap:4px;
+
+  min-height:42px;
+
+  padding:
+    9px 10px;
+
+  border-radius:13px;
+
+  color:#fff;
+
+  text-decoration:none;
+
+  white-space:nowrap;
+
+  font-size:10px;
+
+  font-weight:950;
+
+  border:
+    1px solid
+    rgba(255,255,255,.40);
+
+  text-shadow:
+    0 1px 4px
+    rgba(10,10,55,.65);
+
+  box-shadow:
+    0 0 11px
+    rgba(255,255,255,.18);
+
+  transition:
+    transform .18s ease,
+    filter .18s ease,
+    box-shadow .18s ease;
+
+  animation:
+    reviewNavGlow
+    2.5s ease-in-out infinite;
+}
+
+
+/* moving shine */
+
+.review-mainnav a::after{
+  content:"";
+
+  position:absolute;
+
+  top:-40%;
+  left:-70%;
+
+  width:38%;
+  height:180%;
+
+  transform:
+    rotate(18deg);
+
+  background:
+    linear-gradient(
+      90deg,
+      transparent,
+      rgba(255,255,255,.64),
+      transparent
+    );
+
+  animation:
+    reviewNavShine
+    3.7s linear infinite;
+
+  pointer-events:none;
+}
+
+
+.review-mainnav a:hover{
+  transform:
+    translateY(-3px)
+    scale(1.05);
+
+  filter:
+    brightness(1.14)
+    saturate(1.18);
+
+  box-shadow:
+    0 0 13px
+      rgba(255,255,255,.62),
+    0 0 27px
+      rgba(85,193,255,.48);
+}
+
+
+/* current page */
+
+.review-mainnav a.active{
+  border:
+    2px solid #fff;
+
+  box-shadow:
+    0 0 10px #fff,
+    0 0 23px
+      rgba(255,97,173,.78),
+    0 0 40px
+      rgba(255,193,69,.42);
+}
+
+
+/* ============================================================
+   INDIVIDUAL HEADER COLORS
+============================================================ */
+
+.review-mainnav a:nth-child(1){
+  background:
+    linear-gradient(
+      135deg,
+      #27c7ff,
+      #5265ff
+    );
+}
+
+
+.review-mainnav a:nth-child(2){
+  background:
+    linear-gradient(
+      135deg,
+      #11c9a4,
+      #22a9e8
+    );
+}
+
+
+.review-mainnav a:nth-child(3){
+  background:
+    linear-gradient(
+      135deg,
+      #9b5cff,
+      #cf57dc
+    );
+}
+
+
+.review-mainnav a:nth-child(4){
+  background:
+    linear-gradient(
+      135deg,
+      #ff9f42,
+      #ffba45
+    );
+}
+
+
+.review-mainnav a:nth-child(5){
+  background:
+    linear-gradient(
+      135deg,
+      #f25ba6,
+      #d859e8
+    );
+}
+
+
+.review-mainnav a:nth-child(6){
+  background:
+    linear-gradient(
+      135deg,
+      #ffd447,
+      #ff8750,
+      #ff5e98
+    );
+}
+
+
+.review-mainnav a:nth-child(7){
+  background:
+    linear-gradient(
+      135deg,
+      #27d9cf,
+      #1a8cff
+    );
+}
+
+
+.review-mainnav a:nth-child(8){
+  background:
+    linear-gradient(
+      135deg,
+      #8759ff,
+      #e15ed4
+    );
+}
+
+
+.review-mainnav a:nth-child(9){
+  background:
+    linear-gradient(
+      135deg,
+      #ec4d91,
+      #823de9
+    );
+}
+
+
+.review-mainnav a:nth-child(10){
+  background:
+    linear-gradient(
+      135deg,
+      #f6b62b,
+      #ff713d
+    );
+}
+
+
+.review-mainnav a:nth-child(11){
+  background:
+    linear-gradient(
+      135deg,
+      #35c66f,
+      #1bb5a8
+    );
+}
+
+
+.review-mainnav a:nth-child(12){
+  background:
+    linear-gradient(
+      135deg,
+      #5f66e8,
+      #8938c9
+    );
+}
+
+
+@keyframes reviewNavGlow{
+
+  0%,100%{
+    filter:
+      brightness(.96);
+  }
+
+  50%{
+    filter:
+      brightness(1.15);
+
+    box-shadow:
+      0 0 9px
+      rgba(255,255,255,.50),
+      0 0 19px
+      rgba(103,170,255,.34);
+  }
+
+}
+
+
+@keyframes reviewNavShine{
+
+  0%{
+    left:-70%;
+  }
+
+  42%{
+    left:135%;
+  }
+
+  100%{
+    left:135%;
+  }
+
+}
+
+
+/* ============================================================
+   VOICE
+============================================================ */
+
+.review-header-actions{
+  display:flex;
+
+  justify-content:flex-end;
+}
+
+
+#reviewVoiceBtn{
+  min-height:42px;
+
+  padding:
+    9px 14px;
+
+  border:0;
+
+  border-radius:13px;
+
+  color:#fff;
+
+  font-size:10px;
+  font-weight:950;
+
+  background:
+    linear-gradient(
+      135deg,
+      #29c8ef,
+      #6758ef,
+      #e65bc2
+    );
+
+  background-size:
+    220% 220%;
+
+  border:
+    1px solid
+    rgba(255,255,255,.55);
+
+  box-shadow:
+    0 0 15px
+    rgba(96,187,255,.52);
+
+  animation:
+    reviewVoiceGlow
+    2.3s ease-in-out infinite;
+}
+
+
+@keyframes reviewVoiceGlow{
+
+  0%,100%{
+    background-position:
+      0% 50%;
+  }
+
+  50%{
+    background-position:
+      100% 50%;
+
+    box-shadow:
+      0 0 12px
+      rgba(255,255,255,.58),
+      0 0 27px
+      rgba(156,95,255,.65);
+  }
+
+}
+
+
+/* ============================================================
+   REVIEWS CONTENT ADJUSTMENT
+============================================================ */
+
+body{
+  background:#0d143d !important;
+}
+
+
+.wrap{
+  max-width:
+    1240px !important;
+
+  padding-top:
+    28px !important;
+}
+
+
+/* hero now feels like main academy */
+
+.hero{
+  position:relative;
+  z-index:1;
+}
+
+
+/* ============================================================
+   RESPONSIVE
+============================================================ */
+
+@media(max-width:1400px){
+
+  #reviewAcademyHeader{
+    grid-template-columns:
+      205px
+      minmax(0,1fr)
+      auto;
+  }
+
+  .review-mainnav{
+    overflow-x:auto;
+
+    justify-content:flex-start;
+
+    scrollbar-width:thin;
+  }
+
+  .review-mainnav a{
+    flex:0 0 auto;
+  }
+
+}
+
+
+@media(max-width:850px){
+
+  #reviewAcademyHeader{
+    grid-template-columns:
+      1fr auto;
+  }
+
+  .review-mainnav{
+    grid-column:
+      1 / -1;
+
+    order:3;
+
+    padding-top:4px;
+  }
+
+}
+
+
+@media(max-width:560px){
+
+  #reviewAcademyHeader{
+    top:3px;
+
+    width:
+      calc(100% - 8px);
+
+    margin-top:4px;
+
+    border-radius:18px;
+  }
+
+  .review-brand-copy b{
+    font-size:13px;
+  }
+
+  .review-brand-copy small{
+    font-size:6px;
+  }
+
+  .review-academy-brand .t-logo{
+    width:43px !important;
+    height:43px !important;
+    min-width:43px !important;
+  }
+
+  .review-mainnav a{
+    min-height:38px;
+
+    padding:7px 9px;
+
+    font-size:9px;
+  }
+
+}
+
+
+/* accessibility */
+
+@media(prefers-reduced-motion:reduce){
+
+  .review-cosmos-item,
+  .review-big-planet,
+  .review-mainnav a,
+  .review-mainnav a::after,
+  #reviewVoiceBtn,
+  #reviewAcademySpace::after{
+    animation:none !important;
+  }
+
+}
+
+</style>
+
+
+<script>
+(() => {
+  "use strict";
+
+  function buildReviewUniverse(){
+
+    if(
+      document.getElementById(
+        "reviewAcademySpace"
+      )
+    ){
+      return;
+    }
+
+
+    /* ========================================================
+       BACKGROUND
+    ======================================================== */
+
+    const space =
+      document.createElement(
+        "div"
+      );
+
+    space.id =
+      "reviewAcademySpace";
+
+    space.setAttribute(
+      "aria-hidden",
+      "true"
+    );
+
+
+    space.innerHTML = `
+
+      <i class="review-neb one"></i>
+
+      <i class="review-neb two"></i>
+
+      <i class="review-neb three"></i>
+
+      <i
+        class="review-big-planet"
+        style="
+          --planet-size:78px;
+          --planet-speed:7s;
+          left:5%;
+          top:58%;
+          background:
+          linear-gradient(
+            145deg,
+            #ffd567,
+            #ec884a
+          );
+        ">
+      </i>
+
+      <i
+        class="review-big-planet"
+        style="
+          --planet-size:56px;
+          --planet-speed:9s;
+          right:6%;
+          top:25%;
+          background:
+          linear-gradient(
+            145deg,
+            #40d4ec,
+            #5468dc
+          );
+        ">
+      </i>
+
+      <i
+        class="review-big-planet"
+        style="
+          --planet-size:44px;
+          --planet-speed:6s;
+          right:16%;
+          bottom:7%;
+          background:
+          linear-gradient(
+            145deg,
+            #ff75aa,
+            #a45bea
+          );
+        ">
+      </i>
+
+    `;
+
+
+    document.body.prepend(
+      space
+    );
+
+
+    const emojis = [
+      "🚀",
+      "👽",
+      "🛸",
+      "☄️",
+      "🛰️",
+      "🌍",
+      "🌙",
+      "🪐",
+      "⭐",
+      "✨",
+      "🌟",
+      "💫",
+      "🔭"
+    ];
+
+
+    const count =
+      window.innerWidth < 700
+        ? 16
+        : 30;
+
+
+    for(
+      let i=0;
+      i<count;
+      i++
+    ){
+
+      const item =
+        document.createElement(
+          "span"
+        );
+
+
+      item.className =
+        "review-cosmos-item"
+        +
+        (
+          i % 2
+            ? " reverse"
+            : ""
+        );
+
+
+      item.textContent =
+        emojis[
+          Math.floor(
+            Math.random()
+            *
+            emojis.length
+          )
+        ];
+
+
+      const duration =
+        15
+        +
+        Math.random()*25;
+
+
+      item.style.setProperty(
+        "--cosmos-y",
+        (
+          4
+          +
+          Math.random()*91
+        )
+        +"%"
+      );
+
+
+      item.style.setProperty(
+        "--cosmos-size",
+        (
+          15
+          +
+          Math.random()*29
+        )
+        +"px"
+      );
+
+
+      item.style.setProperty(
+        "--cosmos-opacity",
+        (
+          .28
+          +
+          Math.random()*.58
+        )
+      );
+
+
+      item.style.setProperty(
+        "--cosmos-duration",
+        duration+"s"
+      );
+
+
+      item.style.setProperty(
+        "--cosmos-delay",
+        (
+          -Math.random()
+          *
+          duration
+        )
+        +"s"
+      );
+
+
+      item.style.setProperty(
+        "--cosmos-drift",
+        (
+          Math.random()*150
+          -
+          75
+        )
+        +"px"
+      );
+
+
+      item.style.setProperty(
+        "--cosmos-spin",
+        (
+          160
+          +
+          Math.random()*540
+        )
+        +"deg"
+      );
+
+
+      space.appendChild(
+        item
+      );
+
+    }
+
+
+    /* ========================================================
+       NEW HEADER
+    ======================================================== */
+
+    const oldTop =
+      document.querySelector(
+        ".wrap > .top"
+      );
+
+
+    let logoHTML = "";
+
+
+    const oldLogo =
+      oldTop?.querySelector(
+        ".t-logo"
+      );
+
+
+    if(oldLogo){
+      logoHTML =
+        oldLogo.outerHTML;
+    }
+
+
+    const header =
+      document.createElement(
+        "header"
+      );
+
+
+    header.id =
+      "reviewAcademyHeader";
+
+
+    header.innerHTML = `
+
+      <a
+        class="review-academy-brand"
+        href="index.html#home">
+
+        ${logoHTML}
+
+        <span class="review-brand-copy">
+
+          <b>
+            Tannu Sir's
+          </b>
+
+          <small>
+            KIDS DIGITAL ACADEMY
+          </small>
+
+        </span>
+
+      </a>
+
+
+      <nav
+        class="review-mainnav"
+        aria-label="Academy navigation">
+
+        <a href="index.html#home">
+          🏠
+          <span>Home</span>
+        </a>
+
+        <a href="index.html#course">
+          🗺️
+          <span>90-Day</span>
+        </a>
+
+        <a href="index.html#students">
+          🎓
+          <span>Students</span>
+        </a>
+
+        <a href="index.html#parents">
+          👨‍👩‍👧
+          <span>Parent View</span>
+        </a>
+
+        <a
+          class="active"
+          href="reviews.html"
+          aria-current="page">
+          ⭐
+          <span>Parent Reviews</span>
+        </a>
+
+        <a href="index.html#rewards">
+          🏆
+          <span>Rewards</span>
+        </a>
+
+        <a href="index.html#digital">
+          💻
+          <span>Digital</span>
+        </a>
+
+        <a href="index.html#english">
+          🗣️
+          <span>English</span>
+        </a>
+
+        <a href="index.html#games">
+          🎮
+          <span>Games</span>
+        </a>
+
+        <a href="index.html#confidence">
+          🌟
+          <span>Confidence</span>
+        </a>
+
+        <a href="index.html#healthy">
+          🌱
+          <span>Healthy</span>
+        </a>
+
+        <a href="admin.html">
+          🔐
+          <span>Admin Center</span>
+        </a>
+
+      </nav>
+
+
+      <div class="review-header-actions">
+
+        <button
+          id="reviewVoiceBtn"
+          type="button">
+
+          🔊 Voice
+
+        </button>
+
+      </div>
+
+    `;
+
+
+    const wrap =
+      document.querySelector(
+        ".wrap"
+      );
+
+
+    if(wrap){
+
+      wrap.insertAdjacentElement(
+        "beforebegin",
+        header
+      );
+
+    }
+
+
+    /* ========================================================
+       VOICE BUTTON
+    ======================================================== */
+
+    let voiceEnabled =
+      true;
+
+
+    const voiceBtn =
+      document.getElementById(
+        "reviewVoiceBtn"
+      );
+
+
+    if(voiceBtn){
+
+      voiceBtn.addEventListener(
+        "click",
+        ()=>{
+
+          voiceEnabled =
+            !voiceEnabled;
+
+
+          voiceBtn.textContent =
+            voiceEnabled
+              ? "🔊 Voice"
+              : "🔇 Voice";
+
+
+          if(
+            !voiceEnabled
+          ){
+
+            if(
+              "speechSynthesis"
+              in window
+            ){
+
+              speechSynthesis
+                .cancel();
+
+            }
+
+            return;
+          }
+
+
+          if(
+            "speechSynthesis"
+            in window
+          ){
+
+            const speech =
+              new SpeechSynthesisUtterance(
+                "Voice guide is on. Welcome to Parent Reviews and Suggestions."
+              );
+
+
+            speech.lang =
+              "en-US";
+
+
+            speech.rate =
+              .9;
+
+
+            speechSynthesis
+              .speak(
+                speech
+              );
+
+          }
+
+        }
+      );
+
+    }
+
+  }
+
+
+  if(
+    document.readyState ===
+    "loading"
+  ){
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      buildReviewUniverse,
+      {
+        once:true
+      }
+    );
+
+  }else{
+
+    buildReviewUniverse();
+
+  }
+
+})();
+</script>
 </body>
 </html>
