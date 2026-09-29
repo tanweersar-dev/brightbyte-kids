@@ -2,7 +2,7 @@
 "use strict";
 
 /* ============================================================
-   V26 — Advanced Universe Student Account Controls
+   V26.1 — Advanced Universe Student Account Controls
    Requires:
    - existing V25 theme
    - existing /api/student/photo
@@ -185,17 +185,26 @@ function passwordModal(){
 
     <div class="adv-account-field">
       <label>Current Password</label>
-      <input id="advCurrentPassword" type="password" autocomplete="current-password" placeholder="Enter current password">
+      <div class="adv-password-wrap">
+        <input id="advCurrentPassword" type="password" autocomplete="current-password" placeholder="Enter current password">
+        <button class="adv-password-eye" type="button" data-password-eye="advCurrentPassword" aria-label="Show current password" title="Show password">👁</button>
+      </div>
     </div>
 
     <div class="adv-account-field">
       <label>New Password</label>
-      <input id="advNewPassword" type="password" autocomplete="new-password" placeholder="At least 8 characters">
+      <div class="adv-password-wrap">
+        <input id="advNewPassword" type="password" autocomplete="new-password" placeholder="At least 8 characters">
+        <button class="adv-password-eye" type="button" data-password-eye="advNewPassword" aria-label="Show new password" title="Show password">👁</button>
+      </div>
     </div>
 
     <div class="adv-account-field">
       <label>Confirm New Password</label>
-      <input id="advConfirmPassword" type="password" autocomplete="new-password" placeholder="Type the new password again">
+      <div class="adv-password-wrap">
+        <input id="advConfirmPassword" type="password" autocomplete="new-password" placeholder="Type the new password again">
+        <button class="adv-password-eye" type="button" data-password-eye="advConfirmPassword" aria-label="Show confirmed password" title="Show password">👁</button>
+      </div>
     </div>
 
     <div class="adv-password-rules">
@@ -210,7 +219,21 @@ function passwordModal(){
     </div>
   `);
 
+  document.querySelectorAll("[data-password-eye]").forEach(button=>{
+    button.onclick=()=>{
+      const input=byId(button.dataset.passwordEye);
+      if(!input)return;
+
+      const willShow=input.type==="password";
+      input.type=willShow?"text":"password";
+      button.textContent=willShow?"🙈":"👁";
+      button.setAttribute("aria-label",willShow?"Hide password":"Show password");
+      button.setAttribute("title",willShow?"Hide password":"Show password");
+    };
+  });
+
   byId("advPasswordCancel").onclick=closeAccountModal;
+
   byId("advPasswordSave").onclick=async()=>{
     const current=byId("advCurrentPassword").value;
     const next=byId("advNewPassword").value;
@@ -229,21 +252,34 @@ function passwordModal(){
     try{
       const r=await authJson("/api/student/change-password",{
         method:"PATCH",
-        body:JSON.stringify({currentPassword:current,newPassword:next})
+        body:JSON.stringify({
+          currentPassword:current,
+          newPassword:next
+        })
       });
+
       const data=await r.json().catch(()=>({}));
-      if(!r.ok)throw new Error(data.error||"Password change failed");
+
+      if(!r.ok){
+        throw new Error(data.error||"Password change failed");
+      }
 
       localStorage.removeItem(TOKEN_KEY);
+
       openAccountModal(`
         <div class="adv-account-icon">✅</div>
         <h2>Password Changed Successfully</h2>
         <p>Your old student sessions were signed out for security. Please log in again using your new password.</p>
+
         <div class="adv-account-actions-row">
           <button class="save" id="advLoginAgain" type="button">🚀 Login Again</button>
         </div>
       `);
-      byId("advLoginAgain").onclick=()=>location.href="student-login.html";
+
+      byId("advLoginAgain").onclick=()=>{
+        location.href="student-login.html";
+      };
+
     }catch(e){
       setMsg(e.message||"Password change failed.");
       btn.disabled=false;
