@@ -936,12 +936,44 @@ function showInspect(){
   feedback("🔦 Inspect Mode: important ports, slots or targets are highlighted briefly.","info");
 }
 function resetLab(){
-  const ok=confirm("Reset the entire Junior Technician Lab progress for this student on this device?");
-  if(!ok) return;
-  localStorage.removeItem(keyForStudent());
-  state=freshState(); activeStage=null;
-  $("labShell").classList.add("hidden");
-  saveState(); renderStageMap(); toast("Lab progress reset");
+  openModal(`
+    <div style="text-align:center;padding:4px 2px 2px">
+      <div style="width:62px;height:62px;margin:0 auto 12px;border-radius:20px;display:grid;place-items:center;background:linear-gradient(135deg,#fff0f2,#ffe1e7);font-size:30px;box-shadow:0 10px 24px rgba(180,45,70,.12)">↺</div>
+      <h2 style="margin:0 0 8px">Reset Junior Technician Lab?</h2>
+      <p style="margin:0 auto;max-width:520px;color:#66708e;line-height:1.65">This will clear this student's saved lab progress on this device and return all five stages to the beginning.</p>
+      <div style="margin:14px auto 0;max-width:520px;padding:11px 13px;border-radius:14px;background:#fff4d9;color:#805f12;font-size:10px;font-weight:800;line-height:1.55">⚠️ Stage progress, XP, scores, hints and certificate unlock status for this lab will be reset.</div>
+      <div class="modal-actions" style="justify-content:center;margin-top:17px">
+        <button class="soft" id="cancelResetLabBtn" type="button">Keep My Progress</button>
+        <button class="go" id="confirmResetLabBtn" type="button" style="background:linear-gradient(135deg,#d94b67,#b92f52)">Yes, Reset Lab</button>
+      </div>
+    </div>
+  `);
+
+  $("cancelResetLabBtn").onclick=closeModal;
+  $("confirmResetLabBtn").onclick=()=>{
+    localStorage.removeItem(keyForStudent());
+    state=freshState();
+    state.stage5ABPassed=false;
+    activeStage=null;
+    stageStep=0;
+    runMistakes=0;
+    runHints=0;
+    selectedCable=null;
+    firstPort=null;
+    selectedPart=null;
+    selectedPromptBlock=null;
+    aiMission=0;
+    stage3Data={};
+    stage4Data={};
+    finalTickets=[];
+    finalTicketIndex=0;
+    $("labShell").classList.add("hidden");
+    closeModal();
+    saveState();
+    renderStageMap();
+    window.scrollTo({top:0,behavior:"smooth"});
+    toast("Lab progress reset successfully");
+  };
 }
 function currentHint(){
   if(!activeStage) return;
@@ -2470,107 +2502,7 @@ html,body{margin:0;background:#dfe5ec;font-family:Georgia,'Times New Roman',seri
 .desc{max-width:155mm;font-size:15px;line-height:1.55;color:#34486b}.skills{max-width:160mm;margin:4mm auto;font:800 13px/1.7 Arial,sans-serif;color:#08786f}.award{font-size:24px;font-weight:800;color:#1b3472;margin:2mm 0}.meta{font:700 11px Arial,sans-serif;color:#3e5275;margin-top:3mm}
 .seal{width:36mm;height:36mm;border-radius:50%;margin:5mm auto 3mm;display:grid;place-items:center;text-align:center;color:#fff8d2;background:radial-gradient(circle,#0b3d78 0 45%,#d6a632 46% 55%,#063b72 56% 64%,#f4dc92 65% 100%);box-shadow:0 3mm 6mm #18356633;font:900 9px/1.35 Arial,sans-serif;position:relative}
 .seal:after{content:'';position:absolute;bottom:-10mm;width:19mm;height:14mm;background:linear-gradient(90deg,#063f79,#07899c,#063f79);clip-path:polygon(0 0,100% 0,78% 100%,50% 72%,22% 100%);z-index:-1}
-.signs{width:100%;display:flex;justify-content:space-between;gap:20mm;margin-top:auto;margin-bottom:8mm;font-family:Arial,sans-serif}
-.sign{width:42%;border-top:.4mm solid #6a7690;padding-top:2mm}
-.sign b{display:block;font-size:14px;color:#18326c}
-.sign small{display:block;font-size:9px;color:#63708a;margin-top:1mm}
-
-/* V31.7 — Custom Tannu mentor signature */
-.tannu-sign-box{position:relative}
-.tannu-signature{
-  position:relative;
-  display:inline-block;
-  width:56mm;
-  height:19mm;
-  margin:-13mm auto 1.5mm;
-  transform:rotate(-5deg) skewX(-5deg);
-  user-select:none;
-  -webkit-user-select:none;
-}
-.tannu-signature .ts-main{
-  position:absolute;
-  left:3mm;
-  top:1mm;
-  z-index:4;
-  display:block;
-  font-family:"Brush Script MT","Segoe Script","Lucida Handwriting",cursive;
-  font-size:18mm;
-  line-height:18mm;
-  font-weight:700;
-  letter-spacing:-1.1mm;
-  color:#102d68;
-  white-space:nowrap;
-  text-shadow:
-    .25mm .3mm 0 rgba(213,165,46,.55),
-    -.18mm -.18mm 0 #fff,
-    .8mm 1mm 1.7mm rgba(12,31,72,.18);
-}
-.tannu-signature .ts-shadow{
-  position:absolute;
-  left:3.5mm;
-  top:1.5mm;
-  z-index:2;
-  font-family:"Brush Script MT","Segoe Script","Lucida Handwriting",cursive;
-  font-size:18mm;
-  line-height:18mm;
-  font-weight:700;
-  letter-spacing:-1.1mm;
-  color:transparent;
-  -webkit-text-stroke:.28mm rgba(8,64,123,.22);
-  transform:skewX(-8deg) scaleX(1.015);
-  white-space:nowrap;
-}
-.tannu-signature .ts-scratch{
-  position:absolute;
-  z-index:5;
-  left:0;
-  right:0;
-  bottom:2.6mm;
-  height:1mm;
-  border-radius:50%;
-  background:linear-gradient(90deg,transparent 0%,#d0a02d 8%,#0c3673 30%,#07899c 66%,#d0a02d 90%,transparent 100%);
-  transform:rotate(-4deg) skewX(-31deg);
-  box-shadow:
-    0 1.7mm 0 -.68mm rgba(10,59,119,.58),
-    0 -1.05mm 0 -.8mm rgba(213,165,46,.78);
-}
-.tannu-signature .ts-scratch::before{
-  content:"";
-  position:absolute;
-  left:4mm;
-  top:-3.5mm;
-  width:34mm;
-  height:5.5mm;
-  border-bottom:.62mm solid rgba(13,62,126,.78);
-  border-radius:50%;
-  transform:rotate(5deg);
-}
-.tannu-signature .ts-scratch::after{
-  content:"";
-  position:absolute;
-  right:-1mm;
-  top:-2.7mm;
-  width:14mm;
-  height:5.5mm;
-  border-top:.72mm solid #0a407b;
-  border-radius:50%;
-  transform:rotate(-18deg);
-}
-.tannu-signature .ts-mark{
-  position:absolute;
-  z-index:6;
-  right:-2mm;
-  top:-.5mm;
-  color:#d5a52e;
-  font-size:5mm;
-  transform:rotate(24deg);
-  text-shadow:.45mm .45mm .9mm rgba(15,42,87,.18);
-}
-.tannu-sign-box small{
-  margin-top:2mm!important;
-  font-weight:800;
-  letter-spacing:.35px;
-}
+.signs{width:100%;display:flex;justify-content:space-between;gap:20mm;margin-top:auto;margin-bottom:8mm;font-family:Arial,sans-serif}.sign{width:42%;border-top:.4mm solid #6a7690;padding-top:2mm}.sign b{display:block;font-size:14px;color:#18326c}.sign small{display:block;font-size:9px;color:#63708a;margin-top:1mm}
 @media print{html,body{background:#fff}.toolbar{display:none}.certificate{box-shadow:none;margin:0}}
 </style>
 </head>
@@ -2594,15 +2526,7 @@ html,body{margin:0;background:#dfe5ec;font-family:Georgia,'Times New Roman',seri
     <div class="meta">Class ${classNo} &nbsp;•&nbsp; Final Score ${avg}% &nbsp;•&nbsp; Date ${date}</div>
     <div class="seal">VERIFIED<br>PRACTICAL<br>ACHIEVEMENT</div>
     <div class="signs">
-      <div class="sign tannu-sign-box">
-        <div class="tannu-signature" aria-label="Tannu signature">
-          <span class="ts-shadow">Tannu</span>
-          <span class="ts-main">Tannu</span>
-          <span class="ts-scratch"></span>
-          <span class="ts-mark">✦</span>
-        </div>
-        <small>Academy Mentor</small>
-      </div>
+      <div class="sign"><b>Tannu Sir</b><small>Academy Mentor</small></div>
       <div class="sign"><b>Verified Practical Path</b><small>5 Stages • Stage 5-A + 5-B Passed</small></div>
     </div>
   </div>
@@ -2788,107 +2712,7 @@ html,body{margin:0;background:#dfe5ec;font-family:Georgia,'Times New Roman',seri
 .desc{max-width:155mm;font-size:15px;line-height:1.55;color:#34486b}.skills{max-width:160mm;margin:4mm auto;font:800 13px/1.7 Arial,sans-serif;color:#08786f}.award{font-size:24px;font-weight:800;color:#1b3472;margin:2mm 0}.meta{font:700 11px Arial,sans-serif;color:#3e5275;margin-top:3mm}
 .seal{width:36mm;height:36mm;border-radius:50%;margin:5mm auto 3mm;display:grid;place-items:center;text-align:center;color:#fff8d2;background:radial-gradient(circle,#0b3d78 0 45%,#d6a632 46% 55%,#063b72 56% 64%,#f4dc92 65% 100%);box-shadow:0 3mm 6mm #18356633;font:900 9px/1.35 Arial,sans-serif;position:relative}
 .seal:after{content:'';position:absolute;bottom:-10mm;width:19mm;height:14mm;background:linear-gradient(90deg,#063f79,#07899c,#063f79);clip-path:polygon(0 0,100% 0,78% 100%,50% 72%,22% 100%);z-index:-1}
-.signs{width:100%;display:flex;justify-content:space-between;gap:20mm;margin-top:auto;margin-bottom:8mm;font-family:Arial,sans-serif}
-.sign{width:42%;border-top:.4mm solid #6a7690;padding-top:2mm}
-.sign b{display:block;font-size:14px;color:#18326c}
-.sign small{display:block;font-size:9px;color:#63708a;margin-top:1mm}
-
-/* V31.7 — Custom Tannu mentor signature */
-.tannu-sign-box{position:relative}
-.tannu-signature{
-  position:relative;
-  display:inline-block;
-  width:56mm;
-  height:19mm;
-  margin:-13mm auto 1.5mm;
-  transform:rotate(-5deg) skewX(-5deg);
-  user-select:none;
-  -webkit-user-select:none;
-}
-.tannu-signature .ts-main{
-  position:absolute;
-  left:3mm;
-  top:1mm;
-  z-index:4;
-  display:block;
-  font-family:"Brush Script MT","Segoe Script","Lucida Handwriting",cursive;
-  font-size:18mm;
-  line-height:18mm;
-  font-weight:700;
-  letter-spacing:-1.1mm;
-  color:#102d68;
-  white-space:nowrap;
-  text-shadow:
-    .25mm .3mm 0 rgba(213,165,46,.55),
-    -.18mm -.18mm 0 #fff,
-    .8mm 1mm 1.7mm rgba(12,31,72,.18);
-}
-.tannu-signature .ts-shadow{
-  position:absolute;
-  left:3.5mm;
-  top:1.5mm;
-  z-index:2;
-  font-family:"Brush Script MT","Segoe Script","Lucida Handwriting",cursive;
-  font-size:18mm;
-  line-height:18mm;
-  font-weight:700;
-  letter-spacing:-1.1mm;
-  color:transparent;
-  -webkit-text-stroke:.28mm rgba(8,64,123,.22);
-  transform:skewX(-8deg) scaleX(1.015);
-  white-space:nowrap;
-}
-.tannu-signature .ts-scratch{
-  position:absolute;
-  z-index:5;
-  left:0;
-  right:0;
-  bottom:2.6mm;
-  height:1mm;
-  border-radius:50%;
-  background:linear-gradient(90deg,transparent 0%,#d0a02d 8%,#0c3673 30%,#07899c 66%,#d0a02d 90%,transparent 100%);
-  transform:rotate(-4deg) skewX(-31deg);
-  box-shadow:
-    0 1.7mm 0 -.68mm rgba(10,59,119,.58),
-    0 -1.05mm 0 -.8mm rgba(213,165,46,.78);
-}
-.tannu-signature .ts-scratch::before{
-  content:"";
-  position:absolute;
-  left:4mm;
-  top:-3.5mm;
-  width:34mm;
-  height:5.5mm;
-  border-bottom:.62mm solid rgba(13,62,126,.78);
-  border-radius:50%;
-  transform:rotate(5deg);
-}
-.tannu-signature .ts-scratch::after{
-  content:"";
-  position:absolute;
-  right:-1mm;
-  top:-2.7mm;
-  width:14mm;
-  height:5.5mm;
-  border-top:.72mm solid #0a407b;
-  border-radius:50%;
-  transform:rotate(-18deg);
-}
-.tannu-signature .ts-mark{
-  position:absolute;
-  z-index:6;
-  right:-2mm;
-  top:-.5mm;
-  color:#d5a52e;
-  font-size:5mm;
-  transform:rotate(24deg);
-  text-shadow:.45mm .45mm .9mm rgba(15,42,87,.18);
-}
-.tannu-sign-box small{
-  margin-top:2mm!important;
-  font-weight:800;
-  letter-spacing:.35px;
-}
+.signs{width:100%;display:flex;justify-content:space-between;gap:20mm;margin-top:auto;margin-bottom:8mm;font-family:Arial,sans-serif}.sign{width:42%;border-top:.4mm solid #6a7690;padding-top:2mm}.sign b{display:block;font-size:14px;color:#18326c}.sign small{display:block;font-size:9px;color:#63708a;margin-top:1mm}
 @media print{html,body{background:#fff}.toolbar{display:none}.certificate{box-shadow:none;margin:0}}
 </style>
 </head>
@@ -2913,15 +2737,7 @@ html,body{margin:0;background:#dfe5ec;font-family:Georgia,'Times New Roman',seri
     <div class="meta">Class ${classNo} &nbsp;•&nbsp; Stage 5 Test Score ${score}% &nbsp;•&nbsp; Date ${date}</div>
     <div class="seal">PREMIUM<br>CERTIFICATE<br>PREVIEW</div>
     <div class="signs">
-      <div class="sign tannu-sign-box">
-        <div class="tannu-signature" aria-label="Tannu signature">
-          <span class="ts-shadow">Tannu</span>
-          <span class="ts-main">Tannu</span>
-          <span class="ts-scratch"></span>
-          <span class="ts-mark">✦</span>
-        </div>
-        <small>Academy Mentor</small>
-      </div>
+      <div class="sign"><b>Tannu Sir</b><small>Academy Mentor</small></div>
       <div class="sign"><b>Full Path Verification Required</b><small>Stage 1 → 5 for official award</small></div>
     </div>
   </div>
