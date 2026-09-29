@@ -2839,3 +2839,322 @@ body:has(.v312-case-stage) #simulator{
   }
 
 }
+/* ============================================================
+   V31.4 — STAGE 5-A / 5-B FINAL EXAM VISUALS
+   Append to the BOTTOM of junior-technician-stage1-v31.css
+   ============================================================ */
+
+.v314-final-mission{
+  min-height:100%;
+  padding:18px;
+  background:
+    radial-gradient(circle at 12% 8%,rgba(98,93,240,.12),transparent 24%),
+    linear-gradient(145deg,#dce7f2,#f4f8fc);
+}
+
+.v314-final-badges{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  align-items:center;
+  margin-bottom:14px;
+}
+
+.v314-final-badges span{
+  padding:9px 13px;
+  border-radius:999px;
+  border:1px solid #cad6e5;
+  background:#eef3f8;
+  color:#42516d;
+  font-size:11px;
+  font-weight:1000;
+}
+
+.v314-final-badges span.active{
+  color:#fff;
+  border-color:transparent;
+  background:linear-gradient(135deg,#5e62ee,#27bec4);
+  box-shadow:0 9px 20px rgba(70,83,180,.18);
+}
+
+.v314-question-count{
+  margin-left:auto;
+  background:#10254f !important;
+  color:#fff !important;
+}
+
+.v314-final-layout{
+  display:grid;
+  grid-template-columns:300px minmax(0,1fr);
+  gap:18px;
+}
+
+.v314-ticket-queue{
+  padding:16px;
+  border-radius:20px;
+  color:#fff;
+  background:linear-gradient(180deg,#0f214d,#0a1737);
+  box-shadow:0 18px 32px rgba(16,31,66,.20);
+}
+
+.v314-ticket-title{
+  margin-bottom:15px;
+  font-size:18px;
+  font-weight:1000;
+}
+
+.v314-ticket-group{
+  margin-bottom:17px;
+}
+
+.v314-ticket-group>b{
+  display:block;
+  margin-bottom:8px;
+  color:#9edfff;
+  font-size:11px;
+}
+
+.v314-ticket{
+  margin-bottom:7px;
+  padding:9px 10px;
+  border-radius:11px;
+  border:1px solid rgba(255,255,255,.08);
+  background:rgba(255,255,255,.06);
+  color:#d9e6ff;
+  font-size:10px;
+  line-height:1.35;
+}
+
+.v314-ticket.current{
+  color:#fff;
+  border-color:#7d84ff;
+  background:rgba(92,96,238,.28);
+}
+
+.v314-ticket.done{
+  color:#dffff0;
+  border-color:rgba(68,211,151,.35);
+  background:rgba(68,211,151,.15);
+}
+
+.v314-exam-area{
+  position:relative;
+  min-height:600px;
+  padding:18px 18px 165px;
+  overflow:hidden;
+  border-radius:23px;
+  border:1px solid #c8d5e2;
+  background:
+    linear-gradient(180deg,#cbd9e5 0 58%,#6d7680 58% 65%,#8d5c3d 65% 100%);
+  box-shadow:0 18px 35px rgba(24,42,79,.13);
+}
+
+.v314-exam-monitor{
+  position:absolute;
+  left:21%;
+  top:9%;
+  width:43%;
+  height:39%;
+  border:12px solid #1e2736;
+  border-bottom-width:18px;
+  border-radius:16px;
+  background:#183a68;
+  box-shadow:0 16px 28px rgba(17,31,58,.22);
+}
+
+.v314-exam-monitor:before{
+  content:"";
+  position:absolute;
+  left:50%;
+  bottom:-56px;
+  width:102px;
+  height:11px;
+  transform:translateX(-50%);
+  border-radius:10px;
+  background:#293345;
+  box-shadow:0 -28px 0 -2px #293345;
+}
+
+.v314-exam-screen{
+  position:absolute;
+  inset:0;
+  padding:15px;
+  color:#fff;
+  background:
+    radial-gradient(circle at 72% 18%,rgba(104,188,255,.22),transparent 28%),
+    linear-gradient(145deg,#12396f,#215a91);
+}
+
+.v314-exam-screen>span{
+  display:inline-block;
+  padding:5px 8px;
+  border-radius:999px;
+  background:rgba(255,255,255,.13);
+  font-size:8px;
+  font-weight:1000;
+}
+
+.v314-exam-screen h3{
+  margin:11px 0 8px;
+  font-size:19px;
+  line-height:1.2;
+}
+
+.v314-exam-screen p{
+  margin:0;
+  color:#e4efff;
+  font-size:11px;
+  line-height:1.5;
+}
+
+.v314-exam-screen small{
+  display:block;
+  margin-top:9px;
+  color:#9ee8db;
+  font-size:8px;
+  font-weight:800;
+}
+
+.v314-exam-tower{
+  position:absolute;
+  right:13%;
+  top:13%;
+  width:13%;
+  height:36%;
+  border-radius:14px;
+  border:2px solid #131a24;
+  background:linear-gradient(90deg,#151b24,#36404e 18%,#242d39 82%,#111720);
+  box-shadow:0 14px 25px rgba(17,27,46,.24);
+}
+
+.v314-exam-tower:before{
+  content:"";
+  position:absolute;
+  left:18%;
+  right:18%;
+  top:15%;
+  height:10%;
+  border-radius:4px;
+  background:#101720;
+  box-shadow:0 30px 0 #101720;
+}
+
+.v314-exam-tower i{
+  position:absolute;
+  right:9px;
+  top:10px;
+  width:8px;
+  height:8px;
+  border-radius:50%;
+  background:#54e1a0;
+  box-shadow:0 0 10px #54e1a0;
+}
+
+.v314-exam-desk{
+  position:absolute;
+  left:5%;
+  right:5%;
+  bottom:14%;
+  height:26%;
+  border-radius:15px;
+  border-top:4px solid #b77b53;
+  background:linear-gradient(180deg,#9d6846,#70462f);
+  box-shadow:0 18px 28px rgba(52,34,23,.22);
+}
+
+.v314-choice-grid{
+  position:absolute;
+  left:4%;
+  right:4%;
+  bottom:3%;
+  z-index:20;
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:10px;
+}
+
+.v314-choice{
+  min-height:64px !important;
+  padding:10px 12px !important;
+  display:flex !important;
+  align-items:center !important;
+  gap:9px !important;
+  border-radius:14px !important;
+  border:2px solid #d3deea !important;
+  background:#fff !important;
+  color:#273a61 !important;
+  text-align:left !important;
+  font-size:10px !important;
+  font-weight:900 !important;
+  line-height:1.35 !important;
+  box-shadow:0 9px 18px rgba(31,48,81,.09) !important;
+  transition:.18s ease !important;
+}
+
+.v314-choice:hover,
+.v314-choice.target{
+  transform:translateY(-2px);
+  border-color:#7169f6 !important;
+  box-shadow:0 0 0 4px rgba(113,105,246,.12),0 13px 22px rgba(52,61,143,.15) !important;
+}
+
+.v314-choice>span{
+  width:28px;
+  height:28px;
+  min-width:28px;
+  display:grid;
+  place-items:center;
+  border-radius:9px;
+  background:#eef0ff;
+  color:#534de0;
+  font-size:11px;
+  font-weight:1000;
+}
+
+.v314-part-complete{
+  text-align:center;
+}
+
+.v314-part-party{
+  margin-bottom:10px;
+  font-size:27px;
+}
+
+.v314-part-next{
+  margin:15px 0;
+  padding:16px;
+  border-radius:18px;
+  color:#fff;
+  background:linear-gradient(135deg,#5d61ed,#28bec4);
+}
+
+.v314-part-next b,
+.v314-part-next small{
+  display:block;
+}
+
+.v314-part-next b{
+  font-size:20px;
+}
+
+.v314-part-next small{
+  margin-top:5px;
+  color:#eaffff;
+  font-size:12px;
+}
+
+@media(max-width:1050px){
+  .v314-final-layout{grid-template-columns:1fr}
+  .v314-ticket-queue{display:none}
+}
+
+@media(max-width:720px){
+  .v314-final-mission{padding:10px}
+  .v314-exam-area{min-height:780px;padding-bottom:300px}
+  .v314-exam-monitor{left:8%;top:8%;width:62%;height:32%}
+  .v314-exam-tower{right:5%;top:13%;width:19%;height:29%}
+  .v314-exam-desk{bottom:37%;height:19%}
+  .v314-choice-grid{grid-template-columns:1fr;bottom:2%}
+  .v314-choice{min-height:58px !important}
+  .v314-question-count{margin-left:0}
+}
