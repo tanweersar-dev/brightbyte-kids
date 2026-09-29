@@ -2522,4 +2522,118 @@ function showCertificate(){
 }
 
 
+/* ============================================================
+   V31.5 — DIRECT STAGE 5 TEST LINK
+   URL: ?stage=5&test=1
+   Test mode bypasses the stage lock only for Stage 5.
+   Test-mode progress is NOT saved to student certification data.
+   ============================================================ */
+
+const V315_QUERY = new URLSearchParams(window.location.search);
+const V315_DIRECT_STAGE5_TEST =
+  V315_QUERY.get("test") === "1" &&
+  V315_QUERY.get("stage") === "5";
+
+/* Keep test-mode mistakes/hints/completion out of saved student progress. */
+const v315SaveStateOriginal = saveState;
+saveState = function(){
+  if(V315_DIRECT_STAGE5_TEST && activeStage === 5){
+    renderHeaderStats();
+    return;
+  }
+  return v315SaveStateOriginal();
+};
+
+/* Allow Stage 5 to open from the special test URL without permanently unlocking it. */
+const v315OpenStageOriginal = openStage;
+openStage = function(id){
+  const stageId = Number(id);
+
+  if(V315_DIRECT_STAGE5_TEST && stageId === 5 && state){
+    const originalUnlocked = Number(state.unlocked || 1);
+    state.unlocked = Math.max(originalUnlocked, 5);
+
+    try{
+      return v315OpenStageOriginal(5);
+    }finally{
+      state.unlocked = originalUnlocked;
+    }
+  }
+
+  return v315OpenStageOriginal(stageId);
+};
+
+/* Finishing Stage 5 from the test shortcut must not issue the real certificate. */
+const v315FinishStageOriginal = finishStage;
+finishStage = function(){
+  if(V315_DIRECT_STAGE5_TEST && activeStage === 5){
+    if(state){
+      state.stage5ABPassed = false;
+    }
+
+    feedback(
+      "✅ Stage 5 test completed. Test-mode progress was not saved.",
+      "good",
+      true
+    );
+
+    openModal(`
+      <div class="v312-complete-modal">
+        <div class="v312-modal-party">🧪 🎉 ⭐ 🏆 ⭐ 🎉 🧪</div>
+        <h2>Stage 5 Test Complete!</h2>
+        <p>You finished Stage 5-A and Stage 5-B in testing mode.</p>
+        <div class="v312-learning-note good">
+          This shortcut is for checking the final exam only. It does not unlock the real certificate or save Stage 5 as officially completed.
+        </div>
+        <div class="modal-actions">
+          <button class="soft" id="v315ReplayStage5" type="button">↺ Replay Stage 5</button>
+          <button class="go" id="v315ExitTest" type="button">🌌 Return to Student Home</button>
+        </div>
+      </div>
+    `);
+
+    $("v315ReplayStage5").onclick = ()=>{
+      closeModal();
+      openStage(5);
+    };
+
+    $("v315ExitTest").onclick = ()=>{
+      location.href = "advanced-universe.html";
+    };
+
+    return;
+  }
+
+  return v315FinishStageOriginal();
+};
+
+function v315OpenDirectStage5WhenReady(){
+  if(!V315_DIRECT_STAGE5_TEST) return;
+
+  if(!profile || !state){
+    setTimeout(v315OpenDirectStage5WhenReady, 120);
+    return;
+  }
+
+  if(activeStage === 5) return;
+
+  openStage(5);
+
+  setTimeout(()=>{
+    if($("workStatusText")){
+      $("workStatusText").textContent = "Stage 5 Test Mode • Progress Not Saved";
+    }
+    if($("environmentTag")){
+      $("environmentTag").textContent = "TEST MODE • FINAL EXAM";
+    }
+    if($("safetyRule")){
+      $("safetyRule").textContent = "Testing shortcut only. Complete the normal Stage 1 → 5 path for the official certificate.";
+    }
+    toast("🧪 Stage 5 test mode opened directly");
+  },80);
+}
+
+setTimeout(v315OpenDirectStage5WhenReady, 120);
+
+
 })();
