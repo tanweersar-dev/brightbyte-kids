@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#081532">
+  <title>Junior Digital & AI Technician Lab — Tannu Sir's Kids Digital Academy</title>
+  <link rel="stylesheet" href="junior-technician-lab.css?v=24.0">
+</head>
+<body>
+  <div class="ambient ambient-a"></div>
+  <div class="ambient ambient-b"></div>
+  <div class="grid-floor" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <a class="brand" href="advanced-universe.html">
+      <span class="brand-mark">T</span>
+      <span>
+        <b>Junior Digital & AI Technician Lab</b>
+        <small>CLASS 4–6 • 5-STAGE PRACTICAL CERTIFICATION</small>
+      </span>
+    </a>
+
+    <div class="top-actions">
+      <span id="studentChip" class="chip">👤 Student</span>
+      <span id="classChip" class="chip">🎓 Class —</span>
+      <span id="scoreChip" class="chip accent-chip">⭐ 0 XP</span>
+      <button id="voiceBtn" class="chip button-chip" type="button">🔊 Voice On</button>
+      <a class="chip button-chip" href="advanced-universe.html">🌌 Universe</a>
+      <button id="resetBtn" class="chip button-chip danger" type="button">↺ Reset Lab</button>
+    </div>
+  </header>
+
+  <main class="app-shell">
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">SELF-LEARNING PRACTICAL SIMULATOR</span>
+        <h1>See it. Touch it. Fix it.</h1>
+        <p>
+          Follow the mission instructions, work inside realistic digital lab environments,
+          receive instant feedback, and unlock the next stage by proving the skill yourself.
+        </p>
+        <div class="hero-tags">
+          <span>🖥️ Hardware</span>
+          <span>🪟 Software</span>
+          <span>🤖 AI</span>
+          <span>🛡️ Cyber Safety</span>
+          <span>🔧 Troubleshooting</span>
+        </div>
+      </div>
+      <div class="hero-console">
+        <div class="console-head">
+          <span class="status-dot"></span>
+          <b>TECHNICIAN TRAINING CONSOLE</b>
+        </div>
+        <div class="console-grid">
+          <div><small>STAGES CLEARED</small><b id="heroStages">0 / 5</b></div>
+          <div><small>ACCURACY</small><b id="heroAccuracy">100%</b></div>
+          <div><small>HINTS USED</small><b id="heroHints">0</b></div>
+          <div><small>CERTIFICATE</small><b id="heroCertificate">Locked</b></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="stage-map-wrap">
+      <div class="section-title">
+        <div>
+          <span class="eyebrow dark">YOUR CERTIFICATION PATH</span>
+          <h2>Crack all 5 stages</h2>
+          <p>Each stage unlocks only after the previous stage is passed.</p>
+        </div>
+        <button id="certificateBtn" class="primary-btn locked-action" type="button" disabled>🏆 Certificate Locked</button>
+      </div>
+      <div id="stageMap" class="stage-map"></div>
+    </section>
+
+    <section id="labShell" class="lab-shell hidden">
+      <aside class="mission-panel">
+        <div class="mission-stage">
+          <span id="stageNumber">STAGE 1</span>
+          <b id="stageName">Port & Device Master</b>
+        </div>
+
+        <div class="mission-progress">
+          <div><span>Mission Progress</span><b id="missionPercent">0%</b></div>
+          <div class="progress-track"><i id="missionBar"></i></div>
+        </div>
+
+        <div class="instruction-card">
+          <span class="instruction-label">CURRENT INSTRUCTION</span>
+          <h3 id="missionTitle">Loading mission…</h3>
+          <p id="missionText">Please wait.</p>
+          <div class="instruction-actions">
+            <button id="hearInstruction" class="small-btn" type="button">🔊 Hear</button>
+            <button id="hintBtn" class="small-btn warn" type="button">💡 Hint</button>
+          </div>
+        </div>
+
+        <div id="stepList" class="step-list"></div>
+
+        <div class="mission-footer">
+          <span id="mistakeStat">❌ Mistakes: 0</span>
+          <span id="hintStat">💡 Hints: 0</span>
+        </div>
+      </aside>
+
+      <section class="work-area">
+        <div class="work-top">
+          <div>
+            <span id="environmentTag" class="environment-tag">IT WORKBENCH</span>
+            <h2 id="environmentTitle">Technician Workbench</h2>
+          </div>
+          <div class="work-status">
+            <span class="mini-led green"></span>
+            <span id="workStatusText">Training Mode</span>
+          </div>
+        </div>
+
+        <div id="learnPanel" class="learn-panel"></div>
+        <div id="simulator" class="simulator"></div>
+
+        <div id="feedback" class="feedback info" role="status" aria-live="polite">
+          Follow the instruction shown on the left.
+        </div>
+      </section>
+
+      <aside class="tool-panel">
+        <div class="tool-head">
+          <span>🧰</span>
+          <div><b>Technician Toolkit</b><small>Use only when needed</small></div>
+        </div>
+        <button class="tool-btn" id="inspectBtn" type="button">🔦 Inspect Mode</button>
+        <button class="tool-btn" id="showMeBtn" type="button">👀 Show Me</button>
+        <button class="tool-btn" id="notesBtn" type="button">📋 Mission Notes</button>
+        <button class="tool-btn ai-tool" id="aiHelperBtn" type="button">🤖 Safe AI Helper</button>
+
+        <div class="tool-separator"></div>
+        <div class="safety-card">
+          <b>🛡️ Safety Rule</b>
+          <p id="safetyRule">Never open a PSU/SMPS casing. This simulator teaches safe identification and connection only.</p>
+        </div>
+      </aside>
+    </section>
+  </main>
+
+  <div id="modal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-card">
+      <button id="modalClose" class="modal-close" type="button">×</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <section id="certificatePrint" class="certificate-print" aria-hidden="true">
+    <div class="certificate-frame">
+      <div class="cert-topline">TANNU SIR'S KIDS DIGITAL ACADEMY</div>
+      <div class="cert-emblem">T</div>
+      <h1>Certificate of Achievement</h1>
+      <p class="cert-sub">This certifies that</p>
+      <h2 id="certName">Student Name</h2>
+      <p>has successfully completed the five-stage practical certification and demonstrated age-appropriate skills in</p>
+      <div class="cert-skills">Computer Hardware • Windows & Software • AI Literacy • Cyber Safety • Troubleshooting</div>
+      <h3>Junior Digital & AI Technician — Level 2</h3>
+      <div class="cert-meta">
+        <span>Class: <b id="certClass">—</b></span>
+        <span>Final Score: <b id="certScore">—</b></span>
+        <span>Date: <b id="certDate">—</b></span>
+        <span>Certificate ID: <b id="certId">—</b></span>
+      </div>
+      <div class="cert-sign">
+        <div><i></i><b>Tannu Sir</b><small>Academy Mentor</small></div>
+        <div><i></i><b>Verified Practical Path</b><small>5 Stages Completed</small></div>
+      </div>
+    </div>
+  </section>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="junior-technician-lab.js?v=24.0"></script>
+</body>
+</html>
