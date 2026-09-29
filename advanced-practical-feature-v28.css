@@ -1,0 +1,191 @@
+/* ============================================================
+   V28 — FEATURED 5-STAGE PRACTICAL LAB CARD
+   Class 4–6 Advanced Universe
+   Safe add-on after V27
+   ============================================================ */
+
+.adv-practical-feature{
+  margin:18px 0 24px;
+  position:relative;
+  overflow:hidden;
+  border-radius:28px;
+  background:
+    radial-gradient(circle at 86% 18%,rgba(69,225,207,.24),transparent 25%),
+    radial-gradient(circle at 18% 82%,rgba(126,95,255,.28),transparent 28%),
+    linear-gradient(135deg,#111747 0%,#1b245f 58%,#07556a 100%);
+  color:#fff;
+  box-shadow:0 24px 65px rgba(35,38,103,.22);
+  border:1px solid rgba(255,255,255,.12);
+}
+.adv-practical-feature:before{
+  content:"";
+  position:absolute; inset:0; pointer-events:none; opacity:.22;
+  background-image:
+    linear-gradient(rgba(255,255,255,.05) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,.05) 1px,transparent 1px);
+  background-size:34px 34px;
+  mask-image:linear-gradient(to right,transparent,#000 30%,#000);
+}
+.adv-practical-feature-inner{
+  position:relative; z-index:2;
+  display:grid;
+  grid-template-columns:210px minmax(0,1fr) 330px;
+  gap:22px; align-items:center; padding:24px;
+}
+.adv-lab-visual{
+  position:relative; min-height:205px; border-radius:23px; overflow:hidden;
+  background:linear-gradient(180deg,#dbe9f5 0 58%,#56616f 58% 100%);
+  border:1px solid rgba(255,255,255,.24);
+  box-shadow:inset 0 0 35px rgba(13,27,59,.13),0 18px 35px rgba(0,0,0,.18);
+}
+.adv-lab-wall-label{
+  position:absolute; left:11px; top:10px; padding:5px 7px; border-radius:999px;
+  background:#101a35d9; color:#dffef9; font-size:6px; font-weight:1000; letter-spacing:.7px;
+}
+.adv-lab-desk{
+  position:absolute; left:7%; right:7%; bottom:10%; height:22%;
+  border-radius:10px; background:linear-gradient(180deg,#926245,#5e3e2c);
+  box-shadow:0 12px 20px rgba(0,0,0,.2);
+}
+.adv-lab-monitor{
+  position:absolute; left:17%; top:28%; width:44%; height:31%;
+  border:8px solid #27334a; border-radius:9px;
+  background:linear-gradient(145deg,#132447,#2d7394);
+  box-shadow:0 9px 18px rgba(0,0,0,.18);
+}
+.adv-lab-monitor:before{
+  content:"AI"; position:absolute; inset:0; display:grid; place-items:center;
+  color:#70f4df; font-size:24px; font-weight:1000; text-shadow:0 0 16px #47ddce;
+}
+.adv-lab-monitor:after{
+  content:""; position:absolute; left:50%; bottom:-27px; width:45px; height:6px;
+  border-radius:5px; background:#303a4e; transform:translateX(-50%);
+  box-shadow:0 -14px 0 #303a4e;
+}
+.adv-lab-tower{
+  position:absolute; right:15%; top:30%; width:18%; height:43%;
+  border-radius:9px; background:linear-gradient(90deg,#151b26,#3c485b 14% 86%,#151b26);
+  border:2px solid #111722; box-shadow:0 9px 18px rgba(0,0,0,.2);
+}
+.adv-lab-tower:before{
+  content:""; position:absolute; width:6px; height:6px; right:8px; top:10px;
+  border-radius:50%; background:#52e4a6; box-shadow:0 0 11px #52e4a6;
+}
+.adv-lab-board{
+  position:absolute; right:5%; top:12%; width:29%; height:22%;
+  border-radius:8px; background:linear-gradient(145deg,#2b8a69,#14543f);
+  border:2px solid #0d3a2d; transform:rotate(4deg); box-shadow:0 7px 14px rgba(0,0,0,.15);
+}
+.adv-lab-board:before,.adv-lab-board:after{
+  content:""; position:absolute; border-radius:3px; background:#dbcf83;
+}
+.adv-lab-board:before{left:16%;top:20%;width:28%;height:35%}
+.adv-lab-board:after{right:15%;top:12%;width:9%;height:65%;background:#4b5967}
+.adv-lab-cable{
+  position:absolute; left:50%; top:58%; width:34%; height:34%;
+  border-left:4px solid #ffd45f; border-bottom:4px solid #ffd45f;
+  border-radius:0 0 0 18px; transform:rotate(-5deg); opacity:.9;
+}
+.adv-lab-bot{
+  position:absolute; left:7%; bottom:10%; width:42px; height:42px;
+  border-radius:14px; display:grid; place-items:center; font-size:23px;
+  background:linear-gradient(135deg,#7867ff,#27cdbc);
+  box-shadow:0 0 22px rgba(76,222,210,.38);
+}
+.adv-lab-live{
+  position:absolute; right:10px; bottom:9px; display:flex; align-items:center; gap:5px;
+  padding:5px 7px; border-radius:999px; background:#0f1937e6;
+  font-size:6px; font-weight:1000; color:#bdf7ee;
+}
+.adv-lab-live i{
+  width:6px;height:6px;border-radius:50%;background:#4be1a2;box-shadow:0 0 9px #4be1a2;
+  animation:advLabPulse 1.3s ease-in-out infinite;
+}
+@keyframes advLabPulse{50%{opacity:.4;transform:scale(.72)}}
+
+.adv-practical-kicker{
+  display:inline-flex; align-items:center; gap:6px; padding:7px 9px; border-radius:999px;
+  background:#ffffff12; border:1px solid #ffffff14; color:#bdfaf2;
+  font-size:7px; font-weight:1000; letter-spacing:.8px;
+}
+.adv-practical-copy h2{
+  margin:10px 0 6px; color:#fff; font-size:clamp(25px,3vw,38px);
+  line-height:1.04; letter-spacing:-.9px;
+}
+.adv-practical-copy p{
+  margin:0; max-width:760px; color:#cbd5f3; font-size:10px; line-height:1.65;
+}
+.adv-practical-skills{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px}
+.adv-practical-skills span{
+  padding:7px 8px;border-radius:999px;background:#ffffff0e;border:1px solid #ffffff12;
+  color:#eff5ff;font-size:7px;font-weight:900;
+}
+.adv-practical-progress{
+  padding:16px;border-radius:20px;background:#071633c9;
+  border:1px solid rgba(93,235,222,.18);
+  box-shadow:inset 0 0 30px rgba(72,231,217,.04);
+}
+.adv-progress-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.adv-progress-head small,.adv-progress-head b{display:block}
+.adv-progress-head small{color:#84a7c7;font-size:7px;letter-spacing:.7px;font-weight:1000}
+.adv-progress-head b{margin-top:3px;color:#fff;font-size:15px}
+.adv-progress-percent{
+  min-width:47px;height:47px;border-radius:15px;display:grid;place-items:center;
+  background:linear-gradient(135deg,#7765ff,#28cfc0);color:#fff;font-size:11px;font-weight:1000;
+  box-shadow:0 8px 20px rgba(73,115,208,.22);
+}
+.adv-progress-bar{height:8px;margin-top:11px;overflow:hidden;border-radius:999px;background:#ffffff0c}
+.adv-progress-bar i{
+  display:block;height:100%;width:0;border-radius:999px;
+  background:linear-gradient(90deg,#7867ff,#49e7dc,#ffd45f);transition:.35s ease;
+}
+.adv-stage-mini-map{display:grid;grid-template-columns:repeat(5,1fr);gap:5px;margin-top:11px}
+.adv-stage-dot{
+  min-width:0;padding:7px 3px;border-radius:10px;text-align:center;
+  background:#ffffff08;border:1px solid #ffffff0a;
+}
+.adv-stage-dot span,.adv-stage-dot small{display:block}
+.adv-stage-dot span{font-size:14px}
+.adv-stage-dot small{margin-top:3px;color:#899fc0;font-size:5.7px;font-weight:900}
+.adv-stage-dot.done{background:#174c42;border-color:#2b7966}
+.adv-stage-dot.done small{color:#a3e5d0}
+.adv-stage-dot.ready{background:#363064;border-color:#7867ff;box-shadow:0 0 0 2px rgba(120,103,255,.12)}
+.adv-stage-dot.ready small{color:#ddd8ff}
+.adv-practical-start{
+  width:100%;min-height:45px;margin-top:12px;border:0;border-radius:13px;
+  display:flex;justify-content:center;align-items:center;gap:8px;text-decoration:none;
+  background:linear-gradient(135deg,#ffd55f,#ff9d55);color:#5d3b08;
+  font-size:10px;font-weight:1000;box-shadow:0 10px 24px rgba(255,185,77,.18);transition:.18s;
+}
+.adv-practical-start:hover{transform:translateY(-2px);box-shadow:0 13px 28px rgba(255,185,77,.28)}
+.adv-practical-note{
+  display:block;margin-top:8px;text-align:center;color:#8ca6c6;font-size:6.5px;line-height:1.45;
+}
+
+/* old tiny shortcut hidden because the big featured lab replaces it */
+.section-actions a[href="junior-technician-lab.html"]{display:none !important}
+
+@media(max-width:1050px){
+  .adv-practical-feature-inner{grid-template-columns:180px minmax(0,1fr)}
+  .adv-practical-progress{
+    grid-column:1/-1;display:grid;grid-template-columns:180px 1fr;gap:13px;align-items:center;
+  }
+  .adv-progress-head,.adv-progress-bar{grid-column:1}
+  .adv-stage-mini-map{grid-column:2;grid-row:1 / span 2;margin-top:0}
+  .adv-practical-start,.adv-practical-note{grid-column:1/-1}
+}
+@media(max-width:700px){
+  .adv-practical-feature{border-radius:22px}
+  .adv-practical-feature-inner{grid-template-columns:1fr;gap:14px;padding:15px}
+  .adv-lab-visual{min-height:190px}
+  .adv-practical-copy h2{font-size:27px}
+  .adv-practical-copy p{font-size:9px}
+  .adv-practical-progress{display:block;padding:13px}
+  .adv-stage-mini-map{margin-top:10px}
+  .adv-practical-start{min-height:50px;font-size:11px}
+}
+@media(max-width:390px){
+  .adv-practical-skills{display:grid;grid-template-columns:1fr 1fr}
+  .adv-practical-skills span{text-align:center}
+  .adv-stage-dot small{font-size:5px}
+}
