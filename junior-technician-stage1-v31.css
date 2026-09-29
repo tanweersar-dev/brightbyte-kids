@@ -807,3 +807,1153 @@
     height:7.5% !important;
   }
 }
+/* ============================================================
+   V31.2 — Celebration + Level 2 Full PC Assembly
+   Append to existing junior-technician-stage1-v31.css
+   ============================================================ */
+
+
+/* ===================== CELEBRATION ===================== */
+
+.v312-confetti-layer{
+  position:absolute;
+  inset:0;
+  overflow:hidden;
+  pointer-events:none;
+  z-index:90;
+}
+
+.v312-confetti-layer span{
+  position:absolute;
+  top:-50px;
+  animation:
+    v312ConfettiFall
+    3.5s linear forwards;
+}
+
+@keyframes v312ConfettiFall{
+
+  0%{
+    transform:
+      translateY(-50px)
+      rotate(0deg)
+      scale(.8);
+    opacity:1;
+  }
+
+  70%{
+    opacity:1;
+  }
+
+  100%{
+    transform:
+      translateY(750px)
+      rotate(760deg)
+      scale(1.15);
+    opacity:0;
+  }
+
+}
+
+
+/* Stage 1 monitor celebration */
+
+.monitor-device{
+  overflow:visible;
+}
+
+.v312-monitor-success{
+  position:absolute;
+  inset:3px;
+  z-index:20;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  text-align:center;
+
+  border-radius:4px;
+
+  color:#fff;
+
+  background:
+    radial-gradient(
+      circle at 50% 10%,
+      rgba(255,231,112,.38),
+      transparent 30%
+    ),
+    linear-gradient(
+      145deg,
+      #143b80,
+      #5f48dc 52%,
+      #157d91
+    );
+
+  box-shadow:
+    inset 0 0 35px
+    rgba(255,255,255,.13);
+
+  animation:
+    v312ScreenSuccess
+    .7s ease both;
+}
+
+@keyframes v312ScreenSuccess{
+
+  from{
+    opacity:0;
+    transform:scale(.7);
+  }
+
+  to{
+    opacity:1;
+    transform:scale(1);
+  }
+
+}
+
+.v312-success-stars{
+  font-size:18px;
+  margin-bottom:5px;
+  animation:
+    v312PartyPulse
+    .8s ease-in-out infinite alternate;
+}
+
+.v312-success-icon{
+  font-size:36px;
+  filter:
+    drop-shadow(
+      0 6px 8px
+      rgba(0,0,0,.24)
+    );
+}
+
+.v312-monitor-success b{
+  margin-top:2px;
+
+  font-size:20px;
+  font-weight:1000;
+  letter-spacing:.3px;
+}
+
+.v312-monitor-success strong{
+  margin-top:4px;
+
+  padding:5px 10px;
+
+  border-radius:999px;
+
+  font-size:10px;
+
+  background:
+    rgba(255,255,255,.16);
+}
+
+.v312-monitor-success small{
+  margin-top:6px;
+
+  color:#e4efff;
+
+  font-size:8px;
+}
+
+.v312-screen-score{
+  margin-top:7px;
+
+  padding:5px 9px;
+
+  border-radius:8px;
+
+  color:#ffe884;
+
+  background:
+    rgba(6,19,52,.32);
+
+  font-size:8px;
+  font-weight:1000;
+}
+
+.v312-stage-unlocked{
+  margin-top:6px;
+
+  color:#aaffd8;
+
+  font-size:9px;
+  font-weight:1000;
+
+  animation:
+    v312PartyPulse
+    .75s ease-in-out
+    infinite alternate;
+}
+
+
+@keyframes v312PartyPulse{
+
+  from{
+    transform:scale(.96);
+  }
+
+  to{
+    transform:scale(1.07);
+  }
+
+}
+
+
+/* Stage 2 success */
+
+.v312-stage2-success{
+  position:absolute;
+  inset:6% 9%;
+  z-index:80;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  padding:25px;
+
+  text-align:center;
+
+  border-radius:28px;
+
+  color:#fff;
+
+  background:
+    radial-gradient(
+      circle at 50% 15%,
+      rgba(255,222,86,.25),
+      transparent 25%
+    ),
+    linear-gradient(
+      145deg,
+      rgba(26,39,99,.98),
+      rgba(93,66,207,.98),
+      rgba(19,139,143,.98)
+    );
+
+  border:
+    2px solid
+    rgba(255,255,255,.18);
+
+  box-shadow:
+    0 25px 60px
+    rgba(16,25,66,.35);
+
+  animation:
+    v312SuccessPop
+    .7s cubic-bezier(.2,.8,.2,1);
+}
+
+@keyframes v312SuccessPop{
+
+  from{
+    opacity:0;
+    transform:
+      scale(.65)
+      rotate(-2deg);
+  }
+
+  to{
+    opacity:1;
+    transform:
+      scale(1)
+      rotate(0);
+  }
+
+}
+
+.v312-celebrate-icons{
+  font-size:25px;
+
+  animation:
+    v312PartyPulse
+    .7s infinite alternate;
+}
+
+.v312-big-trophy{
+  font-size:65px;
+  margin:5px 0;
+}
+
+.v312-stage2-success h2{
+  margin:3px 0 6px;
+
+  font-size:28px;
+}
+
+.v312-stage2-success p{
+  max-width:520px;
+
+  margin:0;
+
+  color:#dfe9ff;
+
+  font-size:11px;
+  line-height:1.6;
+}
+
+.v312-installed-list{
+  margin:13px 0;
+
+  padding:11px 18px;
+
+  border-radius:15px;
+
+  text-align:left;
+
+  color:#e8fff4;
+
+  background:
+    rgba(5,20,55,.27);
+
+  font-size:10px;
+  line-height:1.6;
+}
+
+.v312-stage2-success strong{
+  color:#ffe58a;
+}
+
+.v312-stage2-success>span{
+  margin-top:9px;
+
+  font-size:10px;
+  font-weight:1000;
+}
+
+
+/* Completion modal */
+
+.v312-complete-modal{
+  text-align:center;
+}
+
+.v312-modal-party{
+  margin-bottom:8px;
+
+  font-size:25px;
+
+  animation:
+    v312PartyPulse
+    .75s infinite alternate;
+}
+
+.v312-learning-note{
+  margin:12px 0;
+
+  padding:10px 12px;
+
+  border-radius:13px;
+
+  color:#805f12;
+
+  background:#fff2c7;
+
+  font-size:10px;
+  line-height:1.5;
+}
+
+.v312-learning-note.good{
+  color:#16644f;
+  background:#ddf8ed;
+}
+
+.v312-next-banner{
+  margin-top:14px;
+
+  padding:12px;
+
+  border-radius:15px;
+
+  color:#fff;
+
+  background:
+    linear-gradient(
+      135deg,
+      #6158ef,
+      #25bfba
+    );
+
+  font-weight:1000;
+}
+
+.v312-next-banner small{
+  display:block;
+
+  margin-top:4px;
+
+  color:#eaffff;
+}
+
+.v312-next-button{
+  min-width:190px;
+
+  animation:
+    v312NextGlow
+    1.25s infinite alternate;
+}
+
+@keyframes v312NextGlow{
+
+  from{
+    box-shadow:
+      0 8px 18px
+      rgba(90,87,238,.18);
+  }
+
+  to{
+    box-shadow:
+      0 8px 28px
+      rgba(44,207,195,.48);
+  }
+
+}
+
+
+/* ============================================================
+   LEVEL 2 PC ASSEMBLY LAB
+   ============================================================ */
+
+.v312-case-stage{
+  position:absolute;
+  inset:0;
+
+  min-height:100%;
+
+  padding:18px;
+
+  background:
+    radial-gradient(
+      circle at 15% 10%,
+      rgba(113,102,255,.12),
+      transparent 26%
+    ),
+    linear-gradient(
+      145deg,
+      #dbe6f2,
+      #f3f7fb
+    );
+}
+
+.v312-assembly-progress{
+  position:absolute;
+  right:18px;
+  top:16px;
+
+  z-index:8;
+
+  padding:8px 11px;
+
+  border-radius:999px;
+
+  color:#fff;
+
+  background:#13264e;
+
+  font-size:8px;
+  font-weight:900;
+}
+
+.v312-assembly-progress b{
+  color:#74f0d2;
+}
+
+
+/* PC CASE */
+
+.v312-pc-case{
+  position:absolute;
+
+  left:4%;
+  top:11%;
+
+  width:67%;
+  height:70%;
+
+  border-radius:22px;
+
+  background:
+    linear-gradient(
+      145deg,
+      #252e3c,
+      #111824
+    );
+
+  border:
+    8px solid
+    #333e4d;
+
+  box-shadow:
+    inset 0 0 0 2px #0b1018,
+    0 22px 40px rgba(28,37,54,.28);
+
+  overflow:hidden;
+}
+
+
+/* motherboard area */
+
+.v312-motherboard-bay{
+  position:absolute;
+
+  left:4%;
+  top:5%;
+
+  width:65%;
+  height:68%;
+
+  border-radius:14px;
+
+  border:
+    2px dashed
+    #738295;
+
+  background:#161f2b;
+
+  cursor:pointer;
+
+  transition:.2s;
+}
+
+.v312-empty-board{
+  position:absolute;
+  inset:0;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  color:#aab8c9;
+
+  text-align:center;
+}
+
+.v312-empty-board span{
+  font-size:35px;
+}
+
+.v312-empty-board b{
+  margin-top:5px;
+
+  color:#d9e5f2;
+
+  font-size:13px;
+}
+
+.v312-empty-board small{
+  margin-top:5px;
+
+  font-size:8px;
+}
+
+
+/* Real motherboard look */
+
+.v312-motherboard{
+  position:absolute;
+  inset:3%;
+
+  border-radius:9px;
+
+  overflow:hidden;
+
+  background:
+    radial-gradient(
+      circle at 20% 18%,
+      #adcdaa 0 2px,
+      transparent 3px
+    ),
+    radial-gradient(
+      circle at 75% 75%,
+      #adcdaa 0 2px,
+      transparent 3px
+    ),
+    linear-gradient(
+      145deg,
+      #315a43,
+      #183c31
+    );
+
+  border:
+    3px solid
+    #12291f;
+
+  box-shadow:
+    inset 0 0 35px
+    rgba(8,25,18,.30);
+}
+
+.v312-mb-title{
+  position:absolute;
+
+  left:7px;
+  bottom:7px;
+
+  color:#bcddc9;
+
+  font-size:6px;
+  font-weight:1000;
+  letter-spacing:1px;
+}
+
+.v312-trace{
+  position:absolute;
+
+  height:2px;
+
+  background:
+    rgba(191,218,177,.28);
+
+  transform-origin:left center;
+}
+
+.v312-trace.t1{
+  left:8%;
+  top:20%;
+  width:60%;
+  transform:rotate(19deg);
+}
+
+.v312-trace.t2{
+  left:18%;
+  top:68%;
+  width:67%;
+  transform:rotate(-18deg);
+}
+
+.v312-trace.t3{
+  left:45%;
+  top:8%;
+  width:40%;
+  transform:rotate(74deg);
+}
+
+
+/* component slots */
+
+.v312-hardware-slot,
+.v312-drive-slot,
+.v312-psu-bay{
+  cursor:pointer;
+
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease;
+}
+
+.v312-hardware-slot:hover,
+.v312-drive-slot:hover,
+.v312-psu-bay:hover{
+  transform:scale(1.025);
+}
+
+.v312-hardware-slot{
+  position:absolute;
+
+  display:flex;
+  align-items:center;
+  justify-content:center;
+
+  color:#d6e6db;
+
+  background:
+    rgba(8,28,21,.70);
+
+  border:
+    2px solid
+    rgba(176,208,187,.35);
+
+  font-size:6px;
+  font-weight:1000;
+
+  text-align:center;
+}
+
+
+/* CPU */
+
+.v312-cpu-slot{
+  left:17%;
+  top:18%;
+
+  width:23%;
+  height:27%;
+
+  border-radius:8px;
+}
+
+
+/* RAM */
+
+.v312-ram-slot{
+  right:14%;
+  top:11%;
+
+  width:13%;
+  height:53%;
+
+  border-radius:5px;
+
+  background:
+    repeating-linear-gradient(
+      180deg,
+      #243f32 0 7px,
+      #152d24 7px 10px
+    );
+}
+
+
+/* M2 */
+
+.v312-m2-slot{
+  left:43%;
+  bottom:17%;
+
+  width:33%;
+  height:11%;
+
+  border-radius:5px;
+}
+
+
+/* CPU cooler */
+
+.v312-cooler-slot{
+  left:13%;
+  top:13%;
+
+  width:31%;
+  height:38%;
+
+  border-radius:50%;
+
+  border-style:dashed;
+
+  color:#d6eef1;
+
+  background:
+    radial-gradient(
+      circle,
+      #18222d 0 22%,
+      #5e6b76 23% 26%,
+      #1a242f 27% 38%,
+      transparent 39%
+    );
+}
+
+
+/* drive bays */
+
+.v312-drive-slot{
+  position:absolute;
+
+  right:4%;
+
+  width:23%;
+
+  padding:10px;
+
+  border-radius:8px;
+
+  color:#dae6ee;
+
+  background:
+    linear-gradient(
+      180deg,
+      #313d4c,
+      #1e2834
+    );
+
+  border:
+    2px solid
+    #536273;
+
+  font-size:8px;
+
+  text-align:center;
+}
+
+.v312-drive-slot span,
+.v312-drive-slot b{
+  display:block;
+}
+
+.v312-drive-slot span{
+  font-size:22px;
+}
+
+.v312-ssd-bay{
+  top:9%;
+}
+
+.v312-hdd-bay{
+  top:31%;
+}
+
+
+/* PSU */
+
+.v312-psu-bay{
+  position:absolute;
+
+  right:4%;
+  bottom:7%;
+
+  width:24%;
+  height:28%;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:10px;
+
+  color:#e2e7ed;
+
+  background:
+    linear-gradient(
+      145deg,
+      #3c4653,
+      #1b222c
+    );
+
+  border:
+    2px solid
+    #0e131a;
+
+  text-align:center;
+}
+
+.v312-psu-fan{
+  width:53px;
+  height:53px;
+
+  display:grid;
+  place-items:center;
+
+  margin-bottom:6px;
+
+  border-radius:50%;
+
+  color:#94a0ad;
+
+  background:
+    radial-gradient(
+      circle,
+      #10161e 0 24%,
+      #5b6672 25% 28%,
+      #171f29 29% 46%,
+      #5b6672 47% 50%,
+      #141b24 51%
+    );
+
+  font-size:23px;
+}
+
+.v312-psu-bay b{
+  font-size:8px;
+}
+
+.v312-psu-bay small{
+  margin-top:3px;
+
+  color:#8f9dab;
+
+  font-size:5px;
+}
+
+
+/* current target */
+
+.v312-current-slot,
+.v312-soft-target{
+  outline:
+    5px solid
+    rgba(255,208,66,.55);
+
+  box-shadow:
+    0 0 24px
+    rgba(255,198,47,.55);
+
+  animation:
+    v312TargetPulse
+    1s infinite alternate;
+}
+
+@keyframes v312TargetPulse{
+
+  from{
+    filter:brightness(1);
+  }
+
+  to{
+    filter:brightness(1.25);
+  }
+
+}
+
+.v312-case-stage .installed-part{
+  border-color:#4bdb99 !important;
+
+  box-shadow:
+    inset 0 0 18px
+    rgba(60,222,151,.18);
+
+  color:#caffe8;
+}
+
+
+/* component rack */
+
+.v312-parts-rack{
+  position:absolute;
+
+  right:2%;
+  top:12%;
+
+  width:25%;
+  height:70%;
+
+  padding:11px;
+
+  display:grid;
+  grid-template-columns:1fr 1fr;
+
+  gap:7px;
+
+  align-content:start;
+
+  overflow:auto;
+
+  border-radius:17px;
+
+  background:
+    linear-gradient(
+      180deg,
+      #eef3f9,
+      #d8e3ed
+    );
+
+  border:
+    1px solid
+    #b9c8d5;
+
+  box-shadow:
+    0 15px 30px
+    rgba(37,50,72,.16);
+}
+
+.v312-rack-title{
+  grid-column:1/-1;
+
+  padding:8px;
+
+  border-radius:10px;
+
+  color:#263758;
+
+  background:#fff;
+
+  font-size:9px;
+  font-weight:1000;
+}
+
+.v312-rack-title small{
+  display:block;
+
+  margin-top:3px;
+
+  color:#758198;
+
+  font-size:6px;
+  font-weight:700;
+}
+
+.v312-part-item{
+  min-height:77px;
+
+  padding:8px 5px;
+
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+
+  border-radius:11px;
+
+  color:#27374f;
+
+  background:#fff;
+
+  border:
+    2px solid
+    #d1dbe5;
+
+  box-shadow:
+    0 7px 12px
+    rgba(36,54,82,.08);
+
+  cursor:pointer;
+
+  text-align:center;
+
+  transition:.18s;
+}
+
+.v312-part-item:hover{
+  transform:translateY(-2px);
+
+  border-color:#8c85ff;
+}
+
+.v312-part-item.selected,
+.v312-part-item.current-part{
+  border-color:#7369ff;
+
+  box-shadow:
+    0 0 0 3px
+    rgba(115,105,255,.15);
+}
+
+.v312-part-item>span{
+  font-size:24px;
+}
+
+.v312-part-item>b{
+  margin-top:4px;
+
+  font-size:7px;
+}
+
+.v312-part-item small{
+  margin-top:3px;
+
+  color:#7b879d;
+
+  font-size:5px;
+  font-weight:900;
+}
+
+.v312-part-item.used{
+  opacity:.42;
+  pointer-events:none;
+}
+
+
+/* bottom technician tip */
+
+.v312-assembly-tip{
+  position:absolute;
+
+  left:4%;
+  right:29%;
+  bottom:4%;
+
+  display:flex;
+  align-items:center;
+
+  gap:9px;
+
+  padding:9px 11px;
+
+  border-radius:13px;
+
+  color:#275c52;
+
+  background:
+    #e8fff7;
+
+  border:
+    1px solid
+    #aee5d0;
+}
+
+.v312-assembly-tip>span{
+  font-size:23px;
+}
+
+.v312-assembly-tip b,
+.v312-assembly-tip small{
+  display:block;
+}
+
+.v312-assembly-tip b{
+  font-size:8px;
+}
+
+.v312-assembly-tip small{
+  margin-top:2px;
+
+  font-size:6px;
+  line-height:1.45;
+}
+
+
+/* responsive */
+
+@media(max-width:900px){
+
+  .v312-pc-case{
+    left:3%;
+    width:64%;
+  }
+
+  .v312-parts-rack{
+    width:29%;
+  }
+
+  .v312-assembly-tip{
+    right:33%;
+  }
+
+}
+
+
+@media(max-width:650px){
+
+  .v312-case-stage{
+    padding:10px;
+  }
+
+  .v312-pc-case{
+    left:3%;
+    top:9%;
+
+    width:94%;
+    height:55%;
+  }
+
+  .v312-parts-rack{
+    left:3%;
+    right:3%;
+
+    top:66%;
+
+    width:auto;
+    height:27%;
+
+    grid-template-columns:
+      repeat(4,1fr);
+  }
+
+  .v312-assembly-tip{
+    display:none;
+  }
+
+  .v312-part-item{
+    min-height:64px;
+  }
+
+  .v312-stage2-success{
+    inset:4%;
+  }
+
+}
