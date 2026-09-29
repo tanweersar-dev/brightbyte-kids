@@ -286,17 +286,34 @@ function init(){
   });
 
   const sim = simulatorEl();
-  if(sim){
-    observer = new MutationObserver((mutations) => {
-      const meaningfulChange = mutations.some(mutation => mutation.type === "childList");
-      if(meaningfulChange) scheduleRefresh();
+
+   if(sim){
+  observer = new MutationObserver((mutations) => {
+    const meaningfulChange = mutations.some(mutation => {
+      if(mutation.type !== "childList") return false;
+
+      const target = mutation.target;
+
+      if(
+        target instanceof Element &&
+        target.closest(".v30-stage1-overlay, .stage1-real-overlay")
+      ){
+        return false;
+      }
+
+      return true;
     });
 
-    observer.observe(sim, {
-      childList: true,
-      subtree: true
-    });
-  }
+    if(meaningfulChange){
+      scheduleRefresh();
+    }
+  });
+
+  observer.observe(sim, {
+    childList: true,
+    subtree: true
+  });
+}
 
   setTimeout(scheduleRefresh, 200);
   setTimeout(scheduleRefresh, 700);
