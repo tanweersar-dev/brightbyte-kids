@@ -1,236 +1,384 @@
 /* ============================================================
-   V26.1 — Advanced Universe Student Account Controls
-   Adds profile photo + password self-service controls
-   Safe add-on after V25
+   V27 — ADVANCED UNIVERSE CLEAN KIDS UI
+   Purpose:
+   1) Remove duplicate hero Learn/Challenge/Create buttons.
+   2) Keep Learn/Challenge/Create only inside the selected World.
+   3) Make top navigation much larger, clearer and kid-friendly.
+   4) Improve mobile/tablet touch targets.
+   Safe add-on: load AFTER V25 + V26 CSS.
    ============================================================ */
 
-.adv-account-actions{
-  display:flex;
-  justify-content:center;
-  gap:6px;
-  flex-wrap:wrap;
-  margin-top:9px;
-}
-.adv-account-btn{
-  border:0;
-  border-radius:10px;
-  padding:7px 9px;
-  font-size:7px;
-  font-weight:1000;
-  cursor:pointer;
-  transition:.2s;
-}
-.adv-account-btn:hover{transform:translateY(-1px)}
-.adv-account-btn.photo{
-  background:#fff;
-  color:#554ac5;
-}
-.adv-account-btn.password{
-  background:#fff5dd;
-  color:#8f6310;
-}
-.adv-account-btn.remove{
-  background:#ffe8ed;
-  color:#bd3f58;
+/* ------------------------------------------------------------
+   1. REMOVE THE DUPLICATE HERO MODE BUTTONS
+   The actual working Learn / Challenge / Create tabs remain
+   inside .workspace-tabs when a child opens a World.
+   ------------------------------------------------------------ */
+.hero .mode-row{
+  display:none !important;
 }
 
-.adv-account-modal{
-  position:fixed;
-  inset:0;
-  z-index:500;
-  display:none;
-  place-items:center;
-  padding:18px;
-  background:rgba(12,18,48,.72);
-  backdrop-filter:blur(8px);
+/* Give hero copy a little more breathing room after removing buttons */
+.hero-copy{
+  align-self:center !important;
 }
-.adv-account-modal.open{display:grid}
-.adv-account-card{
-  position:relative;
-  width:min(520px,96vw);
-  max-height:90vh;
-  overflow:auto;
-  border-radius:24px;
-  background:#fff;
-  color:#202443;
-  padding:22px;
-  box-shadow:0 30px 100px rgba(20,28,80,.34);
-}
-.adv-account-close{
-  position:absolute;
-  right:12px;
-  top:12px;
-  width:38px;
-  height:38px;
-  border:0;
-  border-radius:50%;
-  background:#f0eff8;
-  color:#51577c;
-  font-size:21px;
-  cursor:pointer;
-}
-.adv-account-icon{
-  width:66px;
-  height:66px;
-  border-radius:20px;
-  display:grid;
-  place-items:center;
-  margin-bottom:12px;
-  font-size:32px;
-  background:linear-gradient(135deg,#e9fbff,#f2edff);
-}
-.adv-account-card h2{
-  margin:0 45px 6px 0;
-  font-size:23px;
-}
-.adv-account-card>p{
-  margin:0;
-  color:#727b99;
-  font-size:10px;
-  line-height:1.6;
-}
-.adv-account-field{margin-top:13px}
-.adv-account-field label{
-  display:block;
-  margin-bottom:5px;
-  font-size:9px;
-  font-weight:1000;
-}
-.adv-account-field input{
-  width:100%;
-  border:1px solid #dde2ef;
-  border-radius:12px;
-  padding:11px 12px;
-  outline:none;
-  color:#252c4d;
-}
-.adv-account-field input:focus{
-  border-color:#7669ff;
-  box-shadow:0 0 0 3px rgba(118,105,255,.10);
-}
-.adv-password-rules{
-  margin-top:11px;
-  padding:11px;
-  border-radius:13px;
-  background:#f7f8ff;
-  color:#68718f;
-  font-size:9px;
-  line-height:1.55;
-}
-.adv-account-msg{
-  min-height:18px;
-  margin-top:10px;
-  font-size:9px;
-  font-weight:900;
-}
-.adv-account-msg.good{color:#18805f}
-.adv-account-msg.bad{color:#bd3f58}
-.adv-account-actions-row{
-  display:flex;
-  gap:8px;
-  justify-content:flex-end;
-  flex-wrap:wrap;
-  margin-top:16px;
-}
-.adv-account-actions-row button{
-  border:0;
-  border-radius:11px;
-  padding:10px 13px;
-  font-weight:1000;
-  cursor:pointer;
-}
-.adv-account-actions-row .cancel{
-  background:#efedff;
-  color:#5548c9;
-}
-.adv-account-actions-row .save{
-  background:linear-gradient(135deg,#6c5cff,#24cfc2);
-  color:#fff;
-}
-.adv-account-actions-row .danger{
-  background:#ffe8ed;
-  color:#bd3f58;
-}
-.adv-photo-preview{
-  width:150px;
-  height:150px;
-  border-radius:36px;
-  padding:5px;
-  margin:15px auto 3px;
-  background:linear-gradient(135deg,#6c5cff,#24cfc2,#ef4ca7);
-}
-.adv-photo-preview img,
-.adv-photo-preview .fallback{
-  width:100%;
-  height:100%;
-  border-radius:31px;
-  object-fit:cover;
-  display:grid;
-  place-items:center;
-  background:#f3f2ff;
-  color:#5548c9;
-  font-size:46px;
-  font-weight:1000;
-}
-.adv-upload-label{
-  display:block;
-  width:100%;
-  margin-top:14px;
-  padding:11px 13px;
-  border-radius:12px;
-  text-align:center;
-  font-size:9px;
-  font-weight:1000;
-  cursor:pointer;
-  background:#efedff;
-  color:#5548c9;
-}
-@media(max-width:760px){
-  .adv-account-actions{gap:4px}
-  .adv-account-btn{padding:6px 7px;font-size:6.5px}
+.adv-hero-chips{
+  margin-top:16px !important;
 }
 
-
-/* ============================================================
-   V26.1 — PASSWORD SHOW / HIDE CONTROL
-   ============================================================ */
-
-.adv-password-wrap{
-  position:relative;
+/* ------------------------------------------------------------
+   2. BIG, CLEAR TOP HEADER
+   ------------------------------------------------------------ */
+.topbar{
+  min-height:78px !important;
+  padding:12px 16px !important;
+  gap:18px !important;
+  border-radius:24px !important;
 }
 
-.adv-password-wrap input{
-  padding-right:52px !important;
+.brand{
+  gap:12px !important;
+  flex-shrink:0 !important;
 }
 
-.adv-password-eye{
-  position:absolute;
-  right:7px;
-  top:50%;
-  transform:translateY(-50%);
-  width:38px;
-  height:34px;
-  border:0;
-  border-radius:9px;
-  display:grid;
-  place-items:center;
-  background:#f0f1fa;
-  color:#555d80;
-  font-size:15px;
-  cursor:pointer;
-  transition:.18s ease;
+.brand-logo{
+  width:56px !important;
+  height:56px !important;
+  min-width:56px !important;
+  border-radius:18px !important;
+  font-size:28px !important;
 }
 
-.adv-password-eye:hover{
-  background:#e6e8f5;
-  transform:translateY(-50%) scale(1.04);
+.brand b{
+  font-size:18px !important;
+  line-height:1.15 !important;
+  letter-spacing:-.2px !important;
 }
 
-.adv-password-eye:focus-visible{
-  outline:3px solid rgba(118,105,255,.22);
+.brand small{
+  margin-top:5px !important;
+  font-size:8.5px !important;
+  line-height:1.25 !important;
+  letter-spacing:1px !important;
+  font-weight:900 !important;
 }
 
-.adv-account-actions-row .save:disabled{
-  opacity:.55;
-  cursor:not-allowed;
+/* ------------------------------------------------------------
+   3. KID-FRIENDLY TOP ACTION BUTTONS
+   ------------------------------------------------------------ */
+.top-actions{
+  gap:8px !important;
+  align-items:center !important;
+  justify-content:flex-end !important;
+}
+
+.top-actions .chip{
+  min-height:42px !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  gap:6px !important;
+  padding:10px 13px !important;
+  border-radius:14px !important;
+  font-size:11px !important;
+  line-height:1 !important;
+  font-weight:1000 !important;
+  white-space:nowrap !important;
+  border:1px solid transparent !important;
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease,
+    background .18s ease !important;
+}
+
+/* Student */
+#studentChip{
+  background:linear-gradient(135deg,#e8f1ff,#dfeaff) !important;
+  color:#285bbb !important;
+  border-color:#ccdcff !important;
+}
+
+/* Class */
+#classChip{
+  background:linear-gradient(135deg,#e8fff7,#dff9ef) !important;
+  color:#13775b !important;
+  border-color:#c4efde !important;
+}
+
+/* Home */
+.top-actions a[href="index.html"]{
+  background:linear-gradient(135deg,#e9fbff,#dff7fb) !important;
+  color:#08788b !important;
+  border-color:#c6edf4 !important;
+}
+
+/* Student Galaxy */
+.top-actions a[href="index.html#students"]{
+  background:linear-gradient(135deg,#fff0f8,#ffe6f2) !important;
+  color:#aa3571 !important;
+  border-color:#f8cfe3 !important;
+}
+
+/* Voice */
+#voiceBtn{
+  background:linear-gradient(135deg,#fff6dd,#ffedbe) !important;
+  color:#8a5f0d !important;
+  border-color:#f5df9e !important;
+}
+
+/* Logout */
+#logoutBtn{
+  background:linear-gradient(135deg,#ffecef,#ffe1e6) !important;
+  color:#b93951 !important;
+  border-color:#f6c8d0 !important;
+}
+
+.top-actions .chip:hover,
+.top-actions .chip:focus-visible{
+  transform:translateY(-2px) !important;
+  box-shadow:0 9px 18px rgba(53,62,124,.12) !important;
+}
+
+.top-actions .chip:focus-visible{
+  outline:3px solid rgba(108,92,255,.18) !important;
+  outline-offset:2px !important;
+}
+
+/* ------------------------------------------------------------
+   4. MAKE THE SELECTED WORLD TABS THE ONE CLEAR MODE CONTROL
+   ------------------------------------------------------------ */
+.workspace-tabs{
+  gap:10px !important;
+  margin-top:18px !important;
+  margin-bottom:18px !important;
+  flex-wrap:wrap !important;
+}
+
+.workspace-tab{
+  min-height:48px !important;
+  padding:12px 18px !important;
+  border-radius:15px !important;
+  font-size:14px !important;
+  font-weight:1000 !important;
+  letter-spacing:.1px !important;
+}
+
+.workspace-tab.active{
+  box-shadow:
+    0 8px 20px rgba(77,74,190,.18),
+    inset 0 0 0 1px rgba(255,255,255,.18) !important;
+}
+
+/* Make Back / world badge easier to see too */
+.back-btn{
+  min-height:40px !important;
+  padding:9px 13px !important;
+  border-radius:12px !important;
+  font-size:11px !important;
+  font-weight:1000 !important;
+}
+
+.world-badge{
+  min-height:42px !important;
+  padding:10px 14px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  border-radius:14px !important;
+  font-size:11px !important;
+  font-weight:1000 !important;
+}
+
+/* ------------------------------------------------------------
+   5. IMPROVE ADVANCED SECTION ACTIONS
+   Passport / Portfolio / Parent Report / Practical Lab
+   ------------------------------------------------------------ */
+.section-actions{
+  gap:8px !important;
+  flex-wrap:wrap !important;
+}
+
+.section-actions .soft-btn{
+  min-height:42px !important;
+  display:inline-flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  padding:10px 13px !important;
+  border-radius:13px !important;
+  font-size:10px !important;
+  font-weight:1000 !important;
+}
+
+/* ------------------------------------------------------------
+   6. TYPOGRAPHY — SLIGHTLY LARGER FOR KIDS
+   ------------------------------------------------------------ */
+.section-head h2{
+  font-size:30px !important;
+}
+
+.section-head p{
+  font-size:11px !important;
+  line-height:1.55 !important;
+}
+
+.workspace-head h2{
+  font-size:34px !important;
+  line-height:1.08 !important;
+}
+
+.workspace-head p{
+  font-size:12px !important;
+  line-height:1.6 !important;
+}
+
+.challenge-shell h3{
+  font-size:24px !important;
+  line-height:1.35 !important;
+}
+
+.challenge-options button{
+  min-height:58px !important;
+  font-size:15px !important;
+  line-height:1.35 !important;
+  border-radius:15px !important;
+  padding:14px 16px !important;
+}
+
+#nextChallenge{
+  min-height:46px !important;
+  font-size:13px !important;
+  padding:11px 18px !important;
+}
+
+/* ------------------------------------------------------------
+   7. DESKTOP BALANCE
+   ------------------------------------------------------------ */
+@media (min-width:1101px){
+  .topbar{
+    width:calc(100% - 34px) !important;
+  }
+
+  .top-actions{
+    flex-wrap:nowrap !important;
+  }
+}
+
+/* ------------------------------------------------------------
+   8. TABLET
+   ------------------------------------------------------------ */
+@media (max-width:1100px){
+  .topbar{
+    align-items:flex-start !important;
+    flex-direction:column !important;
+  }
+
+  .top-actions{
+    width:100% !important;
+    justify-content:flex-start !important;
+    flex-wrap:wrap !important;
+  }
+
+  .top-actions .chip{
+    min-height:44px !important;
+    font-size:11px !important;
+  }
+}
+
+/* ------------------------------------------------------------
+   9. MOBILE — LARGE TOUCHABLE BUTTON GRID
+   ------------------------------------------------------------ */
+@media (max-width:700px){
+  .topbar{
+    min-height:auto !important;
+    padding:12px !important;
+    border-radius:18px !important;
+  }
+
+  .brand-logo{
+    width:50px !important;
+    height:50px !important;
+    min-width:50px !important;
+    border-radius:16px !important;
+    font-size:24px !important;
+  }
+
+  .brand b{
+    font-size:16px !important;
+  }
+
+  .brand small{
+    font-size:7.5px !important;
+  }
+
+  .top-actions{
+    display:grid !important;
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:7px !important;
+  }
+
+  .top-actions .chip{
+    width:100% !important;
+    min-height:46px !important;
+    padding:11px 9px !important;
+    border-radius:13px !important;
+    font-size:10px !important;
+  }
+
+  .workspace-tabs{
+    display:grid !important;
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    width:100% !important;
+    gap:7px !important;
+  }
+
+  .workspace-tab{
+    width:100% !important;
+    min-height:48px !important;
+    padding:10px 7px !important;
+    font-size:11px !important;
+  }
+
+  .section-actions{
+    display:grid !important;
+    grid-template-columns:1fr 1fr !important;
+    width:100% !important;
+  }
+
+  .section-actions .soft-btn{
+    width:100% !important;
+    font-size:9px !important;
+  }
+
+  .workspace-head h2{
+    font-size:27px !important;
+  }
+
+  .challenge-shell h3{
+    font-size:20px !important;
+  }
+
+  .challenge-options{
+    grid-template-columns:1fr !important;
+  }
+
+  .challenge-options button{
+    min-height:54px !important;
+    font-size:14px !important;
+  }
+}
+
+/* ------------------------------------------------------------
+   10. VERY SMALL MOBILE
+   ------------------------------------------------------------ */
+@media (max-width:390px){
+  .top-actions{
+    grid-template-columns:1fr !important;
+  }
+
+  .workspace-tabs{
+    grid-template-columns:1fr !important;
+  }
+
+  .section-actions{
+    grid-template-columns:1fr !important;
+  }
 }
