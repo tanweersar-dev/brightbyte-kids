@@ -1957,3 +1957,885 @@
   }
 
 }
+
+
+/* ============================================================
+   V31.3 — FULL SCREEN LAB + REAL COMPONENTS + TOUCH FIX
+   Append to existing junior-technician-stage1-v31.css
+   ============================================================ */
+
+
+/* ============================================================
+   1. WHEN A LAB IS ACTIVE, REMOVE LARGE INTRO SECTIONS
+   Keeps them available on the initial certification page.
+   ============================================================ */
+
+body:has(#labShell:not(.hidden)) .hero,
+body:has(#labShell:not(.hidden)) .stage-map-wrap,
+body:has(#labShell:not(.hidden)) .v30-back-row{
+  display:none !important;
+}
+
+body:has(#labShell:not(.hidden)) .app-shell{
+  max-width:1900px !important;
+  padding:
+    10px
+    10px
+    45px !important;
+}
+
+body:has(#labShell:not(.hidden)) .lab-shell{
+  margin-top:0 !important;
+}
+
+
+/* Make top navigation more compact while training */
+body:has(#labShell:not(.hidden)) .topbar{
+  min-height:62px;
+  padding:
+    8px
+    14px !important;
+}
+
+
+/* ============================================================
+   2. MAKE LEVEL 2 FEEL LIKE A REAL WORKSHOP
+   ============================================================ */
+
+body:has(.v312-case-stage) .work-area{
+  padding:12px !important;
+}
+
+body:has(.v312-case-stage) #simulator{
+  min-height:
+    calc(100vh - 160px) !important;
+
+  border-radius:18px !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      #dce7f2,
+      #eef4fa
+    ) !important;
+}
+
+
+/* ============================================================
+   3. FIX THE MAIN BUG:
+   ONLY CURRENT INSTALLATION SLOT CAN RECEIVE TOUCH / DROP
+   ============================================================ */
+
+.v312-case-stage [data-slot]{
+  pointer-events:none !important;
+}
+
+
+/* Only current target is clickable / droppable */
+.v312-case-stage
+[data-slot].v312-current-slot{
+  pointer-events:auto !important;
+  cursor:pointer !important;
+  z-index:30 !important;
+}
+
+
+/* The target highlighted after component selection */
+.v312-case-stage
+[data-slot].v312-soft-target{
+  pointer-events:auto !important;
+  cursor:pointer !important;
+  z-index:35 !important;
+}
+
+
+/* Already-installed areas should not steal clicks */
+.v312-case-stage
+[data-slot].installed-part{
+  pointer-events:none !important;
+}
+
+
+/* ============================================================
+   4. CPU / COOLER OVERLAP FIX
+   ============================================================ */
+
+/* CPU socket must sit above inactive cooler area */
+.v312-cpu-slot{
+  z-index:12 !important;
+
+  left:15% !important;
+  top:17% !important;
+
+  width:27% !important;
+  height:31% !important;
+
+  border-radius:8px !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      #d1d7dc,
+      #7e8992
+    ) !important;
+
+  border:
+    4px solid
+    #b9c36b !important;
+
+  color:#17212b !important;
+
+  box-shadow:
+    inset 0 0 0 3px #535f67,
+    inset 0 0 0 6px #c6ced4,
+    0 6px 13px rgba(0,0,0,.22) !important;
+}
+
+
+/* Metal CPU socket pins */
+.v312-cpu-slot::before{
+  content:"";
+
+  position:absolute;
+  inset:12%;
+
+  border-radius:4px;
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      rgba(50,61,68,.35) 0 1px,
+      transparent 1px 5px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      rgba(50,61,68,.35) 0 1px,
+      transparent 1px 5px
+    ),
+    #d7dde1;
+
+  border:
+    1px solid
+    #717c84;
+}
+
+
+/* Inactive cooler no longer blocks CPU */
+.v312-cooler-slot:not(.v312-current-slot){
+  opacity:.10 !important;
+  pointer-events:none !important;
+  z-index:2 !important;
+}
+
+
+/* Cooler only becomes strong when its own step arrives */
+.v312-cooler-slot.v312-current-slot,
+.v312-cooler-slot.v312-soft-target{
+  opacity:1 !important;
+  pointer-events:auto !important;
+  z-index:40 !important;
+}
+
+
+/* ============================================================
+   5. BIG "INSTALL HERE" TARGET
+   ============================================================ */
+
+.v312-current-slot{
+  position:absolute;
+}
+
+.v312-current-slot::after{
+  content:"⬇ INSTALL HERE";
+
+  position:absolute;
+
+  left:50%;
+  bottom:-30px;
+
+  transform:
+    translateX(-50%);
+
+  min-width:100px;
+
+  padding:
+    7px
+    9px;
+
+  border-radius:999px;
+
+  color:#382b00;
+
+  background:#ffd654;
+
+  border:
+    2px solid #fff;
+
+  box-shadow:
+    0 5px 14px
+    rgba(82,62,0,.22);
+
+  font-size:7px;
+  font-weight:1000;
+
+  text-align:center;
+
+  white-space:nowrap;
+
+  z-index:60;
+}
+
+
+/* Strong glow around exact target */
+.v312-current-slot,
+.v312-soft-target{
+  outline:
+    5px solid
+    rgba(255,211,70,.78) !important;
+
+  box-shadow:
+    0 0 0 7px
+    rgba(255,211,70,.20),
+    0 0 30px
+    rgba(255,188,30,.65) !important;
+}
+
+
+/* ============================================================
+   6. MAKE ONLY CURRENT COMPONENT ACTIVE
+   ============================================================ */
+
+.v312-part-item{
+  position:relative;
+}
+
+.v312-part-item:not(.current-part):not(.used){
+  opacity:.55;
+}
+
+.v312-part-item.current-part{
+  opacity:1 !important;
+
+  transform:scale(1.03);
+
+  border:
+    3px solid
+    #6a5fff !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      #ffffff,
+      #f0efff
+    ) !important;
+
+  box-shadow:
+    0 0 0 5px
+    rgba(106,95,255,.12),
+    0 10px 24px
+    rgba(55,49,145,.18) !important;
+}
+
+.v312-part-item.current-part::after{
+  content:"TAP / DRAG ME";
+
+  position:absolute;
+
+  right:4px;
+  top:4px;
+
+  padding:
+    4px
+    6px;
+
+  border-radius:999px;
+
+  color:#fff;
+
+  background:#6258e9;
+
+  font-size:5px;
+  font-weight:1000;
+}
+
+
+/* ============================================================
+   7. PHOTO-LIKE COMPONENT VISUALS
+   Replace simple emoji-style parts visually
+   ============================================================ */
+
+.v312-part-item > span{
+  position:relative;
+
+  display:block;
+
+  width:72px;
+  height:45px;
+
+  flex:none;
+
+  font-size:0 !important;
+
+  filter:
+    drop-shadow(
+      0 6px 6px
+      rgba(25,37,54,.18)
+    );
+}
+
+
+/* ---------------- MOTHERBOARD ---------------- */
+
+.v312-part-item[data-part="motherboard"] > span{
+  border-radius:5px;
+
+  border:
+    2px solid
+    #183b29;
+
+  background:
+    radial-gradient(
+      circle at 24% 27%,
+      #20272b 0 7px,
+      #a1a8a7 8px 10px,
+      transparent 11px
+    ),
+    linear-gradient(
+      90deg,
+      transparent 0 63%,
+      #181e21 64% 72%,
+      transparent 73%
+    ),
+    linear-gradient(
+      #367854,
+      #1c573d
+    );
+}
+
+.v312-part-item[data-part="motherboard"] > span::before{
+  content:"";
+
+  position:absolute;
+
+  left:8px;
+  bottom:7px;
+
+  width:8px;
+  height:14px;
+
+  background:#171d20;
+
+  box-shadow:
+    13px 0 0 #151b1f,
+    27px 0 0 #1a2024,
+    43px -17px 0 #192126;
+}
+
+.v312-part-item[data-part="motherboard"] > span::after{
+  content:"";
+
+  position:absolute;
+
+  left:5px;
+  top:7px;
+
+  width:58px;
+  height:28px;
+
+  background:
+    linear-gradient(
+      25deg,
+      transparent 46%,
+      rgba(218,224,167,.38) 48% 51%,
+      transparent 53%
+    ),
+    linear-gradient(
+      -18deg,
+      transparent 46%,
+      rgba(218,224,167,.32) 48% 51%,
+      transparent 53%
+    );
+}
+
+
+/* ---------------- CPU ---------------- */
+
+.v312-part-item[data-part="cpu"] > span{
+  width:48px;
+  height:48px;
+
+  margin:auto;
+
+  border-radius:5px;
+
+  border:
+    5px solid
+    #bb9d4e;
+
+  background:
+    linear-gradient(
+      145deg,
+      #e6ebed,
+      #89969c
+    );
+
+  box-shadow:
+    inset 0 0 0 3px #cbd1d4;
+}
+
+.v312-part-item[data-part="cpu"] > span::before{
+  content:"CPU";
+
+  position:absolute;
+  inset:8px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:3px;
+
+  color:#dce4e7;
+
+  background:#34414a;
+
+  font-size:8px;
+  font-weight:1000;
+}
+
+
+/* ---------------- RAM ---------------- */
+
+.v312-part-item[data-part="ram"] > span{
+  width:77px;
+  height:24px;
+
+  margin-top:9px;
+
+  border-radius:3px;
+
+  border:
+    2px solid
+    #17452c;
+
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #1c2628 0 8px,
+      #39795a 8px 11px
+    ),
+    #2d754f;
+}
+
+.v312-part-item[data-part="ram"] > span::after{
+  content:"";
+
+  position:absolute;
+
+  left:5px;
+  right:5px;
+  bottom:-5px;
+
+  height:5px;
+
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #d5b34c 0 4px,
+      transparent 4px 6px
+    );
+}
+
+
+/* ---------------- M.2 SSD ---------------- */
+
+.v312-part-item[data-part="m2"] > span{
+  width:74px;
+  height:19px;
+
+  margin-top:12px;
+
+  border-radius:3px;
+
+  background:
+    repeating-linear-gradient(
+      90deg,
+      #171d20 0 10px,
+      #252d31 10px 13px
+    );
+
+  border:
+    2px solid
+    #11171a;
+}
+
+.v312-part-item[data-part="m2"] > span::before{
+  content:"M.2 SSD";
+
+  position:absolute;
+
+  left:5px;
+  top:3px;
+
+  color:#ccd9d3;
+
+  font-size:6px;
+  font-weight:900;
+}
+
+.v312-part-item[data-part="m2"] > span::after{
+  content:"";
+
+  position:absolute;
+
+  right:-5px;
+  top:2px;
+
+  width:6px;
+  height:11px;
+
+  background:#d2ae45;
+}
+
+
+/* ---------------- SATA SSD ---------------- */
+
+.v312-part-item[data-part="sata"] > span{
+  width:65px;
+  height:42px;
+
+  border-radius:6px;
+
+  border:
+    2px solid
+    #323c48;
+
+  background:
+    linear-gradient(
+      145deg,
+      #626f7b,
+      #262f38
+    );
+}
+
+.v312-part-item[data-part="sata"] > span::before{
+  content:"SSD";
+
+  position:absolute;
+  inset:8px;
+
+  display:grid;
+  place-items:center;
+
+  border-radius:4px;
+
+  color:#cbd7df;
+
+  background:#151b21;
+
+  font-size:9px;
+  font-weight:1000;
+}
+
+
+/* ---------------- HDD ---------------- */
+
+.v312-part-item[data-part="hdd"] > span{
+  width:65px;
+  height:45px;
+
+  border-radius:5px;
+
+  border:
+    3px solid
+    #3f4a54;
+
+  background:
+    radial-gradient(
+      circle at 53% 49%,
+      #343e47 0 5px,
+      #c5cdd2 6px 15px,
+      #77838b 16px 18px,
+      transparent 19px
+    ),
+    linear-gradient(
+      #d3d9dd,
+      #88949c
+    );
+}
+
+.v312-part-item[data-part="hdd"] > span::after{
+  content:"";
+
+  position:absolute;
+
+  right:7px;
+  bottom:6px;
+
+  width:17px;
+  height:3px;
+
+  background:#303941;
+
+  transform:rotate(-28deg);
+}
+
+
+/* ---------------- CPU COOLER ---------------- */
+
+.v312-part-item[data-part="cooler"] > span{
+  width:49px;
+  height:49px;
+
+  margin:auto;
+
+  border-radius:50%;
+
+  border:
+    4px solid
+    #434f59;
+
+  background:
+    conic-gradient(
+      #67737c,
+      #252d34,
+      #67737c,
+      #252d34,
+      #67737c,
+      #252d34,
+      #67737c
+    );
+}
+
+.v312-part-item[data-part="cooler"] > span::before{
+  content:"";
+
+  position:absolute;
+
+  left:50%;
+  top:50%;
+
+  width:15px;
+  height:15px;
+
+  transform:
+    translate(-50%,-50%);
+
+  border-radius:50%;
+
+  background:#182028;
+
+  border:
+    3px solid
+    #88949b;
+}
+
+
+/* ---------------- PSU / SMPS ---------------- */
+
+.v312-part-item[data-part="psu"] > span{
+  width:64px;
+  height:45px;
+
+  border-radius:5px;
+
+  border:
+    2px solid
+    #171d23;
+
+  background:
+    radial-gradient(
+      circle at 35% 50%,
+      #171d22 0 7px,
+      #5a6570 8px 10px,
+      #1d242b 11px 17px,
+      #6b7580 18px 20px,
+      transparent 21px
+    ),
+    linear-gradient(
+      #444f5a,
+      #20272e
+    );
+}
+
+.v312-part-item[data-part="psu"] > span::after{
+  content:"PSU";
+
+  position:absolute;
+
+  right:4px;
+  bottom:4px;
+
+  color:#b9c4cc;
+
+  font-size:6px;
+  font-weight:1000;
+}
+
+
+/* ============================================================
+   8. MORE REALISTIC INSTALLATION BAYS
+   ============================================================ */
+
+.v312-ram-slot{
+  width:16% !important;
+
+  border:
+    3px solid
+    #202a26 !important;
+
+  background:
+    repeating-linear-gradient(
+      180deg,
+      #171e1b 0 6px,
+      #4a6656 6px 8px
+    ) !important;
+
+  box-shadow:
+    inset 4px 0 #a9b8ae,
+    inset -4px 0 #a9b8ae;
+}
+
+
+.v312-m2-slot{
+  height:13% !important;
+
+  border:
+    2px solid
+    #222c28 !important;
+
+  background:
+    linear-gradient(
+      90deg,
+      #242d29,
+      #111815
+    ) !important;
+}
+
+
+.v312-ssd-bay,
+.v312-hdd-bay{
+  min-height:92px;
+
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+
+  border:
+    3px solid
+    #566577 !important;
+
+  box-shadow:
+    inset 0 0 16px
+    rgba(5,12,20,.25);
+}
+
+
+.v312-psu-bay{
+  min-height:130px;
+}
+
+
+/* ============================================================
+   9. COMPONENT RACK — BIGGER TOUCH TARGETS
+   ============================================================ */
+
+.v312-parts-rack{
+  gap:10px !important;
+
+  padding:12px !important;
+}
+
+.v312-part-item{
+  min-height:105px !important;
+
+  padding:
+    9px
+    5px !important;
+
+  touch-action:none;
+}
+
+.v312-part-item b{
+  font-size:8px !important;
+}
+
+.v312-part-item small{
+  font-size:6px !important;
+}
+
+
+/* ============================================================
+   10. MOBILE / TOUCH MODE
+   ============================================================ */
+
+@media(max-width:850px){
+
+  body:has(#labShell:not(.hidden)) .topbar{
+    position:relative !important;
+  }
+
+  body:has(.v312-case-stage) #simulator{
+    min-height:980px !important;
+  }
+
+  .v312-pc-case{
+    left:2% !important;
+    top:7% !important;
+
+    width:96% !important;
+    height:52% !important;
+  }
+
+  .v312-parts-rack{
+    left:2% !important;
+    right:2% !important;
+
+    top:61% !important;
+
+    width:auto !important;
+    height:35% !important;
+
+    grid-template-columns:
+      repeat(2,1fr) !important;
+  }
+
+  .v312-part-item{
+    min-height:115px !important;
+  }
+
+  .v312-part-item.current-part{
+    grid-column:1/-1;
+
+    min-height:125px !important;
+  }
+
+  .v312-part-item.current-part > span{
+    transform:scale(1.18);
+  }
+
+  .v312-current-slot::after{
+    min-width:120px;
+
+    font-size:8px;
+  }
+
+}
+
+
+/* Phone */
+@media(max-width:520px){
+
+  .v312-parts-rack{
+    grid-template-columns:
+      1fr 1fr !important;
+  }
+
+  .v312-part-item{
+    min-height:105px !important;
+  }
+
+  .v312-pc-case{
+    height:50% !important;
+  }
+
+}
