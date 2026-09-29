@@ -288,23 +288,50 @@ function init(){
   scheduleRefresh();
 
   window.addEventListener("resize", scheduleRefresh);
-  document.addEventListener("click", () => setTimeout(scheduleRefresh, 80), true);
+
+  document.addEventListener("click", () => {
+    setTimeout(scheduleRefresh, 80);
+  }, true);
+
   document.addEventListener("visibilitychange", () => {
     if(!document.hidden) scheduleRefresh();
   });
 
-  observer = new MutationObserver(() => scheduleRefresh());
-  observer.observe(document.body, {
-    childList: true,
-    subtree: true,
-    attributes: true,
-    characterData: false
-  });
+  const sim = simulatorEl();
+
+  if(sim){
+    observer = new MutationObserver((mutations) => {
+      const meaningfulChange = mutations.some(mutation => {
+        if(mutation.type !== "childList") return false;
+
+        const target = mutation.target;
+
+        if(
+          target instanceof Element &&
+          target.closest(".stage1-real-overlay")
+        ){
+          return false;
+        }
+
+        return true;
+      });
+
+      if(meaningfulChange){
+        scheduleRefresh();
+      }
+    });
+
+    observer.observe(sim, {
+      childList: true,
+      subtree: true
+    });
+  }
 
   setTimeout(scheduleRefresh, 200);
   setTimeout(scheduleRefresh, 600);
   setTimeout(scheduleRefresh, 1200);
 }
+   
 
 if(document.readyState === "loading"){
   document.addEventListener("DOMContentLoaded", init);
