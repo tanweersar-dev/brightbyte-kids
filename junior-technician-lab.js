@@ -990,5 +990,928 @@ async function init(){
   toast(`Welcome, ${profile.display_name||"Technician"} 🚀`);
 }
 init();
+/* ============================================================
+   V31.2 — CELEBRATION + FRIENDLY PROGRESSION + LEVEL 2 PC BUILD
+   Additive upgrade only
+   Paste immediately BEFORE final })();
+   ============================================================ */
 
+/* ------------------------------------------------------------
+   UPGRADE STAGE 2 TASKS
+   Existing array stays — we replace its items safely.
+   ------------------------------------------------------------ */
+STAGE2_TASKS.splice(
+  0,
+  STAGE2_TASKS.length,
+
+  {
+    part:"motherboard",
+    target:"motherboard-bay",
+    label:"Motherboard",
+    title:"Step 1 — Install the motherboard",
+    text:"Select the Motherboard and install it inside the main motherboard bay. The motherboard is the main board that connects the processor, RAM, storage and other components."
+  },
+
+  {
+    part:"cpu",
+    target:"cpu-slot",
+    label:"Processor / CPU",
+    title:"Step 2 — Install the processor",
+    text:"Select the CPU and place it carefully into the CPU socket on the motherboard."
+  },
+
+  {
+    part:"ram",
+    target:"ram-slot",
+    label:"RAM Module",
+    title:"Step 3 — Install the RAM",
+    text:"Select the RAM module and install it into the memory slot. Make sure the RAM notch matches the slot."
+  },
+
+  {
+    part:"m2",
+    target:"m2-slot",
+    label:"M.2 SSD",
+    title:"Step 4 — Install the M.2 SSD",
+    text:"Install the M.2 SSD into the small M.2 storage slot on the motherboard."
+  },
+
+  {
+    part:"sata",
+    target:"sata-slot",
+    label:"SATA SSD",
+    title:"Step 5 — Install the SATA SSD",
+    text:"Install the SATA SSD into the SSD drive bay. SATA storage normally needs both data and power connections."
+  },
+
+  {
+    part:"hdd",
+    target:"hdd-slot",
+    label:"Hard Disk Drive",
+    title:"Step 6 — Install the HDD",
+    text:"Install the hard disk drive into the larger HDD bay. A hard disk stores files using magnetic storage."
+  },
+
+  {
+    part:"cooler",
+    target:"cooler-slot",
+    label:"CPU Cooler",
+    title:"Step 7 — Install the CPU cooler",
+    text:"Install the CPU cooler over the processor area. The cooler removes heat from the CPU."
+  },
+
+  {
+    part:"psu",
+    target:"psu-slot",
+    label:"SMPS / Power Supply",
+    title:"Step 8 — Install the SMPS / PSU",
+    text:"Install the power supply into the PSU bay. Never open an SMPS or PSU casing. This lab only teaches safe installation."
+  }
+);
+
+
+/* ------------------------------------------------------------
+   CELEBRATION HELPERS
+   ------------------------------------------------------------ */
+
+function v312CreateConfetti(host){
+  if(!host) return;
+
+  const old = host.querySelector(".v312-confetti-layer");
+  if(old) old.remove();
+
+  const layer = document.createElement("div");
+  layer.className = "v312-confetti-layer";
+
+  const pieces = ["🎉","⭐","🎊","✨","🎈","🏆","💫","🥳"];
+
+  for(let i=0;i<65;i++){
+    const piece = document.createElement("span");
+
+    piece.textContent =
+      pieces[Math.floor(Math.random()*pieces.length)];
+
+    piece.style.left = `${Math.random()*100}%`;
+    piece.style.animationDelay = `${Math.random()*1.6}s`;
+    piece.style.animationDuration =
+      `${2.4 + Math.random()*2.5}s`;
+
+    piece.style.fontSize =
+      `${12 + Math.random()*17}px`;
+
+    layer.appendChild(piece);
+  }
+
+  host.appendChild(layer);
+
+  setTimeout(()=>{
+    layer.remove();
+  },6000);
+}
+
+
+function v312StageOneMonitorCelebration(score){
+
+  const monitor = document.querySelector(".monitor-device");
+  const simulator = $("simulator");
+
+  if(simulator){
+    v312CreateConfetti(simulator);
+  }
+
+  if(!monitor) return;
+
+  const old = monitor.querySelector(".v312-monitor-success");
+  if(old) old.remove();
+
+  const screen = document.createElement("div");
+  screen.className = "v312-monitor-success";
+
+  screen.innerHTML = `
+    <div class="v312-success-stars">
+      ✨ 🎉 ⭐ 🎊 ✨
+    </div>
+
+    <div class="v312-success-icon">
+      🏆
+    </div>
+
+    <b>CONGRATULATIONS!</b>
+
+    <strong>STAGE 1 COMPLETE</strong>
+
+    <small>
+      Workstation successfully connected
+    </small>
+
+    <div class="v312-screen-score">
+      Practical Score: ${score}%
+    </div>
+
+    <div class="v312-stage-unlocked">
+      🔓 STAGE 2 UNLOCKED
+    </div>
+  `;
+
+  monitor.appendChild(screen);
+}
+
+
+function v312StageTwoCelebration(score){
+
+  const simulator = $("simulator");
+  if(!simulator) return;
+
+  v312CreateConfetti(simulator);
+
+  const old =
+    simulator.querySelector(".v312-stage2-success");
+
+  if(old) old.remove();
+
+  const box = document.createElement("div");
+
+  box.className = "v312-stage2-success";
+
+  box.innerHTML = `
+    <div class="v312-celebrate-icons">
+      🎈 🎉 🥳 🎊 🎈
+    </div>
+
+    <div class="v312-big-trophy">
+      🏆
+    </div>
+
+    <h2>PC ASSEMBLY COMPLETE!</h2>
+
+    <p>
+      Excellent work! You successfully assembled
+      the major internal computer components.
+    </p>
+
+    <div class="v312-installed-list">
+      ✅ Motherboard
+      <br>✅ Processor / CPU
+      <br>✅ RAM
+      <br>✅ M.2 SSD
+      <br>✅ SATA SSD
+      <br>✅ HDD
+      <br>✅ CPU Cooler
+      <br>✅ SMPS / PSU
+    </div>
+
+    <strong>
+      Practical Score: ${score}%
+    </strong>
+
+    <span>
+      🌟 LEVEL 2 HARDWARE MISSION COMPLETE 🌟
+    </span>
+  `;
+
+  simulator.appendChild(box);
+}
+
+
+/* ------------------------------------------------------------
+   NEW FRIENDLY STAGE COMPLETION
+
+   Important:
+   Hints reduce score, but DO NOT block learning progress.
+   Student must actually complete all required practical tasks.
+   ------------------------------------------------------------ */
+
+function finishStage(){
+
+  const score = stageScore();
+  const completedStage = activeStage;
+
+  const firstCompletion =
+    !state.completed.includes(completedStage);
+
+  state.stageScores[completedStage] =
+    Math.max(
+      score,
+      Number(state.stageScores[completedStage] || 0)
+    );
+
+  if(firstCompletion){
+
+    state.completed.push(completedStage);
+
+    state.completed.sort((a,b)=>a-b);
+
+    state.xp =
+      Number(state.xp || 0) +
+      completedStage * 25;
+  }
+
+  if(completedStage < 5){
+
+    state.unlocked =
+      Math.max(
+        Number(state.unlocked || 1),
+        completedStage + 1
+      );
+  }
+
+  if(completedStage === 5){
+
+    state.unlocked = 5;
+
+    if(!state.certificateId){
+      state.certificateId = makeCertificateId();
+    }
+
+    if(!state.completedAt){
+      state.completedAt =
+        new Date().toISOString();
+    }
+  }
+
+  saveState();
+  renderStageMap();
+
+  feedback(
+    `✅ Stage ${completedStage} successfully completed!`,
+    "good",
+    true
+  );
+
+
+  /* STAGE 1 — MONITOR CELEBRATION */
+  if(completedStage === 1){
+
+    v312StageOneMonitorCelebration(score);
+
+    speak(
+      "Congratulations! Stage one complete. Excellent work! Stage two computer assembly lab is now unlocked."
+    );
+  }
+
+
+  /* STAGE 2 — FULL ASSEMBLY CELEBRATION */
+  else if(completedStage === 2){
+
+    v312StageTwoCelebration(score);
+
+    speak(
+      "Fantastic work! Computer assembly complete. You successfully installed the major internal computer components."
+    );
+  }
+
+
+  /* OTHER STAGES */
+  else{
+
+    v312CreateConfetti($("simulator"));
+  }
+
+
+  /* Give children time to enjoy celebration */
+  setTimeout(()=>{
+
+    if(completedStage < 5){
+
+      const next = completedStage + 1;
+
+      const nextName =
+        STAGES.find(x=>x.id===next)?.name ||
+        `Stage ${next}`;
+
+      openModal(`
+        <div class="v312-complete-modal">
+
+          <div class="v312-modal-party">
+            🎉 🎈 ⭐ 🏆 ⭐ 🎈 🎉
+          </div>
+
+          <h2>
+            🏆 Stage ${completedStage} Complete!
+          </h2>
+
+          <p>
+            Excellent practical work!
+            You completed every required task.
+          </p>
+
+          ${
+            score < 70
+            ?
+            `<div class="v312-learning-note">
+               💡 Your practical score is
+               <b>${score}%</b>.
+               Hints helped you learn, so they no longer
+               prevent you from continuing.
+             </div>`
+            :
+            `<div class="v312-learning-note good">
+               ⭐ Great practical score:
+               <b>${score}%</b>
+             </div>`
+          }
+
+          <div class="summary-grid">
+
+            <article class="summary-card">
+              <b>${score}%</b>
+              <small>Practical Score</small>
+            </article>
+
+            <article class="summary-card">
+              <b>${runMistakes}</b>
+              <small>Mistakes</small>
+            </article>
+
+            <article class="summary-card">
+              <b>${runHints}</b>
+              <small>Hints Used</small>
+            </article>
+
+            <article class="summary-card">
+              <b>+${completedStage*25} XP</b>
+              <small>Reward</small>
+            </article>
+
+          </div>
+
+          <div class="v312-next-banner">
+            🔓 STAGE ${next} UNLOCKED
+            <small>${nextName}</small>
+          </div>
+
+          <div class="modal-actions">
+
+            <button
+              class="soft"
+              id="v312ReviewBtn"
+            >
+              Review Stage
+            </button>
+
+            <button
+              class="go v312-next-button"
+              id="v312NextBtn"
+            >
+              ▶ START STAGE ${next}
+            </button>
+
+          </div>
+
+        </div>
+      `);
+
+      $("v312ReviewBtn").onclick = ()=>{
+        closeModal();
+      };
+
+      $("v312NextBtn").onclick = ()=>{
+        closeModal();
+        openStage(next);
+      };
+
+    }
+
+    else{
+
+      openModal(`
+        <div class="v312-complete-modal">
+
+          <div class="v312-modal-party">
+            🎉 🏆 🎊 ⭐ 🎈 ⭐ 🎊 🏆 🎉
+          </div>
+
+          <h2>
+            🏆 Junior Digital & AI Technician Certified!
+          </h2>
+
+          <p>
+            Congratulations!
+            All five practical stages are complete.
+          </p>
+
+          <button
+            class="go v312-next-button"
+            id="v312CertificateBtn"
+          >
+            🏆 VIEW CERTIFICATE
+          </button>
+
+        </div>
+      `);
+
+      $("v312CertificateBtn").onclick = ()=>{
+        closeModal();
+        $("certificateBtn")?.click();
+      };
+    }
+
+  },3200);
+}
+
+
+/* ============================================================
+   NEW LEVEL 2 — FULL PC ASSEMBLY LAB
+   Overrides old renderStage2 safely
+   ============================================================ */
+
+function renderStage2(){
+
+  const t = STAGE2_TASKS[stageStep];
+
+  if(!t){
+    finishStage();
+    return;
+  }
+
+  selectedPart = null;
+
+  setInstruction(
+    t.title,
+    t.text
+  );
+
+  const installed = n =>
+    stageStep > n
+      ? "installed-part"
+      : "";
+
+  const current = n =>
+    stageStep === n
+      ? "v312-current-slot"
+      : "";
+
+
+  $("simulator").innerHTML = `
+
+    <div class="v312-case-stage">
+
+      <span class="scene-label">
+        POWERED-OFF PC ASSEMBLY LAB • LEVEL 2
+      </span>
+
+      <div class="v312-assembly-progress">
+        🔧 Assembly Step
+        <b>${stageStep + 1} / ${STAGE2_TASKS.length}</b>
+      </div>
+
+
+      <div class="v312-pc-case">
+
+        <div
+          class="
+            v312-motherboard-bay
+            ${installed(0)}
+            ${current(0)}
+          "
+          data-slot="motherboard-bay"
+        >
+
+          ${
+            stageStep === 0
+            ?
+            `
+              <div class="v312-empty-board">
+                <span>⬇</span>
+                <b>MOTHERBOARD BAY</b>
+                <small>
+                  Install the motherboard here first
+                </small>
+              </div>
+            `
+            :
+            `
+              <div class="v312-motherboard">
+
+                <div class="v312-mb-title">
+                  MOTHERBOARD
+                </div>
+
+                <i class="v312-trace t1"></i>
+                <i class="v312-trace t2"></i>
+                <i class="v312-trace t3"></i>
+
+                <div
+                  class="
+                    v312-hardware-slot
+                    v312-cpu-slot
+                    ${installed(1)}
+                    ${current(1)}
+                  "
+                  data-slot="cpu-slot"
+                >
+                  ${
+                    stageStep > 1
+                    ? "CPU ✓"
+                    : "CPU SOCKET"
+                  }
+                </div>
+
+                <div
+                  class="
+                    v312-hardware-slot
+                    v312-ram-slot
+                    ${installed(2)}
+                    ${current(2)}
+                  "
+                  data-slot="ram-slot"
+                >
+                  ${
+                    stageStep > 2
+                    ? "RAM ✓"
+                    : "RAM SLOT"
+                  }
+                </div>
+
+                <div
+                  class="
+                    v312-hardware-slot
+                    v312-m2-slot
+                    ${installed(3)}
+                    ${current(3)}
+                  "
+                  data-slot="m2-slot"
+                >
+                  ${
+                    stageStep > 3
+                    ? "M.2 SSD ✓"
+                    : "M.2 SLOT"
+                  }
+                </div>
+
+                <div
+                  class="
+                    v312-hardware-slot
+                    v312-cooler-slot
+                    ${installed(6)}
+                    ${current(6)}
+                  "
+                  data-slot="cooler-slot"
+                >
+                  ${
+                    stageStep > 6
+                    ? "COOLER ✓"
+                    : "CPU COOLER"
+                  }
+                </div>
+
+              </div>
+            `
+          }
+
+        </div>
+
+
+        <div
+          class="
+            v312-drive-slot
+            v312-ssd-bay
+            ${installed(4)}
+            ${current(4)}
+          "
+          data-slot="sata-slot"
+        >
+          <span>▰</span>
+          <b>
+            ${
+              stageStep > 4
+              ? "SATA SSD ✓"
+              : "SATA SSD BAY"
+            }
+          </b>
+        </div>
+
+
+        <div
+          class="
+            v312-drive-slot
+            v312-hdd-bay
+            ${installed(5)}
+            ${current(5)}
+          "
+          data-slot="hdd-slot"
+        >
+          <span>💽</span>
+          <b>
+            ${
+              stageStep > 5
+              ? "HDD ✓"
+              : "HDD BAY"
+            }
+          </b>
+        </div>
+
+
+        <div
+          class="
+            v312-psu-bay
+            ${installed(7)}
+            ${current(7)}
+          "
+          data-slot="psu-slot"
+        >
+
+          <div class="v312-psu-fan">
+            ✣
+          </div>
+
+          <b>
+            ${
+              stageStep > 7
+              ? "SMPS / PSU ✓"
+              : "SMPS / PSU BAY"
+            }
+          </b>
+
+          <small>
+            POWER SUPPLY
+          </small>
+
+        </div>
+
+      </div>
+
+
+      <div class="v312-parts-rack">
+
+        <div class="v312-rack-title">
+          🧰 COMPONENTS
+          <small>
+            Select a part, then choose its correct location
+          </small>
+        </div>
+
+        ${
+          [
+            ["motherboard","🟩","Motherboard"],
+            ["cpu","⚙️","Processor / CPU"],
+            ["ram","🧠","RAM Module"],
+            ["m2","▬","M.2 SSD"],
+            ["sata","▰","SATA SSD"],
+            ["hdd","💽","Hard Disk Drive"],
+            ["cooler","🌀","CPU Cooler"],
+            ["psu","⚡","SMPS / PSU"]
+          ]
+
+          .map((x,i)=>`
+
+            <div
+              class="
+                v312-part-item
+                ${i < stageStep ? "used" : ""}
+                ${i === stageStep ? "current-part" : ""}
+              "
+              data-part="${x[0]}"
+              draggable="${i >= stageStep}"
+            >
+
+              <span>${x[1]}</span>
+
+              <b>${x[2]}</b>
+
+              ${
+                i < stageStep
+                ? "<small>INSTALLED ✓</small>"
+                : i === stageStep
+                ? "<small>INSTALL NOW</small>"
+                : "<small>WAITING</small>"
+              }
+
+            </div>
+
+          `)
+
+          .join("")
+        }
+
+      </div>
+
+
+      <div class="v312-assembly-tip">
+
+        <span>💡</span>
+
+        <div>
+
+          <b>Technician Tip</b>
+
+          <small>
+            Use the Hint or Show Me button whenever you
+            need help. Hints support learning and will
+            highlight the correct component and location.
+          </small>
+
+        </div>
+
+      </div>
+
+    </div>
+  `;
+
+
+  qa("[data-part]").forEach(el=>{
+
+    el.onclick = ()=>{
+      selectPart(
+        el.dataset.part,
+        el
+      );
+    };
+
+    el.addEventListener(
+      "dragstart",
+      e=>{
+        selectedPart =
+          el.dataset.part;
+
+        e.dataTransfer?.setData(
+          "text/plain",
+          selectedPart
+        );
+      }
+    );
+
+  });
+
+
+  qa("[data-slot]").forEach(slot=>{
+
+    slot.addEventListener(
+      "dragover",
+      e=>e.preventDefault()
+    );
+
+    slot.addEventListener(
+      "drop",
+      e=>{
+
+        e.preventDefault();
+
+        attemptPartDrop(
+          e.dataTransfer?.getData("text/plain")
+            || selectedPart,
+          slot.dataset.slot,
+          slot
+        );
+
+      }
+    );
+
+    slot.onclick = ()=>{
+
+      if(selectedPart){
+
+        attemptPartDrop(
+          selectedPart,
+          slot.dataset.slot,
+          slot
+        );
+
+      }
+
+    };
+
+  });
+
+}
+
+
+/* ------------------------------------------------------------
+   STAGE 2 PART SELECTION
+   ------------------------------------------------------------ */
+
+function selectPart(id,el){
+
+  if(el.classList.contains("used")){
+    return;
+  }
+
+  selectedPart = id;
+
+  qa("[data-part]").forEach(x=>{
+    x.classList.toggle(
+      "selected",
+      x === el
+    );
+  });
+
+  const task =
+    STAGE2_TASKS[stageStep];
+
+  feedback(
+    `Selected ${el.querySelector("b")?.textContent || el.textContent.trim()}. Now find the correct installation location.`,
+    "info",
+    false
+  );
+
+  if(task && id === task.part){
+
+    document
+      .querySelector(
+        `[data-slot="${task.target}"]`
+      )
+      ?.classList
+      .add("v312-soft-target");
+  }
+
+}
+
+
+/* ------------------------------------------------------------
+   STAGE 2 INSTALLATION CHECK
+   ------------------------------------------------------------ */
+
+function attemptPartDrop(part,target,el){
+
+  const t =
+    STAGE2_TASKS[stageStep];
+
+  if(!t) return;
+
+
+  if(
+    part === t.part &&
+    target === t.target
+  ){
+
+    el.classList.add(
+      "correct-flash",
+      "installed-part"
+    );
+
+    feedback(
+      `✅ ${t.label} installed correctly!`,
+      "good",
+      true
+    );
+
+    selectedPart = null;
+
+    stageStep++;
+
+    setTimeout(()=>{
+      renderSimulator();
+    },850);
+
+  }
+
+  else{
+
+    el.classList.add(
+      "wrong-flash"
+    );
+
+    setTimeout(()=>{
+      el.classList.remove(
+        "wrong-flash"
+      );
+    },650);
+
+    addMistake(
+      "❌ That component does not belong there. Check the instruction or use a hint."
+    );
+
+  }
+
+}
 })();
