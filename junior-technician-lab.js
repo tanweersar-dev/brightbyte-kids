@@ -1914,7 +1914,7 @@ function attemptPartDrop(part,target,el){
   }
 
 }
-})();
+
 
 
 /* ============================================================
@@ -2092,3 +2092,434 @@ function attemptPartDrop(part, target, el){
 
   },900);
 }
+
+/* ============================================================
+   V31.4 — STAGE 5-A / 5-B FINAL EXAM + PREMIUM CERTIFICATE
+   Final additive upgrade. Keep this inside the main IIFE.
+   ============================================================ */
+
+const V314_STAGE5_A = [
+  {
+    title:"Monitor shows NO SIGNAL",
+    text:"The PC appears powered on, but the monitor says NO SIGNAL. Choose the safest first technician check.",
+    label:"5-A1 • Display Troubleshooting",
+    choices:[
+      "Check the display cable and confirm the correct monitor input/source",
+      "Format the storage drive",
+      "Open the PSU casing",
+      "Delete Windows system files"
+    ],
+    correct:0,
+    hint:"Start with the simplest reversible check related directly to the display symptom."
+  },
+  {
+    title:"Keyboard not detected",
+    text:"The computer starts, but the keyboard is not responding. What should the technician check first?",
+    label:"5-A2 • USB Troubleshooting",
+    choices:[
+      "Replace the monitor",
+      "Check the keyboard USB connection and try another USB port",
+      "Remove the CPU while the PC is powered on",
+      "Delete the user's files"
+    ],
+    correct:1,
+    hint:"Check the keyboard connection before replacing hardware."
+  },
+  {
+    title:"App is frozen",
+    text:"A school application is Not Responding. Choose the safest first software action.",
+    label:"5-A3 • Windows Support",
+    choices:[
+      "Pull the power cable immediately",
+      "Delete random system files",
+      "Wait briefly, then use Task Manager if needed",
+      "Open the SMPS casing"
+    ],
+    correct:2,
+    hint:"Use a normal Windows troubleshooting tool before any drastic action."
+  },
+  {
+    title:"Printer connected but not printing",
+    text:"The printer is powered and connected, but the print job is not coming out. Choose the best first check.",
+    label:"5-A4 • Printer Support",
+    choices:[
+      "Check printer status, queue, paper/toner and the selected printer",
+      "Replace the motherboard",
+      "Share the user's password",
+      "Remove the SSD"
+    ],
+    correct:0,
+    hint:"Check status and simple printer conditions before replacing hardware."
+  },
+  {
+    title:"Deleted file needed again",
+    text:"A student accidentally deleted a document a few minutes ago. What is the best first recovery action?",
+    label:"5-A5 • File Recovery",
+    choices:[
+      "Format the PC",
+      "Reset the router",
+      "Check Recycle Bin and restore the file",
+      "Replace RAM"
+    ],
+    correct:2,
+    hint:"Windows usually gives you a safe recovery location for recently deleted files."
+  }
+];
+
+const V314_STAGE5_B = [
+  {
+    title:"AI gives a surprising fact",
+    text:"An AI assistant gives a surprising science fact with no source. What should you do next?",
+    label:"5-B1 • AI Verification",
+    choices:[
+      "Trust it automatically",
+      "Verify the claim with reliable sources",
+      "Post it everywhere immediately",
+      "Give the AI your OTP"
+    ],
+    correct:1,
+    hint:"AI can be wrong. Important claims should be checked with reliable sources."
+  },
+  {
+    title:"Password and OTP request",
+    text:"A popup asks for your school password and OTP to fix your account. Choose the safest response.",
+    label:"5-B2 • Privacy & Cyber Safety",
+    choices:[
+      "Enter the password and OTP immediately",
+      "Send them to a classmate",
+      "Keep them private and report/verify the request through a trusted channel",
+      "Paste them into an AI chat"
+    ],
+    correct:2,
+    hint:"Passwords and OTPs are private. Never share them with unknown tools or people."
+  },
+  {
+    title:"Safe AI printer prompt",
+    text:"Which AI prompt is safest and most useful for a printer that is connected but not printing?",
+    label:"5-B3 • Responsible AI Support",
+    choices:[
+      "Delete everything and start over",
+      "Tell me how to bypass school security",
+      "Give safe first checks for printer status, queue, paper/toner, cable/network and default printer selection",
+      "Hack the printer admin password"
+    ],
+    correct:2,
+    hint:"A good IT-support prompt asks for specific, safe and non-destructive first checks."
+  },
+  {
+    title:"Suspicious edited image",
+    text:"A dramatic image is circulating online with no clear source. What is the best response?",
+    label:"5-B4 • Media Verification",
+    choices:[
+      "Decide it is real because it looks realistic",
+      "Check source, date, context and supporting evidence",
+      "Share it immediately",
+      "Decide it is fake only because it looks unusual"
+    ],
+    correct:1,
+    hint:"Appearance alone is not proof. Check source and evidence."
+  },
+  {
+    title:"Computer is overheating",
+    text:"A classmate says the computer is unusually hot. Choose the safest technician response.",
+    label:"5-B5 • Safe Technician Judgment",
+    choices:[
+      "Open the PSU while it is powered on",
+      "Pour water on the computer",
+      "Shut down safely and ask a trusted adult/technician to inspect cooling and airflow",
+      "Touch internal powered parts to find the hot component"
+    ],
+    correct:2,
+    hint:"Power down safely before any real hardware inspection."
+  }
+];
+
+let v314Stage5Part = "A";
+let v314Stage5Index = 0;
+let v314Stage5Hint = "";
+
+/* Migrate old Stage 5 completion once: the new certificate requires 5-A + 5-B. */
+function loadState(){
+  try{
+    state=normalizeState(JSON.parse(localStorage.getItem(keyForStudent()) || "null"));
+  }catch{
+    state=freshState();
+  }
+  if(state.completed.includes(5) && state.stage5ABPassed!==true){
+    state.completed=state.completed.filter(x=>x!==5);
+    state.unlocked=Math.max(5,Number(state.unlocked||1));
+    state.certificateId="";
+    state.completedAt="";
+    localStorage.setItem(keyForStudent(),JSON.stringify(state));
+  }
+}
+
+function prepareFinalTickets(){
+  v314Stage5Part="A";
+  v314Stage5Index=0;
+  v314Stage5Hint="";
+  finalTickets=[];
+  finalTicketIndex=0;
+}
+
+function stageSteps(){
+  if(activeStage===1) return STAGE1_RULES.map(x=>x.title);
+  if(activeStage===2) return STAGE2_TASKS.map(x=>x.title);
+  if(activeStage===3) return ["Create a School Work folder","Move Project.docx into the folder","Delete Holiday.jpg","Restore Holiday.jpg from Recycle Bin","Close a frozen app with Task Manager"];
+  if(activeStage===4) return ["Build a strong AI prompt","Sort safe vs private information","Verify an AI claim","Use evidence for AI/edited media","Choose a safe IT-support AI prompt"];
+  if(activeStage===5){
+    return [
+      ...V314_STAGE5_A.map((x,i)=>`5-A${i+1} • ${x.title}`),
+      ...V314_STAGE5_B.map((x,i)=>`5-B${i+1} • ${x.title}`)
+    ];
+  }
+  return [];
+}
+
+function v314ShuffleChoices(question){
+  const items=question.choices.map((text,index)=>({text,index}));
+  for(let i=items.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [items[i],items[j]]=[items[j],items[i]];
+  }
+  return items;
+}
+
+function v314Stage5Question(){
+  const bank=v314Stage5Part==="A"?V314_STAGE5_A:V314_STAGE5_B;
+  return bank[v314Stage5Index]||null;
+}
+
+function v314TotalStep(){
+  return v314Stage5Part==="A" ? v314Stage5Index : V314_STAGE5_A.length+v314Stage5Index;
+}
+
+function renderStage5(){
+  const q=v314Stage5Question();
+  if(!q){
+    state.stage5ABPassed=true;
+    stageStep=V314_STAGE5_A.length+V314_STAGE5_B.length;
+    renderStepList();
+    finishStage();
+    return;
+  }
+
+  stageStep=v314TotalStep();
+  setInstruction(`${v314Stage5Part==="A"?"Stage 5-A":"Stage 5-B"} — ${q.title}`,q.text);
+  v314Stage5Hint=q.hint;
+  const shuffled=v314ShuffleChoices(q);
+  const total=V314_STAGE5_A.length+V314_STAGE5_B.length;
+  const number=stageStep+1;
+
+  $("simulator").innerHTML=`
+    <div class="v314-final-mission">
+      <div class="v314-final-badges">
+        <span class="${v314Stage5Part==="A"?"active":""}">5-A • Practical Support Exam</span>
+        <span class="${v314Stage5Part==="B"?"active":""}">5-B • AI & Cyber Safety Exam</span>
+        <span class="v314-question-count">Question ${number} / ${total}</span>
+      </div>
+
+      <div class="v314-final-layout">
+        <aside class="v314-ticket-queue">
+          <div class="v314-ticket-title">📋 Final Certification Queue</div>
+          <div class="v314-ticket-group">
+            <b>Stage 5-A • Support Skills</b>
+            ${V314_STAGE5_A.map((x,i)=>{
+              const done=v314Stage5Part==="B" || (v314Stage5Part==="A" && i<v314Stage5Index);
+              const current=v314Stage5Part==="A" && i===v314Stage5Index;
+              return `<div class="v314-ticket ${done?"done":current?"current":""}">${done?"✅":current?"▶":"○"} ${esc(x.title)}</div>`;
+            }).join("")}
+          </div>
+          <div class="v314-ticket-group">
+            <b>Stage 5-B • Smart Technician</b>
+            ${V314_STAGE5_B.map((x,i)=>{
+              const done=v314Stage5Part==="B" && i<v314Stage5Index;
+              const current=v314Stage5Part==="B" && i===v314Stage5Index;
+              return `<div class="v314-ticket ${done?"done":current?"current":""}">${done?"✅":current?"▶":"○"} ${esc(x.title)}</div>`;
+            }).join("")}
+          </div>
+        </aside>
+
+        <section class="v314-exam-area">
+          <div class="v314-exam-monitor">
+            <div class="v314-exam-screen">
+              <span>${esc(q.label)}</span>
+              <h3>${esc(q.title)}</h3>
+              <p>${esc(q.text)}</p>
+              <small>Choose the safest and most useful first action.</small>
+            </div>
+          </div>
+          <div class="v314-exam-tower"><i></i></div>
+          <div class="v314-exam-desk"></div>
+
+          <div class="v314-choice-grid">
+            ${shuffled.map((choice,pos)=>`<button class="diagnostic-btn v314-choice" type="button" data-v314-answer="${choice.index}"><span>${String.fromCharCode(65+pos)}</span>${esc(choice.text)}</button>`).join("")}
+          </div>
+        </section>
+      </div>
+    </div>`;
+
+  qa("[data-v314-answer]").forEach(btn=>{
+    btn.onclick=()=>v314AnswerStage5(Number(btn.dataset.v314Answer));
+  });
+  feedback(`Final Exam ${v314Stage5Part}: read the scenario and choose the safest first action. Options are shuffled.`,"info");
+}
+
+function v314AnswerStage5(answerIndex){
+  const q=v314Stage5Question();
+  if(!q) return;
+  if(answerIndex!==q.correct){
+    addMistake("❌ Not the best first action. Think safe, simple and reversible. Use Hint if needed.");
+    return;
+  }
+
+  feedback("✅ Correct. Good technician judgment!","good",true);
+  v314Stage5Index++;
+
+  const bank=v314Stage5Part==="A"?V314_STAGE5_A:V314_STAGE5_B;
+  if(v314Stage5Index<bank.length){
+    setTimeout(renderSimulator,650);
+    return;
+  }
+
+  if(v314Stage5Part==="A"){
+    setTimeout(()=>{
+      openModal(`
+        <div class="v314-part-complete">
+          <div class="v314-part-party">🎉 🔧 ⭐ 🏆 ⭐ 🔧 🎉</div>
+          <h2>Stage 5-A Complete!</h2>
+          <p>You passed the Practical Support Exam.</p>
+          <div class="v314-part-next"><b>Next: Stage 5-B</b><small>AI Safety • Cyber Safety • Responsible Technician Decisions</small></div>
+          <div class="modal-actions"><button class="go" id="v314StartB">▶ START STAGE 5-B</button></div>
+        </div>`);
+      $("v314StartB").onclick=()=>{
+        closeModal();
+        v314Stage5Part="B";
+        v314Stage5Index=0;
+        stageStep=V314_STAGE5_A.length;
+        renderSimulator();
+      };
+    },550);
+    return;
+  }
+
+  state.stage5ABPassed=true;
+  stageStep=V314_STAGE5_A.length+V314_STAGE5_B.length;
+  renderStepList();
+  setTimeout(()=>finishStage(),650);
+}
+
+/* Upgrade Hint behavior for Stage 5 while keeping all earlier stages intact. */
+function currentHint(){
+  if(!activeStage) return;
+  if(activeStage===1){
+    const t=STAGE1_RULES[stageStep];
+    addHint(t?.action==="poweron"?"All cables are complete — use the green POWER TEST button.":`Use ${t?.label}. Match the two ports named in the current instruction.`);
+  }else if(activeStage===2){
+    const t=STAGE2_TASKS[stageStep];
+    addHint(`${t?.label} belongs in the ${t?.target?.replace("-"," ")} area.`);
+  }else if(activeStage===3){
+    const hs=["Use the New Folder button in the taskbar.","Move Project.docx onto School Work.","Move Holiday.jpg onto Recycle Bin.","Open Recycle Bin and choose Restore.","Open Task Manager, then End Task for the frozen app."];
+    addHint(hs[stageStep]||"Follow the current Windows instruction.");
+  }else if(activeStage===4){
+    const hs=["Match each prompt block with the same named slot.","Passwords, OTPs and exact home addresses are private.","AI answers should be verified with reliable sources.","Do not decide real/fake from appearance alone — check evidence.","Choose the prompt that asks for safe first checks."];
+    addHint(hs[stageStep]||"Use privacy, verification and human judgment.");
+  }else if(activeStage===5){
+    addHint(v314Stage5Hint||"Choose the simplest safe and reversible first action.",false);
+  }
+}
+
+/* Premium certificate helpers */
+function v314AverageScore(){
+  const scores=Object.values(state.stageScores||{}).map(Number).filter(Number.isFinite);
+  return scores.length?Math.round(scores.reduce((a,b)=>a+b,0)/scores.length):0;
+}
+
+function v314CertificateDocument(){
+  const name=esc(profile?.display_name||profile?.username||"Student");
+  const classNo=esc(profile?.class_number||"");
+  const avg=v314AverageScore();
+  const certId=esc(state.certificateId||makeCertificateId());
+  const date=esc(state.completedAt?new Date(state.completedAt).toLocaleDateString():new Date().toLocaleDateString());
+
+  return `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Certificate - ${name}</title>
+<style>
+@page{size:A4 portrait;margin:0}
+*{box-sizing:border-box;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+html,body{margin:0;background:#dfe5ec;font-family:Georgia,'Times New Roman',serif;color:#132b5b}
+.toolbar{width:210mm;margin:12px auto 6px;display:flex;justify-content:flex-end;font-family:Arial,sans-serif}
+.toolbar button{border:0;border-radius:12px;padding:11px 18px;background:linear-gradient(135deg,#465fff,#18b8c1);color:white;font-weight:900;cursor:pointer}
+.certificate{width:210mm;height:297mm;margin:0 auto;background:#fff;position:relative;overflow:hidden;box-shadow:0 18px 50px #17223a33;padding:15mm}
+.frame1{position:absolute;inset:7mm;border:2.5mm solid #063f79;pointer-events:none}
+.frame2{position:absolute;inset:10mm;border:.7mm solid #d5a52e;pointer-events:none}
+.frame3{position:absolute;inset:12mm;border:.35mm solid #0a7c93;pointer-events:none}
+.corner{position:absolute;width:78mm;height:78mm;z-index:0;opacity:.98;background:linear-gradient(135deg,#063f79 0 29%,#057c9b 30% 43%,#d1a12d 44% 52%,#f7e6b5 53% 58%,transparent 59%);clip-path:polygon(0 0,100% 0,0 100%)}
+.c1{left:7mm;top:7mm}.c2{right:7mm;top:7mm;transform:scaleX(-1)}.c3{left:7mm;bottom:7mm;transform:scaleY(-1)}.c4{right:7mm;bottom:7mm;transform:scale(-1)}
+.inner{position:relative;z-index:2;text-align:center;height:100%;padding:5mm 12mm;display:flex;flex-direction:column;align-items:center}
+.academy{font:900 13px Arial,sans-serif;letter-spacing:3px;color:#173e7b;margin-top:3mm;text-transform:uppercase}
+.logo{width:25mm;height:25mm;border-radius:7mm;margin:7mm auto 4mm;display:grid;place-items:center;background:linear-gradient(145deg,#5564ff,#25c3c7);color:#fff;font:1000 42px Arial,sans-serif;box-shadow:0 4mm 8mm #344f9933;border:1mm solid #ffffff}
+.cert-of{font-size:31px;font-style:italic;margin:1mm 0 -1mm;color:#102f68;font-weight:500}
+.achievement{font-size:38px;margin:0;color:#a97314;text-transform:uppercase;letter-spacing:1.5px;line-height:1}
+.ribbon{margin:5mm auto 4mm;padding:3mm 12mm;color:#fff;background:linear-gradient(90deg,#06477c,#07899c,#06477c);border-top:.7mm solid #d9ae40;border-bottom:.7mm solid #d9ae40;font:900 17px Arial,sans-serif;letter-spacing:1.2px;clip-path:polygon(4% 0,96% 0,100% 50%,96% 100%,4% 100%,0 50%)}
+.id{font:700 11px Arial,sans-serif;color:#415678;margin-top:1mm}.presented{font-size:16px;margin-top:5mm}.name{font-size:42px;font-style:italic;color:#1f347a;margin:3mm 0 4mm;border-bottom:.5mm solid #d1a538;padding:0 8mm 2mm;min-width:100mm}
+.desc{max-width:155mm;font-size:15px;line-height:1.55;color:#34486b}.skills{max-width:160mm;margin:4mm auto;font:800 13px/1.7 Arial,sans-serif;color:#08786f}.award{font-size:24px;font-weight:800;color:#1b3472;margin:2mm 0}.meta{font:700 11px Arial,sans-serif;color:#3e5275;margin-top:3mm}
+.seal{width:36mm;height:36mm;border-radius:50%;margin:5mm auto 3mm;display:grid;place-items:center;text-align:center;color:#fff8d2;background:radial-gradient(circle,#0b3d78 0 45%,#d6a632 46% 55%,#063b72 56% 64%,#f4dc92 65% 100%);box-shadow:0 3mm 6mm #18356633;font:900 9px/1.35 Arial,sans-serif;position:relative}
+.seal:after{content:'';position:absolute;bottom:-10mm;width:19mm;height:14mm;background:linear-gradient(90deg,#063f79,#07899c,#063f79);clip-path:polygon(0 0,100% 0,78% 100%,50% 72%,22% 100%);z-index:-1}
+.signs{width:100%;display:flex;justify-content:space-between;gap:20mm;margin-top:auto;margin-bottom:8mm;font-family:Arial,sans-serif}.sign{width:42%;border-top:.4mm solid #6a7690;padding-top:2mm}.sign b{display:block;font-size:14px;color:#18326c}.sign small{display:block;font-size:9px;color:#63708a;margin-top:1mm}
+@media print{html,body{background:#fff}.toolbar{display:none}.certificate{box-shadow:none;margin:0}}
+</style>
+</head>
+<body>
+<div class="toolbar"><button onclick="window.print()">🖨 Print / Save PDF</button></div>
+<section class="certificate">
+  <div class="frame1"></div><div class="frame2"></div><div class="frame3"></div>
+  <div class="corner c1"></div><div class="corner c2"></div><div class="corner c3"></div><div class="corner c4"></div>
+  <div class="inner">
+    <div class="academy">Tannu Sir's Kids Digital Academy</div>
+    <div class="logo">T</div>
+    <div class="cert-of">Certificate Of</div>
+    <h1 class="achievement">Achievement</h1>
+    <div class="ribbon">JUNIOR DIGITAL &amp; AI TECHNICIAN</div>
+    <div class="id">Certificate ID: ${certId}</div>
+    <div class="presented">This certificate is proudly presented to</div>
+    <div class="name">${name}</div>
+    <div class="desc">for successfully completing the full five-stage practical certification, including the Stage 5-A Practical Support Exam and Stage 5-B AI &amp; Cyber Safety Exam, and demonstrating safe hands-on digital technician skills.</div>
+    <div class="skills">Computer Hardware • PC Assembly • Windows &amp; Software • AI Literacy • Cyber Safety • Troubleshooting</div>
+    <div class="award">Junior Digital &amp; AI Technician — Level 2</div>
+    <div class="meta">Class ${classNo} &nbsp;•&nbsp; Final Score ${avg}% &nbsp;•&nbsp; Date ${date}</div>
+    <div class="seal">VERIFIED<br>PRACTICAL<br>ACHIEVEMENT</div>
+    <div class="signs">
+      <div class="sign"><b>Tannu Sir</b><small>Academy Mentor</small></div>
+      <div class="sign"><b>Verified Practical Path</b><small>5 Stages • Stage 5-A + 5-B Passed</small></div>
+    </div>
+  </div>
+</section>
+</body>
+</html>`;
+}
+
+function showCertificate(){
+  if(!state.completed.includes(5) || state.stage5ABPassed!==true){
+    return toast("Complete Stage 5-A and Stage 5-B first.");
+  }
+  if(!state.certificateId){
+    state.certificateId=makeCertificateId();
+    saveState();
+  }
+  const win=window.open("","_blank");
+  if(!win){
+    toast("Please allow popups to open the certificate.");
+    return;
+  }
+  win.document.open();
+  win.document.write(v314CertificateDocument());
+  win.document.close();
+}
+
+
+})();
