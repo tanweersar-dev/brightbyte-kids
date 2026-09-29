@@ -530,3 +530,280 @@
     font-size:7.5px !important;
   }
 }
+/* ============================================================
+   V31.1 — Stage 1 layout cleanup + bigger practical area
+   No new file. Append at the end of junior-technician-stage1-v31.css
+   ============================================================ */
+
+/* 1) Remove upper extra learning blocks to give more space */
+.work-area .learn-panel,
+.work-area .v30-stage1-guide{
+  display:none !important;
+}
+
+/* 2) Make simulator bigger and cleaner */
+#simulator.v30-stage1-enhanced{
+  min-height:680px !important;
+  margin-top:10px !important;
+}
+
+#simulator.v30-stage1-enhanced .lab-scene{
+  padding:16px 16px 130px !important;
+}
+
+/* 3) Lift the desk upward so bottom tray gets its own area */
+#simulator.v30-stage1-enhanced .desk{
+  left:4% !important;
+  right:4% !important;
+  bottom:14% !important;
+  height:26% !important;
+}
+
+/* 4) Improve actual device positions */
+#simulator.v30-stage1-enhanced .monitor-device{
+  left:27% !important;
+  top:18% !important;
+  width:35% !important;
+  height:30% !important;
+}
+
+#simulator.v30-stage1-enhanced .tower-device{
+  right:18% !important;
+  top:23% !important;
+  width:16% !important;
+  height:38% !important;
+}
+
+#simulator.v30-stage1-enhanced .speaker-device{
+  right:4% !important;
+  top:36% !important;
+  width:7% !important;
+  height:20% !important;
+}
+
+#simulator.v30-stage1-enhanced .printer-device{
+  left:3% !important;
+  top:auto !important;
+  bottom:30% !important;
+  width:15% !important;
+  height:19% !important;
+}
+
+#simulator.v30-stage1-enhanced .ups-device{
+  left:15% !important;
+  right:auto !important;
+  bottom:16% !important;
+  width:15% !important;
+  height:18% !important;
+}
+
+#simulator.v30-stage1-enhanced .keyboard-device{
+  left:39% !important;
+  bottom:18.5% !important;
+  width:28% !important;
+  height:8.5% !important;
+}
+
+#simulator.v30-stage1-enhanced .mouse-device{
+  left:69% !important;
+  bottom:18.5% !important;
+  width:6.2% !important;
+  height:9% !important;
+}
+
+/* 5) Make tray a proper bottom dock, not over devices */
+#simulator.v30-stage1-enhanced .tray{
+  left:4% !important;
+  right:4% !important;
+  bottom:2% !important;
+  display:grid !important;
+  grid-template-columns:repeat(6,minmax(0,1fr)) !important;
+  gap:8px !important;
+  justify-content:stretch !important;
+  align-items:stretch !important;
+  padding:10px !important;
+  border-radius:16px !important;
+  background:rgba(245,248,253,.97) !important;
+  border:1px solid #d6deea !important;
+  box-shadow:0 12px 22px rgba(22,37,70,.14) !important;
+  z-index:25 !important;
+}
+
+/* 6) Make cable buttons compact and neat */
+#simulator.v30-stage1-enhanced .drag-item{
+  width:100% !important;
+  min-height:38px !important;
+  padding:8px 7px !important;
+  border-radius:12px !important;
+  display:flex !important;
+  align-items:center !important;
+  justify-content:center !important;
+  text-align:center !important;
+  line-height:1.2 !important;
+  font-size:10px !important;
+  font-weight:900 !important;
+  white-space:normal !important;
+}
+
+/* 7) Small port cleanup so they look balanced */
+#simulator.v30-stage1-enhanced .port{
+  min-width:40px !important;
+  min-height:23px !important;
+  font-size:6.5px !important;
+  padding:5px 7px !important;
+}
+
+/* 8) Slightly better position for labels */
+#simulator.v30-stage1-enhanced .v30-bench-label{
+  z-index:30 !important;
+}
+
+/* 9) Desktop-medium screens */
+@media (max-width:1400px){
+  #simulator.v30-stage1-enhanced{
+    min-height:720px !important;
+  }
+
+  #simulator.v30-stage1-enhanced .tray{
+    grid-template-columns:repeat(5,minmax(0,1fr)) !important;
+  }
+
+  #simulator.v30-stage1-enhanced .keyboard-device{
+    bottom:19% !important;
+  }
+
+  #simulator.v30-stage1-enhanced .mouse-device{
+    bottom:19% !important;
+  }
+
+  #simulator.v30-stage1-enhanced .ups-device{
+    bottom:16.5% !important;
+  }
+}
+
+/* 10) Tablet */
+@media (max-width:1100px){
+  #simulator.v30-stage1-enhanced{
+    min-height:760px !important;
+  }
+
+  #simulator.v30-stage1-enhanced .tray{
+    grid-template-columns:repeat(4,minmax(0,1fr)) !important;
+  }
+
+  #simulator.v30-stage1-enhanced .desk{
+    bottom:15% !important;
+    height:27% !important;
+  }
+
+  #simulator.v30-stage1-enhanced .monitor-device{
+    left:24% !important;
+    width:39% !important;
+    height:27% !important;
+  }
+
+  #simulator.v30-stage1-enhanced .tower-device{
+    right:10% !important;
+    width:19% !important;
+    height:34% !important;
+  }
+
+  #simulator.v30-stage1-enhanced .printer-device{
+    width:17% !important;
+    bottom:31% !important;
+  }
+
+  #simulator.v30-stage1-enhanced .ups-device{
+    left:10% !important;
+    width:18% !important;
+    bottom:17% !important;
+  }
+
+  #simulator.v30-stage1-enhanced .keyboard-device{
+    left:33% !important;
+    width:33% !important;
+    bottom:20% !important;
+  }
+
+  #simulator.v30-stage1-enhanced .mouse-device{
+    left:69% !important;
+    width:8% !important;
+    bottom:20% !important;
+  }
+}
+
+/* 11) Mobile */
+@media (max-width:700px){
+  #simulator.v30-stage1-enhanced{
+    min-height:860px !important;
+  }
+
+  #simulator.v30-stage1-enhanced .lab-scene{
+    padding:14px 12px 180px !important;
+  }
+
+  #simulator.v30-stage1-enhanced .tray{
+    grid-template-columns:repeat(3,minmax(0,1fr)) !important;
+    gap:7px !important;
+  }
+
+  #simulator.v30-stage1-enhanced .drag-item{
+    min-height:36px !important;
+    font-size:9px !important;
+    padding:7px 6px !important;
+  }
+
+  #simulator.v30-stage1-enhanced .desk{
+    bottom:19% !important;
+    height:25% !important;
+  }
+
+  #simulator.v30-stage1-enhanced .monitor-device{
+    left:20% !important;
+    top:20% !important;
+    width:43% !important;
+    height:23% !important;
+  }
+
+  #simulator.v30-stage1-enhanced .tower-device{
+    right:6% !important;
+    top:26% !important;
+    width:22% !important;
+    height:30% !important;
+  }
+
+  #simulator.v30-stage1-enhanced .speaker-device{
+    right:2% !important;
+    top:38% !important;
+    width:10% !important;
+    height:16% !important;
+  }
+
+  #simulator.v30-stage1-enhanced .printer-device{
+    left:2% !important;
+    bottom:34% !important;
+    width:18% !important;
+    height:16% !important;
+  }
+
+  #simulator.v30-stage1-enhanced .ups-device{
+    left:6% !important;
+    bottom:22% !important;
+    width:20% !important;
+    height:14% !important;
+  }
+
+  #simulator.v30-stage1-enhanced .keyboard-device{
+    left:29% !important;
+    bottom:24% !important;
+    width:38% !important;
+    height:7% !important;
+  }
+
+  #simulator.v30-stage1-enhanced .mouse-device{
+    left:70% !important;
+    bottom:24% !important;
+    width:9% !important;
+    height:7.5% !important;
+  }
+}
