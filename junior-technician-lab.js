@@ -2636,4 +2636,148 @@ function v315OpenDirectStage5WhenReady(){
 setTimeout(v315OpenDirectStage5WhenReady, 120);
 
 
+/* ============================================================
+   V31.6 — CONNECT FINAL EXAM TO NEW PREMIUM CERTIFICATE
+   - Normal path: Stage 1 → 2 → 3 → 4 → 5-A → 5-B → official certificate
+   - Direct test link: Stage 5-A → 5-B → premium certificate preview
+   - Test preview never saves official certification progress
+   ============================================================ */
+
+function v316PremiumCertificatePreviewDocument(){
+  const name=esc(profile?.display_name||profile?.username||"Student");
+  const classNo=esc(profile?.class_number||"");
+  const score=Math.max(0,stageScore());
+  const previewId=`PREVIEW-${makeCertificateId()}`;
+  const date=esc(new Date().toLocaleDateString());
+
+  return `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Premium Certificate Preview - ${name}</title>
+<style>
+@page{size:A4 portrait;margin:0}
+*{box-sizing:border-box;-webkit-print-color-adjust:exact!important;print-color-adjust:exact!important}
+html,body{margin:0;background:#dfe5ec;font-family:Georgia,'Times New Roman',serif;color:#132b5b}
+.toolbar{width:210mm;margin:12px auto 6px;display:flex;justify-content:space-between;align-items:center;font-family:Arial,sans-serif}
+.toolbar .preview-note{font-size:12px;font-weight:900;color:#7b4b00;background:#fff2c7;padding:9px 12px;border-radius:10px}
+.toolbar button{border:0;border-radius:12px;padding:11px 18px;background:linear-gradient(135deg,#465fff,#18b8c1);color:white;font-weight:900;cursor:pointer}
+.certificate{width:210mm;height:297mm;margin:0 auto;background:#fff;position:relative;overflow:hidden;box-shadow:0 18px 50px #17223a33;padding:15mm}
+.frame1{position:absolute;inset:7mm;border:2.5mm solid #063f79;pointer-events:none}
+.frame2{position:absolute;inset:10mm;border:.7mm solid #d5a52e;pointer-events:none}
+.frame3{position:absolute;inset:12mm;border:.35mm solid #0a7c93;pointer-events:none}
+.corner{position:absolute;width:78mm;height:78mm;z-index:0;opacity:.98;background:linear-gradient(135deg,#063f79 0 29%,#057c9b 30% 43%,#d1a12d 44% 52%,#f7e6b5 53% 58%,transparent 59%);clip-path:polygon(0 0,100% 0,0 100%)}
+.c1{left:7mm;top:7mm}.c2{right:7mm;top:7mm;transform:scaleX(-1)}.c3{left:7mm;bottom:7mm;transform:scaleY(-1)}.c4{right:7mm;bottom:7mm;transform:scale(-1)}
+.watermark{position:absolute;left:50%;top:49%;transform:translate(-50%,-50%) rotate(-28deg);z-index:1;font:1000 58px Arial,sans-serif;letter-spacing:4px;color:rgba(151,109,23,.075);white-space:nowrap;pointer-events:none}
+.inner{position:relative;z-index:2;text-align:center;height:100%;padding:5mm 12mm;display:flex;flex-direction:column;align-items:center}
+.academy{font:900 13px Arial,sans-serif;letter-spacing:3px;color:#173e7b;margin-top:3mm;text-transform:uppercase}
+.logo{width:25mm;height:25mm;border-radius:7mm;margin:7mm auto 4mm;display:grid;place-items:center;background:linear-gradient(145deg,#5564ff,#25c3c7);color:#fff;font:1000 42px Arial,sans-serif;box-shadow:0 4mm 8mm #344f9933;border:1mm solid #ffffff}
+.cert-of{font-size:31px;font-style:italic;margin:1mm 0 -1mm;color:#102f68;font-weight:500}
+.achievement{font-size:38px;margin:0;color:#a97314;text-transform:uppercase;letter-spacing:1.5px;line-height:1}
+.ribbon{margin:5mm auto 4mm;padding:3mm 12mm;color:#fff;background:linear-gradient(90deg,#06477c,#07899c,#06477c);border-top:.7mm solid #d9ae40;border-bottom:.7mm solid #d9ae40;font:900 17px Arial,sans-serif;letter-spacing:1.2px;clip-path:polygon(4% 0,96% 0,100% 50%,96% 100%,4% 100%,0 50%)}
+.id{font:700 11px Arial,sans-serif;color:#415678;margin-top:1mm}.presented{font-size:16px;margin-top:5mm}.name{font-size:42px;font-style:italic;color:#1f347a;margin:3mm 0 4mm;border-bottom:.5mm solid #d1a538;padding:0 8mm 2mm;min-width:100mm}
+.desc{max-width:155mm;font-size:15px;line-height:1.55;color:#34486b}.skills{max-width:160mm;margin:4mm auto;font:800 13px/1.7 Arial,sans-serif;color:#08786f}.award{font-size:24px;font-weight:800;color:#1b3472;margin:2mm 0}.meta{font:700 11px Arial,sans-serif;color:#3e5275;margin-top:3mm}
+.seal{width:36mm;height:36mm;border-radius:50%;margin:5mm auto 3mm;display:grid;place-items:center;text-align:center;color:#fff8d2;background:radial-gradient(circle,#0b3d78 0 45%,#d6a632 46% 55%,#063b72 56% 64%,#f4dc92 65% 100%);box-shadow:0 3mm 6mm #18356633;font:900 9px/1.35 Arial,sans-serif;position:relative}
+.seal:after{content:'';position:absolute;bottom:-10mm;width:19mm;height:14mm;background:linear-gradient(90deg,#063f79,#07899c,#063f79);clip-path:polygon(0 0,100% 0,78% 100%,50% 72%,22% 100%);z-index:-1}
+.signs{width:100%;display:flex;justify-content:space-between;gap:20mm;margin-top:auto;margin-bottom:8mm;font-family:Arial,sans-serif}.sign{width:42%;border-top:.4mm solid #6a7690;padding-top:2mm}.sign b{display:block;font-size:14px;color:#18326c}.sign small{display:block;font-size:9px;color:#63708a;margin-top:1mm}
+@media print{html,body{background:#fff}.toolbar{display:none}.certificate{box-shadow:none;margin:0}}
+</style>
+</head>
+<body>
+<div class="toolbar"><div class="preview-note">TEST PREVIEW • Official certificate requires the full Stage 1 → 5 path</div><button onclick="window.print()">🖨 Print / Save Preview</button></div>
+<section class="certificate">
+  <div class="frame1"></div><div class="frame2"></div><div class="frame3"></div>
+  <div class="corner c1"></div><div class="corner c2"></div><div class="corner c3"></div><div class="corner c4"></div>
+  <div class="watermark">TEST PREVIEW</div>
+  <div class="inner">
+    <div class="academy">Tannu Sir's Kids Digital Academy</div>
+    <div class="logo">T</div>
+    <div class="cert-of">Certificate Of</div>
+    <h1 class="achievement">Achievement</h1>
+    <div class="ribbon">JUNIOR DIGITAL &amp; AI TECHNICIAN</div>
+    <div class="id">Preview ID: ${previewId}</div>
+    <div class="presented">This certificate preview is presented to</div>
+    <div class="name">${name}</div>
+    <div class="desc">for completing the Stage 5-A Practical Support Exam and Stage 5-B AI &amp; Cyber Safety Exam in test mode and demonstrating safe digital technician judgment.</div>
+    <div class="skills">Computer Hardware • PC Assembly • Windows &amp; Software • AI Literacy • Cyber Safety • Troubleshooting</div>
+    <div class="award">Junior Digital &amp; AI Technician — Level 2</div>
+    <div class="meta">Class ${classNo} &nbsp;•&nbsp; Stage 5 Test Score ${score}% &nbsp;•&nbsp; Date ${date}</div>
+    <div class="seal">PREMIUM<br>CERTIFICATE<br>PREVIEW</div>
+    <div class="signs">
+      <div class="sign"><b>Tannu Sir</b><small>Academy Mentor</small></div>
+      <div class="sign"><b>Full Path Verification Required</b><small>Stage 1 → 5 for official award</small></div>
+    </div>
+  </div>
+</section>
+</body>
+</html>`;
+}
+
+function v316OpenPremiumCertificatePreview(){
+  const win=window.open("","_blank");
+  if(!win){
+    toast("Please allow popups to open the certificate preview.");
+    return;
+  }
+  win.document.open();
+  win.document.write(v316PremiumCertificatePreviewDocument());
+  win.document.close();
+}
+
+/* Replace only the test-mode finish screen. Normal official finish remains unchanged. */
+const v316FinishStageOriginal = finishStage;
+finishStage = function(){
+  if(V315_DIRECT_STAGE5_TEST && activeStage === 5){
+    if(state){
+      state.stage5ABPassed = false;
+    }
+
+    feedback(
+      "✅ Stage 5-A and Stage 5-B test completed. Premium certificate preview is ready.",
+      "good",
+      true
+    );
+
+    openModal(`
+      <div class="v312-complete-modal">
+        <div class="v312-modal-party">🧪 🎉 ⭐ 🏆 ⭐ 🎉 🧪</div>
+        <h2>Stage 5 Test Complete!</h2>
+        <p>You finished both Stage 5-A and Stage 5-B.</p>
+        <div class="v312-learning-note good">
+          The new premium certificate can now be previewed. Test mode does not save official certification progress.
+        </div>
+        <div class="v312-next-banner">
+          <b>NEW PREMIUM CERTIFICATE</b>
+          <small>T logo • Navy / Teal / Gold • Stage 5-A + 5-B • Technician Level 2</small>
+        </div>
+        <div class="modal-actions">
+          <button class="soft" id="v316ReplayStage5" type="button">↺ Replay Stage 5</button>
+          <button class="soft" id="v316FullPath" type="button">🧭 Full Certification Path</button>
+          <button class="go" id="v316PreviewCert" type="button">🎓 View New Premium Certificate</button>
+        </div>
+      </div>
+    `);
+
+    $("v316ReplayStage5").onclick = ()=>{
+      closeModal();
+      openStage(5);
+    };
+
+    $("v316FullPath").onclick = ()=>{
+      location.href = "junior-technician-lab.html";
+    };
+
+    $("v316PreviewCert").onclick = ()=>{
+      closeModal();
+      v316OpenPremiumCertificatePreview();
+    };
+
+    return;
+  }
+
+  return v316FinishStageOriginal();
+};
+
+
 })();
