@@ -1915,3 +1915,180 @@ function attemptPartDrop(part,target,el){
 
 }
 })();
+
+
+/* ============================================================
+   V31.3 — LEVEL 2 EASY TOUCH / DRAG LOGIC
+   Fix overlapping targets and improve mobile usability
+   Paste BEFORE final })();
+   ============================================================ */
+
+
+/* ------------------------------------------------------------
+   Easier component selection
+   Only the CURRENT required component can be selected.
+   Wrong waiting components do NOT add mistakes.
+   ------------------------------------------------------------ */
+
+function selectPart(id, el){
+
+  const task = STAGE2_TASKS[stageStep];
+
+  if(!task) return;
+
+  if(el.classList.contains("used")){
+    return;
+  }
+
+  /* Student selected a component that is not required yet */
+  if(id !== task.part){
+
+    selectedPart = null;
+
+    qa("[data-part]").forEach(x=>{
+      x.classList.remove("selected");
+    });
+
+    const correctPart =
+      document.querySelector(
+        `[data-part="${task.part}"]`
+      );
+
+    const correctSlot =
+      document.querySelector(
+        `[data-slot="${task.target}"]`
+      );
+
+    correctPart?.classList.add("target");
+    correctSlot?.classList.add(
+      "v312-soft-target"
+    );
+
+    feedback(
+      `👉 Step ${stageStep + 1}: Select ${task.label} first. The correct component and installation area are highlighted.`,
+      "warn",
+      false
+    );
+
+    return;
+  }
+
+
+  selectedPart = id;
+
+  qa("[data-part]").forEach(x=>{
+    x.classList.toggle(
+      "selected",
+      x === el
+    );
+  });
+
+
+  const target =
+    document.querySelector(
+      `[data-slot="${task.target}"]`
+    );
+
+  target?.classList.add(
+    "v312-soft-target"
+  );
+
+
+  feedback(
+    `✅ ${task.label} selected. Now tap or drop it on the glowing INSTALL HERE area.`,
+    "good",
+    false
+  );
+}
+
+
+/* ------------------------------------------------------------
+   Easier installation logic
+
+   Wrong target caused by overlap / touch error does NOT
+   punish the child. It simply highlights the correct area.
+   ------------------------------------------------------------ */
+
+function attemptPartDrop(part, target, el){
+
+  const task =
+    STAGE2_TASKS[stageStep];
+
+  if(!task) return;
+
+
+  /* Wrong component selected */
+  if(part !== task.part){
+
+    selectedPart = null;
+
+    document
+      .querySelector(
+        `[data-part="${task.part}"]`
+      )
+      ?.classList
+      .add("target");
+
+    document
+      .querySelector(
+        `[data-slot="${task.target}"]`
+      )
+      ?.classList
+      .add("v312-soft-target");
+
+    feedback(
+      `👉 Please use ${task.label} for this step.`,
+      "warn",
+      false
+    );
+
+    return;
+  }
+
+
+  /* Correct component but wrong installation location */
+  if(target !== task.target){
+
+    const correctTarget =
+      document.querySelector(
+        `[data-slot="${task.target}"]`
+      );
+
+    correctTarget?.classList.add(
+      "v312-soft-target"
+    );
+
+    feedback(
+      `💡 Almost there! Move ${task.label} to the glowing INSTALL HERE area.`,
+      "warn",
+      false
+    );
+
+    return;
+  }
+
+
+  /* SUCCESS */
+  el.classList.add(
+    "correct-flash",
+    "installed-part"
+  );
+
+  feedback(
+    `✅ Excellent! ${task.label} installed successfully.`,
+    "good",
+    true
+  );
+
+  selectedPart = null;
+
+  stageStep++;
+
+
+  /* Small success pause before next component */
+  setTimeout(()=>{
+
+    renderSimulator();
+
+  },900);
+}
