@@ -3158,3 +3158,72 @@ body:has(.v312-case-stage) #simulator{
   .v314-choice{min-height:58px !important}
   .v314-question-count{margin-left:0}
 }
+/* ============================================================
+   V31.8 — PROFESSIONAL LOCKED STAGE CARDS
+   Keep locked stages visible and readable without unlocking them.
+   Append to junior-technician-stage1-v31.css
+   ============================================================ */
+
+.stage-card.locked{
+  opacity:1!important;
+  filter:none!important;
+  cursor:not-allowed!important;
+  color:#36415e!important;
+  background:
+    radial-gradient(circle at 88% 12%,rgba(107,118,145,.09),transparent 25%),
+    linear-gradient(145deg,#fbfcff,#edf1f7)!important;
+  border:1px solid #d7deea!important;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.7),
+    0 10px 24px rgba(41,52,84,.08)!important;
+}
+
+.stage-card.locked:before{
+  content:"";
+  position:absolute;
+  right:-24px;
+  bottom:-28px;
+  width:92px;
+  height:92px;
+  border-radius:50%;
+  background:rgba(70,84,117,.045);
+  pointer-events:none;
+}
+
+.stage-card.locked .stage-icon{
+  opacity:.78!important;
+  filter:grayscale(.15)!important;
+}
+
+.stage-card.locked b{
+  color:#3b4663!important;
+  opacity:1!important;
+}
+
+.stage-card.locked small{
+  color:#7a849e!important;
+  opacity:1!important;
+}
+
+.stage-card.locked .stage-state{
+  color:#5f697f!important;
+  background:#e7ebf2!important;
+  border:1px solid #d4dbe7!important;
+  box-shadow:0 4px 10px rgba(49,59,87,.06)!important;
+}
+
+.stage-card.locked:hover{
+  transform:none!important;
+  box-shadow:
+    inset 0 0 0 1px rgba(255,255,255,.7),
+    0 10px 24px rgba(41,52,84,.08)!important;
+}
+
+/* Certificate remains locked, but the button should still look intentional. */
+#certificateBtn.locked-action,
+#certificateBtn:disabled{
+  opacity:1!important;
+  color:#fff!important;
+  background:linear-gradient(135deg,#aeb7d8,#75cdd0)!important;
+  box-shadow:0 8px 18px rgba(85,108,150,.13)!important;
+}
