@@ -2813,3 +2813,143 @@ finishStage = function(){
 
 
 })();
+/* ============================================================
+   V31.9 — LAB NAVIGATION + CLICKABLE STUDENT PROFILE
+   APPEND TO THE VERY BOTTOM OF junior-technician-lab.js
+   ============================================================ */
+(() => {
+  "use strict";
+
+  const PROFILE_URL = "student-profile.html";
+
+  function goToProfile() {
+    window.location.href = PROFILE_URL;
+  }
+
+  function makeStudentChipClickable() {
+    const chip = document.getElementById("studentChip");
+    if (!chip || chip.dataset.v319ProfileReady === "1") return;
+
+    chip.dataset.v319ProfileReady = "1";
+    chip.classList.add("v319-profile-chip");
+    chip.setAttribute("role", "button");
+    chip.setAttribute("tabindex", "0");
+    chip.setAttribute("title", "Open my student profile");
+    chip.setAttribute("aria-label", "Open my student profile");
+
+    chip.addEventListener("click", goToProfile);
+
+    chip.addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        goToProfile();
+      }
+    });
+  }
+
+  function currentStageNumber() {
+    const text = document.getElementById("stageNumber")?.textContent || "";
+    const match = text.match(/(\d+)/);
+    const value = match ? Number(match[1]) : 1;
+    return Number.isFinite(value) ? value : 1;
+  }
+
+  function updatePreviousButton() {
+    const button = document.getElementById("v319PreviousStageBtn");
+    if (!button) return;
+
+    const stage = currentStageNumber();
+
+    if (stage <= 1) {
+      button.dataset.target = "map";
+      button.innerHTML = "← Back to Stage Map";
+      button.title = "Return to the 5-stage certification map";
+    } else {
+      button.dataset.target = String(stage - 1);
+      button.innerHTML = `← Back to Stage ${stage - 1}`;
+      button.title = `Return to Stage ${stage - 1}`;
+    }
+  }
+
+  function previousStageAction() {
+    const button = document.getElementById("v319PreviousStageBtn");
+    if (!button) return;
+
+    const target = button.dataset.target || "map";
+
+    if (target === "map") {
+      document.querySelector(".stage-map-wrap")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+      return;
+    }
+
+    const stageCard = document.querySelector(`[data-stage="${target}"]`);
+
+    if (stageCard && !stageCard.disabled) {
+      stageCard.click();
+
+      setTimeout(() => {
+        document.getElementById("labShell")?.scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+      }, 120);
+    } else {
+      document.querySelector(".stage-map-wrap")?.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+    }
+  }
+
+  function ensurePreviousButton() {
+    if (document.getElementById("v319PreviousStageBtn")) {
+      updatePreviousButton();
+      return;
+    }
+
+    const workTop = document.querySelector(".work-top");
+    if (!workTop) return;
+
+    const leftBlock = workTop.firstElementChild || workTop;
+
+    const button = document.createElement("button");
+    button.id = "v319PreviousStageBtn";
+    button.className = "v319-stage-back-btn";
+    button.type = "button";
+
+    leftBlock.insertBefore(button, leftBlock.firstChild);
+    button.addEventListener("click", previousStageAction);
+
+    updatePreviousButton();
+
+    const stageNumber = document.getElementById("stageNumber");
+    if (stageNumber) {
+      const observer = new MutationObserver(updatePreviousButton);
+      observer.observe(stageNumber, {
+        childList: true,
+        subtree: true,
+        characterData: true
+      });
+    }
+  }
+
+  function initV319Navigation() {
+    makeStudentChipClickable();
+    ensurePreviousButton();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", () => {
+      setTimeout(initV319Navigation, 120);
+    });
+  } else {
+    setTimeout(initV319Navigation, 120);
+  }
+
+  window.addEventListener("pageshow", () => {
+    setTimeout(initV319Navigation, 120);
+  });
+})();
