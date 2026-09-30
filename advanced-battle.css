@@ -226,3 +226,51 @@ a{text-decoration:none;color:inherit}
   .steps{grid-template-columns:1fr}.answer-grid{grid-template-columns:1fr}
   .scoreboard{grid-template-columns:1fr}.score-vs{display:none}
 }
+
+
+/* ============================================================
+   V35.1 — BATTLE TIMER
+   ============================================================ */
+.timer-label{
+  display:block;margin-top:17px;margin-bottom:7px;
+  font-size:9px;font-weight:1000;color:#4a5279
+}
+.timer-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.timer-btn{
+  border:1px solid #e0e4ef;border-radius:15px;padding:11px 12px;
+  background:#fff;color:#3a4169;text-align:left;transition:.18s ease
+}
+.timer-btn span{font-size:21px;float:left;margin-right:9px}
+.timer-btn b,.timer-btn small{display:block}
+.timer-btn b{font-size:10px;margin-top:1px}
+.timer-btn small{font-size:8px;color:var(--muted);margin-top:3px}
+.timer-btn:hover{transform:translateY(-1px);border-color:#c9c2ff}
+.timer-btn.active{
+  color:#fff;border-color:transparent;
+  background:linear-gradient(135deg,#ff9a51,#ff5e91,#735dff);
+  box-shadow:0 10px 23px rgba(218,83,137,.2)
+}
+.timer-btn.active small{color:#fff4fa}
+.battle-timer{
+  min-width:86px;padding:7px 11px!important;border-radius:99px!important;
+  background:linear-gradient(135deg,#1f275e,#3f52a4)!important;
+  color:#fff!important;font-size:11px!important;font-weight:1000!important;
+  letter-spacing:.4px;box-shadow:0 7px 16px rgba(31,39,94,.18);
+  font-variant-numeric:tabular-nums
+}
+.battle-timer.warning{
+  background:linear-gradient(135deg,#f0a51c,#ff7a3d)!important;
+  animation:timerPulse 1s ease-in-out infinite
+}
+.battle-timer.critical{
+  background:linear-gradient(135deg,#e43e5c,#b82e62)!important;
+  animation:timerPulse .55s ease-in-out infinite
+}
+@keyframes timerPulse{50%{transform:scale(1.055);box-shadow:0 0 0 5px rgba(239,76,103,.12)}}
+.timer-expired-note{color:#b43b52;font-weight:1000}
+@media(max-width:720px){
+  .timer-grid{grid-template-columns:1fr 1fr}
+  .timer-btn{padding:10px 8px}
+  .timer-btn span{font-size:18px;margin-right:6px}
+  .battle-timer{min-width:78px;padding:6px 9px!important;font-size:10px!important}
+}
