@@ -465,7 +465,14 @@ function addWorldLauncher(){
         <b>Smart Games</b>
         <small>Memory • Logic • Focus</small>
       </button>
-
+<button
+  class="kid-world lab cta"
+  data-href="hardware-explorer.html"
+>
+  <span class="emoji">🧠</span>
+  <b>Hardware Explorer</b>
+  <small>Parts • Ports • Cables</small>
+</button>
       <button
         class="kid-world ai cta"
         data-href="ai-prompt-lab.html"
