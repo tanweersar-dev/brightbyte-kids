@@ -2556,3 +2556,229 @@ if(
 }
 
 })();
+
+/* ============================================================
+   V37 — BRAND + VISIBLE PLATFORM PRIVACY CLEANUP
+   APPEND this block at the VERY BOTTOM of home-ai-buddy.js
+
+   Purpose:
+   - Replace Alpha Jen / Zen Alpha with Tannu's branding on pages
+     where the Academy Learning Buddy is loaded.
+   - Make browser speech say the new Tannu's branding too.
+   - Prevent GitHub / Cloudflare / workers.dev style platform names
+     from being shown in visible page text, alerts, titles or labels.
+
+   IMPORTANT:
+   This does NOT change the live API network endpoint. Removing the
+   workers.dev endpoint from JavaScript source/network traffic requires
+   mapping a first-party API hostname (for example api.kids.tanweer.site)
+   first. Do not delete the current API URL until that hostname exists.
+   ============================================================ */
+
+(() => {
+  "use strict";
+
+  const V37_REPLACEMENTS = [
+    // Specific phrases first so natural sentences stay natural.
+    [/Hi! I am Alpha Jen\./gi, "Hi! I am Tannu's Learning Buddy."],
+    [/My name is Alpha Jen\./gi, "My name is Tannu's Learning Buddy."],
+    [/Alpha Jen Communication Lab/gi, "Tannu's Communication Lab"],
+    [/Alpha Jen Speaking Lab/gi, "Tannu's Speaking Lab"],
+    [/Alpha Jen Conversation/gi, "Tannu's Conversation"],
+    [/Alpha Jen remembers/gi, "Tannu's Learning Buddy remembers"],
+
+    // Academy demo/legacy learner branding.
+    [/ZEN ALPHA/g, "TANNU'S"],
+    [/Zen Alpha/g, "Tannu's"],
+    [/zen alpha/g, "Tannu's"],
+
+    // Remaining old assistant branding.
+    [/Alpha Jen/gi, "Tannu's"],
+    [/Tannu Learning Buddy/g, "Tannu's Learning Buddy"],
+    [/Tannu AI Buddy/g, "Tannu's Learning Buddy"],
+
+    // Never show implementation-provider names in normal UI text.
+    [/GitHub Pages/gi, "Academy Hosting"],
+    [/GitHub/gi, "Academy Platform"],
+    [/Cloudflare/gi, "Academy Platform"],
+    [/https?:\/\/[^\s"'<>]*workers\.dev[^\s"'<>]*/gi, "Academy Service"],
+    [/https?:\/\/[^\s"'<>]*github\.io[^\s"'<>]*/gi, "Academy Site"]
+  ];
+
+  function v37CleanText(value) {
+    let text = String(value ?? "");
+    for (const [pattern, replacement] of V37_REPLACEMENTS) {
+      text = text.replace(pattern, replacement);
+    }
+    return text;
+  }
+
+  function v37CleanTextNode(node) {
+    if (!node || node.nodeType !== Node.TEXT_NODE) return;
+    const current = node.nodeValue || "";
+    const cleaned = v37CleanText(current);
+    if (cleaned !== current) node.nodeValue = cleaned;
+  }
+
+  function v37CleanElement(el) {
+    if (!el || el.nodeType !== Node.ELEMENT_NODE) return;
+
+    // IMPORTANT: Do NOT rewrite href/src/action here because live API,
+    // scripts and navigation must continue working.
+    const safeTextAttributes = [
+      "title",
+      "aria-label",
+      "placeholder",
+      "data-speak",
+      "alt"
+    ];
+
+    for (const attr of safeTextAttributes) {
+      if (!el.hasAttribute(attr)) continue;
+      const before = el.getAttribute(attr) || "";
+      const after = v37CleanText(before);
+      if (after !== before) el.setAttribute(attr, after);
+    }
+
+    // Input/button values can be visible to students.
+    if ((el.tagName === "INPUT" || el.tagName === "BUTTON") && el.hasAttribute("value")) {
+      const before = el.getAttribute("value") || "";
+      const after = v37CleanText(before);
+      if (after !== before) el.setAttribute("value", after);
+    }
+  }
+
+  function v37CleanTree(root = document.body) {
+    if (!root) return;
+
+    if (root.nodeType === Node.TEXT_NODE) {
+      v37CleanTextNode(root);
+      return;
+    }
+
+    if (root.nodeType === Node.ELEMENT_NODE) {
+      v37CleanElement(root);
+    }
+
+    const walker = document.createTreeWalker(
+      root,
+      NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT
+    );
+
+    let node = walker.currentNode;
+    while (node) {
+      if (node.nodeType === Node.TEXT_NODE) v37CleanTextNode(node);
+      else if (node.nodeType === Node.ELEMENT_NODE) v37CleanElement(node);
+      node = walker.nextNode();
+    }
+  }
+
+  function v37StartDomCleanup() {
+    v37CleanTree(document.body);
+
+    const observer = new MutationObserver(records => {
+      for (const record of records) {
+        if (record.type === "characterData") {
+          v37CleanTextNode(record.target);
+        }
+
+        for (const node of record.addedNodes || []) {
+          v37CleanTree(node);
+        }
+
+        if (record.type === "attributes") {
+          v37CleanElement(record.target);
+        }
+      }
+    });
+
+    observer.observe(document.documentElement, {
+      subtree: true,
+      childList: true,
+      characterData: true,
+      attributes: true,
+      attributeFilter: ["title", "aria-label", "placeholder", "data-speak", "alt", "value"]
+    });
+  }
+
+  // ------------------------------------------------------------
+  // Voice/TTS branding cleanup
+  // Any old Alpha Jen / Zen Alpha phrase passed to browser speech
+  // is converted before it is spoken.
+  // ------------------------------------------------------------
+  function v37InstallSpeechCleanup() {
+    if (!("speechSynthesis" in window) || !("SpeechSynthesisUtterance" in window)) return;
+
+    try {
+      const synth = window.speechSynthesis;
+      if (synth.__tannuV37Cleaned) return;
+
+      const nativeSpeak = synth.speak.bind(synth);
+
+      synth.speak = function(utterance) {
+        try {
+          const originalText = String(utterance?.text ?? "");
+          const cleanedText = v37CleanText(originalText);
+
+          if (!originalText || cleanedText === originalText) {
+            return nativeSpeak(utterance);
+          }
+
+          const cleanUtterance = new SpeechSynthesisUtterance(cleanedText);
+
+          // Preserve voice behavior from the original utterance.
+          try { cleanUtterance.lang = utterance.lang || ""; } catch {}
+          try { cleanUtterance.voice = utterance.voice || null; } catch {}
+          try { cleanUtterance.volume = Number.isFinite(utterance.volume) ? utterance.volume : 1; } catch {}
+          try { cleanUtterance.rate = Number.isFinite(utterance.rate) ? utterance.rate : 1; } catch {}
+          try { cleanUtterance.pitch = Number.isFinite(utterance.pitch) ? utterance.pitch : 1; } catch {}
+
+          // Preserve common event handlers when present.
+          for (const eventName of ["onstart", "onend", "onerror", "onpause", "onresume", "onmark", "onboundary"]) {
+            try {
+              if (typeof utterance[eventName] === "function") {
+                cleanUtterance[eventName] = utterance[eventName];
+              }
+            } catch {}
+          }
+
+          return nativeSpeak(cleanUtterance);
+        } catch {
+          return nativeSpeak(utterance);
+        }
+      };
+
+      Object.defineProperty(synth, "__tannuV37Cleaned", {
+        value: true,
+        configurable: false,
+        enumerable: false
+      });
+    } catch {
+      // If a browser prevents wrapping speechSynthesis.speak,
+      // the normal Academy voice continues without breaking the page.
+    }
+  }
+
+  // ------------------------------------------------------------
+  // Alert cleanup — platform/provider names should not appear in
+  // user-facing browser alerts even when an internal error contains one.
+  // ------------------------------------------------------------
+  function v37InstallAlertCleanup() {
+    try {
+      const nativeAlert = window.alert.bind(window);
+      window.alert = message => nativeAlert(v37CleanText(message));
+    } catch {}
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", v37StartDomCleanup, { once: true });
+  } else {
+    v37StartDomCleanup();
+  }
+
+  v37InstallSpeechCleanup();
+  v37InstallAlertCleanup();
+
+  // Expose only the neutral sanitizer for Academy scripts that may want it.
+  window.tannuAcademyCleanText = v37CleanText;
+})();
