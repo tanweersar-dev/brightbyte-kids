@@ -3227,3 +3227,62 @@ body:has(.v312-case-stage) #simulator{
   background:linear-gradient(135deg,#aeb7d8,#75cdd0)!important;
   box-shadow:0 8px 18px rgba(85,108,150,.13)!important;
 }
+/* ============================================================
+   V31.9 — LAB NAVIGATION + PROFILE BUTTON STYLE
+   APPEND TO THE VERY BOTTOM OF junior-technician-stage1-v31.css
+   ============================================================ */
+
+#studentChip.v319-profile-chip{
+  cursor:pointer!important;
+  user-select:none!important;
+  text-decoration:none!important;
+  transition:
+    transform .16s ease,
+    border-color .16s ease,
+    background .16s ease,
+    box-shadow .16s ease!important;
+}
+
+#studentChip.v319-profile-chip:hover,
+#studentChip.v319-profile-chip:focus-visible{
+  transform:translateY(-1px)!important;
+  border-color:rgba(117,211,255,.48)!important;
+  background:rgba(89,126,255,.16)!important;
+  box-shadow:0 7px 18px rgba(3,12,36,.18)!important;
+  outline:none!important;
+}
+
+.v319-stage-back-btn{
+  appearance:none!important;
+  border:1px solid #d6def1!important;
+  border-radius:12px!important;
+  padding:8px 12px!important;
+  margin:0 0 8px 0!important;
+  background:linear-gradient(135deg,#ffffff,#eef4ff)!important;
+  color:#214784!important;
+  font:inherit!important;
+  font-size:8px!important;
+  line-height:1!important;
+  font-weight:1000!important;
+  cursor:pointer!important;
+  box-shadow:0 6px 15px rgba(36,57,105,.09)!important;
+  transition:
+    transform .16s ease,
+    box-shadow .16s ease,
+    border-color .16s ease!important;
+}
+
+.v319-stage-back-btn:hover,
+.v319-stage-back-btn:focus-visible{
+  transform:translateY(-1px)!important;
+  border-color:#9bb8ec!important;
+  box-shadow:0 9px 20px rgba(36,57,105,.14)!important;
+  outline:none!important;
+}
+
+@media(max-width:760px){
+  .v319-stage-back-btn{
+    padding:8px 10px!important;
+    font-size:7.5px!important;
+  }
+}
