@@ -285,3 +285,43 @@ if (document.readyState === "loading") {
 }
 
 })();
+/* ============================================================
+   V25.9 — CLICKABLE STUDENT PROFILE CHIP
+   APPEND TO THE VERY BOTTOM OF advanced-theme-v25.js
+   ============================================================ */
+(() => {
+  "use strict";
+
+  function bindStudentProfileChip() {
+    const chip = document.getElementById("studentChip");
+    if (!chip || chip.dataset.v259ProfileReady === "1") return;
+
+    chip.dataset.v259ProfileReady = "1";
+    chip.style.cursor = "pointer";
+    chip.setAttribute("role", "button");
+    chip.setAttribute("tabindex", "0");
+    chip.setAttribute("title", "Open my student profile");
+    chip.setAttribute("aria-label", "Open my student profile");
+
+    const openProfile = () => {
+      window.location.href = "student-profile.html";
+    };
+
+    chip.addEventListener("click", openProfile);
+
+    chip.addEventListener("keydown", event => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        openProfile();
+      }
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bindStudentProfileChip);
+  } else {
+    bindStudentProfileChip();
+  }
+
+  window.addEventListener("pageshow", bindStudentProfileChip);
+})();
