@@ -13,10 +13,14 @@ let classNo=4;
 let battles=[];
 let selectedMode="quick_quiz";
 let selectedLevel=1;
+let selectedMinutes=3;
 let activeFilter="all";
 let voiceOn=true;
 let pollTimer=null;
 let toastTimer=null;
+let battleTimerHandle=null;
+let battleTimerBattleId=null;
+let battleInProgress=false;
 
 const MODE_META={
   quick_quiz:{icon:"🧠",name:"Future Skills Quiz"},
@@ -162,7 +166,11 @@ function openModal(html){
   $("arenaModal").setAttribute("aria-hidden","false");
   document.body.style.overflow="hidden";
 }
-function closeModal(){
+function closeModal(force=false){
+  if(battleInProgress&&!force){
+    toast("⏱ Battle timer is running. Finish the battle first.");
+    return;
+  }
   $("arenaModal").classList.remove("open");
   $("arenaModal").setAttribute("aria-hidden","true");
   document.body.style.overflow="";
@@ -185,6 +193,58 @@ function fmtDate(s){
   const d=new Date(String(s).replace(" ","T")+"Z");
   if(Number.isNaN(d.getTime()))return String(s);
   return d.toLocaleString(undefined,{month:"short",day:"numeric",hour:"numeric",minute:"2-digit"});
+}
+function battleMinutes(b){
+  const m=String(b?.topic||"").match(/_t(3|5)$/);
+  return m?Number(m[1]):3;
+}
+function battleTimerKey(id){
+  return `tannu_adv_battle_timer_${profile?.user_id||"student"}_${Number(id)}`;
+}
+function formatBattleClock(ms){
+  const total=Math.max(0,Math.ceil(ms/1000));
+  const m=Math.floor(total/60),s=total%60;
+  return `${m}:${String(s).padStart(2,"0")}`;
+}
+function updateBattleTimerDisplay(endAt){
+  const el=$("battleTimer");
+  if(!el)return;
+  const remaining=Math.max(0,endAt-Date.now());
+  el.textContent=`⏱ ${formatBattleClock(remaining)}`;
+  el.classList.toggle("warning",remaining<=60000&&remaining>20000);
+  el.classList.toggle("critical",remaining<=20000);
+}
+function stopBattleTimer(){
+  if(battleTimerHandle){clearInterval(battleTimerHandle);battleTimerHandle=null}
+  battleTimerBattleId=null;
+}
+function clearBattleTimerStorage(id){
+  try{sessionStorage.removeItem(battleTimerKey(id))}catch{}
+}
+function startBattleTimer(b,onExpire){
+  stopBattleTimer();
+  battleInProgress=true;
+  battleTimerBattleId=Number(b.id);
+  const minutes=battleMinutes(b);
+  const key=battleTimerKey(b.id);
+  let endAt=0;
+  try{endAt=Number(sessionStorage.getItem(key)||0)}catch{}
+  if(!endAt){
+    endAt=Date.now()+minutes*60*1000;
+    try{sessionStorage.setItem(key,String(endAt))}catch{}
+  }
+  let fired=false;
+  const tick=()=>{
+    updateBattleTimerDisplay(endAt);
+    if(Date.now()>=endAt&&!fired){
+      fired=true;
+      stopBattleTimer();
+      if(typeof onExpire==="function")onExpire();
+    }
+  };
+  tick();
+  if(!fired)battleTimerHandle=setInterval(tick,250);
+  return {minutes,endAt};
 }
 function modeMeta(mode){return MODE_META[mode]||MODE_META.quick_quiz}
 function statusClass(s){return "status-"+(s||"pending")}
@@ -291,7 +351,7 @@ function renderBattles(){
           <b>${esc(other||"Classmate")} • ${esc(meta.name)} • L${Number(b.level||1)}</b>
           <span class="status-badge ${statusClass(b.status)}">${esc(String(b.status||"").toUpperCase())}</span>
         </div>
-        <small>${isCh?"You challenged":"Challenge from"} ${esc(other||"classmate")} • ${fmtDate(b.created_at)}</small>
+        <small>${isCh?"You challenged":"Challenge from"} ${esc(other||"classmate")} • ⏱ ${battleMinutes(b)} min • ${fmtDate(b.created_at)}</small>
       </div>
       <div class="battle-actions">${battleActionHtml(b)}</div>
     </article>`;
@@ -322,7 +382,7 @@ async function sendChallenge(){
         opponentUserId,
         mode:selectedMode,
         level:selectedLevel,
-        topic:"advanced_future_skills"
+        topic:`advanced_future_skills_t${selectedMinutes}`
       })
     });
     const d=await r.json();
@@ -375,11 +435,24 @@ function playQuizBattle(b){
   const rand=seeded(Number(b.question_seed||1)+(classNo*97)+(level*13));
   const count=Math.min(4+level,battleQuestionPool(b.mode,level).length);
   const selected=seededShuffle(battleQuestionPool(b.mode,level),rand).slice(0,count);
-  let index=0,correctCount=0,answered=false;
+  let index=0,correctCount=0,answered=false,timerStarted=false,timedOut=false;
   const started=Date.now();
   const meta=modeMeta(b.mode);
 
+  const expireBattle=()=>{
+    if(timedOut)return;
+    timedOut=true;
+    qa("[data-answer]").forEach(x=>x.disabled=true);
+    const feedback=$("answerFeedback");
+    if(feedback)feedback.innerHTML=`<span class="timer-expired-note">⏱ Time is up — submitting your current score automatically.</span>`;
+    const next=$("nextBattleQuestion");if(next)next.disabled=true;
+    const seconds=battleMinutes(b)*60;
+    const finalScore=Math.min(1000,correctCount*100);
+    setTimeout(()=>submitBattle(b.id,finalScore,{correct:correctCount,total:selected.length,seconds,timeout:true}),450);
+  };
+
   const draw=()=>{
+    if(timedOut)return;
     if(index>=selected.length){
       const seconds=(Date.now()-started)/1000;
       const speedBonus=Math.max(0,Math.round(200-seconds*3));
@@ -399,6 +472,7 @@ function playQuizBattle(b){
           <span>🎓 Class ${classNo}</span>
           <span>⚔️ Question ${index+1}/${selected.length}</span>
           <span>✅ Correct ${correctCount}</span>
+          <span id="battleTimer" class="battle-timer">⏱ ${battleMinutes(b)}:00</span>
         </div>
       </div>
       <div class="question-card">
@@ -407,16 +481,17 @@ function playQuizBattle(b){
         <div class="answer-grid">
           ${options.map((o,i)=>`<button class="answer-btn" type="button" data-answer="${esc(o)}">${String.fromCharCode(65+i)}. ${esc(o)}</button>`).join("")}
         </div>
-        <div id="answerFeedback" class="feedback">Choose the best answer.</div>
+        <div id="answerFeedback" class="feedback">Choose the best answer before the timer reaches zero.</div>
         <button id="nextBattleQuestion" class="next-btn" type="button" disabled>${index===selected.length-1?"Finish Battle →":"Next Question →"}</button>
       </div>
     `);
 
+    if(!timerStarted){timerStarted=true;startBattleTimer(b,expireBattle)}
     speak(q[2]);
 
     qa("[data-answer]").forEach(btn=>{
       btn.onclick=()=>{
-        if(answered)return;
+        if(answered||timedOut)return;
         answered=true;
         const chosen=btn.dataset.answer;
         const right=q[3];
@@ -434,7 +509,7 @@ function playQuizBattle(b){
       };
     });
 
-    $("nextBattleQuestion").onclick=()=>{if(answered){index++;draw()}};
+    $("nextBattleQuestion").onclick=()=>{if(answered&&!timedOut){index++;draw()}};
   };
   draw();
 }
@@ -453,14 +528,38 @@ function playTypingBattle(b){
   const target=typingTarget(b);
   const started=Date.now();
   const meta=modeMeta("typing");
+  let timedOut=false,submitted=false;
+
+  const calculateAndSubmit=(timeout=false)=>{
+    if(submitted)return;
+    submitted=true;
+    const input=$("typingInput");
+    const typed=normalizeTyping(input?.value||"");
+    const expected=normalizeTyping(target);
+    const exact=typed===expected;
+    const seconds=timeout?battleMinutes(b)*60:(Date.now()-started)/1000;
+    const speedBonus=timeout?0:Math.max(0,Math.round(300-seconds*7));
+    const score=Math.min(1000,(exact?600:120)+speedBonus);
+    if(input)input.disabled=true;
+    const finish=$("finishTyping");if(finish)finish.disabled=true;
+    const feedback=$("typingFeedback");
+    if(feedback)feedback.innerHTML=timeout
+      ? `<span class="timer-expired-note">⏱ Time is up — your current typing has been submitted.</span>`
+      : exact?`✅ <b>Exact match!</b> Accuracy secured.`:`❌ <b>Not an exact match.</b> Accuracy matters more than speed.`;
+    setTimeout(()=>submitBattle(b.id,score,{typing:true,exact,seconds,timeout}),timeout?350:650);
+  };
+
   openModal(`
     <div class="battle-play-head">
       <div class="icon">${meta.icon}</div>
       <h2>${meta.name} • Level ${level}</h2>
-      <div class="play-meta"><span>🎓 Class ${classNo}</span><span>🎯 Accuracy first</span><span>⚡ Speed bonus</span></div>
+      <div class="play-meta">
+        <span>🎓 Class ${classNo}</span><span>🎯 Accuracy first</span><span>⚡ Speed bonus</span>
+        <span id="battleTimer" class="battle-timer">⏱ ${battleMinutes(b)}:00</span>
+      </div>
     </div>
     <div class="question-card">
-      <div class="question-progress"><span>TYPE EXACTLY</span><span>Spaces matter</span></div>
+      <div class="question-progress"><span>TYPE EXACTLY</span><span>Submit before time reaches zero</span></div>
       <div class="type-target">${esc(target)}</div>
       <input id="typingInput" class="type-input" autocomplete="off" autocapitalize="characters" placeholder="Type the sentence here...">
       <div id="typingFeedback" class="feedback">Read carefully, then type the exact text.</div>
@@ -468,34 +567,25 @@ function playTypingBattle(b){
     </div>
   `);
   $("typingInput").focus();
+  startBattleTimer(b,()=>{timedOut=true;calculateAndSubmit(true)});
   speak(target);
-
-  $("finishTyping").onclick=()=>{
-    const typed=normalizeTyping($("typingInput").value);
-    const expected=normalizeTyping(target);
-    const exact=typed===expected;
-    const seconds=(Date.now()-started)/1000;
-    const speedBonus=Math.max(0,Math.round(300-seconds*7));
-    const score=Math.min(1000,(exact?600:120)+speedBonus);
-    $("finishTyping").disabled=true;
-    $("typingInput").disabled=true;
-    $("typingFeedback").innerHTML=exact
-      ? `✅ <b>Exact match!</b> Accuracy secured.`
-      : `❌ <b>Not an exact match.</b> Accuracy matters more than speed.`;
-    setTimeout(()=>submitBattle(b.id,score,{typing:true,exact,seconds}),650);
-  };
+  $("finishTyping").onclick=()=>calculateAndSubmit(false);
 }
 
 async function submitBattle(id,score,summary={}){
+  stopBattleTimer();
+  battleInProgress=false;
   try{
     const r=await api(`/api/student/battles/${id}/submit`,{
       method:"POST",body:JSON.stringify({score})
     });
     const d=await r.json();
     if(!r.ok)throw new Error(d.error||"Could not submit score");
+    clearBattleTimerStorage(id);
+    const timeoutText=summary.timeout?" • Time limit reached":"";
     const detail=summary.typing
-      ? `${summary.exact?"Exact typing":"Typing completed"} • ${Math.round(summary.seconds||0)} sec`
-      : `${summary.correct||0}/${summary.total||0} correct • ${Math.round(summary.seconds||0)} sec`;
+      ? `${summary.exact?"Exact typing":"Typing completed"} • ${Math.round(summary.seconds||0)} sec${timeoutText}`
+      : `${summary.correct||0}/${summary.total||0} correct • ${Math.round(summary.seconds||0)} sec${timeoutText}`;
     openModal(`
       <div class="result-hero">
         <div class="result-trophy">⚔️</div>
@@ -509,7 +599,7 @@ async function submitBattle(id,score,summary={}){
         <div class="modal-buttons"><button class="modal-action" type="button" id="submittedDone">Done</button></div>
       </div>
     `);
-    $("submittedDone").onclick=async()=>{closeModal();await loadBattles(true)};
+    $("submittedDone").onclick=async()=>{closeModal(true);await loadBattles(true)};
     speak("Battle submitted. Well played.");
   }catch(e){toast(e.message||"Could not submit battle")}
 }
@@ -559,6 +649,10 @@ function bind(){
   qa("[data-level]").forEach(btn=>btn.onclick=()=>{
     qa("[data-level]").forEach(x=>x.classList.remove("active"));
     btn.classList.add("active");selectedLevel=Number(btn.dataset.level||1);
+  });
+  qa("[data-minutes]").forEach(btn=>btn.onclick=()=>{
+    qa("[data-minutes]").forEach(x=>x.classList.remove("active"));
+    btn.classList.add("active");selectedMinutes=Number(btn.dataset.minutes||3)===5?5:3;
   });
   qa("[data-filter]").forEach(btn=>btn.onclick=()=>{
     qa("[data-filter]").forEach(x=>x.classList.remove("active"));
