@@ -283,3 +283,243 @@ button{cursor:pointer}
   .hx-detail-toolbar{align-items:stretch;flex-wrap:wrap}
   .hx-visual-controls,.hx-nav-row{display:grid;grid-template-columns:1fr 1fr}
 }
+
+/* ============================================================
+   V32.1 — DETAIL VISUAL + READABILITY FIX
+   - Never-empty large visual
+   - Larger right-side learning notes
+   - Larger Quick Check options
+   ============================================================ */
+
+.hx-detail-grid{
+  grid-template-columns:minmax(460px,1fr) minmax(460px,1fr);
+  gap:22px;
+}
+
+.hx-visual-panel{
+  padding:18px;
+}
+
+.hx-info-panel{
+  padding:24px;
+}
+
+.hx-big-visual{
+  min-height:600px;
+}
+
+.hx-big-visual svg{
+  width:96%;
+  height:96%;
+  max-height:570px;
+}
+
+.hx-big-visual img{
+  width:96%;
+  height:560px;
+  object-fit:contain;
+}
+
+.hx-category-badge,
+.hx-asset-status{
+  padding:8px 11px;
+  font-size:9px;
+}
+
+.hx-visual-caption{
+  padding:12px 5px 4px;
+  font-size:10px;
+  line-height:1.45;
+}
+
+.hx-visual-caption b{
+  font-size:11px;
+}
+
+.hx-visual-controls .hx-primary,
+.hx-visual-controls .hx-secondary{
+  min-height:44px;
+  padding:12px 16px;
+  font-size:11px;
+}
+
+.hx-info-panel .hx-eyebrow{
+  font-size:9px;
+}
+
+.hx-info-panel h2{
+  margin:11px 0 9px;
+  font-size:38px;
+  line-height:1.08;
+}
+
+.hx-intro{
+  margin:0 0 17px;
+  color:#566482;
+  font-size:14px;
+  line-height:1.65;
+  font-weight:650;
+}
+
+.hx-info-cards{
+  grid-template-columns:1fr 1fr;
+  gap:12px;
+}
+
+.hx-info-cards article{
+  min-height:118px;
+  padding:16px;
+  gap:12px;
+  border-radius:17px;
+  align-items:flex-start;
+}
+
+.hx-info-cards article>span{
+  width:42px;
+  height:42px;
+  min-width:42px;
+  border-radius:12px;
+  font-size:18px;
+}
+
+.hx-info-cards b{
+  font-size:12px;
+  line-height:1.25;
+}
+
+.hx-info-cards p{
+  margin:7px 0 0;
+  color:#596581;
+  font-size:11px;
+  line-height:1.62;
+  font-weight:600;
+}
+
+.hx-tech-note{
+  margin-top:13px;
+  padding:16px;
+  gap:13px;
+  border-radius:18px;
+}
+
+.hx-tech-note>span{
+  font-size:28px;
+}
+
+.hx-tech-note b{
+  font-size:12px;
+}
+
+.hx-tech-note p{
+  margin:6px 0 0;
+  color:#56627f;
+  font-size:11px;
+  line-height:1.62;
+  font-weight:600;
+}
+
+.hx-nav-row{
+  margin-top:17px;
+  gap:10px;
+}
+
+.hx-nav-row .hx-primary,
+.hx-nav-row .hx-secondary{
+  min-height:46px;
+  padding:13px 17px;
+  font-size:11px;
+}
+
+.hx-checkpoint{
+  margin-top:20px;
+  padding:22px;
+  border-radius:23px;
+}
+
+.hx-checkpoint .hx-eyebrow{
+  font-size:9px;
+}
+
+.hx-checkpoint h2{
+  margin:10px 0 15px;
+  font-size:25px;
+  line-height:1.25;
+}
+
+.hx-quiz-options{
+  gap:11px;
+}
+
+.hx-quiz-option{
+  min-height:78px;
+  padding:15px 16px;
+  border-radius:16px;
+  font-size:12px;
+  line-height:1.5;
+  font-weight:900;
+}
+
+.hx-quiz-feedback{
+  margin-top:12px;
+  font-size:11px;
+  line-height:1.45;
+}
+
+@media(max-width:1180px){
+  .hx-detail-grid{
+    grid-template-columns:1fr;
+  }
+
+  .hx-big-visual{
+    min-height:520px;
+  }
+}
+
+@media(max-width:600px){
+  .hx-info-panel{
+    padding:16px;
+  }
+
+  .hx-info-panel h2{
+    font-size:30px;
+  }
+
+  .hx-intro{
+    font-size:13px;
+  }
+
+  .hx-info-cards{
+    grid-template-columns:1fr;
+  }
+
+  .hx-info-cards article{
+    min-height:auto;
+  }
+
+  .hx-info-cards b{
+    font-size:12px;
+  }
+
+  .hx-info-cards p,
+  .hx-tech-note p{
+    font-size:11px;
+  }
+
+  .hx-big-visual{
+    min-height:390px;
+  }
+
+  .hx-big-visual img{
+    height:370px;
+  }
+
+  .hx-checkpoint h2{
+    font-size:21px;
+  }
+
+  .hx-quiz-option{
+    min-height:68px;
+    font-size:11px;
+  }
+}
+
