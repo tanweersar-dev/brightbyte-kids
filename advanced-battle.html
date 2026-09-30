@@ -1,0 +1,179 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#111747">
+  <title>Future Skills Battle Arena — Tannu Sir's Kids Digital Academy</title>
+  <link rel="stylesheet" href="advanced-battle.css?v=35.0">
+</head>
+<body>
+  <div class="battle-bg" aria-hidden="true">
+    <i class="orb o1"></i><i class="orb o2"></i><i class="orb o3"></i>
+    <span class="spark s1">✦</span><span class="spark s2">✧</span><span class="spark s3">✦</span>
+  </div>
+
+  <header class="arena-top">
+    <a class="arena-brand" href="advanced-universe.html">
+      <span class="arena-logo">T</span>
+      <span>
+        <b>Future Skills Battle Arena</b>
+        <small>TANNU SIR'S KIDS DIGITAL ACADEMY • CLASS 4–6</small>
+      </span>
+    </a>
+
+    <div class="arena-actions">
+      <span id="studentPill" class="top-pill">👤 Student</span>
+      <span id="classPill" class="top-pill">🎓 Class —</span>
+      <button id="voiceBtn" class="top-btn" type="button">🔊 Voice On</button>
+      <a class="top-btn" href="advanced-universe.html">← Universe</a>
+    </div>
+  </header>
+
+  <main class="arena-shell">
+    <section class="arena-hero">
+      <div class="hero-copy">
+        <span class="kicker">⚔️ SAME-CLASS FUTURE SKILLS COMPETITION</span>
+        <h1>Think Fast. Solve Smart. Battle Fair.</h1>
+        <p>
+          Challenge a same-class learner in advanced computer, troubleshooting,
+          cyber safety, AI prompt and typing missions. No open child-to-child chat.
+        </p>
+        <div class="hero-tags">
+          <span>🖥️ Technology</span>
+          <span>🛡️ Cyber Safety</span>
+          <span>🤖 AI Skills</span>
+          <span>🔧 Troubleshooting</span>
+          <span>⌨️ Typing</span>
+        </div>
+      </div>
+
+      <div class="versus-card">
+        <div class="fighter">
+          <span class="fighter-icon">🧠</span>
+          <b id="heroStudent">YOU</b>
+          <small>READY</small>
+        </div>
+        <div class="vs">VS</div>
+        <div class="fighter">
+          <span class="fighter-icon">⚡</span>
+          <b>CLASSMATE</b>
+          <small>SAME CLASS ONLY</small>
+        </div>
+      </div>
+    </section>
+
+    <section class="arena-stats">
+      <article><span>📨</span><div><b id="pendingCount">0</b><small>Pending</small></div></article>
+      <article><span>🔥</span><div><b id="activeCount">0</b><small>Active</small></div></article>
+      <article><span>✅</span><div><b id="completedCount">0</b><small>Completed</small></div></article>
+      <article><span>🏆</span><div><b id="winCount">0</b><small>Wins</small></div></article>
+    </section>
+
+    <section class="arena-grid">
+      <article class="panel create-panel">
+        <div class="panel-title">
+          <div>
+            <span class="mini-kicker">CREATE A CHALLENGE</span>
+            <h2>Choose Your Battle</h2>
+          </div>
+          <span class="shield">🛡️</span>
+        </div>
+
+        <label class="field">
+          <span>Choose Same-Class Student</span>
+          <select id="peerSelect">
+            <option value="">Loading classmates...</option>
+          </select>
+        </label>
+
+        <div class="mode-label">Battle Mode</div>
+        <div id="modeGrid" class="mode-grid">
+          <button class="mode-card active" type="button" data-mode="quick_quiz">
+            <span>🧠</span><b>Future Skills Quiz</b><small>Mixed advanced knowledge</small>
+          </button>
+          <button class="mode-card" type="button" data-mode="tech">
+            <span>🔧</span><b>Tech Troubleshooting</b><small>Diagnose realistic IT problems</small>
+          </button>
+          <button class="mode-card" type="button" data-mode="safety">
+            <span>🛡️</span><b>Cyber Defense Duel</b><small>Privacy, phishing & safe choices</small>
+          </button>
+          <button class="mode-card" type="button" data-mode="prompt">
+            <span>🤖</span><b>AI Prompt Showdown</b><small>Prompt, verify & think critically</small>
+          </button>
+          <button class="mode-card wide" type="button" data-mode="typing">
+            <span>⌨️</span><b>Typing Speed Mission</b><small>Accuracy first, then speed</small>
+          </button>
+        </div>
+
+        <div class="level-label">Difficulty</div>
+        <div id="levelGrid" class="level-grid">
+          <button class="level-btn active" type="button" data-level="1">
+            <span>⚡</span><b>Level 1</b><small>Explorer</small>
+          </button>
+          <button class="level-btn" type="button" data-level="2">
+            <span>🚀</span><b>Level 2</b><small>Specialist</small>
+          </button>
+          <button class="level-btn" type="button" data-level="3">
+            <span>🏆</span><b>Level 3</b><small>Champion</small>
+          </button>
+        </div>
+
+        <button id="sendChallengeBtn" class="send-btn" type="button">
+          ⚔️ Send Future Skills Challenge
+        </button>
+
+        <div class="safe-note">
+          <b>Safe Competition</b>
+          <span>Same-class learners only • No open chat • Friendly results • Maximum 10 challenges/day.</span>
+        </div>
+      </article>
+
+      <article class="panel feed-panel">
+        <div class="panel-title feed-title">
+          <div>
+            <span class="mini-kicker">LIVE BATTLE DESK</span>
+            <h2>My Challenges</h2>
+          </div>
+          <button id="refreshBtn" class="refresh-btn" type="button">↻ Refresh</button>
+        </div>
+
+        <div class="filter-row">
+          <button class="filter-btn active" type="button" data-filter="all">All</button>
+          <button class="filter-btn" type="button" data-filter="pending">Pending</button>
+          <button class="filter-btn" type="button" data-filter="accepted">Active</button>
+          <button class="filter-btn" type="button" data-filter="completed">Completed</button>
+        </div>
+
+        <div id="battleList" class="battle-list">
+          <div class="empty-state"><span>⚔️</span><b>Loading battles...</b></div>
+        </div>
+      </article>
+    </section>
+
+    <section class="how-it-works">
+      <div>
+        <span class="mini-kicker">HOW IT WORKS</span>
+        <h2>One challenge. Same questions. Fair result.</h2>
+      </div>
+      <div class="steps">
+        <article><span>1</span><b>Challenge</b><small>Choose a classmate, mode and level.</small></article>
+        <article><span>2</span><b>Accept</b><small>The classmate accepts or declines safely.</small></article>
+        <article><span>3</span><b>Compete</b><small>Both receive the same seeded mission.</small></article>
+        <article><span>4</span><b>Result</b><small>Scores compare only after both submit.</small></article>
+      </div>
+    </section>
+  </main>
+
+  <div id="arenaModal" class="arena-modal" aria-hidden="true">
+    <div class="arena-modal-card">
+      <button id="modalClose" class="modal-close" type="button">×</button>
+      <div id="modalBody"></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="advanced-battle.js?v=35.0"></script>
+</body>
+</html>
