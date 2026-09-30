@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
   <meta name="theme-color" content="#111747">
   <title>Future Skills Battle Arena — Tannu Sir's Kids Digital Academy</title>
-  <link rel="stylesheet" href="advanced-battle.css?v=35.0">
+  <link rel="stylesheet" href="advanced-battle.css?v=35.1">
 </head>
 <body>
   <div class="battle-bg" aria-hidden="true">
@@ -119,13 +119,23 @@
           </button>
         </div>
 
+        <div class="timer-label">Battle Timer</div>
+        <div id="timerGrid" class="timer-grid">
+          <button class="timer-btn active" type="button" data-minutes="3">
+            <span>⏱️</span><b>3 Minutes</b><small>Quick Battle</small>
+          </button>
+          <button class="timer-btn" type="button" data-minutes="5">
+            <span>⏳</span><b>5 Minutes</b><small>Focus Battle</small>
+          </button>
+        </div>
+
         <button id="sendChallengeBtn" class="send-btn" type="button">
           ⚔️ Send Future Skills Challenge
         </button>
 
         <div class="safe-note">
           <b>Safe Competition</b>
-          <span>Same-class learners only • No open chat • Friendly results • Maximum 10 challenges/day.</span>
+          <span>Same-class learners only • No open chat • 3/5 minute countdown • Auto-submit at zero • Maximum 10 challenges/day.</span>
         </div>
       </article>
 
@@ -174,6 +184,6 @@
 
   <div id="toast" class="toast"></div>
 
-  <script src="advanced-battle.js?v=35.0"></script>
+  <script src="advanced-battle.js?v=35.1"></script>
 </body>
 </html>
