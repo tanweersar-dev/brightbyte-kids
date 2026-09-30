@@ -103,8 +103,391 @@
 }
 </style>
 
+
+<!-- V33.3 — CLEAN PROFESSIONAL STUDENT NAVIGATION -->
+<style id="studentNavPolishV333">
+/* ---------- TOP HEADER ---------- */
+.top{
+  padding:10px 14px 6px!important;
+}
+
+.top .bar{
+  max-width:1500px!important;
+  min-height:72px;
+  padding:10px 13px!important;
+  gap:14px!important;
+  border:1px solid rgba(255,255,255,.95)!important;
+  border-radius:24px!important;
+  background:
+    linear-gradient(135deg,rgba(255,255,255,.98),rgba(248,250,255,.94))!important;
+  box-shadow:
+    0 18px 45px rgba(48,52,120,.11),
+    0 2px 8px rgba(49,55,110,.05)!important;
+  backdrop-filter:blur(20px)!important;
+}
+
+.top .logo{
+  width:50px!important;
+  height:50px!important;
+  border-radius:17px!important;
+  box-shadow:0 9px 22px rgba(79,66,190,.18);
+}
+
+.top .brand{
+  min-width:190px;
+}
+
+.top .brand b{
+  font-size:16px;
+  line-height:1.05;
+  color:#202443;
+}
+
+.top .brand small{
+  margin-top:4px;
+  font-size:7px!important;
+  line-height:1.2;
+}
+
+/* Top nav = only global/non-duplicated destinations */
+.top .nav{
+  margin-left:auto!important;
+  display:flex!important;
+  align-items:center!important;
+  justify-content:flex-end!important;
+  gap:7px!important;
+  flex-wrap:wrap!important;
+}
+
+.top .nav button,
+.top .nav a{
+  position:relative;
+  min-height:43px!important;
+  padding:10px 13px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  gap:5px!important;
+  border:1px solid rgba(103,111,170,.12)!important;
+  border-radius:14px!important;
+  text-decoration:none!important;
+  font-size:11px!important;
+  line-height:1!important;
+  font-weight:950!important;
+  letter-spacing:-.08px;
+  color:#424b74!important;
+  background:linear-gradient(180deg,#fff,#f7f8fd)!important;
+  box-shadow:
+    0 5px 12px rgba(43,50,105,.055),
+    inset 0 1px 0 rgba(255,255,255,.95)!important;
+  transition:
+    transform .17s ease,
+    box-shadow .17s ease,
+    border-color .17s ease,
+    filter .17s ease!important;
+}
+
+.top .nav button:hover,
+.top .nav a:hover,
+.top .nav button:focus-visible,
+.top .nav a:focus-visible{
+  transform:translateY(-2px)!important;
+  border-color:rgba(108,92,255,.28)!important;
+  box-shadow:
+    0 10px 22px rgba(55,58,130,.12),
+    inset 0 1px 0 #fff!important;
+  filter:brightness(1.02);
+  outline:none!important;
+}
+
+/* Individual premium tones */
+.top .nav [data-view="dashboard"]{
+  background:linear-gradient(135deg,#eaf4ff,#f5f9ff)!important;
+  color:#2467ba!important;
+  border-color:#d8e9fb!important;
+}
+
+.top .nav [data-view="speaking"]{
+  background:linear-gradient(135deg,#fff1dc,#fff8eb)!important;
+  color:#97601c!important;
+  border-color:#f3dfbd!important;
+}
+
+.top .nav [data-view="healthy"]{
+  background:linear-gradient(135deg,#eafbef,#f5fff7)!important;
+  color:#258058!important;
+  border-color:#d4efd9!important;
+}
+
+.top .nav [data-view="citizen"]{
+  background:linear-gradient(135deg,#e9f8ff,#f3fbff)!important;
+  color:#26789c!important;
+  border-color:#d5edf7!important;
+}
+
+.top .nav [data-view="portfolio"]{
+  background:linear-gradient(135deg,#fff4dc,#fffaf0)!important;
+  color:#946916!important;
+  border-color:#f1e1b9!important;
+}
+
+.top .nav [data-view="rewards"]{
+  background:linear-gradient(135deg,#f1efff,#faf9ff)!important;
+  color:#6553bd!important;
+  border-color:#e2dcfa!important;
+}
+
+.top .nav [data-view="profile"]{
+  background:linear-gradient(135deg,#f5f0ff,#fbf9ff)!important;
+  color:#654eb0!important;
+  border-color:#e7ddfb!important;
+}
+
+.top .nav a[href="index.html"]{
+  background:linear-gradient(135deg,#e9fbff,#f5fdff)!important;
+  color:#237e9b!important;
+  border-color:#d2edf5!important;
+}
+
+/* V33 dynamically injected Password shortcut */
+.top .nav #spNavPasswordBtn,
+.top .nav .sp-nav-account-btn{
+  background:linear-gradient(135deg,#f0edff,#faf8ff)!important;
+  color:#5d50be!important;
+  border-color:#ddd6fb!important;
+}
+
+.top .nav .danger{
+  background:linear-gradient(135deg,#fff0f2,#fff7f8)!important;
+  color:#c34d60!important;
+  border-color:#f5d6dc!important;
+}
+
+/* Active top item: premium but not too loud */
+.top .nav button.active{
+  color:#fff!important;
+  border-color:transparent!important;
+  background:linear-gradient(135deg,#6557ef,#29c7bd)!important;
+  box-shadow:
+    0 9px 20px rgba(81,76,190,.22),
+    0 0 0 3px rgba(108,92,255,.08)!important;
+}
+
+/* ---------- LOWER LEARNING NAV ---------- */
+.tabs{
+  position:relative;
+  margin:16px 0 8px!important;
+  padding:7px!important;
+  width:max-content;
+  max-width:100%;
+  display:flex!important;
+  align-items:center!important;
+  gap:7px!important;
+  flex-wrap:wrap!important;
+  border:1px solid rgba(216,221,239,.9)!important;
+  border-radius:19px!important;
+  background:
+    linear-gradient(135deg,rgba(255,255,255,.96),rgba(247,249,255,.9))!important;
+  box-shadow:
+    0 12px 28px rgba(45,52,112,.08),
+    inset 0 1px 0 #fff!important;
+  backdrop-filter:blur(14px);
+}
+
+.tabs button,
+.tabs a{
+  position:relative;
+  min-height:43px!important;
+  padding:10px 15px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  border:1px solid transparent!important;
+  border-radius:13px!important;
+  text-decoration:none!important;
+  font-size:11px!important;
+  line-height:1!important;
+  font-weight:950!important;
+  color:#4a5278!important;
+  background:#fff!important;
+  box-shadow:0 4px 10px rgba(46,53,108,.045)!important;
+  transition:
+    transform .17s ease,
+    box-shadow .17s ease,
+    border-color .17s ease,
+    filter .17s ease!important;
+}
+
+.tabs button:hover,
+.tabs a:hover,
+.tabs button:focus-visible,
+.tabs a:focus-visible{
+  transform:translateY(-2px)!important;
+  box-shadow:0 9px 18px rgba(50,56,120,.11)!important;
+  outline:none!important;
+}
+
+/* Learning-tab color identity */
+.tabs [data-view="dashboard"]{
+  background:linear-gradient(135deg,#eef6ff,#fbfdff)!important;
+  color:#2c70bd!important;
+  border-color:#dbeafb!important;
+}
+
+.tabs [data-view="lessons"]{
+  background:linear-gradient(135deg,#edfcef,#fbfffb)!important;
+  color:#2d865a!important;
+  border-color:#d7efdc!important;
+}
+
+.tabs [data-view="labs"]{
+  background:linear-gradient(135deg,#eafcff,#f8feff)!important;
+  color:#19819a!important;
+  border-color:#d2eff4!important;
+}
+
+.tabs [data-view="practice"]{
+  background:linear-gradient(135deg,#f3efff,#fcfaff)!important;
+  color:#694db7!important;
+  border-color:#e6dcfa!important;
+}
+
+.tabs [data-view="tests"]{
+  background:linear-gradient(135deg,#fff2e8,#fffaf6)!important;
+  color:#ad632f!important;
+  border-color:#f4dfcf!important;
+}
+
+.tabs [data-view="battle"]{
+  background:linear-gradient(135deg,#eef2ff,#fafbff)!important;
+  color:#5166b9!important;
+  border-color:#dce2f7!important;
+}
+
+.tabs [data-view="gk"],
+.tabs .gk-tab{
+  background:linear-gradient(135deg,#edf9ff,#fbfeff)!important;
+  color:#247aa8!important;
+  border-color:#d8edf8!important;
+}
+
+/* Dynamic GK button may not use a predictable class/data attribute.
+   Give any last-added normal tab the same polished base via the generic rule. */
+
+/* Selected lower tab */
+.tabs button.active,
+.tabs a.active{
+  color:#fff!important;
+  border-color:transparent!important;
+  background:linear-gradient(135deg,#5f61ed,#28c9c0)!important;
+  box-shadow:
+    0 9px 21px rgba(76,79,192,.23),
+    0 0 0 3px rgba(108,92,255,.08)!important;
+}
+
+/* Make the two levels visually distinct */
+.top + .wrap{
+  padding-top:14px!important;
+}
+
+/* Smaller screens */
+@media(max-width:1100px){
+  .top .bar{
+    align-items:flex-start!important;
+  }
+
+  .top .brand{
+    min-width:160px;
+  }
+
+  .top .nav{
+    gap:6px!important;
+  }
+
+  .top .nav button,
+  .top .nav a{
+    min-height:41px!important;
+    padding:9px 11px!important;
+    font-size:10px!important;
+  }
+}
+
+@media(max-width:800px){
+  .top .bar{
+    display:block!important;
+  }
+
+  .top .brand{
+    display:none!important;
+  }
+
+  .top .nav{
+    margin-left:0!important;
+    justify-content:center!important;
+  }
+
+  .tabs{
+    width:100%;
+    justify-content:center;
+  }
+}
+
+@media(max-width:520px){
+  .top{
+    padding:6px!important;
+  }
+
+  .top .bar{
+    border-radius:18px!important;
+    padding:8px!important;
+  }
+
+  .top .nav button,
+  .top .nav a{
+    min-width:auto!important;
+    min-height:38px!important;
+    padding:8px 9px!important;
+    font-size:9px!important;
+    border-radius:11px!important;
+  }
+
+  .tabs{
+    padding:6px!important;
+    gap:5px!important;
+    border-radius:16px!important;
+  }
+
+  .tabs button,
+  .tabs a{
+    min-height:38px!important;
+    padding:8px 10px!important;
+    font-size:9px!important;
+    border-radius:11px!important;
+  }
+}
+
+@media(prefers-reduced-motion:reduce){
+  .top .nav button,
+  .top .nav a,
+  .tabs button,
+  .tabs a{
+    transition:none!important;
+  }
+}
+</style>
+
 </head><body>
-<header class="top"><div class="bar"><div class="logo"><span>T</span></div><div class="brand"><b>My Learning Universe</b><small>TANNU SIR'S KIDS DIGITAL ACADEMY</small></div><nav class="nav"><button data-view="dashboard">🏠 Dashboard</button><button data-view="lessons">📚 Lessons</button><button data-view="labs">💻 Labs</button><button data-view="practice">🎮 Games</button><button data-view="speaking">🗣️ Speaking</button><button data-view="healthy">🌱 Healthy</button><button data-view="citizen">🛡️ Citizen</button><button data-view="tests">📝 Tests</button><button data-view="battle">⚔️ Battle</button><button data-view="portfolio">🎒 Portfolio</button><button data-view="rewards">🏆 Rewards</button><button data-view="profile">👤 Profile</button><a href="index.html">🌐 Academy</a><button class="danger" onclick="logout()">Logout</button></nav></div></header>
+<header class="top"><div class="bar"><div class="logo"><span>T</span></div><div class="brand"><b>My Learning Universe</b><small>TANNU SIR'S KIDS DIGITAL ACADEMY</small></div><nav class="nav">
+  <button data-view="dashboard">🏠 Dashboard</button>
+  <button data-view="speaking">🗣️ Speaking</button>
+  <button data-view="healthy">🌱 Healthy</button>
+  <button data-view="citizen">🛡️ Citizen</button>
+  <button data-view="portfolio">🎒 Portfolio</button>
+  <button data-view="rewards">🏆 Rewards</button>
+  <button data-view="profile">👤 Profile</button>
+  <a href="index.html">🌐 Academy</a>
+  <button class="danger" onclick="logout()">Logout</button>
+</nav></div></header>
 <main class="wrap">
 <section class="hero"><div class="photo-side"><div class="photo-ring"><div id="photoFallback" class="avatar">🧒</div><img id="photo" alt="Student profile photo" hidden></div><div class="photo-actions"><label class="mini" for="photoInput">📷 Upload</label><input id="photoInput" type="file" accept="image/jpeg,image/png,image/webp" hidden><button class="mini" onclick="removePhoto()">Remove</button></div></div><div class="hero-copy"><span class="eyebrow">MY PRIVATE STUDENT LEARNING UNIVERSE</span><h1 id="welcomeName">Welcome!</h1><p id="heroText">Loading your learning journey...</p><div class="chips"><span class="chip" id="userChip">ID</span><span class="chip" id="classChip">Class</span><span class="chip" id="trackChip">90-Day Program</span><span class="chip" id="lessonStatus">0 Completed</span><span class="chip" id="streakChip">🔥 0 Day Streak</span></div></div><div class="today-card"><small>TODAY'S LEARNING</small><h3 id="todayTitle">Lesson 1</h3><p id="todayText">Your next unlocked lesson is ready.</p><div class="progress"><i id="heroBar" style="width:0%"></i></div><button id="startNext" class="big-start">🚀 Continue Learning</button></div></section>
 <div class="tabs"><button class="active" data-view="dashboard">Dashboard</button><button data-view="lessons">Lessons</button><button data-view="labs">Labs</button><button data-view="practice">Games</button><button data-view="tests">Tests</button><button data-view="battle">Battle</button></div>
@@ -223,4 +606,67 @@ let recognition=null,conversation={step:0,name:'',feeling:'',classText:'',hobby:
 <script src="battle-v2.js"></script>
   <script src="home-ai-buddy.js?v=21.2"></script>
 <script src="student-account-v33.js?v=33.0"></script>
+
+<script id="studentTopNavCleanupV333">
+(() => {
+  "use strict";
+
+  const duplicateViews = new Set([
+    "lessons",
+    "labs",
+    "practice",
+    "tests",
+    "battle",
+    "gk"
+  ]);
+
+  function isTopDuplicate(el){
+    if(!el) return false;
+
+    const view = String(el.dataset?.view || "").toLowerCase();
+    if(duplicateViews.has(view)) return true;
+
+    const text = String(el.textContent || "")
+      .replace(/\s+/g," ")
+      .trim()
+      .toLowerCase();
+
+    /* GK World can be created dynamically without a predictable data-view. */
+    return text === "🌍 gk world" ||
+           text === "gk world" ||
+           text.endsWith(" gk world");
+  }
+
+  function cleanTopNav(){
+    const nav = document.querySelector(".top .nav");
+    if(!nav) return;
+
+    [...nav.querySelectorAll("button,a")].forEach(el => {
+      if(isTopDuplicate(el)) el.remove();
+    });
+  }
+
+  function watchTopNav(){
+    const nav = document.querySelector(".top .nav");
+    if(!nav) return;
+
+    cleanTopNav();
+
+    const observer = new MutationObserver(() => cleanTopNav());
+    observer.observe(nav,{childList:true});
+  }
+
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded",watchTopNav,{once:true});
+  }else{
+    watchTopNav();
+  }
+
+  /* Covers delayed UI enhancers. */
+  setTimeout(cleanTopNav,50);
+  setTimeout(cleanTopNav,350);
+  setTimeout(cleanTopNav,1000);
+})();
+</script>
+
 </body></html>
