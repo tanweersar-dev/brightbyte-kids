@@ -8,6 +8,101 @@
 @media(max-width:520px){.wrap{padding:10px 10px 50px}.nav button,.nav a{padding:8px;font-size:8px}.hero{padding:18px}.hero h1{font-size:32px}.photo-ring{width:125px;height:125px}.lesson-grid,.card-grid,.test-grid,.report-grid,.mission-grid{grid-template-columns:1fr}.stats{grid-template-columns:1fr 1fr}.visual-grid,.choices,.drag-zone{grid-template-columns:1fr}.skill{grid-template-columns:95px 1fr 35px}.badge-grid{grid-template-columns:1fr 1fr}}
 .rich-scenes{grid-template-columns:repeat(3,1fr)!important}.rich-scenes .visual-card{min-height:245px}.rich-scenes .img{height:135px!important}.visual-card small{display:block;line-height:1.5;min-height:42px}.voicebtn{font-size:11px}.lesson-card .visual{height:125px}@media(max-width:800px){.rich-scenes{grid-template-columns:1fr 1fr!important}}@media(max-width:520px){.rich-scenes{grid-template-columns:1fr!important}.lesson-card .visual{height:145px}}
 </style><link rel="stylesheet" href="student-account-v33.css?v=33.0">
+
+<!-- V33.2 Learning Buddy CSS isolation fix:
+     Prevent this page's generic .bot styles from shrinking chatbot rows. -->
+<style id="studentBuddyIsolationV332">
+/* Keep the floating launcher identical to the Home page */
+#tannuBuddyLaunch .bot{
+  width:auto!important;
+  height:auto!important;
+  min-width:0!important;
+  min-height:0!important;
+  max-width:none!important;
+  max-height:none!important;
+  margin:0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  box-shadow:none!important;
+  display:block!important;
+  place-items:initial!important;
+  color:inherit!important;
+  line-height:1!important;
+}
+
+/* IMPORTANT:
+   student-profile.html already owns a generic .bot class for Alpha Jen.
+   Tannu Buddy also uses "bot" as a message role class.
+   Fully reset only the chatbot's bot message row. */
+#tannuBuddyPanel #tannuBuddyMessages .tb-row.bot{
+  width:auto!important;
+  height:auto!important;
+  min-width:0!important;
+  min-height:0!important;
+  max-width:none!important;
+  max-height:none!important;
+  margin:8px 0!important;
+  padding:0!important;
+  border:0!important;
+  border-radius:0!important;
+  background:transparent!important;
+  background-image:none!important;
+  box-shadow:none!important;
+  display:flex!important;
+  grid-template-columns:none!important;
+  place-items:initial!important;
+  align-items:initial!important;
+  justify-content:flex-start!important;
+  color:inherit!important;
+  font-size:inherit!important;
+  line-height:normal!important;
+  overflow:visible!important;
+  position:static!important;
+  transform:none!important;
+}
+
+/* Preserve normal full-width message flow exactly like Home page */
+#tannuBuddyPanel #tannuBuddyMessages .tb-row{
+  box-sizing:border-box!important;
+}
+
+#tannuBuddyPanel #tannuBuddyMessages .tb-bubble{
+  width:auto!important;
+  height:auto!important;
+  min-width:0!important;
+  min-height:0!important;
+  max-width:84%!important;
+  display:block!important;
+  overflow-wrap:break-word!important;
+  word-break:normal!important;
+  white-space:pre-wrap!important;
+}
+
+/* User messages stay aligned to the right */
+#tannuBuddyPanel #tannuBuddyMessages .tb-row.user{
+  width:auto!important;
+  height:auto!important;
+  min-width:0!important;
+  min-height:0!important;
+  max-width:none!important;
+  margin:8px 0!important;
+  padding:0!important;
+  display:flex!important;
+  justify-content:flex-end!important;
+}
+
+/* Topic suggestion chips remain on natural rows */
+#tannuBuddyPanel #tannuBuddyMessages .tb-chips{
+  width:auto!important;
+  height:auto!important;
+  min-width:0!important;
+  display:flex!important;
+  flex-wrap:wrap!important;
+}
+</style>
+
 </head><body>
 <header class="top"><div class="bar"><div class="logo"><span>T</span></div><div class="brand"><b>My Learning Universe</b><small>TANNU SIR'S KIDS DIGITAL ACADEMY</small></div><nav class="nav"><button data-view="dashboard">🏠 Dashboard</button><button data-view="lessons">📚 Lessons</button><button data-view="labs">💻 Labs</button><button data-view="practice">🎮 Games</button><button data-view="speaking">🗣️ Speaking</button><button data-view="healthy">🌱 Healthy</button><button data-view="citizen">🛡️ Citizen</button><button data-view="tests">📝 Tests</button><button data-view="battle">⚔️ Battle</button><button data-view="portfolio">🎒 Portfolio</button><button data-view="rewards">🏆 Rewards</button><button data-view="profile">👤 Profile</button><a href="index.html">🌐 Academy</a><button class="danger" onclick="logout()">Logout</button></nav></div></header>
 <main class="wrap">
@@ -126,6 +221,6 @@ let recognition=null,conversation={step:0,name:'',feeling:'',classText:'',hobby:
   <script src="academy-expansion-v13.js"></script>
 <script src="kids-ui-upgrade-v14.js"></script>
 <script src="battle-v2.js"></script>
-  <script src="home-ai-buddy.js"></script>
+  <script src="home-ai-buddy.js?v=21.2"></script>
 <script src="student-account-v33.js?v=33.0"></script>
 </body></html>
