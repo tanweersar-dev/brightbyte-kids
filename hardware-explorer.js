@@ -892,14 +892,47 @@ function closeDetail(){
   applyFilter();
   setTimeout(()=>$("explorer").scrollIntoView({behavior:"smooth",block:"start"}),50);
 }
+function shuffledQuizChoices(part){
+  const choices=part.quiz.map((text,index)=>({
+    text,
+    correct:index===part.answer
+  }));
+
+  for(let i=choices.length-1;i>0;i--){
+    const j=Math.floor(Math.random()*(i+1));
+    [choices[i],choices[j]]=[choices[j],choices[i]];
+  }
+
+  return choices;
+}
+
 function renderQuiz(part){
   $("quizQuestion").textContent=`What is the main job of ${part.name}?`;
   $("quizFeedback").textContent="Choose one answer.";
-  $("quizOptions").innerHTML=part.quiz.map((opt,i)=>`<button class="hx-quiz-option" data-answer="${i}" type="button">${String.fromCharCode(65+i)}. ${esc(opt)}</button>`).join("");
-  qa("[data-answer]").forEach(btn=>btn.onclick=()=>{
-    qa("[data-answer]").forEach(x=>x.disabled=true);
-    const chosen=Number(btn.dataset.answer);
-    if(chosen===part.answer){
+
+  const choices=shuffledQuizChoices(part);
+
+  $("quizOptions").innerHTML=choices.map((choice,i)=>`
+    <button
+      class="hx-quiz-option"
+      data-answer-position="${i}"
+      data-correct="${choice.correct ? "1" : "0"}"
+      type="button"
+    >
+      <span class="hx-option-letter">${String.fromCharCode(65+i)}</span>
+      <span>${esc(choice.text)}</span>
+    </button>
+  `).join("");
+
+  const buttons=qa("[data-answer-position]");
+
+  buttons.forEach(btn=>btn.onclick=()=>{
+    buttons.forEach(x=>x.disabled=true);
+
+    const isCorrect=btn.dataset.correct==="1";
+    const correctButton=buttons.find(x=>x.dataset.correct==="1");
+
+    if(isCorrect){
       btn.classList.add("correct");
       $("quizFeedback").textContent="✅ Correct. Good technician thinking!";
       learned.add(part.id);
@@ -908,7 +941,7 @@ function renderQuiz(part){
       $("markLearned").textContent="✅ Learned — Undo";
     }else{
       btn.classList.add("wrong");
-      qa("[data-answer]")[part.answer]?.classList.add("correct");
+      correctButton?.classList.add("correct");
       $("quizFeedback").textContent="❌ Not this one. The correct answer is highlighted.";
     }
   });
