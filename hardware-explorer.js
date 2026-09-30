@@ -483,19 +483,44 @@ async function getProfile(){
   }
 }
 
+let visualSvgSequence=0;
+
 function visualSvg(type, large=false){
   const view="0 0 900 560";
+
+  /*
+    V32.3:
+    Every SVG gets unique gradient/filter IDs.
+    The explorer renders many SVGs on one page. Reusing IDs such as
+    #shadow / #pcb / #metal can make a detail SVG resolve to a hidden
+    card's <defs>, causing the hardware itself to disappear while the
+    plain ellipse shadow remains visible.
+  */
+  visualSvgSequence += 1;
+  const uid=`hxv-${visualSvgSequence}`;
+
   const common=`<defs>
-    <linearGradient id="metal" x1="0" x2="1"><stop stop-color="#dbe4ea"/><stop offset=".45" stop-color="#8d9ba7"/><stop offset="1" stop-color="#eef4f7"/></linearGradient>
-    <linearGradient id="dark" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#394552"/><stop offset=".5" stop-color="#151d27"/><stop offset="1" stop-color="#566370"/></linearGradient>
-    <linearGradient id="pcb" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#234f42"/><stop offset=".55" stop-color="#143d33"/><stop offset="1" stop-color="#2e6a54"/></linearGradient>
-    <linearGradient id="blue" x1="0" x2="1"><stop stop-color="#486df8"/><stop offset="1" stop-color="#27c8c2"/></linearGradient>
-    <filter id="shadow"><feDropShadow dx="0" dy="13" stdDeviation="12" flood-color="#263549" flood-opacity=".28"/></filter>
+    <linearGradient id="metal-${uid}" x1="0" x2="1"><stop stop-color="#dbe4ea"/><stop offset=".45" stop-color="#8d9ba7"/><stop offset="1" stop-color="#eef4f7"/></linearGradient>
+    <linearGradient id="dark-${uid}" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#394552"/><stop offset=".5" stop-color="#151d27"/><stop offset="1" stop-color="#566370"/></linearGradient>
+    <linearGradient id="pcb-${uid}" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#234f42"/><stop offset=".55" stop-color="#143d33"/><stop offset="1" stop-color="#2e6a54"/></linearGradient>
+    <linearGradient id="blue-${uid}" x1="0" x2="1"><stop stop-color="#486df8"/><stop offset="1" stop-color="#27c8c2"/></linearGradient>
+    <filter id="shadow-${uid}" x="-25%" y="-25%" width="150%" height="165%"><feDropShadow dx="0" dy="13" stdDeviation="12" flood-color="#263549" flood-opacity=".28"/></filter>
   </defs>`;
-  const shell=(body,label)=>`<svg viewBox="${view}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${esc(label)}">${common}
-    <ellipse cx="450" cy="492" rx="290" ry="34" fill="#6f7e8a" opacity=".16"/>
-    <g filter="url(#shadow)">${body}</g>
-  </svg>`;
+
+  const uniqueRefs=body=>String(body)
+    .replaceAll("url(#metal)",`url(#metal-${uid})`)
+    .replaceAll("url(#dark)",`url(#dark-${uid})`)
+    .replaceAll("url(#pcb)",`url(#pcb-${uid})`)
+    .replaceAll("url(#blue)",`url(#blue-${uid})`)
+    .replaceAll("url(#shadow)",`url(#shadow-${uid})`);
+
+  const shell=(body,label)=>{
+    const safeBody=uniqueRefs(body);
+    return `<svg viewBox="${view}" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="${esc(label)}" preserveAspectRatio="xMidYMid meet">${common}
+      <ellipse cx="450" cy="492" rx="290" ry="34" fill="#6f7e8a" opacity=".16"/>
+      <g filter="url(#shadow-${uid})">${safeBody}</g>
+    </svg>`;
+  };
   const line=(x1,y1,x2,y2)=>`<line x1="${x1}" y1="${y1}" x2="${x2}" y2="${y2}" stroke="#e5c968" stroke-width="5" stroke-linecap="round"/>`;
 
   if(type==="motherboard"){
