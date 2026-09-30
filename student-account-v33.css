@@ -1,0 +1,513 @@
+/* ============================================================
+   V33.0 — MAIN STUDENT PROFILE ACCOUNT POPUP
+   Classes 1–6
+   Custom site modal — no browser alert/confirm/prompt
+   ============================================================ */
+
+body.sp-account-modal-open{
+  overflow:hidden!important;
+}
+
+.sp-change-password-btn{
+  background:linear-gradient(135deg,#f4efff,#e8fbff)!important;
+  color:#564cc1!important;
+  border:1px solid rgba(157,146,237,.30)!important;
+  box-shadow:0 7px 17px rgba(39,43,104,.10)!important;
+  transition:
+    transform .16s ease,
+    box-shadow .16s ease,
+    border-color .16s ease!important;
+}
+
+.sp-change-password-btn:hover,
+.sp-change-password-btn:focus-visible{
+  transform:translateY(-1px)!important;
+  border-color:rgba(108,92,255,.50)!important;
+  box-shadow:0 10px 22px rgba(39,43,104,.16)!important;
+  outline:none!important;
+}
+
+.sp-nav-account-btn{
+  background:#f1efff!important;
+  color:#5a4fc0!important;
+}
+
+/* Modal */
+.sp-account-modal{
+  position:fixed;
+  inset:0;
+  z-index:2000;
+  display:none;
+  place-items:center;
+  padding:20px;
+  background:
+    radial-gradient(circle at 20% 15%,rgba(108,92,255,.14),transparent 27%),
+    rgba(12,18,48,.76);
+  backdrop-filter:blur(9px);
+}
+
+.sp-account-modal.open{
+  display:grid;
+  animation:spBackdropIn .18s ease both;
+}
+
+.sp-account-dialog{
+  position:relative;
+  width:min(560px,100%);
+  max-height:min(92vh,760px);
+  overflow:auto;
+  padding:28px;
+  border:1px solid rgba(255,255,255,.90);
+  border-radius:28px;
+  background:
+    radial-gradient(circle at 92% 3%,rgba(108,92,255,.08),transparent 25%),
+    #fff;
+  color:#202443;
+  box-shadow:
+    0 28px 90px rgba(12,18,48,.32),
+    0 0 0 1px rgba(108,92,255,.035);
+  animation:spDialogIn .22s cubic-bezier(.2,.8,.2,1) both;
+}
+
+@keyframes spBackdropIn{
+  from{opacity:0}
+  to{opacity:1}
+}
+
+@keyframes spDialogIn{
+  from{
+    opacity:0;
+    transform:translateY(16px) scale(.975);
+  }
+  to{
+    opacity:1;
+    transform:translateY(0) scale(1);
+  }
+}
+
+.sp-account-close{
+  position:absolute;
+  z-index:5;
+  top:15px;
+  right:15px;
+  width:38px;
+  height:38px;
+  display:grid;
+  place-items:center;
+  border:0;
+  border-radius:12px;
+  background:#f0f1f8;
+  color:#555d7b;
+  font-size:22px;
+  line-height:1;
+  font-weight:800;
+  transition:.15s ease;
+}
+
+.sp-account-close:hover,
+.sp-account-close:focus-visible{
+  transform:rotate(4deg) scale(1.04);
+  background:#e9e8ff;
+  color:#5548c9;
+  outline:none;
+}
+
+.sp-account-header{
+  display:grid;
+  grid-template-columns:62px 1fr;
+  gap:15px;
+  align-items:start;
+  padding-right:34px;
+}
+
+.sp-account-icon{
+  width:58px;
+  height:58px;
+  display:grid;
+  place-items:center;
+  border-radius:19px;
+  font-size:27px;
+  background:linear-gradient(135deg,#eeeaff,#e6fbf8);
+  box-shadow:0 10px 23px rgba(75,68,176,.10);
+}
+
+.sp-account-icon.password{
+  background:linear-gradient(135deg,#eeeaff,#e7f9ff);
+}
+
+.sp-account-icon.warning{
+  margin:0 auto 10px;
+  background:linear-gradient(135deg,#fff1d7,#fff7e8);
+}
+
+.sp-account-kicker{
+  display:inline-flex;
+  padding:6px 9px;
+  border-radius:999px;
+  background:#efedff;
+  color:#5b50c3;
+  font-size:8px;
+  line-height:1;
+  font-weight:1000;
+  letter-spacing:.8px;
+}
+
+.sp-account-header h2,
+.sp-success-screen h2{
+  margin:8px 0 6px;
+  color:#21264b;
+  font-size:27px;
+  line-height:1.05;
+  letter-spacing:-.5px;
+}
+
+.sp-account-header p,
+.sp-success-screen>p{
+  margin:0;
+  color:#6d7693;
+  font-size:11px;
+  line-height:1.58;
+}
+
+.sp-security-note{
+  margin-top:18px;
+  padding:13px 14px;
+  display:flex;
+  gap:10px;
+  align-items:flex-start;
+  border:1px solid #e6e0b7;
+  border-radius:16px;
+  background:linear-gradient(135deg,#fff9e8,#f7fbff);
+}
+
+.sp-security-note>span{
+  font-size:21px;
+}
+
+.sp-security-note b{
+  display:block;
+  color:#5b5361;
+  font-size:10px;
+}
+
+.sp-security-note p{
+  margin:4px 0 0;
+  color:#74717a;
+  font-size:9px;
+  line-height:1.48;
+}
+
+/* Fields */
+.sp-account-field{
+  margin-top:15px;
+}
+
+.sp-account-field label{
+  display:block;
+  margin:0 0 6px;
+  color:#424b6b;
+  font-size:10px;
+  font-weight:1000;
+}
+
+.sp-password-wrap{
+  position:relative;
+}
+
+.sp-password-wrap input{
+  width:100%;
+  min-height:48px;
+  padding:12px 50px 12px 13px;
+  border:1.5px solid #dfe3ef;
+  border-radius:14px;
+  outline:none;
+  background:#fbfcff;
+  color:#202443;
+  font-size:12px;
+  font-weight:650;
+  transition:
+    border-color .15s ease,
+    box-shadow .15s ease,
+    background .15s ease;
+}
+
+.sp-password-wrap input::placeholder{
+  color:#9aa1b7;
+  font-weight:550;
+}
+
+.sp-password-wrap input:focus{
+  border-color:#8f84ed;
+  background:#fff;
+  box-shadow:0 0 0 4px rgba(108,92,255,.09);
+}
+
+.sp-password-eye{
+  position:absolute;
+  top:50%;
+  right:7px;
+  transform:translateY(-50%);
+  width:36px;
+  height:36px;
+  display:grid;
+  place-items:center;
+  border:0;
+  border-radius:10px;
+  background:#f0f1f8;
+  font-size:15px;
+}
+
+.sp-password-eye:hover,
+.sp-password-eye:focus-visible{
+  background:#e9e8ff;
+  outline:none;
+}
+
+/* Strength */
+.sp-strength-row{
+  margin-top:7px;
+  display:grid;
+  grid-template-columns:1fr auto;
+  gap:8px;
+  align-items:center;
+}
+
+.sp-strength-track{
+  height:6px;
+  overflow:hidden;
+  border-radius:999px;
+  background:#eceef5;
+}
+
+.sp-strength-track i{
+  display:block;
+  width:0;
+  height:100%;
+  border-radius:inherit;
+  transition:.2s ease;
+}
+
+.sp-strength-track i[data-level="1"]{
+  width:34%;
+  background:#e98a77;
+}
+
+.sp-strength-track i[data-level="2"]{
+  width:67%;
+  background:#e6b44f;
+}
+
+.sp-strength-track i[data-level="3"]{
+  width:100%;
+  background:#36b987;
+}
+
+#spPasswordStrengthText{
+  color:#7b829a;
+  font-size:8px;
+  font-weight:900;
+}
+
+/* Rules */
+.sp-password-rules{
+  margin-top:14px;
+  padding:12px 13px;
+  display:grid;
+  gap:4px;
+  border:1px solid #e2e6f2;
+  border-radius:15px;
+  background:#f8f9ff;
+  color:#66708d;
+  font-size:9px;
+  line-height:1.45;
+}
+
+.sp-password-rules b{
+  color:#434d6d;
+  font-size:10px;
+  margin-bottom:1px;
+}
+
+/* Inline status messages */
+.sp-account-message{
+  display:none;
+  margin-top:13px;
+  padding:11px 13px;
+  border-radius:13px;
+  font-size:10px;
+  line-height:1.45;
+  font-weight:850;
+}
+
+.sp-account-message.show{
+  display:block;
+}
+
+.sp-account-message.error{
+  border:1px solid #f0bcc4;
+  background:#fff0f3;
+  color:#a23f52;
+}
+
+.sp-account-message.info{
+  border:1px solid #cbd8f2;
+  background:#f1f6ff;
+  color:#3b5e98;
+}
+
+.sp-account-message.success{
+  border:1px solid #b8e8d6;
+  background:#edfff7;
+  color:#1b795c;
+}
+
+/* Actions */
+.sp-account-actions-row{
+  margin-top:18px;
+  display:flex;
+  justify-content:flex-end;
+  gap:9px;
+}
+
+.sp-account-actions-row.centered{
+  justify-content:center;
+}
+
+.sp-account-btn{
+  min-height:43px;
+  padding:10px 16px;
+  border:0;
+  border-radius:13px;
+  font-size:10px;
+  font-weight:1000;
+  transition:
+    transform .15s ease,
+    box-shadow .15s ease,
+    opacity .15s ease;
+}
+
+.sp-account-btn:hover:not(:disabled),
+.sp-account-btn:focus-visible:not(:disabled){
+  transform:translateY(-1px);
+  outline:none;
+}
+
+.sp-account-btn.primary{
+  color:#fff;
+  background:linear-gradient(135deg,#6c5cff,#28c8bd);
+  box-shadow:0 9px 20px rgba(77,77,184,.18);
+}
+
+.sp-account-btn.secondary{
+  color:#5c6480;
+  background:#eff1f6;
+}
+
+.sp-account-btn.wide{
+  min-width:190px;
+}
+
+.sp-account-btn:disabled{
+  opacity:.58;
+  cursor:not-allowed;
+}
+
+.sp-btn-spinner{
+  width:13px;
+  height:13px;
+  display:inline-block;
+  vertical-align:-2px;
+  margin-right:5px;
+  border:2px solid rgba(255,255,255,.35);
+  border-top-color:#fff;
+  border-radius:50%;
+  animation:spSpin .7s linear infinite;
+}
+
+@keyframes spSpin{
+  to{transform:rotate(360deg)}
+}
+
+/* Success */
+.sp-success-screen{
+  text-align:center;
+  padding:14px 7px 6px;
+}
+
+.sp-success-ring{
+  width:78px;
+  height:78px;
+  margin:0 auto 14px;
+  display:grid;
+  place-items:center;
+  border-radius:26px;
+  background:linear-gradient(135deg,#29ba83,#26cbbb);
+  box-shadow:
+    0 15px 34px rgba(41,186,131,.22),
+    inset 0 0 0 1px rgba(255,255,255,.30);
+}
+
+.sp-success-ring span{
+  color:#fff;
+  font-size:40px;
+  line-height:1;
+  font-weight:1000;
+}
+
+.sp-success-tip{
+  margin:16px auto 0;
+  max-width:410px;
+  padding:12px 14px;
+  border:1px solid #d9e3ee;
+  border-radius:15px;
+  background:#f7faff;
+  color:#5e6986;
+  font-size:9px;
+  line-height:1.5;
+  font-weight:850;
+}
+
+/* Mobile */
+@media(max-width:600px){
+  .sp-account-modal{
+    padding:10px;
+    align-items:end;
+  }
+
+  .sp-account-dialog{
+    width:100%;
+    max-height:94vh;
+    padding:22px 16px 18px;
+    border-radius:25px 25px 15px 15px;
+  }
+
+  .sp-account-header{
+    grid-template-columns:50px 1fr;
+    gap:11px;
+  }
+
+  .sp-account-icon{
+    width:48px;
+    height:48px;
+    border-radius:15px;
+    font-size:23px;
+  }
+
+  .sp-account-header h2,
+  .sp-success-screen h2{
+    font-size:23px;
+  }
+
+  .sp-account-actions-row{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+  }
+
+  .sp-account-actions-row.centered{
+    grid-template-columns:1fr;
+  }
+
+  .sp-account-btn.wide{
+    width:100%;
+  }
+}
