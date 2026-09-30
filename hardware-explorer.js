@@ -700,19 +700,44 @@ function partAssetPath(part){
   return `${ASSET_BASE}${part.id}.webp`;
 }
 function renderVisual(part, host, large=false){
-  host.innerHTML="";
+  if(!host) return;
+
+  /*
+    V32.1:
+    Always paint the built-in 3D learning visual FIRST.
+    This prevents an empty detail panel while an optional real-photo asset
+    is being checked. If the real photo exists, it replaces the 3D visual.
+  */
+  host.innerHTML=visualSvg(part.visual,large);
+
+  if(large && $("assetStatus")){
+    $("assetStatus").textContent="3D Learning Visual";
+  }
+
   const img=new Image();
   img.alt=`${part.name} real hardware photo`;
   img.decoding="async";
+  img.loading="eager";
+
   img.onload=()=>{
-    host.innerHTML="";
-    host.appendChild(img);
-    if(large && $("assetStatus")) $("assetStatus").textContent="Real Photo Asset";
+    if(!host.isConnected) return;
+    host.replaceChildren(img);
+
+    if(large && $("assetStatus")){
+      $("assetStatus").textContent="Real Photo Asset";
+    }
   };
+
   img.onerror=()=>{
-    host.innerHTML=visualSvg(part.visual,large);
-    if(large && $("assetStatus")) $("assetStatus").textContent="3D Learning Visual";
+    /*
+      Keep the already-rendered 3D visual.
+      Never clear the box when a real-photo file is missing.
+    */
+    if(large && $("assetStatus")){
+      $("assetStatus").textContent="3D Learning Visual";
+    }
   };
+
   img.src=partAssetPath(part);
 }
 
