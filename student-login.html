@@ -5,10 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Student Login — Tannu Sir's Kids Digital Academy</title>
 <style>
-:root{
-  --ink:#202443;--muted:#737a98;--purple:#6c5cff;--cyan:#23d2c5;
-  --pink:#ef4da8;--line:#e8e7f7;--danger:#c34258;--good:#16815f
-}
+:root{--ink:#202443;--muted:#737a98;--purple:#6c5cff;--cyan:#23d2c5;--pink:#ef4da8;--line:#e8e7f7}
 *{box-sizing:border-box}
 body{
   margin:0;min-height:100vh;display:grid;place-items:center;padding:22px;
@@ -26,8 +23,8 @@ button,input{font:inherit}button{cursor:pointer}
 }
 @keyframes move{to{background-position:55px 55px}}
 .card{
-  position:relative;width:min(470px,100%);background:#fff;border-radius:31px;
-  padding:30px;box-shadow:0 30px 100px rgba(0,0,0,.3);overflow:hidden
+  position:relative;width:min(470px,100%);background:#fff;border-radius:31px;padding:30px;
+  box-shadow:0 30px 100px rgba(0,0,0,.3);overflow:hidden
 }
 .card:before{
   content:"";position:absolute;left:0;right:0;top:0;height:7px;
@@ -35,16 +32,18 @@ button,input{font:inherit}button{cursor:pointer}
   background-size:300%;animation:run 3s linear infinite
 }
 @keyframes run{to{background-position:300% 0}}
-.brand{display:flex;align-items:center;gap:12px}.cube{width:58px;height:58px}
-.cube svg{width:58px;height:58px}.brand h1{margin:0;font-size:24px}
-.brand p{margin:3px 0 0;color:var(--muted);font-size:11px}
+.brand{display:flex;align-items:center;gap:12px}
+.cube{width:58px;height:58px}.cube svg{width:58px;height:58px}
+.brand h1{margin:0;font-size:24px}.brand p{margin:3px 0 0;color:var(--muted);font-size:11px}
 .ribbon{
   display:inline-block;margin:19px 0 7px;padding:7px 11px;border-radius:99px;color:#fff;
   background:linear-gradient(90deg,#6c5cff,#ef4da8,#ff9b4a);
   font-size:9px;letter-spacing:1.2px;font-weight:1000
 }
-.welcome{font-size:30px;margin:9px 0 5px}.sub{color:var(--muted);font-size:12px;line-height:1.6}
-.field{margin-top:14px}.field label{display:block;font-size:11px;font-weight:900;margin-bottom:6px}
+.welcome{font-size:30px;margin:9px 0 5px}
+.sub{color:var(--muted);font-size:12px;line-height:1.6}
+.field{margin-top:14px}
+.field label{display:block;font-size:11px;font-weight:900;margin-bottom:6px}
 .field input{
   width:100%;border:1px solid #dfe1ef;border-radius:14px;padding:13px;outline:none
 }
@@ -60,10 +59,6 @@ button,input{font:inherit}button{cursor:pointer}
   background:linear-gradient(135deg,#6c5cff,#895ff4);color:#fff;font-weight:1000;
   box-shadow:0 13px 28px rgba(108,92,255,.25)
 }
-.forgot{
-  width:100%;border:1px solid #dedaf9;border-radius:14px;padding:11px;margin-top:10px;
-  background:linear-gradient(135deg,#f5f2ff,#eefbff);color:#5549c7;font-weight:950
-}
 .homebtn{
   display:block;text-align:center;margin-top:11px;padding:13px;border-radius:14px;
   background:#eef5ff;color:#5148b9;text-decoration:none;font-weight:900;font-size:11px
@@ -72,54 +67,14 @@ button,input{font:inherit}button{cursor:pointer}
   margin-top:14px;padding:12px;border-radius:14px;background:#f7f7fd;
   color:var(--muted);font-size:10px;line-height:1.55
 }
+.admin-reset-note{
+  margin-top:10px;padding:11px 12px;border-radius:14px;border:1px solid #e7e5f7;
+  background:linear-gradient(135deg,#faf9ff,#f3fbff);color:#696f8b;
+  font-size:10px;line-height:1.5;text-align:center
+}
 .msg{display:none;margin-top:13px;padding:11px;border-radius:12px;font-size:10px;font-weight:800}
-.msg.show{display:block}.msg.bad{background:#ffe9ed;color:var(--danger)}
-.msg.good{background:#e7fbf3;color:var(--good)}
-
-/* Forgot-password custom modal */
-.modal-backdrop{
-  position:fixed;inset:0;z-index:1000;display:none;place-items:center;padding:18px;
-  background:rgba(8,12,40,.76);backdrop-filter:blur(9px)
-}
-.modal-backdrop.open{display:grid}
-.modal{
-  width:min(560px,100%);max-height:92vh;overflow:auto;background:#fff;border-radius:28px;
-  padding:26px;box-shadow:0 30px 100px rgba(0,0,0,.36);position:relative
-}
-.modal-close{
-  position:absolute;right:14px;top:14px;width:38px;height:38px;border:0;border-radius:12px;
-  background:#f0f1f8;color:#555d7b;font-size:22px
-}
-.modal-head{display:flex;gap:14px;align-items:flex-start;padding-right:38px}
-.modal-icon{
-  width:58px;height:58px;min-width:58px;border-radius:18px;display:grid;place-items:center;
-  font-size:27px;background:linear-gradient(135deg,#eeeaff,#e6fbf8)
-}
-.kicker{
-  display:inline-flex;padding:6px 9px;border-radius:99px;background:#efedff;
-  color:#5b50c3;font-size:8px;font-weight:1000;letter-spacing:.8px
-}
-.modal h2{margin:7px 0 5px;font-size:25px}.modal p{color:var(--muted);font-size:11px;line-height:1.55}
-.recovery-note{
-  margin-top:15px;padding:12px;border:1px solid #e5e0b7;border-radius:15px;
-  background:#fff9e9;color:#70623c;font-size:10px;line-height:1.5
-}
-.modal-actions{display:flex;gap:9px;justify-content:flex-end;margin-top:18px}
-.modal-btn{border:0;border-radius:13px;padding:11px 15px;font-weight:950}
-.modal-btn.secondary{background:#eff1f6;color:#5d6480}
-.modal-btn.primary{background:linear-gradient(135deg,#6c5cff,#28c8bd);color:#fff}
-.modal-btn:disabled{opacity:.55;cursor:not-allowed}
-.recovery-msg{display:none;margin-top:13px;padding:11px 13px;border-radius:13px;font-size:10px;font-weight:850}
-.recovery-msg.show{display:block}.recovery-msg.bad{background:#fff0f3;color:#a23f52;border:1px solid #f0bcc4}
-.recovery-msg.good{background:#edfff7;color:#1b795c;border:1px solid #b8e8d6}
-.success{text-align:center;padding:10px 4px}
-.success-icon{
-  width:78px;height:78px;margin:0 auto 13px;border-radius:25px;display:grid;place-items:center;
-  background:linear-gradient(135deg,#29ba83,#26cbbb);color:#fff;font-size:40px;font-weight:1000
-}
-@media(max-width:560px){
-  .card{padding:24px 18px}.modal{padding:22px 16px}.modal-actions{display:grid;grid-template-columns:1fr 1fr}
-}
+.msg.show{display:block}.msg.bad{background:#ffe9ed;color:#c34258}
+.msg.good{background:#e7fbf3;color:#16815f}
 </style>
 </head>
 <body>
@@ -130,7 +85,9 @@ button,input{font:inherit}button{cursor:pointer}
   <div class="cube">
    <svg viewBox="0 0 64 64" aria-hidden="true">
     <defs><linearGradient id="tg" x1="0" y1="0" x2="1" y2="1">
-     <stop offset="0" stop-color="#46e4df"/><stop offset=".48" stop-color="#7765ff"/><stop offset="1" stop-color="#ff67b8"/>
+     <stop offset="0" stop-color="#46e4df"/>
+     <stop offset=".48" stop-color="#7765ff"/>
+     <stop offset="1" stop-color="#ff67b8"/>
     </linearGradient></defs>
     <circle cx="32" cy="32" r="29" fill="url(#tg)"/>
     <circle cx="32" cy="32" r="23" fill="#12194b" opacity=".94"/>
@@ -139,7 +96,10 @@ button,input{font:inherit}button{cursor:pointer}
     <circle cx="52" cy="33" r="3.3" fill="#ffd65c"/>
    </svg>
   </div>
-  <div><h1>Student Login</h1><p>Tannu Sir's Kids Digital Academy</p></div>
+  <div>
+   <h1>Student Login</h1>
+   <p>Tannu Sir's Kids Digital Academy</p>
+  </div>
  </div>
 
  <span class="ribbon">🎓 PRIVATE STUDENT ACCESS</span>
@@ -155,223 +115,109 @@ button,input{font:inherit}button{cursor:pointer}
   <label>Password</label>
   <div class="password-wrap">
    <input id="password" type="password" autocomplete="current-password" placeholder="Use your password" required>
-   <button class="eye" type="button" data-eye="password" aria-label="Show password">👁</button>
+   <button id="passwordEye" class="eye" type="button" aria-label="Show password" title="Show password">👁</button>
   </div>
  </div>
 
  <button class="login" type="submit">Enter My Academy →</button>
- <button id="forgotBtn" class="forgot" type="button">🔐 Forgot Password?</button>
-
  <a class="homebtn" href="index.html">🏠 Return to Academy Home</a>
+
  <div id="msg" class="msg"></div>
+
+ <div class="admin-reset-note">
+   🔐 Forgot your password? Please contact the Academy Admin. The Admin can securely reset your student password.
+ </div>
 
  <div class="help">🛡️ Never share your password, OTP, home address or other private information with friends or strangers.</div>
 </form>
-
-<div id="forgotModal" class="modal-backdrop" aria-hidden="true">
- <div class="modal" role="dialog" aria-modal="true" aria-labelledby="recoveryTitle">
-  <button id="forgotClose" class="modal-close" type="button" aria-label="Close">×</button>
-  <div id="forgotBody"></div>
- </div>
-</div>
 
 <script>
 const API="https://brightbyte-kids-api.tanweerstudy25.workers.dev";
 const $=id=>document.getElementById(id);
 
 function message(t,g=false){
- const m=$("msg");m.textContent=t;m.className="msg show "+(g?"good":"bad")
-}
-
-function setRecoveryMessage(t,g=false){
- const m=$("recoveryMsg");
- if(!m)return;
+ const m=$("msg");
  m.textContent=t;
- m.className="recovery-msg show "+(g?"good":"bad");
+ m.className="msg show "+(g?"good":"bad");
 }
 
-function bindEyes(scope=document){
- scope.querySelectorAll("[data-eye]").forEach(btn=>{
-  btn.onclick=()=>{
-   const input=$(btn.dataset.eye);
-   if(!input)return;
-   const show=input.type==="password";
-   input.type=show?"text":"password";
-   btn.textContent=show?"🙈":"👁";
-  };
- });
-}
+$("passwordEye").onclick=()=>{
+ const input=$("password");
+ const show=input.type==="password";
+ input.type=show?"text":"password";
+ $("passwordEye").textContent=show?"🙈":"👁";
+ $("passwordEye").title=show?"Hide password":"Show password";
+};
 
 async function routeStudent(token){
- const r=await fetch(API+"/api/auth/me",{headers:{Authorization:`Bearer ${token}`},cache:"no-store"});
+ const r=await fetch(API+"/api/auth/me",{
+  headers:{Authorization:`Bearer ${token}`},
+  cache:"no-store"
+ });
  const d=await r.json();
- if(!r.ok||d.role!=="student"||!d.profile)throw new Error("Could not load student profile");
+
+ if(!r.ok||d.role!=="student"||!d.profile){
+  throw new Error("Could not load student profile");
+ }
+
  const c=Number(d.profile.class_number||1);
- if(c>=4&&c<=6)location.href="advanced-universe.html";
- else location.href="student-profile.html";
+
+ if(c>=4&&c<=6){
+  location.href="advanced-universe.html";
+ }else{
+  location.href="student-profile.html";
+ }
 }
 
 async function existing(){
  const token=localStorage.getItem("brightbyte_student_token");
  if(!token)return;
- try{await routeStudent(token)}catch{localStorage.removeItem("brightbyte_student_token")}
-}
-
-function openForgot(){
- const prefill=$("username").value.trim();
- $("forgotBody").innerHTML=`
-  <div class="modal-head">
-   <div class="modal-icon">🔐</div>
-   <div>
-    <span class="kicker">ACCOUNT RECOVERY</span>
-    <h2 id="recoveryTitle">Reset My Password</h2>
-    <p>Verify the private recovery details saved by the Academy Admin, then choose a new password.</p>
-   </div>
-  </div>
-
-  <div class="recovery-note">
-   🛡️ For safety, Student ID alone cannot reset a password. The Student ID, exact Display Name and Guardian Email must all match the account.
-  </div>
-
-  <div class="field">
-   <label>Student ID</label>
-   <input id="rUsername" autocomplete="username" value="${prefill.replace(/"/g,"&quot;")}" placeholder="Enter Student ID">
-  </div>
-
-  <div class="field">
-   <label>Student Display Name</label>
-   <input id="rDisplayName" autocomplete="name" placeholder="Example: Ahmed Ali">
-  </div>
-
-  <div class="field">
-   <label>Guardian Email</label>
-   <input id="rGuardianEmail" type="email" autocomplete="email" placeholder="Email saved in the student account">
-  </div>
-
-  <div class="field">
-   <label>New Password</label>
-   <div class="password-wrap">
-    <input id="rNewPassword" type="password" autocomplete="new-password" placeholder="Minimum 8 characters">
-    <button class="eye" type="button" data-eye="rNewPassword">👁</button>
-   </div>
-  </div>
-
-  <div class="field">
-   <label>Confirm New Password</label>
-   <div class="password-wrap">
-    <input id="rConfirmPassword" type="password" autocomplete="new-password" placeholder="Type new password again">
-    <button class="eye" type="button" data-eye="rConfirmPassword">👁</button>
-   </div>
-  </div>
-
-  <div id="recoveryMsg" class="recovery-msg" aria-live="polite"></div>
-
-  <div class="modal-actions">
-   <button id="recoveryCancel" class="modal-btn secondary" type="button">Cancel</button>
-   <button id="recoverySubmit" class="modal-btn primary" type="button">🔐 Reset Password</button>
-  </div>
- `;
-
- $("forgotModal").classList.add("open");
- $("forgotModal").setAttribute("aria-hidden","false");
- bindEyes($("forgotBody"));
- $("recoveryCancel").onclick=closeForgot;
- $("recoverySubmit").onclick=submitRecovery;
- setTimeout(()=>$("rDisplayName")?.focus(),50);
-}
-
-function closeForgot(){
- $("forgotModal").classList.remove("open");
- $("forgotModal").setAttribute("aria-hidden","true");
- $("forgotBody").innerHTML="";
-}
-
-async function submitRecovery(){
- const username=$("rUsername").value.trim();
- const displayName=$("rDisplayName").value.trim();
- const guardianEmail=$("rGuardianEmail").value.trim();
- const newPassword=$("rNewPassword").value;
- const confirmPassword=$("rConfirmPassword").value;
- const button=$("recoverySubmit");
-
- if(!username||!displayName||!guardianEmail){
-  setRecoveryMessage("Please complete Student ID, Display Name and Guardian Email.");
-  return;
- }
- if(newPassword.length<8){
-  setRecoveryMessage("New password must contain at least 8 characters.");
-  return;
- }
- if(newPassword!==confirmPassword){
-  setRecoveryMessage("New password and confirmation do not match.");
-  return;
- }
-
- button.disabled=true;
- button.textContent="Resetting...";
 
  try{
-  const r=await fetch(API+"/api/auth/forgot-password/reset",{
-   method:"POST",
-   headers:{"Content-Type":"application/json"},
-   body:JSON.stringify({username,displayName,guardianEmail,newPassword})
-  });
-
-  const d=await r.json().catch(()=>({}));
-  if(!r.ok)throw new Error(d.error||"Password reset failed");
-
+  await routeStudent(token);
+ }catch{
   localStorage.removeItem("brightbyte_student_token");
-
-  $("forgotBody").innerHTML=`
-   <div class="success">
-    <div class="success-icon">✓</div>
-    <span class="kicker">PASSWORD UPDATED</span>
-    <h2 id="recoveryTitle">Password Reset Successful</h2>
-    <p>Your new password is ready. You can now sign in to your Academy account.</p>
-    <div class="recovery-note">🔒 Keep your new password private and do not share it with friends or strangers.</div>
-    <div class="modal-actions" style="justify-content:center">
-     <button id="backToLogin" class="modal-btn primary" type="button">🚀 Back to Login</button>
-    </div>
-   </div>
-  `;
-  $("username").value=username;
-  $("password").value="";
-  $("backToLogin").onclick=()=>{
-   closeForgot();
-   $("password").focus();
-   message("Password reset successfully. Login with your new password.",true);
-  };
- }catch(err){
-  setRecoveryMessage(err.message||"Password reset failed.");
-  button.disabled=false;
-  button.textContent="🔐 Reset Password";
  }
 }
-
-$("forgotBtn").onclick=openForgot;
-$("forgotClose").onclick=closeForgot;
-$("forgotModal").onclick=e=>{if(e.target===$("forgotModal"))closeForgot()};
-document.addEventListener("keydown",e=>{if(e.key==="Escape"&&$("forgotModal").classList.contains("open"))closeForgot()});
-bindEyes();
 
 $("form").onsubmit=async e=>{
  e.preventDefault();
+
  const b=e.submitter;
- b.disabled=true;b.textContent="Checking...";
+ b.disabled=true;
+ b.textContent="Checking...";
+
  try{
   const r=await fetch(API+"/api/auth/login",{
    method:"POST",
    headers:{"Content-Type":"application/json"},
-   body:JSON.stringify({username:$("username").value.trim(),password:$("password").value})
+   body:JSON.stringify({
+    username:$("username").value.trim(),
+    password:$("password").value
+   })
   });
+
   const d=await r.json();
-  if(!r.ok||d.role!=="student")throw new Error(d.error||"Login failed");
+
+  if(!r.ok||d.role!=="student"){
+   throw new Error(d.error||"Login failed");
+  }
+
   localStorage.setItem("brightbyte_student_token",d.token);
   localStorage.removeItem("brightbyte_admin_token");
+
   message("Login successful! Opening your class universe...",true);
-  setTimeout(()=>routeStudent(d.token).catch(err=>message(err.message)),250);
- }catch(err){message(err.message)}
- finally{b.disabled=false;b.textContent="Enter My Academy →"}
+
+  setTimeout(()=>{
+   routeStudent(d.token).catch(err=>message(err.message));
+  },250);
+
+ }catch(err){
+  message(err.message);
+ }finally{
+  b.disabled=false;
+  b.textContent="Enter My Academy →";
+ }
 };
 
 existing();
