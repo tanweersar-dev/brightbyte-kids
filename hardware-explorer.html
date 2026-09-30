@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#0f1747">
+  <title>Hardware & Peripheral Visual Explorer — Tannu Sir's Kids Digital Academy</title>
+  <link rel="stylesheet" href="hardware-explorer.css?v=32.0">
+</head>
+<body>
+  <div class="hx-bg hx-bg-a"></div>
+  <div class="hx-bg hx-bg-b"></div>
+
+  <header class="hx-topbar">
+    <a class="hx-brand" href="advanced-universe.html">
+      <span class="hx-logo">T</span>
+      <span>
+        <b>Hardware & Peripheral Visual Explorer</b>
+        <small>TANNU SIR'S KIDS DIGITAL ACADEMY • CLASS 4–6</small>
+      </span>
+    </a>
+
+    <div class="hx-top-actions">
+      <button id="profileBtn" class="hx-pill hx-profile" type="button">👤 Student</button>
+      <span id="classChip" class="hx-pill">🎓 Class —</span>
+      <button id="voiceToggle" class="hx-pill hx-button" type="button">🔊 Voice On</button>
+      <a class="hx-pill hx-button" href="advanced-universe.html">🌌 Universe</a>
+      <a class="hx-pill hx-button" href="junior-technician-lab.html">🧪 Practical Lab</a>
+    </div>
+  </header>
+
+  <main class="hx-shell">
+    <section class="hx-hero">
+      <div class="hx-hero-copy">
+        <span class="hx-eyebrow">V32 • VISUAL HARDWARE LEARNING LAB</span>
+        <h1>See the part. Understand the job. Know the connection.</h1>
+        <p>
+          Explore real-world computer parts, ports, cables, printer connections and UPS power points
+          through large interactive visuals and simple technician explanations.
+        </p>
+
+        <div class="hx-hero-actions">
+          <button id="startExplorer" class="hx-primary" type="button">🔬 Start Explorer</button>
+          <button id="randomPart" class="hx-secondary" type="button">🎲 Surprise Me</button>
+        </div>
+
+        <div class="hx-trust">
+          <span>🧠 Simple English</span>
+          <span>🖼️ Large Visuals</span>
+          <span>🔊 Voice Guide</span>
+          <span>✅ Learning Progress</span>
+        </div>
+      </div>
+
+      <div class="hx-hero-status">
+        <div class="hx-orbit">
+          <span class="hx-orbit-item a">🧠</span>
+          <span class="hx-orbit-item b">💾</span>
+          <span class="hx-orbit-item c">🔌</span>
+          <span class="hx-orbit-item d">🖨️</span>
+          <div class="hx-orbit-core">
+            <b id="learnedCount">0</b>
+            <small>PARTS LEARNED</small>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="hx-dashboard">
+      <div class="hx-stat">
+        <span>🧩</span>
+        <div><b id="totalParts">0</b><small>Total parts</small></div>
+      </div>
+      <div class="hx-stat">
+        <span>✅</span>
+        <div><b id="progressPercent">0%</b><small>Progress</small></div>
+      </div>
+      <div class="hx-stat">
+        <span>📚</span>
+        <div><b id="currentCategory">All</b><small>Category</small></div>
+      </div>
+      <div class="hx-stat">
+        <span>🔍</span>
+        <div><b id="visibleCount">0</b><small>Visible items</small></div>
+      </div>
+    </section>
+
+    <section class="hx-browser" id="explorer">
+      <aside class="hx-sidebar">
+        <div class="hx-side-head">
+          <span class="hx-eyebrow dark">PART LIBRARY</span>
+          <h2>Choose a category</h2>
+        </div>
+
+        <div id="categoryList" class="hx-categories"></div>
+
+        <div class="hx-search-wrap">
+          <label for="partSearch">Search hardware</label>
+          <input id="partSearch" type="search" placeholder="Example: HDMI, RAM, UPS">
+        </div>
+
+        <div class="hx-side-note">
+          <b>💡 Technician Tip</b>
+          <p>Learn the shape first. Then learn where it connects and what happens if it is missing.</p>
+        </div>
+      </aside>
+
+      <section class="hx-library">
+        <div class="hx-library-head">
+          <div>
+            <span class="hx-eyebrow dark">CLICK A PART</span>
+            <h2 id="libraryTitle">All Hardware & Connections</h2>
+            <p id="librarySubtitle">Choose any card to open the full visual guide.</p>
+          </div>
+          <button id="resumeBtn" class="hx-small-btn" type="button">▶ Resume</button>
+        </div>
+
+        <div id="partGrid" class="hx-part-grid"></div>
+      </section>
+    </section>
+
+    <section id="detailView" class="hx-detail hidden" aria-live="polite">
+      <div class="hx-detail-toolbar">
+        <button id="backToLibrary" class="hx-back-btn" type="button">← Back to Parts</button>
+        <div class="hx-detail-position"><span id="detailPosition">1 / 1</span></div>
+        <button id="detailProfileBtn" class="hx-small-btn" type="button">👤 My Profile</button>
+      </div>
+
+      <div class="hx-detail-grid">
+        <section class="hx-visual-panel">
+          <div class="hx-visual-head">
+            <span id="detailCategory" class="hx-category-badge">CATEGORY</span>
+            <span id="assetStatus" class="hx-asset-status">3D Learning Visual</span>
+          </div>
+
+          <div id="bigVisual" class="hx-big-visual"></div>
+
+          <div class="hx-visual-caption">
+            <b id="visualCaptionTitle">Part</b>
+            <span id="visualCaption">Large visual learning model</span>
+          </div>
+
+          <div class="hx-visual-controls">
+            <button id="hearPart" class="hx-secondary" type="button">🔊 Hear Explanation</button>
+            <button id="markLearned" class="hx-primary" type="button">✅ Mark as Learned</button>
+          </div>
+        </section>
+
+        <section class="hx-info-panel">
+          <span id="partNumber" class="hx-eyebrow dark">PART 01</span>
+          <h2 id="partTitle">Motherboard</h2>
+          <p id="partIntro" class="hx-intro"></p>
+
+          <div class="hx-info-cards">
+            <article>
+              <span>❓</span>
+              <div><b>What is it?</b><p id="whatText"></p></div>
+            </article>
+            <article>
+              <span>⚙️</span>
+              <div><b>What does it do?</b><p id="jobText"></p></div>
+            </article>
+            <article>
+              <span>📍</span>
+              <div><b>Where is it?</b><p id="whereText"></p></div>
+            </article>
+            <article>
+              <span>👀</span>
+              <div><b>How to identify it?</b><p id="identifyText"></p></div>
+            </article>
+            <article>
+              <span>🔗</span>
+              <div><b>What connects to it?</b><p id="connectText"></p></div>
+            </article>
+            <article class="safety">
+              <span>🛡️</span>
+              <div><b>Safety rule</b><p id="safetyText"></p></div>
+            </article>
+          </div>
+
+          <div class="hx-tech-note">
+            <span>🧰</span>
+            <div>
+              <b>Technician Note</b>
+              <p id="techText"></p>
+            </div>
+          </div>
+
+          <div class="hx-nav-row">
+            <button id="prevPart" class="hx-secondary" type="button">← Previous Part</button>
+            <button id="nextPart" class="hx-primary" type="button">Next Part →</button>
+          </div>
+        </section>
+      </div>
+
+      <section class="hx-checkpoint">
+        <div>
+          <span class="hx-eyebrow dark">QUICK CHECK</span>
+          <h2 id="quizQuestion">What is this part mainly used for?</h2>
+        </div>
+        <div id="quizOptions" class="hx-quiz-options"></div>
+        <div id="quizFeedback" class="hx-quiz-feedback">Choose one answer.</div>
+      </section>
+    </section>
+  </main>
+
+  <div id="toast" class="hx-toast"></div>
+
+  <script src="hardware-explorer.js?v=32.0"></script>
+</body>
+</html>
