@@ -248,6 +248,20 @@ function startBattleTimer(b,onExpire){
 }
 function modeMeta(mode){return MODE_META[mode]||MODE_META.quick_quiz}
 function statusClass(s){return "status-"+(s||"pending")}
+
+/*
+  V36 FAIR CROSS-CLASS RULE:
+  When Class 4 battles Class 5/6, both players must receive the SAME pool.
+  Use the lower class as the shared curriculum base for that battle.
+  Example: Class 4 vs Class 6 => both get Class-4-and-below advanced questions.
+*/
+function sharedBattleClass(b){
+  const a=Number(b?.challenger_class||classNo||4);
+  const o=Number(b?.opponent_class||classNo||4);
+  const validA=(a>=4&&a<=6)?a:classNo;
+  const validO=(o>=4&&o<=6)?o:classNo;
+  return Math.min(validA,validO);
+}
 function mySubmitted(b){
   const isCh=Number(b.challenger_user_id)===Number(profile?.user_id);
   return isCh ? b.challenger_score!==null && b.challenger_score!==undefined : b.opponent_score!==null && b.opponent_score!==undefined;
@@ -280,18 +294,27 @@ async function loadProfile(){
   }
 }
 
+function isMyBattleGroup(peerClass){
+  const c=Number(peerClass||0);
+  return classNo>=4&&classNo<=6&&c>=4&&c<=6;
+}
+
 async function loadPeers(){
   try{
     const r=await api("/api/student/peers");
     const d=await r.json();
-    if(!r.ok)throw new Error(d.error||"Could not load classmates");
-    const peers=(d.peers||[]).filter(x=>Number(x.class_number)===classNo);
+    if(!r.ok)throw new Error(d.error||"Could not load Battle group");
+
+    // Backend already returns the correct Battle group.
+    // Keep this client-side guard as an extra safety check.
+    const peers=(d.peers||[]).filter(x=>isMyBattleGroup(x.class_number));
+
     $("peerSelect").innerHTML=peers.length
-      ? `<option value="">Choose a Class ${classNo} learner...</option>`+
+      ? `<option value="">Choose a Class 4–6 learner...</option>`+
         peers.map(x=>`<option value="${Number(x.user_id)}">${esc(x.display_name)} • Class ${Number(x.class_number)}</option>`).join("")
-      : `<option value="">No same-class learners available</option>`;
+      : `<option value="">No Class 4–6 learners available</option>`;
   }catch(e){
-    $("peerSelect").innerHTML=`<option value="">${esc(e.message||"Could not load classmates")}</option>`;
+    $("peerSelect").innerHTML=`<option value="">${esc(e.message||"Could not load Battle group")}</option>`;
   }
 }
 
@@ -372,7 +395,7 @@ async function loadBattles(silent=false){
 
 async function sendChallenge(){
   const opponentUserId=Number($("peerSelect").value||0);
-  if(!opponentUserId)return toast("Choose a same-class learner first.");
+  if(!opponentUserId)return toast("Choose a Class 4–6 learner first.");
   const btn=$("sendChallengeBtn");
   btn.disabled=true;btn.textContent="Sending Challenge...";
   try{
@@ -405,10 +428,11 @@ async function respondBattle(id,accept){
   }catch(e){toast(e.message||"Could not update challenge")}
 }
 
-function battleQuestionPool(mode,level){
+function battleQuestionPool(mode,level,battleClass){
   const all=QUESTIONS[mode]||QUESTIONS.quick_quiz;
-  let pool=all.filter(q=>Number(q[0])<=classNo && Number(q[1])<=level);
-  if(pool.length<7)pool=all.filter(q=>Number(q[0])<=classNo);
+  const sharedClass=Number(battleClass||classNo||4);
+  let pool=all.filter(q=>Number(q[0])<=sharedClass && Number(q[1])<=level);
+  if(pool.length<7)pool=all.filter(q=>Number(q[0])<=sharedClass);
   return pool;
 }
 
@@ -432,9 +456,13 @@ async function playBattle(id){
 
 function playQuizBattle(b){
   const level=Number(b.level||1);
-  const rand=seeded(Number(b.question_seed||1)+(classNo*97)+(level*13));
-  const count=Math.min(4+level,battleQuestionPool(b.mode,level).length);
-  const selected=seededShuffle(battleQuestionPool(b.mode,level),rand).slice(0,count);
+  const battleClass=sharedBattleClass(b);
+  const pool=battleQuestionPool(b.mode,level,battleClass);
+
+  // Same seed + same shared curriculum class = identical questions for both players.
+  const rand=seeded(Number(b.question_seed||1)+(battleClass*97)+(level*13));
+  const count=Math.min(4+level,pool.length);
+  const selected=seededShuffle(pool,rand).slice(0,count);
   let index=0,correctCount=0,answered=false,timerStarted=false,timedOut=false;
   const started=Date.now();
   const meta=modeMeta(b.mode);
@@ -469,7 +497,7 @@ function playQuizBattle(b){
         <div class="icon">${meta.icon}</div>
         <h2>${esc(meta.name)} • Level ${level}</h2>
         <div class="play-meta">
-          <span>🎓 Class ${classNo}</span>
+          <span>🎓 Classes 4–6 Group</span>
           <span>⚔️ Question ${index+1}/${selected.length}</span>
           <span>✅ Correct ${correctCount}</span>
           <span id="battleTimer" class="battle-timer">⏱ ${battleMinutes(b)}:00</span>
@@ -516,8 +544,9 @@ function playQuizBattle(b){
 
 function typingTarget(b){
   const level=Number(b.level||1);
-  const rand=seeded(Number(b.question_seed||1)+(classNo*71)+(level*19));
-  const options=TYPING[classNo]?.[level]||TYPING[4][1];
+  const battleClass=sharedBattleClass(b);
+  const rand=seeded(Number(b.question_seed||1)+(battleClass*71)+(level*19));
+  const options=TYPING[battleClass]?.[level]||TYPING[4][1];
   return options[Math.floor(rand()*options.length)];
 }
 
@@ -620,7 +649,7 @@ async function showBattleResult(id){
         <div class="result-trophy">${icon}</div>
         <span class="mini-kicker">FINAL BATTLE RESULT</span>
         <h2>${title}</h2>
-        <p>${esc(modeMeta(b.mode).name)} • Level ${Number(b.level||1)} • Class ${classNo}</p>
+        <p>${esc(modeMeta(b.mode).name)} • Level ${Number(b.level||1)} • Classes 4–6 Group</p>
         <div class="scoreboard">
           <div class="score-person">
             <small>CHALLENGER</small><b>${esc(b.challenger_name||"Student")}</b><strong>${cs}</strong><small>POINTS</small>
