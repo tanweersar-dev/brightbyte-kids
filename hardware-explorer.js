@@ -710,6 +710,24 @@ function renderVisual(part, host, large=false){
   */
   host.innerHTML=visualSvg(part.visual,large);
 
+  /*
+    V32.2:
+    The card visuals already work, but a percentage SVG height inside the
+    large detail panel can collapse in some browsers because the parent
+    uses min-height rather than a definite height. Force a real rendered
+    size for the large SVG.
+  */
+  const learningSvg=host.querySelector("svg");
+  if(learningSvg){
+    learningSvg.style.display="block";
+    learningSvg.style.visibility="visible";
+    learningSvg.style.opacity="1";
+    learningSvg.style.width=large ? "96%" : "94%";
+    learningSvg.style.height="auto";
+    learningSvg.style.maxHeight=large ? "560px" : "92px";
+    learningSvg.style.margin="0 auto";
+  }
+
   if(large && $("assetStatus")){
     $("assetStatus").textContent="3D Learning Visual";
   }
@@ -730,9 +748,24 @@ function renderVisual(part, host, large=false){
 
   img.onerror=()=>{
     /*
-      Keep the already-rendered 3D visual.
-      Never clear the box when a real-photo file is missing.
+      Keep or restore the already-rendered 3D visual.
+      Never leave the box empty when a real-photo file is missing.
     */
+    if(!host.querySelector("svg") && !host.querySelector("img")){
+      host.innerHTML=visualSvg(part.visual,large);
+    }
+
+    const fallbackSvg=host.querySelector("svg");
+    if(fallbackSvg){
+      fallbackSvg.style.display="block";
+      fallbackSvg.style.visibility="visible";
+      fallbackSvg.style.opacity="1";
+      fallbackSvg.style.width=large ? "96%" : "94%";
+      fallbackSvg.style.height="auto";
+      fallbackSvg.style.maxHeight=large ? "560px" : "92px";
+      fallbackSvg.style.margin="0 auto";
+    }
+
     if(large && $("assetStatus")){
       $("assetStatus").textContent="3D Learning Visual";
     }
