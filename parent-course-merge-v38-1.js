@@ -1371,5 +1371,23 @@
     );
 
   });
+/* V38.2 legacy Parent View redirect */
 
+document.querySelectorAll('a[href*="#parents"]').forEach(link => {
+  link.setAttribute("href", "index.html#course");
+});
+
+if (location.hash === "#parents") {
+  history.replaceState(null, "", "index.html#course");
+
+  const courseBtn = document.querySelector('[data-page="course"]');
+
+  if (courseBtn) {
+    setTimeout(() => {
+      courseBtn.click();
+    }, 100);
+  }
+}
 })();
+
+
