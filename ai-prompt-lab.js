@@ -19,7 +19,7 @@
 */
 
 const ACADEMY_API =
-  "https://brightbyte-kids-api.tanweerstudy25.workers.dev";
+  "https://api.tanweer.site";
 
 const token =
   localStorage.getItem("brightbyte_student_token") || "";

@@ -9,7 +9,7 @@
    - NO browser alert() / confirm() / prompt()
    ============================================================ */
 
-const API = "https://brightbyte-kids-api.tanweerstudy25.workers.dev";
+const API = "https://api.tanweer.site";
 const TOKEN_KEY = "brightbyte_student_token";
 
 const byId = id => document.getElementById(id);

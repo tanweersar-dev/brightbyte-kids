@@ -8,7 +8,7 @@
   No paid AI API. Uses local rules + academy question-bank.js.
 */
 
-const API="https://brightbyte-kids-api.tanweerstudy25.workers.dev";
+const API="https://api.tanweer.site";
 const TOKEN=localStorage.getItem("brightbyte_student_token")||"";
 const STATE_KEY="tannu_buddy_v21_state";
 const POS_KEY="tannu_buddy_v21_pos";

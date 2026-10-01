@@ -1,7 +1,7 @@
 (() => {
 "use strict";
 
-const API="https://brightbyte-kids-api.tanweerstudy25.workers.dev";
+const API="https://api.tanweer.site";
 const token=localStorage.getItem("brightbyte_student_token")||"";
 const STORAGE_KEY="tannu_virtual_it_lab_v1";
 

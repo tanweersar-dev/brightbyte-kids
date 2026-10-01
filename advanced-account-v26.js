@@ -9,7 +9,7 @@
    - new PATCH /api/student/change-password Worker route
    ============================================================ */
 
-const API = "https://brightbyte-kids-api.tanweerstudy25.workers.dev";
+const API = "https://api.tanweer.site";
 const TOKEN_KEY = "brightbyte_student_token";
 const token = localStorage.getItem(TOKEN_KEY) || "";
 let currentProfile = null;
