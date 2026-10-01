@@ -6,7 +6,7 @@
 
 (function () {
   const GALAXY_FIX_VERSION = "11.4-role-isolation";
-  const API_BASE = "https://brightbyte-kids-api.tanweerstudy25.workers.dev";
+  const API_BASE = "https://api.tanweer.site";
 
   const get = (id) => document.getElementById(id);
 

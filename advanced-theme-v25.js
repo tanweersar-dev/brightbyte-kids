@@ -8,7 +8,7 @@
    Safe add-on. Does not replace advanced-universe.js.
    ============================================================ */
 
-const API = "https://brightbyte-kids-api.tanweerstudy25.workers.dev";
+const API = "https://api.tanweer.site";
 const TOKEN_KEY = "brightbyte_student_token";
 const token = localStorage.getItem(TOKEN_KEY) || "";
 
