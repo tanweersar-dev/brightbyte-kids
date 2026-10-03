@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Exam Center — Tannu Sir's Kids Digital Academy</title>
+  <link rel="stylesheet" href="exam-center.css?v=39.0">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="admin.html">
+      <span class="logo">T</span>
+      <span><b>Tannu Sir's Exam Center</b><small>Secure Class 1–6 Evaluation</small></span>
+    </a>
+    <div class="top-actions">
+      <a class="btn ghost" href="admin.html">← Admin Center</a>
+      <button id="refreshAllBtn" class="btn primary" type="button">↻ Refresh</button>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section id="authGate" class="auth-gate hidden">
+      <div class="gate-card">
+        <div class="big-icon">🔐</div>
+        <h1>Admin Login Required</h1>
+        <p>Open the normal Academy Admin Center and sign in first.</p>
+        <a class="btn primary" href="admin.html">Open Admin Center</a>
+      </div>
+    </section>
+
+    <section id="app" class="hidden">
+      <section class="hero">
+        <div>
+          <span class="kicker">V39 • EXAM & EVALUATION</span>
+          <h1>Monthly / Skills Exam Center</h1>
+          <p>Create one shared paper, assign it to one student, a class, selected students, or a complete learning group.</p>
+        </div>
+        <div class="hero-badges">
+          <span>🧒 Class 1–3 Foundation</span>
+          <span>🚀 Class 4–6 Advanced</span>
+          <span>🛡️ Server-side grading</span>
+        </div>
+      </section>
+
+      <section class="stats">
+        <article><span>📝</span><b id="statExams">0</b><small>Total Exams</small></article>
+        <article><span>⏳</span><b id="statPending">0</b><small>Pending Review</small></article>
+        <article><span>👨‍🎓</span><b id="statStudents">0</b><small>Active Students</small></article>
+        <article><span>🗃️</span><b id="statBank">0</b><small>Question Bank</small></article>
+      </section>
+
+      <nav class="tabs" aria-label="Exam Center">
+        <button class="tab active" data-tab="create" type="button">➕ Create Exam</button>
+        <button class="tab" data-tab="records" type="button">📋 Exam Records</button>
+        <button class="tab" data-tab="review" type="button">✅ Review Results</button>
+        <button class="tab" data-tab="bank" type="button">🗃️ Question Bank</button>
+      </nav>
+
+      <section id="tab-create" class="panel active">
+        <div class="panel-head">
+          <div>
+            <span class="mini">CREATE & ACTIVATE</span>
+            <h2>New Student Exam</h2>
+            <p>The paper is generated once and shared fairly with every student assigned in this activation.</p>
+          </div>
+          <span class="pill">4-option MCQ + Written</span>
+        </div>
+
+        <form id="createExamForm" class="form-grid">
+          <label class="field wide">
+            <span>Exam Title</span>
+            <input id="examTitle" maxlength="120" value="Digital Skills Check" required>
+          </label>
+
+          <label class="field">
+            <span>Learning Group</span>
+            <select id="groupCode">
+              <option value="junior">Class 1–3 • Foundation</option>
+              <option value="advanced">Class 4–6 • Advanced</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Assign To</span>
+            <select id="audienceType">
+              <option value="group">Entire Group</option>
+              <option value="class">One Class</option>
+              <option value="selected">Selected Students</option>
+            </select>
+          </label>
+
+          <label id="classField" class="field hidden">
+            <span>Class</span>
+            <select id="targetClass"></select>
+          </label>
+
+          <label class="field">
+            <span>Timer</span>
+            <select id="durationMinutes">
+              <option value="10">10 Minutes</option>
+              <option value="15">15 Minutes</option>
+              <option value="20">20 Minutes</option>
+              <option value="30">30 Minutes</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>MCQ Questions</span>
+            <select id="mcqCount">
+              <option value="10">10 MCQ</option>
+              <option value="15">15 MCQ</option>
+              <option value="20">20 MCQ</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Written Questions</span>
+            <select id="writtenCount">
+              <option value="0">No Written</option>
+              <option value="1" selected>1 Written</option>
+              <option value="2">2 Written</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Pass Mark</span>
+            <select id="passMark">
+              <option value="50">50%</option>
+              <option value="60" selected>60%</option>
+              <option value="70">70%</option>
+              <option value="80">80%</option>
+            </select>
+          </label>
+
+          <label class="field">
+            <span>Availability</span>
+            <select id="availabilityDays">
+              <option value="1">1 Day</option>
+              <option value="2">2 Days</option>
+              <option value="3" selected>3 Days</option>
+              <option value="5">5 Days</option>
+              <option value="7">7 Days</option>
+            </select>
+          </label>
+
+          <div id="selectedStudentsField" class="field wide hidden">
+            <div class="field-title-row">
+              <span>Choose Students</span>
+              <button id="selectVisibleBtn" type="button" class="mini-btn">Select Visible</button>
+            </div>
+            <input id="studentSearch" class="search" placeholder="Search student name / ID">
+            <div id="studentPicker" class="student-picker"></div>
+          </div>
+
+          <div class="notice wide">
+            <b>How it works</b>
+            <span>Student sees an exam notification after login → clicks Start Exam → timer begins → fullscreen/integrity mode starts → Review Answers → Final Submit → teacher reviews written answers → PASS/FAIL.</span>
+          </div>
+
+          <div class="wide form-actions">
+            <button id="activateExamBtn" class="btn primary large" type="submit">🚀 Create & Activate Exam</button>
+          </div>
+        </form>
+      </section>
+
+      <section id="tab-records" class="panel">
+        <div class="panel-head">
+          <div><span class="mini">LIVE EXAM DESK</span><h2>Exam Records</h2><p>Monitor assignment, start, submission and review status.</p></div>
+          <button id="recordsRefreshBtn" class="btn ghost" type="button">↻ Refresh</button>
+        </div>
+        <div class="filters">
+          <input id="examSearch" class="search" placeholder="Search exam title">
+          <select id="examStatusFilter">
+            <option value="all">All Status</option>
+            <option value="active">Active</option>
+            <option value="closed">Closed</option>
+            <option value="cancelled">Cancelled</option>
+          </select>
+        </div>
+        <div id="examRecords" class="exam-grid"></div>
+      </section>
+
+      <section id="tab-review" class="panel">
+        <div class="panel-head">
+          <div><span class="mini">TEACHER REVIEW</span><h2>Written Answer Review</h2><p>Review submitted written answers and finalize PASS / FAIL.</p></div>
+          <button id="reviewRefreshBtn" class="btn ghost" type="button">↻ Refresh</button>
+        </div>
+        <div id="reviewQueue" class="review-list"></div>
+      </section>
+
+      <section id="tab-bank" class="panel">
+        <div class="panel-head">
+          <div><span class="mini">CURRICULUM SOURCE</span><h2>Built-in Question Bank</h2><p>Questions are kept in the Exam Worker so correct answers are not sent to students before submission.</p></div>
+        </div>
+        <div id="bankCards" class="bank-grid"></div>
+      </section>
+    </section>
+  </main>
+
+  <div id="modalWrap" class="modal-wrap" aria-hidden="true">
+    <div id="modalCard" class="modal-card"></div>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <script src="exam-center.js?v=39.0"></script>
+</body>
+</html>
