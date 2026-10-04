@@ -89,7 +89,19 @@
   .bb90-v395-guardian-icon{margin:auto}
   .bb90-v395-cert{align-items:flex-start}
 }
+/* ============================================================
+   V39.5.1 — GUARDIAN CARDS CLICKABLE LINKS
+   SAFE ADD-ON ONLY
+   ============================================================ */
 
+.bb90-v395-card.v3951-clickable{
+  cursor:pointer;
+}
+
+.bb90-v395-card.v3951-clickable:focus-visible{
+  outline:2px solid #6fe8ef;
+  outline-offset:3px;
+}
 </style>
 </head>
 <body>
@@ -275,4 +287,138 @@
   <small>Tap me!</small>
 </button>
 <div id="modal" class="modal" aria-hidden="true"><div class="modal-card"><button id="modalClose" class="close">×</button><div id="modalBody"></div></div></div><div id="toast" class="toast"></div>
-</body></html>
+<script>
+/* ============================================================
+   V39.5.1 — LINK GUARDIAN INFO CARDS
+   Weekly / Monthly -> Exam Center
+   Practical -> Class-based Practical Lab
+   Achievement -> Rewards
+   SAFE ADD-ON ONLY
+   ============================================================ */
+
+(() => {
+  "use strict";
+
+  if (window.__bbGuardianLinksV3951) return;
+  window.__bbGuardianLinksV3951 = true;
+
+  const cards = Array.from(
+    document.querySelectorAll(
+      "#guardianLearningUpgradeV395 .bb90-v395-card"
+    )
+  );
+
+  if (cards.length < 4) return;
+
+  const TOKEN_KEY = "brightbyte_student_token";
+  const API = "https://api.tanweer.site";
+
+  function token(){
+    return localStorage.getItem(TOKEN_KEY) || "";
+  }
+
+  function openStudentExamCenter(){
+    if (!token()) {
+      location.href = "student-login.html";
+      return;
+    }
+
+    location.href = "student-exams.html";
+  }
+
+  async function openPracticalLab(){
+    const t = token();
+
+    if (!t) {
+      location.href = "student-login.html";
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        API + "/api/auth/me",
+        {
+          headers: {
+            Authorization: "Bearer " + t
+          },
+          cache: "no-store"
+        }
+      );
+
+      if (!response.ok) throw new Error("Student profile unavailable");
+
+      const data = await response.json();
+
+      if (data.role !== "student" || !data.profile) {
+        throw new Error("Student login required");
+      }
+
+      const classNo = Number(data.profile.class_number || 1);
+
+      if (classNo >= 4 && classNo <= 6) {
+        location.href = "junior-technician-lab.html";
+      } else {
+        location.href = "virtual-it-lab.html";
+      }
+
+    } catch (error) {
+      location.href = "student-profile.html";
+    }
+  }
+
+  function openRewards(){
+    const rewardsButton =
+      document.querySelector('[data-page="rewards"]');
+
+    if (rewardsButton) {
+      rewardsButton.click();
+      return;
+    }
+
+    location.hash = "rewards";
+  }
+
+  const actions = [
+    openStudentExamCenter,
+    openStudentExamCenter,
+    openPracticalLab,
+    openRewards
+  ];
+
+  const labels = [
+    "Open Weekly Evaluation",
+    "Open Monthly Exam",
+    "Open Guided Practical Lab",
+    "Open Digital Achievements"
+  ];
+
+  cards.forEach((card, index) => {
+
+    card.classList.add("v3951-clickable");
+
+    card.setAttribute("role", "button");
+    card.setAttribute("tabindex", "0");
+    card.setAttribute("aria-label", labels[index]);
+
+    const tag = card.querySelector(".bb90-v395-tag");
+
+    if (tag && !tag.dataset.v3951Linked) {
+      tag.textContent += " ↗";
+      tag.dataset.v3951Linked = "1";
+    }
+
+    card.addEventListener("click", actions[index]);
+
+    card.addEventListener("keydown", event => {
+
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        actions[index]();
+      }
+
+    });
+
+  });
+
+})();
+</script></body></html>
