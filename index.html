@@ -369,7 +369,282 @@
   #course .simple90-step:last-child{grid-column:1/-1 !important}
   #course .simple90-step:not(:last-child):after{display:none !important}
 }
+/* ============================================================
+   V39.5.3 — INTERACTIVE WEEKLY LEARNING MAP
+   COLORFUL WEEK BUTTONS + WEEK OVERVIEW POPUP
+   SAFE ADD-ON ONLY
+   ============================================================ */
 
+/* ---------- WEEK BAR ---------- */
+
+#course .week-strip{
+  gap:7px;
+  margin-top:10px;
+}
+
+#course .week-strip button{
+  position:relative;
+  overflow:hidden;
+  min-height:34px;
+  padding:7px 5px;
+  border:1px solid rgba(255,255,255,.16);
+  border-radius:12px;
+  color:#fff;
+  font-size:8px;
+  font-weight:900;
+  letter-spacing:.02em;
+  cursor:pointer;
+  transition:
+    transform .18s ease,
+    box-shadow .18s ease,
+    border-color .18s ease;
+}
+
+/* tiny shine */
+#course .week-strip button::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:
+    linear-gradient(
+      120deg,
+      transparent 10%,
+      rgba(255,255,255,.14) 45%,
+      transparent 70%
+    );
+  transform:translateX(-110%);
+  transition:.35s ease;
+  pointer-events:none;
+}
+
+#course .week-strip button:hover::after{
+  transform:translateX(110%);
+}
+
+#course .week-strip button:hover{
+  transform:translateY(-3px);
+  border-color:rgba(255,255,255,.45);
+  box-shadow:0 8px 18px rgba(0,0,0,.22);
+}
+
+/* ---------- 12 PROFESSIONAL COLORS ---------- */
+
+#course .week-strip button:nth-child(1){
+  background:linear-gradient(135deg,#3a7bd5,#00d2ff);
+}
+
+#course .week-strip button:nth-child(2){
+  background:linear-gradient(135deg,#00b09b,#46e1c2);
+}
+
+#course .week-strip button:nth-child(3){
+  background:linear-gradient(135deg,#15b76a,#71e68e);
+}
+
+#course .week-strip button:nth-child(4){
+  background:linear-gradient(135deg,#725cff,#9c6cff);
+}
+
+#course .week-strip button:nth-child(5){
+  background:linear-gradient(135deg,#7b4dff,#c45cff);
+}
+
+#course .week-strip button:nth-child(6){
+  background:linear-gradient(135deg,#e94b9b,#ff79c3);
+}
+
+#course .week-strip button:nth-child(7){
+  background:linear-gradient(135deg,#ff7a45,#ffad55);
+}
+
+#course .week-strip button:nth-child(8){
+  background:linear-gradient(135deg,#e6a318,#ffd75a);
+  color:#493600;
+}
+
+#course .week-strip button:nth-child(9){
+  background:linear-gradient(135deg,#5365ff,#8b5cff);
+}
+
+#course .week-strip button:nth-child(10){
+  background:linear-gradient(135deg,#1869d8,#28c6de);
+}
+
+#course .week-strip button:nth-child(11){
+  background:linear-gradient(135deg,#06a77d,#45dbac);
+}
+
+#course .week-strip button:nth-child(12){
+  background:linear-gradient(135deg,#ff9f32,#ff5da8);
+}
+
+/* Selected week */
+
+#course .week-strip button.active{
+  transform:translateY(-3px) scale(1.045);
+  border:2px solid #fff;
+  box-shadow:
+    0 0 0 2px rgba(70,225,255,.30),
+    0 7px 20px rgba(0,0,0,.30),
+    0 0 15px rgba(72,221,255,.32);
+}
+
+/* ---------- WEEK POPUP ---------- */
+
+.week-overview-v3953{
+  --wkA:#5365ff;
+  --wkB:#2ad4d0;
+
+  overflow:hidden;
+  border-radius:22px;
+  background:
+    linear-gradient(
+      145deg,
+      rgba(15,24,65,.98),
+      rgba(10,34,64,.98)
+    );
+  color:#fff;
+  box-shadow:0 24px 70px rgba(0,0,0,.35);
+}
+
+.week-overview-v3953 .wk-head{
+  padding:20px;
+  background:
+    linear-gradient(
+      135deg,
+      var(--wkA),
+      var(--wkB)
+    );
+}
+
+.week-overview-v3953 .wk-number{
+  display:inline-block;
+  padding:5px 9px;
+  border-radius:999px;
+  background:rgba(255,255,255,.18);
+  border:1px solid rgba(255,255,255,.26);
+  font-size:9px;
+  font-weight:950;
+  letter-spacing:.08em;
+}
+
+.week-overview-v3953 .wk-head h2{
+  margin:8px 0 5px;
+  color:#fff;
+  font-size:24px;
+}
+
+.week-overview-v3953 .wk-head p{
+  margin:0;
+  color:rgba(255,255,255,.90);
+  font-size:11px;
+  line-height:1.55;
+}
+
+.week-overview-v3953 .wk-body{
+  padding:18px;
+}
+
+.week-overview-v3953 .wk-stage{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 10px;
+  margin-bottom:12px;
+  border-radius:999px;
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.10);
+  color:#cfe9ff;
+  font-size:9px;
+  font-weight:850;
+}
+
+.week-overview-v3953 .wk-body h3{
+  margin:0 0 10px;
+  font-size:14px;
+  color:#fff;
+}
+
+.week-overview-v3953 .wk-topics{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.week-overview-v3953 .wk-topic{
+  padding:11px 12px;
+  border-radius:13px;
+  background:rgba(255,255,255,.055);
+  border:1px solid rgba(255,255,255,.08);
+  font-size:10px;
+  color:#dceaff;
+}
+
+.week-overview-v3953 .wk-topic span{
+  margin-right:5px;
+}
+
+.week-overview-v3953 .wk-outcome{
+  margin-top:13px;
+  padding:12px 13px;
+  border-radius:14px;
+  background:rgba(55,224,181,.08);
+  border:1px solid rgba(55,224,181,.18);
+  color:#caffee;
+  font-size:10px;
+  line-height:1.55;
+}
+
+.week-overview-v3953 .wk-actions{
+  margin-top:14px;
+  display:flex;
+  justify-content:flex-end;
+}
+
+.week-overview-v3953 .wk-close{
+  border:0;
+  padding:9px 16px;
+  border-radius:11px;
+  color:#fff;
+  font-weight:900;
+  cursor:pointer;
+  background:linear-gradient(
+    135deg,
+    var(--wkA),
+    var(--wkB)
+  );
+}
+
+/* ---------- RESPONSIVE ---------- */
+
+@media(max-width:900px){
+
+  #course .week-strip{
+    grid-template-columns:repeat(4,1fr);
+  }
+
+}
+
+@media(max-width:620px){
+
+  #course .week-strip{
+    grid-template-columns:repeat(3,1fr);
+  }
+
+  #course .week-strip button{
+    min-height:38px;
+    font-size:9px;
+  }
+
+  .week-overview-v3953 .wk-topics{
+    grid-template-columns:1fr;
+  }
+
+  .week-overview-v3953 .wk-head h2{
+    font-size:20px;
+  }
+
+}
 </style>
 </head>
 <body>
@@ -689,4 +964,389 @@
   });
 
 })();
-</script></body></html>
+</script>
+<script>
+/* ============================================================
+   V39.5.3 — WEEKLY LEARNING OVERVIEW POPUP
+   Existing week selection remains untouched.
+   SAFE ADD-ON ONLY
+   ============================================================ */
+
+(() => {
+
+  "use strict";
+
+  if(window.__bbWeekOverviewV3953) return;
+  window.__bbWeekOverviewV3953 = true;
+
+  const WEEK_DATA = [
+
+    {
+      title:"Computer Basics & Safety",
+      stage:"🌱 Month 1 • Foundation",
+      intro:"Students begin by understanding computers and learning how to use devices safely.",
+      topics:[
+        "💻 Computer types and basic uses",
+        "🖥️ Monitor, CPU, keyboard and mouse",
+        "🔌 Safe startup and shutdown",
+        "🛡️ Device care and basic safety"
+      ],
+      outcome:"By the end of Week 1, students should confidently identify the main computer parts and explain their basic purpose."
+    },
+
+    {
+      title:"Mouse & Keyboard Skills",
+      stage:"🌱 Month 1 • Foundation",
+      intro:"Students practise controlling the computer using the two most important input devices.",
+      topics:[
+        "🖱️ Point, click and double-click",
+        "📦 Drag and drop objects",
+        "🌀 Scroll and right-click",
+        "⌨️ Important keyboard keys"
+      ],
+      outcome:"Students build basic mouse control and keyboard confidence for future digital activities."
+    },
+
+    {
+      title:"Typing & File Basics",
+      stage:"🌱 Month 1 • Foundation",
+      intro:"Students start creating simple digital work and learn how files are organised.",
+      topics:[
+        "⌨️ Simple typing practice",
+        "📁 Files and folders",
+        "💾 Save and rename work",
+        "🖨️ Introduction to printing"
+      ],
+      outcome:"Students learn to type short text and understand how school work can be saved and organised."
+    },
+
+    {
+      title:"Internet Basics & Digital Manners",
+      stage:"🌱 Month 1 • Foundation",
+      intro:"Students learn the basic idea of the internet together with safe and polite digital behaviour.",
+      topics:[
+        "🌐 Browser and website basics",
+        "🔎 Simple online searching",
+        "🔒 Privacy and safe websites",
+        "🙏 Digital manners and respect"
+      ],
+      outcome:"Students complete the Foundation stage with a basic understanding of safe and responsible internet use."
+    },
+
+    {
+      title:"Spoken English & Communication",
+      stage:"🚀 Month 2 • Practice",
+      intro:"Digital learning is combined with practical spoken English and everyday communication.",
+      topics:[
+        "👋 Greetings and introductions",
+        "🗣️ Useful daily English sentences",
+        "👂 Listening and responding",
+        "💬 Question and answer practice"
+      ],
+      outcome:"Students become more comfortable using short English sentences while communicating with confidence."
+    },
+
+    {
+      title:"Digital Practice & Productivity",
+      stage:"🚀 Month 2 • Practice",
+      intro:"Students use their earlier computer skills in small practical activities.",
+      topics:[
+        "⌨️ Faster typing practice",
+        "📂 Organising files and folders",
+        "📝 Simple digital documents",
+        "💻 Everyday computer practice"
+      ],
+      outcome:"Students begin using computer skills independently instead of only identifying computer parts."
+    },
+
+    {
+      title:"Cyber Safety & Healthy Habits",
+      stage:"🚀 Month 2 • Practice",
+      intro:"Students learn how to stay safe online while developing healthy technology habits.",
+      topics:[
+        "🔑 Strong password habits",
+        "🙈 Protect personal information",
+        "⚠️ Safe and unsafe online actions",
+        "🌱 Screen breaks and healthy posture"
+      ],
+      outcome:"Students understand basic cyber safety and learn how to use technology in a healthier way."
+    },
+
+    {
+      title:"Problem Solving & Troubleshooting",
+      stage:"🚀 Month 2 • Practice",
+      intro:"Students learn simple logical steps for solving common computer problems.",
+      topics:[
+        "🔌 Check power and cables",
+        "🌐 Basic internet connection checks",
+        "🖨️ Simple printer problems",
+        "🔧 Restart and troubleshooting steps"
+      ],
+      outcome:"Students practise thinking calmly and checking simple causes before asking for technical help."
+    },
+
+    {
+      title:"AI Basics & Smart Prompts",
+      stage:"🤖 Month 3 • Smart Skills",
+      intro:"Students are introduced to artificial intelligence in a simple, safe and age-friendly way.",
+      topics:[
+        "🤖 What AI means",
+        "💡 How AI can help learning",
+        "✍️ Writing a clear AI prompt",
+        "🛡️ Safe and responsible AI use"
+      ],
+      outcome:"Students learn that better instructions produce better AI responses and that AI should be used responsibly."
+    },
+
+    {
+      title:"Devices, Cables & Networking",
+      stage:"🤖 Month 3 • Smart Skills",
+      intro:"Students explore how computers and other devices communicate and connect.",
+      topics:[
+        "🔌 USB, HDMI and LAN basics",
+        "📡 Wi-Fi and router basics",
+        "🖥️ Connecting common devices",
+        "🌐 Simple network concepts"
+      ],
+      outcome:"Students gain a practical understanding of how devices, cables, Wi-Fi and networks work together."
+    },
+
+    {
+      title:"Presentation & Confidence",
+      stage:"🤖 Month 3 • Smart Skills",
+      intro:"Students practise explaining what they learned instead of only completing activities.",
+      topics:[
+        "🎤 Short spoken presentation",
+        "🗣️ Explain a digital skill",
+        "👨‍🏫 Teach-back activity",
+        "⭐ Confidence and communication"
+      ],
+      outcome:"Students practise speaking clearly and confidently while explaining technical ideas in simple language."
+    },
+
+    {
+      title:"Final Digital Mission",
+      stage:"🏆 Month 3 • Achievement",
+      intro:"Students combine their learning into a final practical Digital Mission.",
+      topics:[
+        "💻 Identify computer parts",
+        "⌨️ Complete a typing task",
+        "🛡️ Solve a safety challenge",
+        "🚀 AI + troubleshooting mission"
+      ],
+      outcome:"Students review the full journey, demonstrate practical skills and complete the final 90-Day learning mission."
+    }
+
+  ];
+
+
+  const THEMES = [
+
+    ["#3a7bd5","#00d2ff"],
+    ["#00a88f","#48dfc1"],
+    ["#16a968","#73df8d"],
+    ["#725cff","#a16cff"],
+
+    ["#774cff","#ca5cff"],
+    ["#e94b9b","#ff79c3"],
+    ["#ff7540","#ffac50"],
+    ["#d99a13","#ffd75a"],
+
+    ["#5365ff","#8b5cff"],
+    ["#176ad8","#29c8dc"],
+    ["#05a478","#43dba9"],
+    ["#ff9930","#ff5aa6"]
+
+  ];
+
+
+  function esc(value){
+
+    return String(value ?? "")
+      .replace(
+        /[&<>"']/g,
+        char => ({
+          "&":"&amp;",
+          "<":"&lt;",
+          ">":"&gt;",
+          '"':"&quot;",
+          "'":"&#39;"
+        }[char])
+      );
+
+  }
+
+
+  function showWeekOverview(week){
+
+    const data = WEEK_DATA[week - 1];
+
+    if(!data) return;
+
+
+    const modal =
+      document.getElementById("modal");
+
+    const modalBody =
+      document.getElementById("modalBody");
+
+
+    if(!modal || !modalBody) return;
+
+
+    const theme =
+      THEMES[week - 1] ||
+      ["#5365ff","#2ad4d0"];
+
+
+    modalBody.innerHTML = `
+
+      <div
+        class="week-overview-v3953"
+        style="
+          --wkA:${theme[0]};
+          --wkB:${theme[1]};
+        "
+      >
+
+        <div class="wk-head">
+
+          <span class="wk-number">
+            WEEK ${week} OF 12
+          </span>
+
+          <h2>
+            ${esc(data.title)}
+          </h2>
+
+          <p>
+            ${esc(data.intro)}
+          </p>
+
+        </div>
+
+
+        <div class="wk-body">
+
+          <div class="wk-stage">
+            ${esc(data.stage)}
+          </div>
+
+          <h3>
+            📚 What Students Will Study
+          </h3>
+
+          <div class="wk-topics">
+
+            ${data.topics.map(topic => `
+              <div class="wk-topic">
+                ${esc(topic)}
+              </div>
+            `).join("")}
+
+          </div>
+
+
+          <div class="wk-outcome">
+
+            <b>🎯 Weekly Learning Goal</b>
+            <br>
+            ${esc(data.outcome)}
+
+          </div>
+
+
+          <div class="wk-actions">
+
+            <button
+              type="button"
+              class="wk-close"
+              data-close
+            >
+              Got It ✓
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    `;
+
+
+    modal.classList.add("open");
+
+    modal.setAttribute(
+      "aria-hidden",
+      "false"
+    );
+
+    document.body.style.overflow =
+      "hidden";
+
+  }
+
+
+  const weekStrip =
+    document.getElementById(
+      "weekStrip"
+    );
+
+
+  if(!weekStrip) return;
+
+
+  /*
+     Existing script.js still changes
+     the selected week.
+
+     We only add the popup AFTER
+     that existing action finishes.
+  */
+
+  weekStrip.addEventListener(
+    "click",
+    event => {
+
+      const button =
+        event.target.closest(
+          "[data-week]"
+        );
+
+      if(!button) return;
+
+
+      const week =
+        Number(
+          button.dataset.week
+        );
+
+
+      if(
+        !week ||
+        week < 1 ||
+        week > 12
+      ){
+        return;
+      }
+
+
+      setTimeout(
+        () => {
+          showWeekOverview(
+            week
+          );
+        },
+        80
+      );
+
+    }
+  );
+
+
+})();
+</script>
+
+  
+</body></html>
