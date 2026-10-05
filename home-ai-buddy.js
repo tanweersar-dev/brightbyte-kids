@@ -2,8 +2,8 @@
 "use strict";
 
 /* ============================================================
-   V40.3 — TANNU'S LEARNING BUDDY 2.3
-   6 QUICK TABS • FLOWERS • DUAL NEON LEARNING MARQUEES
+   V40.4 — TANNU'S LEARNING BUDDY 2.4
+   COMPACT HOME • TOP/BOTTOM EDGE MARQUEES • FLOWERS • 6 QUICK TABS
    - Natural casual chat as well as learning questions
    - Respectful manners coaching for abusive language
    - Optional AI fallback for questions not in the local database
@@ -3580,6 +3580,62 @@ function installTannuLearningMarquees(){
         position:relative;
       }
 
+      /*
+        V40.4 HOME COMPACTION
+        Pull the top marquee closer to the header and bring the lower marquee
+        upward so both are visible within the main hero screen on desktop.
+      */
+      @media(min-width:1021px){
+        #home.page.show{
+          padding-top:6px !important;
+          padding-bottom:20px !important;
+        }
+
+        #home .hero{
+          min-height:clamp(500px,calc(100vh - 285px),610px) !important;
+          gap:22px !important;
+          align-items:center !important;
+        }
+
+        #home .hero h1{
+          margin:12px 0 !important;
+        }
+
+        #home .hero p{
+          margin:0 !important;
+          line-height:1.48 !important;
+        }
+
+        #home .hero-actions{
+          margin-top:15px !important;
+        }
+
+        #home .trust{
+          margin-top:12px !important;
+        }
+
+        #home .orbit{
+          width:min(420px,38vw) !important;
+        }
+
+        #tannuTopMarqueeV403,
+        #tannuBottomMarqueeV403{
+          width:calc(100% + 72px) !important;
+          margin-left:-36px !important;
+          margin-right:-36px !important;
+        }
+
+        #tannuTopMarqueeV403{
+          margin-top:0 !important;
+          margin-bottom:8px !important;
+        }
+
+        #tannuBottomMarqueeV403{
+          margin-top:2px !important;
+          margin-bottom:10px !important;
+        }
+      }
+
       .tannu-marquee-v403{
         position:relative;
         z-index:5;
@@ -3612,7 +3668,7 @@ function installTannuLearningMarquees(){
       }
 
       .tannu-marquee-top-v403{
-        margin:14px 0 18px;
+        margin:4px 0 8px;
         border:1px solid rgba(114,239,255,.40);
         background:
           linear-gradient(
@@ -3629,7 +3685,7 @@ function installTannuLearningMarquees(){
       }
 
       .tannu-marquee-bottom-v403{
-        margin:14px 0 16px;
+        margin:4px 0 10px;
         border:1px solid rgba(116,255,199,.42);
         background:
           linear-gradient(
@@ -3648,7 +3704,7 @@ function installTannuLearningMarquees(){
       .tannu-marquee-window-v403{
         overflow:hidden;
         width:100%;
-        padding:8px 0;
+        padding:7px 0;
       }
 
       .tannu-marquee-track-v403{
@@ -3727,7 +3783,56 @@ function installTannuLearningMarquees(){
         100%{transform:translateX(125%);opacity:0}
       }
 
+      @media(max-width:1020px){
+        #home.page.show{
+          padding-top:10px !important;
+        }
+
+        #home .hero{
+          min-height:auto !important;
+          padding-top:8px !important;
+          padding-bottom:8px !important;
+        }
+
+        #tannuTopMarqueeV403,
+        #tannuBottomMarqueeV403{
+          width:100% !important;
+          margin-left:0 !important;
+          margin-right:0 !important;
+        }
+
+        #tannuTopMarqueeV403{
+          margin-top:0 !important;
+          margin-bottom:8px !important;
+        }
+
+        #tannuBottomMarqueeV403{
+          margin-top:8px !important;
+          margin-bottom:10px !important;
+        }
+      }
+
       @media(max-width:700px){
+        #home.page.show{
+          padding-top:7px !important;
+        }
+
+        #home .hero{
+          gap:12px !important;
+        }
+
+        #home .hero h1{
+          margin:10px 0 !important;
+        }
+
+        #home .hero-actions{
+          margin-top:12px !important;
+        }
+
+        #home .trust{
+          margin-top:10px !important;
+        }
+
         .tannu-marquee-v403{
           border-radius:15px;
         }
