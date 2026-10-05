@@ -1,6 +1,15 @@
 (() => {
 "use strict";
 
+/* ============================================================
+   V31.12 — REFRESH-SAFE LAB SESSION
+   - Refresh returns to the same open stage and step
+   - Stage 1 cables / Stage 2 assembly / Stage 3 / Stage 4 / Stage 5 position persist
+   - Partial Stage 4 prompt/privacy work persists
+   - Reset Lab remains the explicit full-reset action
+   - Existing certification / API / login logic preserved
+   ============================================================ */
+
 const API = "https://api.tanweer.site";
 const TOKEN_KEY = "brightbyte_student_token";
 const $ = id => document.getElementById(id);
@@ -116,27 +125,198 @@ function freshState(){
     stageScores:{},
     notes:"",
     certificateId:"",
-    completedAt:""
+    completedAt:"",
+    resume:{
+      activeStage:null,
+      stageStep:0,
+      runMistakes:0,
+      runHints:0,
+      aiMission:0,
+      stage3Data:{},
+      stage4Data:{},
+      v314Stage5Part:"A",
+      v314Stage5Index:0
+    }
   };
 }
 function normalizeState(x){
   const b=freshState();
   if(!x || typeof x!=="object") return b;
+
+  const incomingResume =
+    x.resume && typeof x.resume==="object"
+      ? x.resume
+      : {};
+
   return {
     ...b,
     ...x,
     completed:Array.isArray(x.completed)?x.completed:[],
-    stageScores:x.stageScores && typeof x.stageScores==="object" ? x.stageScores:{}
+    stageScores:x.stageScores && typeof x.stageScores==="object" ? x.stageScores:{},
+    resume:{
+      ...b.resume,
+      ...incomingResume,
+      stage3Data:
+        incomingResume.stage3Data &&
+        typeof incomingResume.stage3Data==="object"
+          ? incomingResume.stage3Data
+          : {},
+      stage4Data:
+        incomingResume.stage4Data &&
+        typeof incomingResume.stage4Data==="object"
+          ? incomingResume.stage4Data
+          : {}
+    }
   };
 }
 function loadState(){
   try{ state=normalizeState(JSON.parse(localStorage.getItem(keyForStudent()) || "null")); }
   catch{ state=freshState(); }
 }
+function clonePlain(value,fallback={}){
+  try{
+    return JSON.parse(JSON.stringify(value ?? fallback));
+  }catch{
+    return fallback;
+  }
+}
+
+function runtimeResumeSnapshot(){
+  if(!activeStage) return freshState().resume;
+
+  return {
+    activeStage:Number(activeStage)||null,
+    stageStep:Math.max(0,Number(stageStep)||0),
+    runMistakes:Math.max(0,Number(runMistakes)||0),
+    runHints:Math.max(0,Number(runHints)||0),
+    aiMission:Math.max(0,Number(aiMission)||0),
+    stage3Data:clonePlain(stage3Data,{}),
+    stage4Data:clonePlain(stage4Data,{}),
+
+    /* V31.4 Stage 5-A / 5-B values are available once the page has loaded.
+       The try/catch keeps earlier stages safe as well. */
+    v314Stage5Part:(()=>{
+      try{
+        return v314Stage5Part==="B" ? "B" : "A";
+      }catch{
+        return "A";
+      }
+    })(),
+
+    v314Stage5Index:(()=>{
+      try{
+        return Math.max(0,Number(v314Stage5Index)||0);
+      }catch{
+        return 0;
+      }
+    })()
+  };
+}
+
+function saveRuntimeState(){
+  if(!state || !activeStage) return;
+  state.resume=runtimeResumeSnapshot();
+
+  try{
+    localStorage.setItem(keyForStudent(),JSON.stringify(state));
+  }catch{}
+
+  renderHeaderStats();
+}
+
 function saveState(){
   if(!state) return;
+
+  /* Any normal save also remembers the exact open stage/step. */
+  if(activeStage){
+    state.resume=runtimeResumeSnapshot();
+  }
+
   localStorage.setItem(keyForStudent(), JSON.stringify(state));
   renderHeaderStats();
+}
+
+function restoreRuntimeState(){
+  if(!state || !state.resume || typeof state.resume!=="object"){
+    return false;
+  }
+
+  const saved=state.resume;
+  const id=Number(saved.activeStage||0);
+
+  if(id<1 || id>5) return false;
+  if(id>Number(state.unlocked||1)) return false;
+
+  activeStage=id;
+  stageStep=Math.max(0,Number(saved.stageStep)||0);
+  runMistakes=Math.max(0,Number(saved.runMistakes)||0);
+  runHints=Math.max(0,Number(saved.runHints)||0);
+  aiMission=Math.max(0,Number(saved.aiMission)||0);
+
+  stage3Data={
+    folder:false,
+    projectMoved:false,
+    photoDeleted:false,
+    photoRestored:false,
+    taskDone:false,
+    ...clonePlain(saved.stage3Data,{})
+  };
+
+  stage4Data={
+    prompt:{},
+    privacy:{},
+    verify:false,
+    media:false,
+    helpdesk:false,
+    ...clonePlain(saved.stage4Data,{})
+  };
+
+  stage4Data.prompt=
+    stage4Data.prompt && typeof stage4Data.prompt==="object"
+      ? stage4Data.prompt
+      : {};
+
+  stage4Data.privacy=
+    stage4Data.privacy && typeof stage4Data.privacy==="object"
+      ? stage4Data.privacy
+      : {};
+
+  if(id===5){
+    try{
+      v314Stage5Part=saved.v314Stage5Part==="B" ? "B" : "A";
+      v314Stage5Index=Math.max(0,Number(saved.v314Stage5Index)||0);
+    }catch{}
+  }
+
+  const s=currentStage();
+  if(!s) return false;
+
+  $("labShell").classList.remove("hidden");
+  $("stageNumber").textContent=`STAGE ${id}`;
+  $("stageName").textContent=s.name;
+  $("environmentTag").textContent=s.tag;
+  $("environmentTitle").textContent=s.name;
+  $("workStatusText").textContent=profileClassLabel();
+
+  $("safetyRule").textContent=id===2
+    ?"Use a powered-off training computer. Never open a PSU/SMPS casing; this simulation teaches safe placement only."
+    :id===4
+      ?"Never share passwords, OTPs, home address or other private data with unknown AI tools."
+      :"Use safe, reversible checks first. Ask a trusted adult before touching real mains-powered equipment.";
+
+  updateMissionStats();
+  renderLearnPanel();
+  renderSimulator();
+  renderStageMap();
+
+  requestAnimationFrame(()=>{
+    $("labShell")?.scrollIntoView({
+      behavior:"auto",
+      block:"start"
+    });
+  });
+
+  return true;
 }
 function api(path,opt={}){
   const headers={...(opt.headers||{}),Authorization:`Bearer ${token}`};
@@ -291,6 +471,7 @@ function openStage(id){
   renderLearnPanel();
   renderSimulator();
   renderStageMap();
+  saveRuntimeState();
   $("labShell").scrollIntoView({behavior:"smooth",block:"start"});
 }
 function profileClassLabel(){
@@ -477,7 +658,7 @@ function renderStage1(){
   $("powerTestBtn").onclick=()=>{
     if(t.action!=="poweron") return addMistake("❌ Power test is not ready yet. Finish the current cable mission first.");
     feedback("✅ Power test passed. Monitor, system unit, keyboard, mouse, printer and network are ready.","good",true);
-    stageStep++;
+    stageStep++; saveRuntimeState();
     setTimeout(renderSimulator,700);
   };
   setTimeout(()=>redrawStage1Completed(),50);
@@ -509,7 +690,7 @@ function stage1PortClick(port,el){
     document.querySelector(`[data-cable="${selectedCable}"]`)?.classList.add("used");
     drawCable(t.a,t.b,stageStep);
     feedback(`✅ Correct! ${t.label} connected successfully.`,"good",true);
-    selectedCable=null; firstPort=null; stageStep++;
+    selectedCable=null; firstPort=null; stageStep++; saveRuntimeState();
     setTimeout(renderSimulator,750);
   }else{
     firstEl?.classList.remove("target");
@@ -598,7 +779,7 @@ function attemptPartDrop(part,target,el){
   if(part===t.part && target===t.target){
     el.classList.add("correct-flash","installed-part");
     feedback(`✅ ${t.label} installed in the correct location.`,"good",true);
-    selectedPart=null; stageStep++;
+    selectedPart=null; stageStep++; saveRuntimeState();
     setTimeout(renderSimulator,700);
   }else{
     el.classList.add("wrong-flash");
@@ -654,16 +835,16 @@ function wireWindows(){
 }
 function windowsDrop(file,target){
   if(stageStep===1 && file==="project" && target==="school"){
-    stage3Data.projectMoved=true; feedback("✅ Project.docx moved into School Work.","good",true); stageStep++; setTimeout(renderSimulator,600); return;
+    stage3Data.projectMoved=true; feedback("✅ Project.docx moved into School Work.","good",true); stageStep++; saveRuntimeState(); setTimeout(renderSimulator,600); return;
   }
   if(stageStep===2 && file==="photo" && target==="recycle"){
-    stage3Data.photoDeleted=true; feedback("✅ Holiday.jpg moved to Recycle Bin.","good",true); stageStep++; setTimeout(renderSimulator,600); return;
+    stage3Data.photoDeleted=true; feedback("✅ Holiday.jpg moved to Recycle Bin.","good",true); stageStep++; saveRuntimeState(); setTimeout(renderSimulator,600); return;
   }
   addMistake("❌ That is not the requested file action. Read the current Windows mission and try again.");
 }
 function windowsAction(a){
   if(stageStep===0 && a==="newfolder"){
-    stage3Data.folder=true; feedback("✅ School Work folder created.","good",true); stageStep++; setTimeout(renderSimulator,500); return;
+    stage3Data.folder=true; feedback("✅ School Work folder created.","good",true); stageStep++; saveRuntimeState(); setTimeout(renderSimulator,500); return;
   }
   if(a==="recycle"){
     showWindow("Recycle Bin",stage3Data.photoDeleted&&!stage3Data.photoRestored
@@ -671,7 +852,7 @@ function windowsAction(a){
       :`<p>Recycle Bin is empty.</p>`);
     setTimeout(()=>{$("restoreBtn")?.addEventListener("click",()=>{
       if(stageStep===3){
-        stage3Data.photoRestored=true; feedback("✅ Holiday.jpg restored to its previous location.","good",true); stageStep++; setTimeout(renderSimulator,500);
+        stage3Data.photoRestored=true; feedback("✅ Holiday.jpg restored to its previous location.","good",true); stageStep++; saveRuntimeState(); setTimeout(renderSimulator,500);
       }
     })},0);
     return;
@@ -683,7 +864,7 @@ function windowsAction(a){
     </div>`);
     setTimeout(()=>{$("endTaskBtn")?.addEventListener("click",()=>{
       if(stageStep===4){
-        stage3Data.taskDone=true; feedback("✅ Frozen app closed safely with Task Manager.","good",true); stageStep++; setTimeout(renderSimulator,500);
+        stage3Data.taskDone=true; feedback("✅ Frozen app closed safely with Task Manager.","good",true); stageStep++; saveRuntimeState(); setTimeout(renderSimulator,500);
       }
     })},0);
     return;
@@ -747,16 +928,30 @@ function renderPromptBuilder(){
     s.addEventListener("drop",e=>{e.preventDefault();promptDrop(e.dataTransfer?.getData("text/plain"),s.dataset.promptSlot)});
     s.onclick=()=>{if(selectedPromptBlock) promptDrop(selectedPromptBlock,s.dataset.promptSlot)};
   });
+
+  Object.keys(stage4Data.prompt||{}).forEach(kind=>{
+    if(!stage4Data.prompt[kind]) return;
+
+    const block=document.querySelector(`[data-prompt-kind="${kind}"]`);
+    const slot=$(`slot-${kind}`);
+
+    if(block && slot){
+      slot.textContent=
+        block.textContent.replace(/^[A-Z]+ • /,"");
+      block.classList.add("used");
+    }
+  });
 }
 function promptDrop(kind,slot){
   if(kind!==slot) return addMistake("❌ That prompt block belongs in a different slot. Match ROLE, TASK, CONTEXT and FORMAT.");
   stage4Data.prompt[slot]=true;
+  saveRuntimeState();
   $(`slot-${slot}`).textContent=document.querySelector(`[data-prompt-kind="${kind}"]`).textContent.replace(/^[A-Z]+ • /,"");
   document.querySelector(`[data-prompt-kind="${kind}"]`).classList.add("used");
   selectedPromptBlock=null;
   if(Object.keys(stage4Data.prompt).length===4){
     feedback("✅ Strong prompt built: clear role, task, context and format.","good",true);
-    stageStep++; setTimeout(renderSimulator,700);
+    stageStep++; saveRuntimeState(); setTimeout(renderSimulator,700);
   }
 }
 function renderPrivacySort(){
@@ -778,19 +973,36 @@ function renderPrivacySort(){
     b.addEventListener("drop",e=>{e.preventDefault();privacyDrop(e.dataTransfer?.getData("text/plain"),b.dataset.privacyBin)});
     b.onclick=()=>{if(selectedPart) privacyDrop(selectedPart,b.dataset.privacyBin)};
   });
+
+  Object.keys(stage4Data.privacy||{}).forEach(id=>{
+    if(!stage4Data.privacy[id]) return;
+
+    const card=document.querySelector(`[data-privacy="${id}"]`);
+    if(!card) return;
+
+    const bin=card.dataset.answer;
+    card.classList.add("used");
+
+    if(!/^✅ /.test(card.textContent)){
+      card.textContent="✅ "+card.textContent;
+    }
+
+    (bin==="safe"?$("safeBin"):$("privateBin"))?.appendChild(card);
+  });
 }
 function privacyDrop(id,bin){
   const card=document.querySelector(`[data-privacy="${id}"]`);
   if(!card) return;
   if(card.dataset.answer!==bin) return addMistake("❌ Think about privacy. Passwords, OTPs and exact home addresses should stay private.");
   stage4Data.privacy[id]=true;
+  saveRuntimeState();
   card.classList.add("used");
   card.textContent="✅ "+card.textContent.replace(/^✅ /,"");
   (bin==="safe"?$("safeBin"):$("privateBin")).appendChild(card);
   selectedPart=null;
   if(Object.keys(stage4Data.privacy).length===6){
     feedback("✅ Excellent. You separated safe learning content from private information.","good",true);
-    stageStep++; setTimeout(renderSimulator,700);
+    stageStep++; saveRuntimeState(); setTimeout(renderSimulator,700);
   }
 }
 function renderAIVerify(){
@@ -811,7 +1023,7 @@ function renderAIVerify(){
       <article class="source-card good"><b>School science textbook</b><small>Publisher and curriculum context shown</small></article>
     </div><p><b>Verified:</b> The Moon is Earth's natural satellite and mainly reflects sunlight.</p>
     <button class="primary-btn ai-next" id="verifyDone">✅ Verification Complete</button>`;
-    $("verifyDone").onclick=()=>{stage4Data.verify=true;feedback("✅ You verified the AI output instead of trusting it blindly.","good",true);stageStep++;setTimeout(renderSimulator,650)};
+    $("verifyDone").onclick=()=>{stage4Data.verify=true;feedback("✅ You verified the AI output instead of trusting it blindly.","good",true);stageStep++; saveRuntimeState();setTimeout(renderSimulator,650)};
   });
 }
 function renderMediaCheck(){
@@ -828,7 +1040,7 @@ function renderMediaCheck(){
     </div>`;
   qa("[data-media]").forEach(b=>b.onclick=()=>{
     if(b.dataset.media!=="evidence") return addMistake("❌ Appearance alone is not enough. Real and AI-edited media can both look convincing.");
-    stage4Data.media=true;feedback("✅ Correct. Use source, date, context and supporting evidence instead of guessing from appearance.","good",true);stageStep++;setTimeout(renderSimulator,650);
+    stage4Data.media=true;feedback("✅ Correct. Use source, date, context and supporting evidence instead of guessing from appearance.","good",true);stageStep++; saveRuntimeState();setTimeout(renderSimulator,650);
   });
 }
 function renderAIHelpdesk(){
@@ -844,7 +1056,7 @@ function renderAIHelpdesk(){
     $("aiMain").insertAdjacentHTML("beforeend",`<div class="ai-chat">
       <div class="bubble bot">1. Check printer status and errors.<br>2. Confirm the correct printer is selected.<br>3. Check the print queue.<br>4. Check USB/network connection.<br>5. Restart the printer/app if appropriate.</div>
     </div><button class="primary-btn ai-next" id="helpDone">✅ I would verify and apply safe checks first</button>`);
-    $("helpDone").onclick=()=>{stage4Data.helpdesk=true;feedback("✅ Great. AI supported your troubleshooting, but you kept human judgment and safety in control.","good",true);stageStep++;setTimeout(renderSimulator,650)};
+    $("helpDone").onclick=()=>{stage4Data.helpdesk=true;feedback("✅ Great. AI supported your troubleshooting, but you kept human judgment and safety in control.","good",true);stageStep++; saveRuntimeState();setTimeout(renderSimulator,650)};
   });
 }
 
@@ -1012,14 +1224,33 @@ function bind(){
   $("modal").onclick=e=>{if(e.target===$("modal"))closeModal()};
   document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal()});
   window.addEventListener("resize",()=>{if(activeStage===1)setTimeout(redrawStage1Completed,60)});
+
+  /* Refresh / close / navigation must NOT lose the current lab position. */
+  window.addEventListener("pagehide",()=>{
+    if(activeStage) saveRuntimeState();
+  });
+
+  document.addEventListener("visibilitychange",()=>{
+    if(document.visibilityState==="hidden" && activeStage){
+      saveRuntimeState();
+    }
+  });
 }
 async function init(){
   const ok=await loadProfile();
   if(!ok) return;
+
   bind();
   renderHeaderStats();
   renderStageMap();
-  toast(`Welcome, ${profile.display_name||"Technician"} 🚀`);
+
+  const resumed=restoreRuntimeState();
+
+  toast(
+    resumed
+      ? `Welcome back, ${profile.display_name||"Technician"} — continuing where you stopped ✓`
+      : `Welcome, ${profile.display_name||"Technician"} 🚀`
+  );
 }
 init();
 /* ============================================================
@@ -1919,7 +2150,7 @@ function attemptPartDrop(part,target,el){
 
     selectedPart = null;
 
-    stageStep++;
+    stageStep++; saveRuntimeState();
 
     setTimeout(()=>{
       renderSimulator();
@@ -2114,7 +2345,7 @@ function attemptPartDrop(part, target, el){
 
   selectedPart = null;
 
-  stageStep++;
+  stageStep++; saveRuntimeState();
 
 
   /* Small success pause before next component */
@@ -2407,6 +2638,7 @@ function v314AnswerStage5(answerIndex){
 
   feedback("✅ Correct. Good technician judgment!","good",true);
   v314Stage5Index++;
+  saveRuntimeState();
 
   const bank=v314Stage5Part==="A"?V314_STAGE5_A:V314_STAGE5_B;
   if(v314Stage5Index<bank.length){
@@ -2429,6 +2661,7 @@ function v314AnswerStage5(answerIndex){
         v314Stage5Part="B";
         v314Stage5Index=0;
         stageStep=V314_STAGE5_A.length;
+        saveRuntimeState();
         renderSimulator();
       };
     },550);
