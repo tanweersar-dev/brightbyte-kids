@@ -2,8 +2,8 @@
 "use strict";
 
 /* ============================================================
-   V40.4 — TANNU'S LEARNING BUDDY 2.4
-   COMPACT HOME • TOP/BOTTOM EDGE MARQUEES • FLOWERS • 6 QUICK TABS
+   V40.5 — TANNU'S LEARNING BUDDY 2.5
+   TIGHT HOME HERO • EDGE MARQUEES • FLOWERS • 6 QUICK TABS
    - Natural casual chat as well as learning questions
    - Respectful manners coaching for abusive language
    - Optional AI fallback for questions not in the local database
@@ -3494,6 +3494,16 @@ function installTannuFlowerBackground(){
         }
       }
 
+      @media(max-width:390px){
+        #home .outcomes{
+          grid-template-columns:1fr !important;
+        }
+
+        #home .hero h1{
+          font-size:clamp(43px,14vw,58px) !important;
+        }
+      }
+
       @media(prefers-reduced-motion:reduce){
         #tannuFlowerFieldV402::before,
         .tannu-flower-v402{
@@ -3581,41 +3591,67 @@ function installTannuLearningMarquees(){
       }
 
       /*
-        V40.4 HOME COMPACTION
-        Pull the top marquee closer to the header and bring the lower marquee
-        upward so both are visible within the main hero screen on desktop.
+        V40.5 TIGHT HOME HERO
+        Removes the two large empty bands marked in red:
+        - less air between top marquee and hero content
+        - less air between trust row and bottom marquee
+        Desktop remains spacious enough to read; mobile stays responsive.
       */
       @media(min-width:1021px){
         #home.page.show{
-          padding-top:6px !important;
-          padding-bottom:20px !important;
+          padding-top:2px !important;
+          padding-bottom:12px !important;
         }
 
         #home .hero{
-          min-height:clamp(500px,calc(100vh - 285px),610px) !important;
-          gap:22px !important;
+          min-height:clamp(420px,calc(100vh - 390px),490px) !important;
+          gap:18px !important;
           align-items:center !important;
         }
 
+        #home .hero-copy{
+          align-self:center !important;
+        }
+
+        #home .hero .eyebrow{
+          margin-top:0 !important;
+        }
+
         #home .hero h1{
-          margin:12px 0 !important;
+          font-size:clamp(54px,6.05vw,90px) !important;
+          margin:9px 0 8px !important;
+          line-height:.90 !important;
         }
 
         #home .hero p{
           margin:0 !important;
-          line-height:1.48 !important;
+          font-size:16px !important;
+          line-height:1.42 !important;
+          max-width:760px !important;
         }
 
         #home .hero-actions{
-          margin-top:15px !important;
+          margin-top:12px !important;
+          gap:8px !important;
+        }
+
+        #home .hero-actions > *{
+          padding-top:11px !important;
+          padding-bottom:11px !important;
         }
 
         #home .trust{
-          margin-top:12px !important;
+          margin-top:9px !important;
+          gap:7px !important;
+        }
+
+        #home .trust span{
+          padding:6px 9px !important;
+          font-size:9px !important;
         }
 
         #home .orbit{
-          width:min(420px,38vw) !important;
+          width:min(385px,34vw) !important;
         }
 
         #tannuTopMarqueeV403,
@@ -3627,12 +3663,28 @@ function installTannuLearningMarquees(){
 
         #tannuTopMarqueeV403{
           margin-top:0 !important;
-          margin-bottom:8px !important;
+          margin-bottom:2px !important;
         }
 
         #tannuBottomMarqueeV403{
-          margin-top:2px !important;
-          margin-bottom:10px !important;
+          margin-top:-2px !important;
+          margin-bottom:8px !important;
+        }
+
+        #home .outcomes{
+          gap:10px !important;
+          margin-bottom:16px !important;
+        }
+
+        #home .outcomes article{
+          padding:12px 14px !important;
+          border-radius:17px !important;
+        }
+
+        #home .outcomes span{
+          margin-top:3px !important;
+          font-size:10px !important;
+          line-height:1.3 !important;
         }
       }
 
@@ -3785,13 +3837,19 @@ function installTannuLearningMarquees(){
 
       @media(max-width:1020px){
         #home.page.show{
-          padding-top:10px !important;
+          padding-top:5px !important;
+          padding-bottom:18px !important;
         }
 
         #home .hero{
           min-height:auto !important;
-          padding-top:8px !important;
-          padding-bottom:8px !important;
+          padding-top:3px !important;
+          padding-bottom:3px !important;
+        }
+
+        #home .hero-copy{
+          margin-top:0 !important;
+          margin-bottom:0 !important;
         }
 
         #tannuTopMarqueeV403,
@@ -3803,34 +3861,69 @@ function installTannuLearningMarquees(){
 
         #tannuTopMarqueeV403{
           margin-top:0 !important;
-          margin-bottom:8px !important;
+          margin-bottom:5px !important;
         }
 
         #tannuBottomMarqueeV403{
-          margin-top:8px !important;
-          margin-bottom:10px !important;
+          margin-top:5px !important;
+          margin-bottom:7px !important;
+        }
+
+        #home .outcomes{
+          margin-top:0 !important;
         }
       }
 
       @media(max-width:700px){
         #home.page.show{
-          padding-top:7px !important;
+          padding-top:4px !important;
         }
 
         #home .hero{
-          gap:12px !important;
+          gap:8px !important;
         }
 
         #home .hero h1{
-          margin:10px 0 !important;
+          margin:7px 0 !important;
+          line-height:.93 !important;
+        }
+
+        #home .hero p{
+          line-height:1.42 !important;
         }
 
         #home .hero-actions{
-          margin-top:12px !important;
+          margin-top:9px !important;
+          gap:7px !important;
         }
 
         #home .trust{
-          margin-top:10px !important;
+          margin-top:7px !important;
+          gap:6px !important;
+        }
+
+        #home .trust span{
+          padding:6px 8px !important;
+          font-size:9px !important;
+        }
+
+        #home .outcomes{
+          grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+          gap:8px !important;
+        }
+
+        #home .outcomes article{
+          padding:11px !important;
+          border-radius:15px !important;
+        }
+
+        #home .outcomes b{
+          font-size:11px !important;
+        }
+
+        #home .outcomes span{
+          font-size:9px !important;
+          line-height:1.3 !important;
         }
 
         .tannu-marquee-v403{
