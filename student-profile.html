@@ -822,6 +822,196 @@ body.sp-advanced-compact-v396 #view-dashboard .report-box small{
 }
 </style>
 
+
+<!-- ============================================================
+     V39.6.1 — CLASS 4–6 DESKTOP ONE-PAGE DASHBOARD
+     SAFE ADDITIVE LAYOUT PATCH
+     - Uses empty desktop space beside Choose Your World
+     - Keeps mobile/tablet stacked layout
+     - No API / D1 / login / progress logic changes
+     ============================================================ -->
+<style id="studentDesktopOnePageV3961">
+@media(min-width:981px){
+
+  body.sp-advanced-compact-v396 #view-dashboard.view.show{
+    display:grid!important;
+    grid-template-columns:minmax(330px,.82fr) minmax(0,1fr) minmax(0,1fr)!important;
+    grid-template-rows:auto auto auto!important;
+    gap:12px!important;
+    align-items:start!important;
+  }
+
+  /* LEFT: Choose Your World */
+  body.sp-advanced-compact-v396 #kidsWorldLauncher.sp-v3961-world{
+    grid-column:1!important;
+    grid-row:1 / span 3!important;
+    margin:0!important;
+    padding:12px!important;
+    border-radius:20px!important;
+    align-self:start!important;
+  }
+
+  body.sp-advanced-compact-v396 #kidsWorldLauncher .kid-world-head{
+    margin-bottom:9px!important;
+    gap:8px!important;
+  }
+
+  body.sp-advanced-compact-v396 #kidsWorldLauncher .kid-world-head h2{
+    font-size:18px!important;
+    line-height:1.1!important;
+  }
+
+  body.sp-advanced-compact-v396 #kidsWorldLauncher .kid-world-head p{
+    font-size:9px!important;
+    line-height:1.35!important;
+  }
+
+  body.sp-advanced-compact-v396 #kidsWorldLauncher .kid-visual-note{
+    padding:7px 8px!important;
+    border-radius:11px!important;
+    font-size:8px!important;
+    line-height:1.25!important;
+  }
+
+  body.sp-advanced-compact-v396 #kidsWorldLauncher .kid-world-grid{
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    gap:7px!important;
+  }
+
+  body.sp-advanced-compact-v396 #kidsWorldLauncher .kid-world{
+    min-height:100px!important;
+    padding:10px!important;
+    border-radius:16px!important;
+    box-shadow:0 8px 18px rgba(33,39,104,.13)!important;
+  }
+
+  body.sp-advanced-compact-v396 #kidsWorldLauncher .kid-world .emoji{
+    font-size:27px!important;
+  }
+
+  body.sp-advanced-compact-v396 #kidsWorldLauncher .kid-world b{
+    margin-top:5px!important;
+    font-size:11px!important;
+    line-height:1.1!important;
+  }
+
+  body.sp-advanced-compact-v396 #kidsWorldLauncher .kid-world small{
+    margin-top:3px!important;
+    font-size:7px!important;
+    line-height:1.25!important;
+  }
+
+  /* RIGHT TOP: Progress + Skill Passport */
+  body.sp-advanced-compact-v396 #view-dashboard > .sp-v3961-overview{
+    grid-column:2 / 4!important;
+    grid-row:1!important;
+    margin:0!important;
+    display:grid!important;
+    grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr)!important;
+    gap:12px!important;
+  }
+
+  /* RIGHT MIDDLE: Today's Mission */
+  body.sp-advanced-compact-v396 #view-dashboard > .sp-v3961-mission{
+    grid-column:2 / 4!important;
+    grid-row:2!important;
+    margin:0!important;
+  }
+
+  /* RIGHT BOTTOM: Continue Learning + Report */
+  body.sp-advanced-compact-v396 #view-dashboard > .sp-v3961-continue{
+    grid-column:2!important;
+    grid-row:3!important;
+    margin:0!important;
+    padding:13px!important;
+    border:1px solid var(--line)!important;
+    border-radius:18px!important;
+    background:#fff!important;
+    box-shadow:0 10px 28px rgba(54,49,135,.08)!important;
+  }
+
+  body.sp-advanced-compact-v396 #view-dashboard > .sp-v3961-report{
+    grid-column:3!important;
+    grid-row:3!important;
+    margin:0!important;
+    align-self:stretch!important;
+  }
+
+  /* Keep the dashboard readable, not microscopic */
+  body.sp-advanced-compact-v396 #view-dashboard .panel{
+    padding:13px!important;
+  }
+
+  body.sp-advanced-compact-v396 #view-dashboard .panel h2,
+  body.sp-advanced-compact-v396 #view-dashboard .section-head h2{
+    font-size:15px!important;
+  }
+
+  body.sp-advanced-compact-v396 #view-dashboard .panel > p,
+  body.sp-advanced-compact-v396 #view-dashboard .section-head p{
+    font-size:8.5px!important;
+  }
+
+  body.sp-advanced-compact-v396 #view-dashboard .stats{
+    grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  }
+
+  body.sp-advanced-compact-v396 #view-dashboard .skills{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:4px 10px!important;
+  }
+
+  body.sp-advanced-compact-v396 #view-dashboard .mission-grid{
+    grid-template-columns:repeat(5,minmax(0,1fr))!important;
+    gap:6px!important;
+  }
+
+  body.sp-advanced-compact-v396 #view-dashboard .mission{
+    min-height:68px!important;
+    padding:8px!important;
+  }
+
+  body.sp-advanced-compact-v396 #view-dashboard #continueLesson .lesson-card{
+    max-width:none!important;
+    width:100%!important;
+  }
+
+  body.sp-advanced-compact-v396 #view-dashboard #continueLesson .lesson-card .visual{
+    height:68px!important;
+  }
+
+  body.sp-advanced-compact-v396 #view-dashboard .report-grid{
+    grid-template-columns:1fr!important;
+    gap:6px!important;
+  }
+
+  body.sp-advanced-compact-v396 #view-dashboard .report-box{
+    padding:9px 10px!important;
+  }
+}
+
+/* Tablet and mobile: preserve the already-good stacked layout. */
+@media(max-width:980px){
+  body.sp-advanced-compact-v396 #view-dashboard.view.show{
+    display:block!important;
+  }
+
+  body.sp-advanced-compact-v396 #kidsWorldLauncher.sp-v3961-world,
+  body.sp-advanced-compact-v396 #view-dashboard > .sp-v3961-overview,
+  body.sp-advanced-compact-v396 #view-dashboard > .sp-v3961-mission,
+  body.sp-advanced-compact-v396 #view-dashboard > .sp-v3961-continue,
+  body.sp-advanced-compact-v396 #view-dashboard > .sp-v3961-report{
+    display:block!important;
+    width:100%!important;
+    margin-top:12px!important;
+  }
+
+  body.sp-advanced-compact-v396 #kidsWorldLauncher.sp-v3961-world{
+    margin-top:0!important;
+  }
+}
+</style>
+
 </head><body>
 <header class="top"><div class="bar"><div class="logo"><span>T</span></div><div class="brand"><b>My Learning Universe</b><small>TANNU SIR'S KIDS DIGITAL ACADEMY</small></div><nav class="nav">
   <button data-view="dashboard">🏠 Dashboard</button>
@@ -1207,6 +1397,59 @@ let recognition=null,conversation={step:0,name:'',feeling:'',classText:'',hobby:
     if(active) scheduleSync();
     else activateWhenReady();
   });
+})();
+</script>
+
+
+<script id="studentDesktopOnePageV3961Script">
+(() => {
+  "use strict";
+
+  if(window.__studentDesktopOnePageV3961) return;
+  window.__studentDesktopOnePageV3961 = true;
+
+  function tagDashboardParts(){
+    if(!document.body.classList.contains("sp-advanced-compact-v396")) return;
+
+    const view = document.getElementById("view-dashboard");
+    if(!view) return;
+
+    const world = document.getElementById("kidsWorldLauncher");
+    const overview = [...view.children].find(
+      el => el.classList && el.classList.contains("dashboard")
+    );
+
+    const mission = document.getElementById("missionGrid")?.closest("section");
+    const cont = document.getElementById("continueLesson")?.closest("section");
+    const report = document.getElementById("reportGrid")?.closest("section");
+
+    world?.classList.add("sp-v3961-world");
+    overview?.classList.add("sp-v3961-overview");
+    mission?.classList.add("sp-v3961-mission");
+    cont?.classList.add("sp-v3961-continue");
+    report?.classList.add("sp-v3961-report");
+  }
+
+  let timer = 0;
+  function scheduleTag(){
+    clearTimeout(timer);
+    timer = setTimeout(tagDashboardParts, 30);
+  }
+
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded", scheduleTag, {once:true});
+  }else{
+    scheduleTag();
+  }
+
+  const observer = new MutationObserver(scheduleTag);
+  observer.observe(document.body, {childList:true, subtree:true});
+
+  setTimeout(tagDashboardParts, 100);
+  setTimeout(tagDashboardParts, 500);
+  setTimeout(tagDashboardParts, 1200);
+
+  window.addEventListener("pageshow", tagDashboardParts);
 })();
 </script>
 
