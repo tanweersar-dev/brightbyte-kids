@@ -2,8 +2,8 @@
 "use strict";
 
 /* ============================================================
-   V40.2 — TANNU'S LEARNING BUDDY 2.2
-   6 QUICK TABS • BILINGUAL • PLATFORM-AWARE • COLORFUL KIDS BACKGROUND
+   V40.3 — TANNU'S LEARNING BUDDY 2.3
+   6 QUICK TABS • FLOWERS • DUAL NEON LEARNING MARQUEES
    - Natural casual chat as well as learning questions
    - Respectful manners coaching for abusive language
    - Optional AI fallback for questions not in the local database
@@ -3556,11 +3556,284 @@ function installTannuFlowerBackground(){
 }
 
 
+
+/* ============================================================
+   V40.3 — DUAL NEON LEARNING MARQUEES
+   HOME PAGE ONLY
+   Top: left -> right
+   Bottom: right -> left
+   Slow glow pulse instead of harsh rapid flashing.
+   ============================================================ */
+function installTannuLearningMarquees(){
+  if(window.__tannuLearningMarqueesV403) return;
+
+  const homePage=document.getElementById("home");
+  if(!homePage) return;
+
+  window.__tannuLearningMarqueesV403=true;
+
+  if(!document.getElementById("tannuMarqueeStyleV403")){
+    const s=document.createElement("style");
+    s.id="tannuMarqueeStyleV403";
+    s.textContent=`
+      #home{
+        position:relative;
+      }
+
+      .tannu-marquee-v403{
+        position:relative;
+        z-index:5;
+        width:100%;
+        overflow:hidden;
+        border-radius:999px;
+        isolation:isolate;
+        pointer-events:none;
+        user-select:none;
+        box-shadow:
+          0 8px 24px rgba(0,0,0,.18),
+          inset 0 1px 0 rgba(255,255,255,.20);
+      }
+
+      .tannu-marquee-v403::before{
+        content:"";
+        position:absolute;
+        inset:0;
+        z-index:2;
+        pointer-events:none;
+        background:
+          linear-gradient(
+            90deg,
+            rgba(255,255,255,.00),
+            rgba(255,255,255,.30),
+            rgba(255,255,255,.00)
+          );
+        transform:translateX(-120%);
+        animation:tannuMarqueeShineV403 3.8s ease-in-out infinite;
+      }
+
+      .tannu-marquee-top-v403{
+        margin:14px 0 18px;
+        border:1px solid rgba(114,239,255,.40);
+        background:
+          linear-gradient(
+            90deg,
+            rgba(69,91,255,.88),
+            rgba(135,74,255,.90),
+            rgba(255,91,181,.88),
+            rgba(255,172,61,.86),
+            rgba(39,214,211,.88)
+          );
+        box-shadow:
+          0 0 18px rgba(91,207,255,.24),
+          0 8px 26px rgba(0,0,0,.18);
+      }
+
+      .tannu-marquee-bottom-v403{
+        margin:14px 0 16px;
+        border:1px solid rgba(116,255,199,.42);
+        background:
+          linear-gradient(
+            90deg,
+            rgba(13,170,126,.90),
+            rgba(35,207,173,.90),
+            rgba(41,180,230,.90),
+            rgba(106,94,255,.88),
+            rgba(244,81,173,.88)
+          );
+        box-shadow:
+          0 0 18px rgba(75,245,195,.23),
+          0 8px 26px rgba(0,0,0,.17);
+      }
+
+      .tannu-marquee-window-v403{
+        overflow:hidden;
+        width:100%;
+        padding:8px 0;
+      }
+
+      .tannu-marquee-track-v403{
+        display:flex;
+        width:max-content;
+        align-items:center;
+        white-space:nowrap;
+        will-change:transform;
+      }
+
+      .tannu-marquee-top-v403 .tannu-marquee-track-v403{
+        animation:
+          tannuMarqueeLTRV403 26s linear infinite,
+          tannuMarqueeGlowV403 2.2s ease-in-out infinite alternate;
+      }
+
+      .tannu-marquee-bottom-v403 .tannu-marquee-track-v403{
+        animation:
+          tannuMarqueeRTLV403 28s linear infinite,
+          tannuMarqueeGlowV403 2.4s ease-in-out infinite alternate;
+      }
+
+      .tannu-marquee-set-v403{
+        display:inline-flex;
+        align-items:center;
+        gap:18px;
+        padding:0 9px;
+      }
+
+      .tannu-marquee-item-v403{
+        display:inline-flex;
+        align-items:center;
+        gap:6px;
+        font-size:10px;
+        line-height:1;
+        font-weight:1000;
+        letter-spacing:.075em;
+        color:#fff;
+        text-transform:uppercase;
+        text-shadow:
+          0 0 7px rgba(255,255,255,.50),
+          0 0 15px rgba(255,255,255,.18);
+      }
+
+      .tannu-marquee-dot-v403{
+        color:#fff7a8;
+        font-size:12px;
+        text-shadow:0 0 9px rgba(255,235,103,.92);
+      }
+
+      @keyframes tannuMarqueeLTRV403{
+        from{transform:translateX(-50%)}
+        to{transform:translateX(0)}
+      }
+
+      @keyframes tannuMarqueeRTLV403{
+        from{transform:translateX(0)}
+        to{transform:translateX(-50%)}
+      }
+
+      @keyframes tannuMarqueeGlowV403{
+        from{
+          filter:brightness(.92) saturate(1);
+          text-shadow:0 0 6px rgba(255,255,255,.20);
+        }
+        to{
+          filter:brightness(1.18) saturate(1.22);
+          text-shadow:0 0 15px rgba(255,255,255,.55);
+        }
+      }
+
+      @keyframes tannuMarqueeShineV403{
+        0%,18%{transform:translateX(-125%);opacity:0}
+        38%{opacity:.55}
+        64%{transform:translateX(125%);opacity:0}
+        100%{transform:translateX(125%);opacity:0}
+      }
+
+      @media(max-width:700px){
+        .tannu-marquee-v403{
+          border-radius:15px;
+        }
+
+        .tannu-marquee-window-v403{
+          padding:7px 0;
+        }
+
+        .tannu-marquee-item-v403{
+          font-size:8px;
+          letter-spacing:.05em;
+        }
+
+        .tannu-marquee-set-v403{
+          gap:12px;
+        }
+
+        .tannu-marquee-top-v403{
+          margin:9px 0 12px;
+        }
+
+        .tannu-marquee-bottom-v403{
+          margin:10px 0 12px;
+        }
+      }
+
+      @media(prefers-reduced-motion:reduce){
+        .tannu-marquee-track-v403,
+        .tannu-marquee-v403::before{
+          animation:none !important;
+        }
+
+        .tannu-marquee-track-v403{
+          transform:none !important;
+        }
+      }
+    `;
+    document.head.appendChild(s);
+  }
+
+  function buildMarquee(kind,items){
+    const wrap=document.createElement("div");
+    wrap.className=`tannu-marquee-v403 tannu-marquee-${kind}-v403`;
+    wrap.setAttribute("aria-hidden","true");
+
+    const windowEl=document.createElement("div");
+    windowEl.className="tannu-marquee-window-v403";
+
+    const track=document.createElement("div");
+    track.className="tannu-marquee-track-v403";
+
+    const setHtml=items.map((item,i)=>`
+      <span class="tannu-marquee-item-v403">${item}</span>
+      <span class="tannu-marquee-dot-v403">✦</span>
+    `).join("");
+
+    /* two identical sets create a seamless continuous loop */
+    track.innerHTML=`
+      <span class="tannu-marquee-set-v403">${setHtml}</span>
+      <span class="tannu-marquee-set-v403">${setHtml}</span>
+    `;
+
+    windowEl.appendChild(track);
+    wrap.appendChild(windowEl);
+    return wrap;
+  }
+
+  const topItems=[
+    "🌟 Welcome to Tannu Sir's Kids Digital Academy",
+    "🎓 Free Learning Platform for Classes 1–6",
+    "💻 Learn Digital Skills with Confidence",
+    "🤖 Explore Safe AI • Computer • English • GK",
+    "🚀 Learn • Practise • Create • Grow"
+  ];
+
+  const bottomItems=[
+    "💡 Learn Something New Every Day",
+    "🖥️ Computer • Hardware • Windows • Network",
+    "🛡️ Safety • Healthy Habits • Responsible AI",
+    "🗣️ Spoken English • Confidence • Communication",
+    "🧪 IT Lab • Science • Math • GK • Quizzes"
+  ];
+
+  const hero=homePage.querySelector(".hero");
+  const outcomes=homePage.querySelector(".outcomes");
+
+  if(hero && !document.getElementById("tannuTopMarqueeV403")){
+    const top=buildMarquee("top",topItems);
+    top.id="tannuTopMarqueeV403";
+    hero.before(top);
+  }
+
+  if(outcomes && !document.getElementById("tannuBottomMarqueeV403")){
+    const bottom=buildMarquee("bottom",bottomItems);
+    bottom.id="tannuBottomMarqueeV403";
+    outcomes.before(bottom);
+  }
+}
+
 async function boot(){
 
   await loadStudent();
 
   installTannuFlowerBackground();
+
+  installTannuLearningMarquees();
 
   createUI();
 
