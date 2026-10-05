@@ -1,6 +1,18 @@
 (() => {
 "use strict";
 
+/* ============================================================
+   V40 — TANNU'S LEARNING BUDDY 2.0
+   CLASS 1–6 • LOCAL-FIRST • SMART FALLBACK • VOICE REPLY
+   - Natural casual chat as well as learning questions
+   - Respectful manners coaching for abusive language
+   - Optional AI fallback for questions not in the local database
+   - Class-aware replies for Classes 1–6
+   - Voice questions receive automatic spoken answers
+   - Prefers a soft female-style browser voice when available
+   - Never asks for passwords, OTPs, addresses or private details
+   ============================================================ */
+
 /*
   Tannu Learning Buddy V21
   FREE • KIDS SAFE • TOPIC-AWARE • HUMAN-LIKE CHAT • VOICE • DRAGGABLE
@@ -13,12 +25,28 @@ const TOKEN=localStorage.getItem("brightbyte_student_token")||"";
 const STATE_KEY="tannu_buddy_v21_state";
 const POS_KEY="tannu_buddy_v21_pos";
 const VOICE_KEY="tannu_buddy_voice_lang";
+
+/*
+  Unknown/general questions are sent only when the local Academy
+  knowledge base has no useful answer. This keeps common learning
+  questions fast and reduces external AI usage.
+*/
+const BUDDY_AI_CHAT_URL=
+  window.TANNU_KIDS_AI_CHAT_URL ||
+  "https://it-chatbot-app.tanweerstudy25.workers.dev/chat";
+
 const $=id=>document.getElementById(id);
 
 let studentName="Friend";
 let studentClass=1;
+let studentLoggedIn=false;
 let recognition=null;
-let voiceLang=localStorage.getItem(VOICE_KEY)||"hi-IN";
+
+/*
+  en-IN is a good default for English + Hinglish.
+  If the browser has a saved language preference, keep it.
+*/
+let voiceLang=localStorage.getItem(VOICE_KEY)||"en-IN";
 let questionBank=[];
 let state=defaultState();
 
@@ -28,7 +56,10 @@ function defaultState(){
     subtopic:"",
     mode:"chat",
     quiz:null,
-    turns:[]
+    turns:[],
+    lastQuestion:"",
+    lastAnswer:"",
+    lastSource:""
   };
 }
 function resetState(){
@@ -101,8 +132,9 @@ async function loadStudent(){
     });
     const d=await r.json();
     if(r.ok&&d?.profile){
+      studentLoggedIn=true;
       studentName=d.profile.display_name||d.profile.username||"Friend";
-      studentClass=Number(d.profile.class_number||1);
+      studentClass=Math.max(1,Math.min(6,Number(d.profile.class_number||1)));
     }
   }catch{}
 }
@@ -350,6 +382,185 @@ function explainItem(item,hi){
   };
 }
 
+
+function classBand(){
+  if(studentClass<=2) return "foundation";
+  if(studentClass<=4) return "growing";
+  return "advanced";
+}
+
+function politeMannersReply(text){
+  const q=cleanTypos(text);
+
+  /*
+    Do not treat a genuine vocabulary question as misbehavior.
+    Example: "What does stupid mean?"
+  */
+  if(any(q,[
+    "what does",
+    "what is the meaning",
+    "meaning of",
+    "means what",
+    "ka matlab",
+    "meaning batao"
+  ])){
+    return null;
+  }
+
+  const rude=/\b(idiot|stupid|dumb|moron|shut up|fuck|fucking|shit|asshole|bitch|bastard|chutiya|chutiye|chu+tiya|madarchod|motherfucker|behenchod|bhenchod|gandu|gaand|harami|kamina|kamine|saala|sala)\b/i;
+  const rudeHindi=/(मादरचोद|बहनचोद|चूतिया|गांडू|हरामी|कमीना|साला)/i;
+
+  if(!rude.test(q) && !rudeHindi.test(String(text||""))){
+    return null;
+  }
+
+  const hi=hiMode(text);
+
+  return {
+    text:hi
+      ?"Hum yahan respect se baat karte hain 😊. Gussa ho to tum “mujhe gussa aa raha hai” ya “I am upset” bol sakte ho. Respectful words se baat aur learning dono better hoti hain. Chalo, ab batao main kis baat me help karun?"
+      :"We speak respectfully here 😊. If you are angry, you can say “I am upset” or explain what is bothering you. Respectful words make conversation and learning better. Tell me what you need help with.",
+    chips:["😊 Fresh Start","Computer","Quiz"]
+  };
+}
+
+function localKidSafetyReply(text){
+  const raw=String(text||"");
+  const q=cleanTypos(raw);
+  const hi=hiMode(raw);
+
+  const privateShare=[
+    "my password is","mera password hai","mera password",
+    "my otp is","mera otp hai","mera otp",
+    "my phone number is","mera phone number",
+    "my home address is","mera address hai",
+    "my school address is","mera school address"
+  ];
+
+  if(privateShare.some(x=>q.includes(normalize(x)))){
+    return {
+      text:hi
+        ?"Private information chat me share mat karo. Password, OTP, phone number aur home/school address ko secret rakho 🔐. Agar galti se share ho gaya ho to trusted adult ko batao."
+        :"Please do not share private information in chat. Keep passwords, OTPs, phone numbers and home/school addresses secret 🔐. If you shared one by mistake, tell a trusted adult.",
+      chips:["Internet Safety","Password Safety"]
+    };
+  }
+
+  if(/\b(suicide|self harm|hurt myself|kill myself)\b/i.test(raw) ||
+     /(खुदकुशी|आत्महत्या|खुद को चोट)/i.test(raw)){
+    return {
+      text:hi
+        ?"Agar tum khud ko hurt karne ke baare me soch rahe ho ya unsafe feel kar rahe ho, abhi kisi trusted adult—parent, teacher ya family member—ko batao aur unke paas raho. Emergency ho to local emergency help lo."
+        :"If you are thinking about hurting yourself or feel unsafe, tell a trusted adult—such as a parent, teacher or family member—right now and stay with them. If it is an emergency, contact local emergency help.",
+      chips:[]
+    };
+  }
+
+  if(/\b(make a bomb|build a bomb|kill someone|hurt someone|steal password|hack password|bypass password)\b/i.test(raw)){
+    return {
+      text:hi
+        ?"Main kisi ko hurt karne, dangerous cheez banane ya kisi ka password todne ke steps nahi de sakta. Main safe cyber safety, computer troubleshooting ya learning me help kar sakta hoon. 🛡️"
+        :"I cannot give steps for hurting someone, making dangerous items or breaking into someone’s password. I can help with safe cyber safety, computer troubleshooting or learning instead. 🛡️",
+      chips:["Cyber Safety","Computer","Network"]
+    };
+  }
+
+  return null;
+}
+
+async function remoteBuddyReply(text,options={}){
+  const message=String(text||"").trim();
+  if(!message || !BUDDY_AI_CHAT_URL) return null;
+
+  const controller=
+    typeof AbortController!=="undefined"
+      ?new AbortController()
+      :null;
+
+  const timer=
+    controller
+      ?setTimeout(()=>controller.abort(),12000)
+      :null;
+
+  try{
+    const response=await fetch(BUDDY_AI_CHAT_URL,{
+      method:"POST",
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body:JSON.stringify({
+        message,
+        classNumber:studentClass,
+        topic:state.topic||"",
+        mode:options.mode||state.mode||"chat"
+      }),
+      cache:"no-store",
+      signal:controller?.signal
+    });
+
+    const data=await response.json().catch(()=>({}));
+
+    if(!response.ok || !data?.text){
+      return null;
+    }
+
+    const answer=String(data.text).trim();
+    if(!answer) return null;
+
+    state.lastSource="smart";
+    saveState();
+
+    return {
+      text:answer,
+      chips:[
+        "😊 Make it Easy",
+        "📚 Explain More",
+        "🎯 Give Example",
+        "Quiz"
+      ]
+    };
+
+  }catch{
+    return null;
+  }finally{
+    if(timer) clearTimeout(timer);
+  }
+}
+
+function aboutStudentReply(text){
+  const q=cleanTypos(text);
+
+  if(!any(q,[
+    "what do you know about me",
+    "what you know about me",
+    "what do u know about me",
+    "tell me about me",
+    "mere bare me kya jante ho",
+    "mere baare me kya jante ho",
+    "mere baare me batao"
+  ])){
+    return null;
+  }
+
+  const hi=hiMode(text);
+
+  if(studentLoggedIn){
+    return {
+      text:hi
+        ?`Main sirf safe Academy information janta hoon: tumhara first name ${firstName()} hai aur tum Class ${studentClass} me ho. Is chat me jo baat tum mujhse karte ho, us context ko use karke help karta hoon. Main tumhara password, OTP, home address ya doosri private information nahi janta—aur tumhe ye kabhi share bhi nahi karna chahiye.`
+        :`I only know safe Academy information: your first name is ${firstName()} and you are in Class ${studentClass}. I use what we discuss in this chat to help you. I do not know your password, OTP, home address or other private information—and you should never share those.`,
+      chips:["What can you do?","Safety","Let's learn"]
+    };
+  }
+
+  return {
+    text:hi
+      ?"Main tumhare baare me sirf wahi janta hoon jo tum is chat me khud batate ho. Main password, OTP, phone number ya address nahi maangta. Private information hamesha private rakho. 🔐"
+      :"I only know what you choose to tell me in this chat. I do not ask for passwords, OTPs, phone numbers or addresses. Keep private information private. 🔐",
+    chips:["What can you do?","Safety"]
+  };
+}
+
 function socialReply(text){
   const q=cleanTypos(text);
   const hi=hiMode(text);
@@ -361,6 +572,58 @@ function socialReply(text){
 
   const c=(...p)=>p.some(x=>has(q,x));
   const exact=(...p)=>p.includes(q);
+
+  const aboutMe=aboutStudentReply(text);
+  if(aboutMe) return aboutMe;
+
+  if(c(
+    "aur bhai kya haal hai",
+    "bhai kya haal hai",
+    "kya haal hai",
+    "kya hal hai",
+    "kaisa chal raha hai",
+    "kaise chal raha hai",
+    "whats up",
+    "wassup",
+    "sup bro"
+  )){
+    return out(
+      `All good here 😄! I'm ready whenever you are. How are things with you, ${firstName()}?`,
+      `Sab badhiya bhai 😄! Main ready hoon. Tum batao ${firstName()}, kya haal hai?`,
+      ["I am good","Tell me a joke","Let's learn","Quiz"]
+    );
+  }
+
+  if(c(
+    "tell me about yourself",
+    "tell me about your self",
+    "tell me about yourself tannu",
+    "tell me about your self tannu",
+    "about yourself tannu",
+    "about you tannu",
+    "tannu who are you"
+  )){
+    return out(
+      `I'm Tannu's Learning Buddy 🤖. I'm a virtual learning assistant for Classes 1 to 6. I can chat normally, explain lessons, help with computer and IT lab questions, practise English, give quizzes and guide safe digital habits. I don't have a human age, home or private life.`,
+      `Main Tannu's Learning Buddy hoon 🤖. Main Class 1 se 6 ke students ke liye virtual learning assistant hoon. Main normal chat, lessons, computer/IT lab help, English practice, quizzes aur safe digital habits me help karta hoon. Meri human age, ghar ya private life nahi hai.`,
+      ["What can you do?","What do you know about me?","Quiz"]
+    );
+  }
+
+  if(c(
+    "are you a girl",
+    "are you girl",
+    "are you a boy",
+    "are you boy",
+    "tum ladki ho",
+    "tum ladka ho"
+  )){
+    return out(
+      "I'm a virtual Learning Buddy, so I am not a human girl or boy 😊. My spoken reply can use a friendly female-style voice when your device provides one.",
+      "Main virtual Learning Buddy hoon, isliye human ladki ya ladka nahi hoon 😊. Tumhare device me available ho to meri spoken reply friendly female-style voice me sunai degi.",
+      ["Who are you?","What can you do?"]
+    );
+  }
 
   if(
     exact("hi","hello","hey","hii","hiii","helo","helloo","good morning","good afternoon","good evening") ||
@@ -385,16 +648,16 @@ function socialReply(text){
     "naam kya hai"
   )){
     return out(
-      "My name is Tannu Learning Buddy 🤖. I'm your friendly learning helper at Tannu Sir's Kids Digital Academy.",
-      "Mera naam Tannu Learning Buddy hai 🤖. Main Tannu Sir's Kids Digital Academy me tumhara friendly learning helper hoon.",
+      "My name is Tannu's Learning Buddy 🤖. I'm your friendly learning helper at Tannu Sir's Kids Digital Academy.",
+      "Mera naam Tannu's Learning Buddy hai 🤖. Main Tannu Sir's Kids Digital Academy me tumhara friendly learning helper hoon.",
       ["Who are you?","How are you?","What can you do?"]
     );
   }
 
   if(c("who are you","who are u","tum kaun ho","aap kaun ho")){
     return out(
-      "I'm Tannu Learning Buddy 🤖 — a virtual learning friend made to help kids practise computer, network, safety, AI, coding, science, English and more.",
-      "Main Tannu Learning Buddy hoon 🤖 — ek virtual learning friend jo Computer, Network, Safety, AI, Coding, Science, English aur doosre topics me help karta hai.",
+      "I'm Tannu's Learning Buddy 🤖 — a virtual learning friend made to help kids practise computer, network, safety, AI, coding, science, English and more.",
+      "Main Tannu's Learning Buddy hoon 🤖 — ek virtual learning friend jo Computer, Network, Safety, AI, Coding, Science, English aur doosre topics me help karta hai.",
       ["What can you do?","Network","Quiz"]
     );
   }
@@ -932,6 +1195,12 @@ async function buildAnswer(text){
   const hi=hiMode(text);
   const q=cleanTypos(text);
 
+  const safety=localKidSafetyReply(text);
+  if(safety) return safety;
+
+  const manners=politeMannersReply(text);
+  if(manners) return manners;
+
   const social=socialReply(text);
   if(social) return social;
 
@@ -940,6 +1209,57 @@ async function buildAnswer(text){
 
   const math=simpleMath(q,hi);
   if(math) return math;
+
+  if(state.lastAnswer && any(q,[
+    "make it easy",
+    "make this easy",
+    "easy please",
+    "simple karo",
+    "aur simple",
+    "easy samjhao"
+  ])){
+    const r=await remoteBuddyReply(
+      `Explain this previous answer in much easier words for a Class ${studentClass} child. Keep it short and accurate. Previous answer: ${state.lastAnswer}`,
+      {mode:"simplify"}
+    );
+
+    if(r) return r;
+
+    return {
+      text:hi
+        ?`Simple way: ${String(state.lastAnswer).split(/[.!?]/)[0]}. Agar chaho to exact topic naam bhejo, main step-by-step samjhaunga.`
+        :`Simple way: ${String(state.lastAnswer).split(/[.!?]/)[0]}. Send me the exact topic name and I can explain it step by step.`,
+      chips:["🎯 Give Example","Quiz"]
+    };
+  }
+
+  if(state.lastAnswer && any(q,[
+    "explain more",
+    "more detail",
+    "aur detail",
+    "detail me samjhao",
+    "thoda aur samjhao"
+  ])){
+    const r=await remoteBuddyReply(
+      `Explain this previous answer a little more for a Class ${studentClass} child. Use a clear example, but keep it age-appropriate and concise. Previous answer: ${state.lastAnswer}`,
+      {mode:"explain-more"}
+    );
+    if(r) return r;
+  }
+
+  if(state.lastAnswer && any(q,[
+    "give example",
+    "give an example",
+    "example please",
+    "example do",
+    "ek example"
+  ])){
+    const r=await remoteBuddyReply(
+      `Give one simple real-life example for this previous answer for a Class ${studentClass} child: ${state.lastAnswer}`,
+      {mode:"example"}
+    );
+    if(r) return r;
+  }
 
   if(any(q,[
     "another quiz",
@@ -1108,12 +1428,25 @@ async function buildAnswer(text){
     }
   }
 
+  /*
+    Local Academy knowledge gets first priority.
+    If no local answer matched, use the safe AI worker for natural
+    everyday questions and broader Class 1–6 learning questions.
+  */
+  const smart=await remoteBuddyReply(text);
+
+  if(smart){
+    return smart;
+  }
+
   const bank=questionBankHint(
     q,
     hi
   );
 
   if(bank){
+    state.lastSource="local-bank";
+    saveState();
     return bank;
   }
 
@@ -1130,8 +1463,8 @@ async function buildAnswer(text){
 
   return {
     text:hi
-      ?"Mujhe is question ka exact local answer abhi nahi mila 😊. Question ko thoda simple words me poochho, ya Computer, Network, Safety, AI, Coding, Science, English, Healthy Habits, Math ya GK me topic choose karo."
-      :"I don't have an exact local answer for that yet 😊. Try asking in a few simpler words, or choose Computer, Network, Safety, AI, Coding, Science, English, Healthy Habits, Math or GK.",
+      ?"Mere learning database me is sawal ka exact answer abhi nahi hai 😊. Main galat guess nahi karunga. Question ko thoda aur clear words me poochho, ya Computer, Network, Safety, AI, Coding, Science, English, Healthy Habits, Math ya GK me topic choose karo."
+      :"That exact answer is not in my learning database right now 😊. I will not make up an answer. Try asking the question a little more clearly, or choose Computer, Network, Safety, AI, Coding, Science, English, Healthy Habits, Math or GK.",
     chips:[
       "Computer",
       "Network",
@@ -1489,6 +1822,58 @@ bottom:12px;
   document.head.appendChild(s);
 }
 
+
+function installBuddyV40Style(){
+  if($("tannuBuddyV40Style")) return;
+
+  const s=document.createElement("style");
+  s.id="tannuBuddyV40Style";
+  s.textContent=`
+    .tb-row.bot .tb-bubble{
+      position:relative;
+      padding-right:42px;
+    }
+
+    .tb-bubble-text{
+      display:block;
+    }
+
+    .tb-hear{
+      position:absolute;
+      right:8px;
+      bottom:8px;
+      width:27px;
+      height:27px;
+      border:1px solid #d7d1ff;
+      border-radius:50%;
+      background:#fff;
+      color:#5c49c8;
+      display:grid;
+      place-items:center;
+      cursor:pointer;
+      font-size:13px;
+      line-height:1;
+      box-shadow:0 4px 10px rgba(70,55,160,.10);
+    }
+
+    .tb-hear:hover{
+      background:#f3f0ff;
+    }
+
+    .tb-row.user .tb-bubble{
+      padding-right:14px;
+    }
+
+    #tannuBuddySend:disabled,
+    #tannuBuddyMic:disabled{
+      opacity:.58;
+      cursor:not-allowed;
+    }
+  `;
+
+  document.head.appendChild(s);
+}
+
 function createUI(){
 
   if($("tannuBuddyPanel")){
@@ -1496,6 +1881,7 @@ function createUI(){
   }
 
   style();
+  installBuddyV40Style();
 
   const launch=
     document.createElement(
@@ -1521,7 +1907,7 @@ function createUI(){
 
   panel.setAttribute(
     "aria-label",
-    "Tannu Learning Buddy"
+    "Tannu's Learning Buddy"
   );
 
   panel.innerHTML=`
@@ -1535,11 +1921,11 @@ function createUI(){
 <div class="tb-title">
 
 <b>
-Tannu Learning Buddy
+Tannu's Learning Buddy
 </b>
 
 <small>
-FREE • VOICE • KIDS SAFE • TOPIC SMART
+CLASS 1–6 • VOICE • KIDS SAFE • TOPIC SMART
 </small>
 
 </div>
@@ -1629,7 +2015,7 @@ type="button">
 </div>
 
 <div class="tb-foot">
-Tap 🎙️ for voice • Double-click a buddy answer to hear it • Closing clears chat history
+Tap 🎙️ to speak • Voice questions get a spoken reply • Tap 🔊 to replay • Closing clears chat history
 </div>
 
 `;
@@ -1688,6 +2074,32 @@ Tap 🎙️ for voice • Double-click a buddy answer to hear it • Closing cle
     .addEventListener(
       "click",
       e=>{
+
+        const hear=
+          e.target.closest(
+            ".tb-hear"
+          );
+
+        if(hear){
+          const bubble=
+            hear.closest(
+              ".tb-bubble"
+            );
+
+          const text=
+            bubble
+              ?.querySelector(
+                ".tb-bubble-text"
+              )
+              ?.textContent ||
+            "";
+
+          if(text){
+            speak(text);
+          }
+
+          return;
+        }
 
         const b=
           e.target.closest(
@@ -1764,7 +2176,9 @@ function addMessage(
     `tb-row ${role}`;
 
   row.innerHTML=
-    `<div class="tb-bubble">${esc(text)}</div>`;
+    role==="bot"
+      ?`<div class="tb-bubble"><span class="tb-bubble-text">${esc(text)}</span><button class="tb-hear" type="button" aria-label="Hear this answer">🔊</button></div>`
+      :`<div class="tb-bubble"><span class="tb-bubble-text">${esc(text)}</span></div>`;
 
   box.appendChild(row);
 
@@ -1808,9 +2222,9 @@ function welcome(){
 
   return hiMode()
 
-    ?`Hi ${firstName()} 😊! Main tumhara Learning Buddy hoon. Computer, Network, Safety, AI, Coding, Science, English, Healthy Habits, Math aur GK me help kar sakta hoon.`
+    ?`Hi ${firstName()} 😊! Main tumhara Class ${studentClass} Learning Buddy hoon. Normal chat ke saath Computer, Network, Safety, AI, Coding, Science, English, Healthy Habits, Math, GK aur IT Lab help me bhi support kar sakta hoon.`
 
-    :`Hi ${firstName()} 😊! I am your Learning Buddy. I can help with Computer, Network, Safety, AI, Coding, Science, English, Healthy Habits, Math and GK.`;
+    :`Hi ${firstName()} 😊! I am your Class ${studentClass} Learning Buddy. I can chat normally and also help with Computer, Network, Safety, AI, Coding, Science, English, Healthy Habits, Math, GK and IT Lab questions.`;
 }
 
 function openPanel(){
@@ -1922,7 +2336,33 @@ async function sendInput(){
   await processUserText(t);
 }
 
-async function processUserText(text){
+async function deliverBuddyReply(question,reply,options={}){
+  if(!reply?.text) return;
+
+  state.lastQuestion=String(question||"").slice(0,500);
+  state.lastAnswer=String(reply.text||"").slice(0,1200);
+  saveState();
+
+  addMessage(
+    "bot",
+    reply.text,
+    reply.chips
+  );
+
+  if(options.fromVoice){
+    setTimeout(
+      ()=>speak(reply.text),
+      120
+    );
+  }
+}
+
+async function processUserText(text,options={}){
+
+  const fromVoice=
+    Boolean(
+      options.fromVoice
+    );
 
   addMessage(
     "user",
@@ -1936,10 +2376,10 @@ async function processUserText(text){
 
     setTimeout(
       ()=>
-        addMessage(
-          "bot",
-          qa.text,
-          qa.chips
+        deliverBuddyReply(
+          text,
+          qa,
+          {fromVoice}
         ),
       70
     );
@@ -1960,10 +2400,10 @@ async function processUserText(text){
 
     setTimeout(
       ()=>
-        addMessage(
-          "bot",
-          r.text,
-          r.chips
+        deliverBuddyReply(
+          text,
+          r,
+          {fromVoice}
         ),
       70
     );
@@ -1971,18 +2411,38 @@ async function processUserText(text){
     return;
   }
 
-  const r=
-    await buildAnswer(text);
+  const sendBtn=$("tannuBuddySend");
+  const micBtn=$("tannuBuddyMic");
+  const oldPill=$("tannuTopicPill")?.textContent||"";
 
-  setTimeout(
-    ()=>
-      addMessage(
-        "bot",
-        r.text,
-        r.chips
-      ),
-    70
-  );
+  if(sendBtn) sendBtn.disabled=true;
+  if(micBtn) micBtn.disabled=true;
+
+  if($("tannuTopicPill")){
+    $("tannuTopicPill").textContent="✨ Thinking…";
+  }
+
+  try{
+    const r=
+      await buildAnswer(text);
+
+    await deliverBuddyReply(
+      text,
+      r,
+      {fromVoice}
+    );
+  }finally{
+    if(sendBtn) sendBtn.disabled=false;
+    if(micBtn) micBtn.disabled=false;
+    updatePill();
+
+    if(
+      $("tannuTopicPill") &&
+      !$("tannuTopicPill").textContent
+    ){
+      $("tannuTopicPill").textContent=oldPill;
+    }
+  }
 }
 
 function handleQuick(kind){
@@ -2080,6 +2540,68 @@ function handleQuick(kind){
   }
 }
 
+function preferredSpeechLanguage(text){
+  const raw=String(text||"");
+
+  if(isHindiScript(raw)){
+    return "hi-IN";
+  }
+
+  if(isHinglish(raw)){
+    return "en-IN";
+  }
+
+  return "en-IN";
+}
+
+function voiceNameScore(voice,targetLang){
+  const name=String(voice?.name||"");
+  const lang=String(voice?.lang||"").toLowerCase();
+  const target=String(targetLang||"").toLowerCase();
+
+  let score=0;
+
+  if(lang===target) score+=80;
+  else if(lang.startsWith(target.split("-")[0])) score+=45;
+  else if(lang.startsWith("en")) score+=12;
+
+  /*
+    Browser speech APIs do not expose gender directly.
+    These are common female-coded voice names on Windows,
+    Android, Chrome, Edge, Safari and macOS.
+  */
+  if(/female|zira|samantha|karen|victoria|susan|aria|jenny|ava|allison|moira|serena|veena|heera|swara|kalpana|neerja|aditi|raveena|priya|natasha|sonia|sara|hazel/i.test(name)){
+    score+=55;
+  }
+
+  if(/david|mark|daniel|guy|george|ravi|rishi|hemant|male/i.test(name)){
+    score-=35;
+  }
+
+  if(/google|microsoft|natural|enhanced|premium/i.test(name)){
+    score+=8;
+  }
+
+  return score;
+}
+
+function chooseFriendlyFemaleVoice(targetLang){
+  const voices=
+    window
+      .speechSynthesis
+      ?.getVoices?.() ||
+    [];
+
+  if(!voices.length) return null;
+
+  return [...voices]
+    .sort(
+      (a,b)=>
+        voiceNameScore(b,targetLang)-
+        voiceNameScore(a,targetLang)
+    )[0] || null;
+}
+
 function speak(text){
 
   if(
@@ -2091,46 +2613,49 @@ function speak(text){
     return;
   }
 
+  const spoken=
+    String(
+      text ||
+      ""
+    )
+      .replace(/\s+/g," ")
+      .trim();
+
+  if(!spoken) return;
+
   window
     .speechSynthesis
     .cancel();
 
-  const u=
-    new SpeechSynthesisUtterance(
-      String(
-        text ||
-        ""
-      )
+  const lang=
+    preferredSpeechLanguage(
+      spoken
     );
 
-  u.lang=
-    voiceLang;
+  const u=
+    new SpeechSynthesisUtterance(
+      spoken
+    );
+
+  u.lang=lang;
 
   u.rate=
-    studentClass<=1
+    studentClass<=2
       ?0.84
-      :0.9;
+      :studentClass<=4
+        ?0.88
+        :0.91;
 
   u.pitch=
-    1.04;
+    1.08;
 
-  const pref=
-    voiceLang
-      .split("-")[0]
-      .toLowerCase();
+  u.volume=
+    1;
 
   const v=
-    speechSynthesis
-      .getVoices()
-      .find(
-        x=>
-          String(
-            x.lang ||
-            ""
-          )
-            .toLowerCase()
-            .startsWith(pref)
-      );
+    chooseFriendlyFemaleVoice(
+      lang
+    );
 
   if(v){
     u.voice=v;
@@ -2174,7 +2699,10 @@ function startVoice(){
     new SR();
 
   recognition.lang=
-    voiceLang;
+    voiceLang &&
+    /^(hi|en)(-|$)/i.test(voiceLang)
+      ?voiceLang
+      :"en-IN";
 
   recognition.interimResults=
     false;
@@ -2198,9 +2726,14 @@ function startVoice(){
 
       $("tannuBuddyInput")
         .value=
-          t;
+          "";
 
-      sendInput();
+      processUserText(
+        t,
+        {
+          fromVoice:true
+        }
+      );
     };
 
   recognition.onerror=
@@ -2511,6 +3044,7 @@ document.addEventListener(
 
     if(b){
       speak(
+        b.querySelector(".tb-bubble-text")?.textContent ||
         b.textContent ||
         ""
       );
