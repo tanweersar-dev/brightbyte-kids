@@ -2,8 +2,8 @@
 "use strict";
 
 /* ============================================================
-   V40.1 — TANNU'S LEARNING BUDDY 2.1
-   CLASSES 1–6 • BILINGUAL • PLATFORM-AWARE • SMART FALLBACK • VOICE
+   V40.2 — TANNU'S LEARNING BUDDY 2.2
+   6 QUICK TABS • BILINGUAL • PLATFORM-AWARE • COLORFUL KIDS BACKGROUND
    - Natural casual chat as well as learning questions
    - Respectful manners coaching for abusive language
    - Optional AI fallback for questions not in the local database
@@ -1667,11 +1667,16 @@ async function buildAnswer(text){
   if(state.topic){
     return {
       text:hi
-        ?`Main ${META[state.topic]?.title||"is topic"} me help kar raha hoon 😊. Thoda specific poochho, jaise ${META[state.topic]?.chips.slice(0,4).join(", ")}.`
-        :`I am helping with ${META[state.topic]?.title||"this topic"} 😊. Ask something specific, such as ${META[state.topic]?.chips.slice(0,4).join(", ")}.`,
-      chips:
-        META[state.topic]?.chips ||
-        []
+        ?"😊 Main Computer, AI, Safety, Network, IT Lab, Science, Math, English aur General Knowledge sab me help kar sakta hoon. Koi specific sawal poochho—jaise: CPU kya hai? AI kya hai? Online safe kaise rahen? Bihar ki capital kya hai?"
+        :"😊 I can help with Computer, AI, Safety, Network, IT Lab, Science, Math, English and General Knowledge. Ask me something specific—for example: What is a CPU? What is AI? How can I stay safe online? What is the capital of Bihar?",
+      chips:[
+        "Computer",
+        "AI",
+        "Safety",
+        "GK",
+        "IT Lab",
+        "Quiz"
+      ]
     };
   }
 
@@ -1918,9 +1923,9 @@ background:#f1efff;
 #tannuBuddyQuick{
 display:grid;
 grid-template-columns:
-1fr 1fr;
-gap:8px;
-padding:10px 12px;
+repeat(3,minmax(0,1fr));
+gap:7px;
+padding:9px 12px;
 border-top:
 1px solid #eee;
 background:#fff;
@@ -1928,10 +1933,19 @@ background:#fff;
 
 .tb-quick{
 border:0;
-border-radius:16px;
-padding:11px 8px;
+border-radius:14px;
+padding:10px 5px;
 font-weight:900;
+font-size:11px;
+line-height:1.05;
 cursor:pointer;
+transition:transform .16s ease,box-shadow .16s ease,filter .16s ease;
+}
+
+.tb-quick:hover{
+transform:translateY(-1px);
+filter:brightness(1.02);
+box-shadow:0 5px 12px rgba(70,61,150,.10);
 }
 
 .tb-chat{
@@ -1939,18 +1953,28 @@ background:#fff0f5;
 color:#b23e72;
 }
 
-.tb-network{
-background:#eaf8ff;
-color:#17739f;
+.tb-computer{
+background:linear-gradient(135deg,#e8f6ff,#dff2ff);
+color:#176f9c;
+}
+
+.tb-ai{
+background:linear-gradient(135deg,#f0e8ff,#f9e4ff);
+color:#7440bd;
 }
 
 .tb-safety{
-background:#fff7d9;
+background:linear-gradient(135deg,#fff7d9,#fff0c8);
 color:#936b00;
 }
 
+.tb-gk{
+background:linear-gradient(135deg,#e6fff3,#ddf8ff);
+color:#14785f;
+}
+
 .tb-quiz{
-background:#eeeaff;
+background:linear-gradient(135deg,#eeeaff,#e7e4ff);
 color:#6245c8;
 }
 
@@ -2243,15 +2267,27 @@ data-quick="chat">
 </button>
 
 <button
-class="tb-quick tb-network"
-data-quick="network">
-🌐 Network
+class="tb-quick tb-computer"
+data-quick="computer">
+💻 Computer
+</button>
+
+<button
+class="tb-quick tb-ai"
+data-quick="ai">
+🤖 AI
 </button>
 
 <button
 class="tb-quick tb-safety"
 data-quick="safety">
 🔐 Safety
+</button>
+
+<button
+class="tb-quick tb-gk"
+data-quick="gk">
+🌍 GK
 </button>
 
 <button
@@ -2750,11 +2786,11 @@ function handleQuick(kind){
         :"😊 Fresh Chat mode! Ask any normal or learning question.",
 
       [
-        "What is your name?",
-        "How are you?",
         "Computer",
-        "Network",
+        "AI",
         "Safety",
+        "GK",
+        "IT Lab",
         "Quiz"
       ]
     );
@@ -2763,8 +2799,10 @@ function handleQuick(kind){
   }
 
   if(
-    kind==="network" ||
-    kind==="safety"
+    kind==="computer" ||
+    kind==="ai" ||
+    kind==="safety" ||
+    kind==="gk"
   ){
 
     state.topic=
@@ -3330,9 +3368,199 @@ document.addEventListener(
   }
 );
 
+
+/* ============================================================
+   V40.2 — COLORFUL MOVING FLOWER BACKGROUND
+   HOME PAGE ONLY
+   Decorative only: no clicks, no learning logic affected.
+   ============================================================ */
+function installTannuFlowerBackground(){
+  if(window.__tannuFlowerBackgroundV402) return;
+
+  const homePage=document.querySelector(".page.home, #home.page, .home.page");
+  if(!homePage) return;
+
+  window.__tannuFlowerBackgroundV402=true;
+  document.body.classList.add("tannu-home-v402");
+
+  if(!document.getElementById("tannuFlowerStyleV402")){
+    const styleEl=document.createElement("style");
+    styleEl.id="tannuFlowerStyleV402";
+    styleEl.textContent=`
+      body.tannu-home-v402{
+        background:
+          radial-gradient(circle at 8% 12%,rgba(151,96,255,.40),transparent 29%),
+          radial-gradient(circle at 90% 14%,rgba(27,215,224,.30),transparent 31%),
+          radial-gradient(circle at 50% 74%,rgba(255,91,172,.18),transparent 34%),
+          radial-gradient(circle at 17% 88%,rgba(255,192,72,.15),transparent 26%),
+          linear-gradient(155deg,#111747 0%,#17134e 38%,#08365b 72%,#0a4854 100%) !important;
+        background-attachment:fixed !important;
+      }
+
+      body.tannu-home-v402 .page{
+        position:relative;
+        z-index:2;
+      }
+
+      #tannuFlowerFieldV402{
+        position:fixed;
+        inset:0;
+        z-index:1;
+        overflow:hidden;
+        pointer-events:none;
+        contain:layout paint style;
+      }
+
+      #tannuFlowerFieldV402::before{
+        content:"";
+        position:absolute;
+        inset:-18%;
+        background:
+          radial-gradient(circle at 20% 35%,rgba(255,100,190,.14),transparent 19%),
+          radial-gradient(circle at 75% 20%,rgba(66,232,216,.15),transparent 21%),
+          radial-gradient(circle at 65% 78%,rgba(255,207,74,.10),transparent 22%),
+          radial-gradient(circle at 35% 76%,rgba(126,98,255,.14),transparent 24%);
+        filter:blur(18px);
+        animation:tannuFlowerAuroraV402 13s ease-in-out infinite alternate;
+      }
+
+      .tannu-flower-v402{
+        position:absolute;
+        left:var(--x);
+        bottom:-14vh;
+        font-size:var(--size);
+        opacity:var(--opacity);
+        filter:
+          drop-shadow(0 0 7px rgba(255,255,255,.30))
+          saturate(1.14);
+        transform:translate3d(0,0,0) rotate(0deg);
+        animation:
+          tannuFlowerRiseV402 var(--dur) linear infinite,
+          tannuFlowerSwayV402 var(--sway) ease-in-out infinite alternate;
+        animation-delay:var(--delay),var(--delay2);
+        will-change:transform,opacity;
+      }
+
+      .tannu-flower-v402.soft{
+        filter:
+          blur(.15px)
+          drop-shadow(0 0 10px rgba(255,255,255,.28))
+          saturate(1.25);
+      }
+
+      @keyframes tannuFlowerRiseV402{
+        0%{
+          transform:translate3d(0,12vh,0) rotate(0deg) scale(.82);
+          opacity:0;
+        }
+        8%{
+          opacity:var(--opacity);
+        }
+        45%{
+          transform:translate3d(var(--drift),-48vh,0) rotate(170deg) scale(1);
+        }
+        82%{
+          opacity:calc(var(--opacity) * .92);
+        }
+        100%{
+          transform:translate3d(var(--drift2),-124vh,0) rotate(360deg) scale(.92);
+          opacity:0;
+        }
+      }
+
+      @keyframes tannuFlowerSwayV402{
+        from{margin-left:-10px}
+        to{margin-left:14px}
+      }
+
+      @keyframes tannuFlowerAuroraV402{
+        from{
+          transform:translate3d(-2%,-1%,0) scale(1);
+          opacity:.72;
+        }
+        to{
+          transform:translate3d(3%,2%,0) scale(1.08);
+          opacity:1;
+        }
+      }
+
+      @media(max-width:700px){
+        #tannuFlowerFieldV402 .tannu-flower-v402:nth-child(2n){
+          display:none;
+        }
+
+        .tannu-flower-v402{
+          opacity:calc(var(--opacity) * .78);
+        }
+      }
+
+      @media(prefers-reduced-motion:reduce){
+        #tannuFlowerFieldV402::before,
+        .tannu-flower-v402{
+          animation:none !important;
+        }
+
+        .tannu-flower-v402{
+          bottom:auto;
+          top:var(--static-y);
+          opacity:.24;
+        }
+      }
+    `;
+    document.head.appendChild(styleEl);
+  }
+
+  if(document.getElementById("tannuFlowerFieldV402")) return;
+
+  const field=document.createElement("div");
+  field.id="tannuFlowerFieldV402";
+  field.setAttribute("aria-hidden","true");
+
+  const flowers=["🌸","🌼","🌺","🌷","🪻","🌻","💮","🌹"];
+
+  /*
+    Deterministic positions: attractive but stable on every reload.
+    34 flowers on desktop; CSS automatically reduces density on mobile.
+  */
+  for(let i=0;i<34;i++){
+    const span=document.createElement("span");
+    span.className="tannu-flower-v402"+(i%4===0?" soft":"");
+    span.textContent=flowers[i%flowers.length];
+
+    const x=(3+(i*29)%94);
+    const size=13+((i*7)%22);
+    const dur=17+((i*5)%18);
+    const sway=2.8+((i%6)*.55);
+    const delay=-(i*2.15)%dur;
+    const delay2=-((i*1.37)%sway);
+    const drift=((i%2===0?1:-1)*(18+((i*11)%54)));
+    const drift2=((i%3===0?-1:1)*(22+((i*13)%70)));
+    const opacity=(0.34+((i%5)*0.075)).toFixed(2);
+    const staticY=(4+(i*17)%90);
+
+    span.style.setProperty("--x",`${x}%`);
+    span.style.setProperty("--size",`${size}px`);
+    span.style.setProperty("--dur",`${dur}s`);
+    span.style.setProperty("--sway",`${sway}s`);
+    span.style.setProperty("--delay",`${delay}s`);
+    span.style.setProperty("--delay2",`${delay2}s`);
+    span.style.setProperty("--drift",`${drift}px`);
+    span.style.setProperty("--drift2",`${drift2}px`);
+    span.style.setProperty("--opacity",opacity);
+    span.style.setProperty("--static-y",`${staticY}%`);
+
+    field.appendChild(span);
+  }
+
+  document.body.prepend(field);
+}
+
+
 async function boot(){
 
   await loadStudent();
+
+  installTannuFlowerBackground();
 
   createUI();
 
