@@ -2,8 +2,8 @@
 "use strict";
 
 /* ============================================================
-   V40 — TANNU'S LEARNING BUDDY 2.0
-   CLASS 1–6 • LOCAL-FIRST • SMART FALLBACK • VOICE REPLY
+   V40.1 — TANNU'S LEARNING BUDDY 2.1
+   CLASSES 1–6 • BILINGUAL • PLATFORM-AWARE • SMART FALLBACK • VOICE
    - Natural casual chat as well as learning questions
    - Respectful manners coaching for abusive language
    - Optional AI fallback for questions not in the local database
@@ -25,6 +25,46 @@ const TOKEN=localStorage.getItem("brightbyte_student_token")||"";
 const STATE_KEY="tannu_buddy_v21_state";
 const POS_KEY="tannu_buddy_v21_pos";
 const VOICE_KEY="tannu_buddy_voice_lang";
+const LANG_MODE_KEY="tannu_buddy_language_mode_v401";
+
+/*
+  V40.1 Academy knowledge scope.
+  This is intentionally a compact factual map of the learning platform.
+  We do NOT hard-code "millions" of answers; the local Academy knowledge
+  is used first and the safe AI fallback handles broad school-level
+  general knowledge and natural conversation.
+*/
+const ACADEMY_PLATFORM_CONTEXT=`
+Tannu Sir's Kids Digital Academy supports Classes 1–6.
+
+MAIN LEARNING AREAS:
+- 90-Day Digital + English + Confidence Program.
+- Month 1 Foundation: computer parts, mouse, keyboard, greetings, manners, safety and healthy routines.
+- Month 2 Practice: typing, files, internet basics, English conversation, role play and problem solving.
+- Month 3 Smart Skills: AI prompts, troubleshooting, mini presentations, portfolio work and the Final Digital Mission.
+- Weekly evaluations and monthly assessments.
+- Digital achievement/reward milestones.
+- Computer, hardware, Windows/software, networking, internet and troubleshooting.
+- Spoken English, confidence, manners and communication.
+- Healthy habits, hygiene and safety.
+- Cyber safety and responsible AI.
+- Coding basics, science, mathematics and general knowledge.
+- Student Progress, Skill Passport, Today's Mission, Continue Learning and Learning Report.
+- Learning worlds: Computer, IT Lab, GK World, English, Healthy Me, Safe Me, Smart Games, Hardware Explorer and AI Prompt Lab.
+- Class 4–6 Future Skills Universe with Learn, Challenge and Create modes.
+- Class 4–6 Junior Digital & AI Technician 5-Stage Practical Lab:
+  1. Port & Device Master
+  2. Inside the Computer
+  3. Windows & Software Support
+  4. AI Smart Technician
+  5. Final Technician Mission
+- The practical lab includes safe cable/port work, PC components, Windows/software tasks, AI/privacy/verification and realistic support tickets.
+- Hardware Explorer teaches parts, ports, cables and safe troubleshooting.
+- Skill Challenge/Battle activities use safe quiz/game modes without open child-to-child chat.
+- Student rewards, projects, portfolio/goals, weekly/monthly tests and digital certificates/milestones are part of the learning experience where applicable.
+
+When a child asks about the Academy or one of these features, explain only what this context supports. Do not invent unavailable features.
+`.trim();
 
 /*
   Unknown/general questions are sent only when the local Academy
@@ -46,7 +86,13 @@ let recognition=null;
   en-IN is a good default for English + Hinglish.
   If the browser has a saved language preference, keep it.
 */
-let voiceLang=localStorage.getItem(VOICE_KEY)||"en-IN";
+let buddyLanguage=localStorage.getItem(LANG_MODE_KEY)||"en";
+if(!["en","hi"].includes(buddyLanguage)) buddyLanguage="en";
+
+let voiceLang=
+  localStorage.getItem(VOICE_KEY) ||
+  (buddyLanguage==="hi" ? "hi-IN" : "en-IN");
+
 let questionBank=[];
 let state=defaultState();
 
@@ -106,8 +152,48 @@ function isHinglish(t){
 }
 function hiMode(t=""){
   const raw=String(t||"").trim();
-  if(raw) return isHindiScript(raw)||isHinglish(raw);
-  return voiceLang.startsWith("hi");
+
+  /* Explicit Hindi/Hinglish text always gets a Hindi/Hinglish reply. */
+  if(raw && (isHindiScript(raw)||isHinglish(raw))) return true;
+
+  /* Clear English text stays English unless the child selected Hindi. */
+  if(raw && /[a-z]/i.test(raw)){
+    return buddyLanguage==="hi";
+  }
+
+  return buddyLanguage==="hi" || voiceLang.startsWith("hi");
+}
+
+function setBuddyLanguage(mode,{announce=true}={}){
+  buddyLanguage=mode==="hi" ? "hi" : "en";
+  voiceLang=buddyLanguage==="hi" ? "hi-IN" : "en-IN";
+
+  localStorage.setItem(LANG_MODE_KEY,buddyLanguage);
+  localStorage.setItem(VOICE_KEY,voiceLang);
+
+  document.querySelectorAll("[data-buddy-lang]").forEach(btn=>{
+    const active=btn.dataset.buddyLang===buddyLanguage;
+    btn.classList.toggle("active",active);
+    btn.setAttribute("aria-pressed",active?"true":"false");
+  });
+
+  const input=$("tannuBuddyInput");
+  if(input){
+    input.placeholder=
+      buddyLanguage==="hi"
+        ?"Hindi/Hinglish ya English me poochho..."
+        :"Ask in English or Hindi...";
+  }
+
+  if(announce && $("tannuBuddyMessages")){
+    const text=
+      buddyLanguage==="hi"
+        ?"🇮🇳 Hindi/Hinglish mode ready. Aap Hindi, Hinglish ya English me poochh sakte ho."
+        :"🇬🇧 English mode ready. You can still ask in Hindi or Hinglish anytime.";
+
+    addMessage("bot",text,["Computer","GK","IT Lab","Quiz"]);
+    speak(text);
+  }
 }
 function cleanTypos(text){
   let q=normalize(text);
@@ -262,6 +348,11 @@ add("gk","Earth",["earth"],"Earth is the planet where we live. It is the third p
 add("gk","Sun",["sun"],"The Sun is a star at the center of our solar system. It gives Earth light and heat.","Sun hamare solar system ke center me ek star hai. Ye Earth ko light aur heat deta hai.",["Earth","Moon"]);
 add("gk","Moon",["moon"],"The Moon is Earth's natural satellite. It moves around Earth.","Moon Earth ka natural satellite hai. Ye Earth ke around move karta hai.",["Earth","Sun"]);
 add("gk","Animals",["animal","animals"],"Animals are living things that need food, water and suitable habitats.","Animals living things hote hain jinhe food, water aur suitable habitat chahiye.",["Plants","Earth"]);
+add("gk","Patna",["patna"],"Patna is the capital city of Bihar, India. It is an important historic city on the southern bank of the Ganga River.","Patna Bihar, India ki rajdhani hai. Ye Ganga nadi ke dakshini kinare par ek important historic city hai.",["Bihar","India","Gaya"]);
+add("gk","Bihar",["bihar"],"Bihar is a state in eastern India. Its capital is Patna.","Bihar eastern India ka ek state hai. Iski rajdhani Patna hai.",["Patna","India","Gaya"]);
+add("gk","India",["india","bharat"],"India, also called Bharat, is a country in South Asia. New Delhi is the national capital.","India, jise Bharat bhi kaha jata hai, South Asia ka ek country hai. New Delhi national capital hai.",["New Delhi","Bihar","Patna"]);
+add("gk","New Delhi",["new delhi","delhi capital"],"New Delhi is the national capital of India.","New Delhi India ki national capital hai.",["India","Bihar"]);
+add("gk","Gaya",["gaya","gaya bihar"],"Gaya is an important city in Bihar, India, known for its cultural and historical significance. Bodh Gaya, nearby, is famous as the place associated with the Buddha's enlightenment.","Gaya Bihar, India ka ek important city hai. Paas ka Bodh Gaya Buddha ke enlightenment se juda hua famous place hai.",["Bihar","Patna","India"]);
 
 const TOPIC_WORDS={
   computer:["computer","hardware","software","cpu","ram","ssd","hdd","monitor","keyboard","mouse","printer","scanner","windows","file","folder","browser","desktop","taskbar"],
@@ -273,7 +364,7 @@ const TOPIC_WORDS={
   english:["english","sentence","grammar","please","thank you","opposite"],
   health:["healthy","health","sleep","exercise","hydration","fruit","vegetable","teeth","hand washing"],
   math:["math","maths","addition","subtraction","multiplication","division","plus","minus","times"],
-  gk:["earth","sun","moon","country","countries","animal","animals","general knowledge","gk"]
+  gk:["earth","sun","moon","country","countries","animal","animals","general knowledge","gk","india","bihar","patna","gaya","capital","state","city","new delhi"]
 };
 
 function detectTopic(text){
@@ -380,6 +471,113 @@ function explainItem(item,hi){
     text:(hi?item.hi:item.en)+extra,
     chips:next.slice(0,6)
   };
+}
+
+
+
+const PLATFORM_KNOWLEDGE=[
+  {
+    keys:["90 day program","90-day program","90 day journey","90-day journey"],
+    en:"The 90-Day Digital + English + Confidence Program is a three-month learning journey. Month 1 builds foundation skills, Month 2 focuses on practice, and Month 3 develops smart skills such as AI prompts, troubleshooting, presentations and the final Digital Mission.",
+    hi:"90-Day Digital + English + Confidence Program teen mahine ka learning journey hai. Month 1 Foundation, Month 2 Practice aur Month 3 Smart Skills par focus karta hai—jisme AI prompts, troubleshooting, presentation aur Final Digital Mission bhi aate hain."
+  },
+  {
+    keys:["foundation month","month 1","foundation"],
+    en:"Month 1 Foundation covers computer parts, mouse, keyboard, greetings, manners, safety and healthy routines.",
+    hi:"Month 1 Foundation me computer parts, mouse, keyboard, greetings, manners, safety aur healthy routines cover hote hain."
+  },
+  {
+    keys:["practice month","month 2","practice stage"],
+    en:"Month 2 Practice develops typing, files, internet basics, English conversation, role play and problem-solving skills.",
+    hi:"Month 2 Practice me typing, files, internet basics, English conversation, role play aur problem-solving skills develop hote hain."
+  },
+  {
+    keys:["smart skills","month 3"],
+    en:"Month 3 Smart Skills includes AI prompts, troubleshooting, mini presentations, portfolio work and the Final Digital Mission.",
+    hi:"Month 3 Smart Skills me AI prompts, troubleshooting, mini presentation, portfolio work aur Final Digital Mission shamil hain."
+  },
+  {
+    keys:["weekly evaluation","weekly exam","weekly test"],
+    en:"Weekly evaluations are short progress checks designed to review important learning from the week and identify topics that may need more practice.",
+    hi:"Weekly evaluation ek short progress check hai jo week ki important learning review karta hai aur batata hai kis topic me aur practice chahiye."
+  },
+  {
+    keys:["monthly exam","monthly assessment"],
+    en:"Monthly assessments check broader understanding and progress across the learning completed during the month.",
+    hi:"Monthly assessment poore month ki learning, understanding aur progress ko broader way me check karta hai."
+  },
+  {
+    keys:["skill passport","my skill passport"],
+    en:"The Skill Passport tracks different abilities separately, such as computer, typing, English, safety, logic, troubleshooting, AI and related learning skills.",
+    hi:"Skill Passport alag-alag abilities ko separately track karta hai—jaise computer, typing, English, safety, logic, troubleshooting aur AI skills."
+  },
+  {
+    keys:["learning report","my learning report"],
+    en:"The Learning Report summarizes progress and gives a simple recommendation about what the student can practise next.",
+    hi:"Learning Report progress ka summary dikhata hai aur next practice ke liye simple recommendation deta hai."
+  },
+  {
+    keys:["5 stage practical","5-stage practical","practical lab","junior digital ai technician lab","junior technician lab"],
+    en:"The Class 4–6 Junior Digital & AI Technician Lab has five stages: Port & Device Master, Inside the Computer, Windows & Software Support, AI Smart Technician and the Final Technician Mission.",
+    hi:"Class 4–6 Junior Digital & AI Technician Lab me 5 stages hain: Port & Device Master, Inside the Computer, Windows & Software Support, AI Smart Technician aur Final Technician Mission."
+  },
+  {
+    keys:["port device master","port & device master"],
+    en:"Port & Device Master teaches safe workstation connections such as monitor, keyboard, mouse, LAN, audio, printer and UPS/power paths inside the simulator.",
+    hi:"Port & Device Master simulator me monitor, keyboard, mouse, LAN, audio, printer aur UPS/power connections ko safely identify aur connect karna sikhata hai."
+  },
+  {
+    keys:["inside the computer","pc assembly"],
+    en:"Inside the Computer focuses on identifying and installing motherboard components in the correct places using the simulator.",
+    hi:"Inside the Computer stage simulator me motherboard components ko identify karke correct place par install karna sikhata hai."
+  },
+  {
+    keys:["windows software support","windows & software support"],
+    en:"Windows & Software Support uses a simulated desktop to practise files, folders and common software-support tasks.",
+    hi:"Windows & Software Support simulated desktop par files, folders aur common software-support tasks ki practice karata hai."
+  },
+  {
+    keys:["ai smart technician"],
+    en:"AI Smart Technician teaches prompt building, privacy protection, checking AI output and responsible AI use.",
+    hi:"AI Smart Technician prompt banana, privacy protect karna, AI output verify karna aur responsible AI use sikhata hai."
+  },
+  {
+    keys:["final technician mission"],
+    en:"The Final Technician Mission uses realistic support tickets across hardware, software, AI and cyber safety to test safe troubleshooting judgment.",
+    hi:"Final Technician Mission hardware, software, AI aur cyber safety ke realistic support tickets ke through safe troubleshooting judgment test karta hai."
+  },
+  {
+    keys:["hardware explorer","parts guide"],
+    en:"Hardware Explorer teaches computer parts, ports, cables, what they do, where they are used and safe troubleshooting ideas.",
+    hi:"Hardware Explorer computer parts, ports, cables, unka kaam, use aur safe troubleshooting ideas sikhata hai."
+  },
+  {
+    keys:["battle arena","skill challenge","challenge arena"],
+    en:"The Skill Challenge Arena lets enrolled same-class learners use safe quiz/game challenge modes such as quick quiz, typing, cyber safety, technical troubleshooting and AI prompts. It does not provide open child-to-child chat.",
+    hi:"Skill Challenge Arena same-class enrolled learners ke liye safe quiz/game challenges deta hai—quick quiz, typing, cyber safety, technical troubleshooting aur AI prompts. Isme open child-to-child chat nahi hota."
+  }
+];
+
+function findPlatformKnowledge(text){
+  const q=normalize(text);
+  let best=null;
+  let bestScore=0;
+
+  for(const item of PLATFORM_KNOWLEDGE){
+    let score=0;
+    for(const key of item.keys){
+      const k=normalize(key);
+      if(q===k) score+=12;
+      else if(has(q,k)) score+=k.includes(" ")?8:3;
+      else if(k.length>5 && q.includes(k)) score+=2;
+    }
+    if(score>bestScore){
+      best=item;
+      bestScore=score;
+    }
+  }
+
+  return bestScore ? best : null;
 }
 
 
@@ -492,7 +690,11 @@ async function remoteBuddyReply(text,options={}){
         message,
         classNumber:studentClass,
         topic:state.topic||"",
-        mode:options.mode||state.mode||"chat"
+        mode:options.mode||state.mode||"chat",
+        language:buddyLanguage,
+        pageTitle:String(document.title||"").slice(0,160),
+        pagePath:String(location.pathname||"").slice(0,160),
+        platformContext:ACADEMY_PLATFORM_CONTEXT.slice(0,6500)
       }),
       cache:"no-store",
       signal:controller?.signal
@@ -771,8 +973,8 @@ function socialReply(text){
     "meri help karoge"
   )){
     return out(
-      "I can explain Computer, Network, Internet Safety, AI, Coding, Science, English, Healthy Habits, Math and basic General Knowledge. I can also give quizzes, examples and simple troubleshooting steps 😊.",
-      "Main Computer, Network, Internet Safety, AI, Coding, Science, English, Healthy Habits, Math aur basic General Knowledge samjha sakta hoon. Main quiz, examples aur simple troubleshooting bhi kara sakta hoon 😊.",
+      "I can help with the full learning platform, safe school-level general knowledge and normal everyday questions. That includes Computer, Hardware, Windows, Network, IT Labs, Safety, AI, Coding, Science, English, Healthy Habits, Math, GK, the 90-Day Program, tests, progress, Skill Passport, practical labs, quizzes, examples and troubleshooting 😊.",
+      "Main poore learning platform, safe school-level general knowledge aur normal everyday questions me help kar sakta hoon. Isme Computer, Hardware, Windows, Network, IT Labs, Safety, AI, Coding, Science, English, Healthy Habits, Math, GK, 90-Day Program, tests, progress, Skill Passport, practical labs, quizzes aur troubleshooting shamil hain 😊.",
       ["Computer","Network","Safety","AI","Coding","Quiz"]
     );
   }
@@ -1335,6 +1537,18 @@ async function buildAnswer(text){
     }
   }
 
+  const platformItem=findPlatformKnowledge(q);
+
+  if(platformItem){
+    state.lastSource="academy-platform";
+    saveState();
+
+    return {
+      text:hi ? platformItem.hi : platformItem.en,
+      chips:["90-Day Program","Skill Passport","Practical Lab","Quiz"]
+    };
+  }
+
   const explicit=detectTopic(q);
 
   if(
@@ -1463,8 +1677,8 @@ async function buildAnswer(text){
 
   return {
     text:hi
-      ?"Mere learning database me is sawal ka exact answer abhi nahi hai 😊. Main galat guess nahi karunga. Question ko thoda aur clear words me poochho, ya Computer, Network, Safety, AI, Coding, Science, English, Healthy Habits, Math ya GK me topic choose karo."
-      :"That exact answer is not in my learning database right now 😊. I will not make up an answer. Try asking the question a little more clearly, or choose Computer, Network, Safety, AI, Coding, Science, English, Healthy Habits, Math or GK.",
+      ?"Is sawal ka reliable answer mujhe abhi nahi mil pa raha 😊. Main guess karke galat information nahi dunga. Question ko thoda aur clear karke poochho; main Academy topics aur safe school-level general knowledge dono me help karunga."
+      :"I cannot get a reliable answer to that right now 😊. I will not guess and give you incorrect information. Try asking it a little more clearly; I can help with Academy topics and safe school-level general knowledge.",
     chips:[
       "Computer",
       "Network",
@@ -1869,6 +2083,62 @@ function installBuddyV40Style(){
       opacity:.58;
       cursor:not-allowed;
     }
+
+    .tb-langbar{
+      display:flex;
+      align-items:center;
+      gap:7px;
+      padding:7px 12px;
+      background:#fff;
+      border-bottom:1px solid #eeeafb;
+    }
+
+    .tb-lang-label{
+      margin-right:auto;
+      color:#716b91;
+      font-size:10px;
+      font-weight:900;
+    }
+
+    .tb-lang-btn{
+      border:1px solid #ded9ff;
+      background:#f8f7ff;
+      color:#5548ad;
+      border-radius:999px;
+      padding:6px 10px;
+      font-size:10px;
+      font-weight:900;
+      cursor:pointer;
+      transition:.18s ease;
+    }
+
+    .tb-lang-btn:hover{
+      transform:translateY(-1px);
+      background:#f1efff;
+    }
+
+    .tb-lang-btn.active{
+      color:#fff;
+      border-color:transparent;
+      background:linear-gradient(135deg,#7765ff,#26c8cc);
+      box-shadow:0 5px 13px rgba(87,81,201,.20);
+    }
+
+    @media(max-width:480px){
+      .tb-langbar{
+        padding:6px 9px;
+        gap:5px;
+      }
+
+      .tb-lang-btn{
+        padding:6px 8px;
+        font-size:9px;
+      }
+
+      .tb-lang-label{
+        font-size:9px;
+      }
+    }
   `;
 
   document.head.appendChild(s);
@@ -1925,7 +2195,7 @@ Tannu's Learning Buddy
 </b>
 
 <small>
-CLASS 1–6 • VOICE • KIDS SAFE • TOPIC SMART
+CLASSES 1–6 • BILINGUAL • KIDS SAFE • TOPIC SMART
 </small>
 
 </div>
@@ -1942,11 +2212,7 @@ type="button">
 <div class="tb-status">
 
 <span>
-🌟 Class
-<span id="tannuClassNo">
-${studentClass}
-</span>
-Learning Buddy
+🌟 Classes 1–6 Learning Buddy
 </span>
 
 <span
@@ -1955,6 +2221,12 @@ class="tb-topic">
 ✨ Ready
 </span>
 
+</div>
+
+<div class="tb-langbar" aria-label="Choose chat language">
+  <span class="tb-lang-label">Language</span>
+  <button type="button" class="tb-lang-btn" data-buddy-lang="hi" aria-pressed="false">🇮🇳 Hindi</button>
+  <button type="button" class="tb-lang-btn" data-buddy-lang="en" aria-pressed="false">🇬🇧 English</button>
 </div>
 
 <div
@@ -2070,6 +2342,16 @@ Tap 🎙️ to speak • Voice questions get a spoken reply • Tap 🔊 to repl
       }
     );
 
+  panel.addEventListener(
+    "click",
+    e=>{
+      const langBtn=e.target.closest("[data-buddy-lang]");
+      if(langBtn){
+        setBuddyLanguage(langBtn.dataset.buddyLang,{announce:true});
+      }
+    }
+  );
+
   $("tannuBuddyMessages")
     .addEventListener(
       "click",
@@ -2122,6 +2404,7 @@ Tap 🎙️ to speak • Voice questions get a spoken reply • Tap 🔊 to repl
   );
 
   updatePill();
+  setBuddyLanguage(buddyLanguage,{announce:false});
 }
 
 function updatePill(){
@@ -2219,12 +2502,7 @@ function addMessage(
 }
 
 function welcome(){
-
-  return hiMode()
-
-    ?`Hi ${firstName()} 😊! Main tumhara Class ${studentClass} Learning Buddy hoon. Normal chat ke saath Computer, Network, Safety, AI, Coding, Science, English, Healthy Habits, Math, GK aur IT Lab help me bhi support kar sakta hoon.`
-
-    :`Hi ${firstName()} 😊! I am your Class ${studentClass} Learning Buddy. I can chat normally and also help with Computer, Network, Safety, AI, Coding, Science, English, Healthy Habits, Math, GK and IT Lab questions.`;
+  return `Hi ${firstName()} 😊! I am your Classes 1–6 Learning Buddy. You can chat with me normally and ask about the full Academy learning platform, Computer, Hardware, Windows, Network, IT Labs, Safety, AI, Coding, Science, English, Healthy Habits, Math, General Knowledge and other safe school-level questions. Choose 🇮🇳 Hindi or 🇬🇧 English anytime.`;
 }
 
 function openPanel(){
@@ -2247,10 +2525,10 @@ function openPanel(){
       welcome(),
       [
         "Computer",
+        "Patna",
+        "90-Day Program",
+        "Practical Lab",
         "Network",
-        "Safety",
-        "AI",
-        "Coding",
         "Science",
         "Math",
         "GK"
