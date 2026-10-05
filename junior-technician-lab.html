@@ -455,6 +455,432 @@
   }
   </style>
 
+
+  <!-- ============================================================
+       V31.11 — STAGE 1 REAL KEYBOARD + EXTRA DEVICE SEPARATION
+       VISUAL ONLY / SAFE ADD-ON
+       - Real QWERTY / number / function-key keyboard face
+       - Monitor shifted toward left open area
+       - Tower shifted left away from speaker
+       - Printer + UPS separated
+       - Desktop + mobile spacing improved
+       - Existing port IDs and mission logic untouched
+       ============================================================ -->
+  <style id="v3111-real-keyboard-device-spacing">
+
+  /* ==========================================================
+     DESKTOP DEVICE POSITIONS
+     ========================================================== */
+  #simulator.v30-stage1-enhanced .monitor-device{
+    left:23% !important;
+    top:17% !important;
+    width:35% !important;
+    height:28% !important;
+  }
+
+  #simulator.v30-stage1-enhanced .tower-device{
+    right:20% !important;
+    top:22% !important;
+    width:16% !important;
+    height:38% !important;
+  }
+
+  #simulator.v30-stage1-enhanced .speaker-device{
+    right:3.5% !important;
+    top:35% !important;
+    width:8% !important;
+    height:20% !important;
+  }
+
+  /* Printer goes slightly higher/left.
+     UPS goes lower/right so they do not touch. */
+  #simulator.v30-stage1-enhanced .printer-device{
+    left:3% !important;
+    bottom:35% !important;
+    width:15% !important;
+    height:17% !important;
+  }
+
+  #simulator.v30-stage1-enhanced .ups-device{
+    left:20% !important;
+    bottom:17% !important;
+    width:15% !important;
+    height:15.5% !important;
+  }
+
+  /* Larger keyboard for a realistic visible key layout */
+  #simulator.v30-stage1-enhanced .keyboard-device{
+    left:38.5% !important;
+    bottom:18.5% !important;
+    width:30.5% !important;
+    height:10.5% !important;
+    min-height:66px !important;
+    overflow:visible !important;
+    padding:0 !important;
+    border-radius:11px !important;
+    background:
+      linear-gradient(180deg,#424d5f,#252d3b) !important;
+  }
+
+  #simulator.v30-stage1-enhanced .keyboard-device:before{
+    display:none !important;
+  }
+
+  #simulator.v30-stage1-enhanced .mouse-device{
+    left:73% !important;
+    bottom:18.7% !important;
+    width:7% !important;
+    height:9% !important;
+  }
+
+
+  /* ==========================================================
+     REAL KEYBOARD VISUAL
+     ========================================================== */
+  #simulator.v30-stage1-enhanced .v3111-keyboard-face{
+    position:absolute;
+    left:5px;
+    right:9%;
+    top:5px;
+    bottom:5px;
+    z-index:2;
+    display:grid;
+    grid-template-rows:repeat(6,minmax(0,1fr));
+    gap:2px;
+    pointer-events:none;
+    user-select:none;
+  }
+
+  #simulator.v30-stage1-enhanced .v3111-kb-row{
+    display:flex;
+    gap:2px;
+    min-width:0;
+  }
+
+  #simulator.v30-stage1-enhanced .v3111-kb-key{
+    min-width:0;
+    flex:1 1 0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    overflow:hidden;
+    border-radius:2px;
+    border:1px solid rgba(225,234,246,.26);
+    background:
+      linear-gradient(180deg,#667285,#3e4859);
+    color:#f7fbff;
+    font-size:5px;
+    line-height:1;
+    font-weight:800;
+    text-shadow:0 1px 1px rgba(0,0,0,.45);
+    box-shadow:
+      inset 0 1px 0 rgba(255,255,255,.16),
+      0 1px 1px rgba(0,0,0,.25);
+  }
+
+  #simulator.v30-stage1-enhanced .v3111-kb-key.fn{
+    color:#d7e9ff;
+    background:linear-gradient(180deg,#536276,#344050);
+    font-size:4.4px;
+  }
+
+  #simulator.v30-stage1-enhanced .v3111-kb-key.w12{
+    flex:1.25 1 0;
+  }
+
+  #simulator.v30-stage1-enhanced .v3111-kb-key.w15{
+    flex:1.55 1 0;
+  }
+
+  #simulator.v30-stage1-enhanced .v3111-kb-key.w18{
+    flex:1.85 1 0;
+  }
+
+  #simulator.v30-stage1-enhanced .v3111-kb-key.space{
+    flex:5 1 0;
+    color:#bfcbe0;
+  }
+
+  /* Keep actual working USB endpoint above keyboard art */
+  #simulator.v30-stage1-enhanced [data-port="keyboard-plug"]{
+    z-index:12 !important;
+    right:-32px !important;
+    top:18% !important;
+  }
+
+
+  /* ==========================================================
+     PORT SPACING AFTER DEVICE MOVEMENT
+     ========================================================== */
+  #simulator.v30-stage1-enhanced .port.monitor-hdmi{
+    left:35% !important;
+    bottom:-20px !important;
+  }
+
+  #simulator.v30-stage1-enhanced .port.monitor-power{
+    right:5% !important;
+    bottom:-20px !important;
+  }
+
+  #simulator.v30-stage1-enhanced .port.tower-hdmi{
+    left:-47px !important;
+    top:17% !important;
+  }
+
+  #simulator.v30-stage1-enhanced [data-port="tower-usb1"]{
+    left:-47px !important;
+    top:31% !important;
+  }
+
+  #simulator.v30-stage1-enhanced [data-port="tower-usb2"]{
+    left:-47px !important;
+    top:45% !important;
+  }
+
+  #simulator.v30-stage1-enhanced .port.tower-lan{
+    left:-47px !important;
+    top:60% !important;
+  }
+
+  #simulator.v30-stage1-enhanced .port.tower-audio{
+    left:-47px !important;
+    top:78% !important;
+  }
+
+  #simulator.v30-stage1-enhanced [data-port="tower-printer"]{
+    left:-47px !important;
+    top:92% !important;
+  }
+
+  #simulator.v30-stage1-enhanced .port.tower-power{
+    right:-47px !important;
+    top:61% !important;
+  }
+
+  #simulator.v30-stage1-enhanced .port.ups-out{
+    left:-35px !important;
+    top:20% !important;
+  }
+
+  #simulator.v30-stage1-enhanced .port.ups-out2{
+    left:-35px !important;
+    top:59% !important;
+  }
+
+  #simulator.v30-stage1-enhanced .port.ups-in{
+    right:-35px !important;
+    bottom:9% !important;
+  }
+
+  #simulator.v30-stage1-enhanced .port.printer-usb{
+    right:-31px !important;
+    bottom:12% !important;
+  }
+
+
+  /* ==========================================================
+     MEDIUM DESKTOP / TABLET
+     ========================================================== */
+  @media(max-width:1200px){
+
+    #simulator.v30-stage1-enhanced .monitor-device{
+      left:20% !important;
+      top:16% !important;
+      width:39% !important;
+      height:27% !important;
+    }
+
+    #simulator.v30-stage1-enhanced .tower-device{
+      right:17% !important;
+      top:24% !important;
+      width:18% !important;
+      height:34% !important;
+    }
+
+    #simulator.v30-stage1-enhanced .speaker-device{
+      right:2% !important;
+      top:36% !important;
+      width:9% !important;
+      height:18% !important;
+    }
+
+    #simulator.v30-stage1-enhanced .printer-device{
+      left:3% !important;
+      bottom:35% !important;
+      width:17% !important;
+      height:15.5% !important;
+    }
+
+    #simulator.v30-stage1-enhanced .ups-device{
+      left:21% !important;
+      bottom:19% !important;
+      width:17% !important;
+      height:13% !important;
+    }
+
+    #simulator.v30-stage1-enhanced .keyboard-device{
+      left:40% !important;
+      bottom:21.5% !important;
+      width:29% !important;
+      height:9% !important;
+      min-height:62px !important;
+    }
+
+    #simulator.v30-stage1-enhanced .mouse-device{
+      left:74% !important;
+      bottom:21.8% !important;
+      width:8% !important;
+      height:8% !important;
+    }
+  }
+
+
+  /* ==========================================================
+     MOBILE
+     More separation between monitor / tower / speaker and
+     printer / UPS while keeping tap targets usable.
+     ========================================================== */
+  @media(max-width:700px){
+
+    #simulator.v30-stage1-enhanced{
+      min-height:1160px !important;
+    }
+
+    #simulator.v30-stage1-enhanced .monitor-device{
+      left:12% !important;
+      top:14% !important;
+      width:43% !important;
+      height:23% !important;
+    }
+
+    #simulator.v30-stage1-enhanced .tower-device{
+      right:20% !important;
+      top:27% !important;
+      width:20% !important;
+      height:26% !important;
+    }
+
+    #simulator.v30-stage1-enhanced .speaker-device{
+      right:.5% !important;
+      top:38% !important;
+      width:10% !important;
+      height:16% !important;
+    }
+
+    #simulator.v30-stage1-enhanced .printer-device{
+      left:3% !important;
+      bottom:39% !important;
+      width:18% !important;
+      height:13% !important;
+    }
+
+    #simulator.v30-stage1-enhanced .ups-device{
+      left:11% !important;
+      bottom:25% !important;
+      width:21% !important;
+      height:10.5% !important;
+    }
+
+    #simulator.v30-stage1-enhanced .keyboard-device{
+      left:35% !important;
+      bottom:25.5% !important;
+      width:34% !important;
+      height:7.8% !important;
+      min-height:74px !important;
+    }
+
+    #simulator.v30-stage1-enhanced .mouse-device{
+      left:74% !important;
+      bottom:25.8% !important;
+      width:10% !important;
+      height:7% !important;
+    }
+
+    #simulator.v30-stage1-enhanced .v3111-keyboard-face{
+      left:4px;
+      right:11%;
+      top:4px;
+      bottom:4px;
+      gap:1px;
+    }
+
+    #simulator.v30-stage1-enhanced .v3111-kb-row{
+      gap:1px;
+    }
+
+    #simulator.v30-stage1-enhanced .v3111-kb-key{
+      border-radius:1.5px;
+      font-size:4px;
+      border-width:1px;
+    }
+
+    #simulator.v30-stage1-enhanced .v3111-kb-key.fn{
+      font-size:3.5px;
+    }
+
+    #simulator.v30-stage1-enhanced .port.tower-hdmi{
+      left:-42px !important;
+      top:15% !important;
+    }
+
+    #simulator.v30-stage1-enhanced [data-port="tower-usb1"]{
+      left:-42px !important;
+      top:28% !important;
+    }
+
+    #simulator.v30-stage1-enhanced [data-port="tower-usb2"]{
+      left:-42px !important;
+      top:41% !important;
+    }
+
+    #simulator.v30-stage1-enhanced .port.tower-lan{
+      left:-42px !important;
+      top:56% !important;
+    }
+
+    #simulator.v30-stage1-enhanced .port.tower-audio{
+      left:-42px !important;
+      top:73% !important;
+    }
+
+    #simulator.v30-stage1-enhanced [data-port="tower-printer"]{
+      left:-42px !important;
+      top:88% !important;
+    }
+
+    #simulator.v30-stage1-enhanced .port.tower-power{
+      right:-40px !important;
+      top:58% !important;
+    }
+
+    #simulator.v30-stage1-enhanced [data-port="keyboard-plug"]{
+      right:-28px !important;
+      top:13% !important;
+    }
+
+    #simulator.v30-stage1-enhanced .port.ups-out{
+      left:-30px !important;
+      top:17% !important;
+    }
+
+    #simulator.v30-stage1-enhanced .port.ups-out2{
+      left:-30px !important;
+      top:55% !important;
+    }
+
+    #simulator.v30-stage1-enhanced .port.ups-in{
+      right:-30px !important;
+      bottom:7% !important;
+    }
+
+    #simulator.v30-stage1-enhanced .port.printer-usb{
+      right:-28px !important;
+      bottom:10% !important;
+    }
+  }
+
+  </style>
+
 </head>
 <body>
   <div class="ambient ambient-a"></div>
@@ -628,5 +1054,96 @@
   <script src="junior-technician-lab.js?v=31.9"></script>
   <script src="junior-technician-stage1-v29.js?v=29.0"></script>
     <script src="junior-technician-stage1-v30.js?v=30.1"></script>
+
+  <script id="v3111KeyboardVisualScript">
+  (() => {
+    "use strict";
+
+    if(window.__v3111KeyboardVisual) return;
+    window.__v3111KeyboardVisual = true;
+
+    const ROWS = [
+      [
+        ["Esc","fn"],["F1","fn"],["F2","fn"],["F3","fn"],["F4","fn"],
+        ["F5","fn"],["F6","fn"],["F7","fn"],["F8","fn"],["F9","fn"],
+        ["F10","fn"],["F11","fn"],["F12","fn"]
+      ],
+      [
+        ["`",""],["1",""],["2",""],["3",""],["4",""],["5",""],["6",""],
+        ["7",""],["8",""],["9",""],["0",""],["-",""],["=",""],["⌫","w15"]
+      ],
+      [
+        ["Tab","w15"],["Q",""],["W",""],["E",""],["R",""],["T",""],["Y",""],
+        ["U",""],["I",""],["O",""],["P",""],["[",""],["]",""],["\\","w12"]
+      ],
+      [
+        ["Caps","w18"],["A",""],["S",""],["D",""],["F",""],["G",""],["H",""],
+        ["J",""],["K",""],["L",""],[";",""],["'",""],["Enter","w18"]
+      ],
+      [
+        ["Shift","w18"],["Z",""],["X",""],["C",""],["V",""],["B",""],["N",""],
+        ["M",""],[",",""],[".",""],["/",""],["Shift","w18"]
+      ],
+      [
+        ["Ctrl","w12"],["Win","w12"],["Alt","w12"],["SPACE","space"],
+        ["Alt","w12"],["Fn","w12"],["Ctrl","w12"]
+      ]
+    ];
+
+    function esc(s){
+      return String(s).replace(/[&<>"']/g, c => ({
+        "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+      }[c]));
+    }
+
+    function keyboardHtml(){
+      return `
+        <div class="v3111-keyboard-face" aria-hidden="true">
+          ${ROWS.map(row => `
+            <div class="v3111-kb-row">
+              ${row.map(([label, cls]) => `
+                <span class="v3111-kb-key ${cls || ""}">${esc(label)}</span>
+              `).join("")}
+            </div>
+          `).join("")}
+        </div>
+      `;
+    }
+
+    function enhanceKeyboard(){
+      const sim = document.getElementById("simulator");
+      if(!sim || !sim.classList.contains("v30-stage1-enhanced")) return;
+
+      const keyboard = sim.querySelector(".keyboard-device");
+      if(!keyboard || keyboard.querySelector(".v3111-keyboard-face")) return;
+
+      keyboard.insertAdjacentHTML("afterbegin", keyboardHtml());
+    }
+
+    let raf = 0;
+    function schedule(){
+      cancelAnimationFrame(raf);
+      raf = requestAnimationFrame(enhanceKeyboard);
+    }
+
+    const sim = document.getElementById("simulator");
+    if(sim){
+      new MutationObserver(schedule).observe(sim,{
+        childList:true,
+        subtree:true
+      });
+    }
+
+    if(document.readyState === "loading"){
+      document.addEventListener("DOMContentLoaded", schedule, {once:true});
+    }else{
+      schedule();
+    }
+
+    setTimeout(enhanceKeyboard,100);
+    setTimeout(enhanceKeyboard,500);
+  })();
+  </script>
+
 </body>
 </html>
