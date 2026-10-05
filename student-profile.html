@@ -476,6 +476,352 @@
 }
 </style>
 
+
+
+<!-- ============================================================
+     V39.6 — CLASS 4–6 STUDENT PROFILE UI POLISH
+     SAFE ADDITIVE PATCH
+     - Top nav: Home → Me → Rewards → Main Page → Password → Logout
+     - Move Speak / Health / Safety / My Work beside GK World
+     - Compact the dashboard to remove wasted space
+     - Only activates for Class 4, 5 and 6
+     ============================================================ -->
+<style id="studentAdvancedCompactV396">
+body.sp-advanced-compact-v396 .top .bar{
+  min-height:64px!important;
+  padding:8px 12px!important;
+}
+
+body.sp-advanced-compact-v396 .top .nav{
+  gap:6px!important;
+  flex-wrap:nowrap!important;
+}
+
+body.sp-advanced-compact-v396 .top .nav button,
+body.sp-advanced-compact-v396 .top .nav a{
+  min-height:40px!important;
+  padding:9px 12px!important;
+  white-space:nowrap!important;
+}
+
+body.sp-advanced-compact-v396 .top .nav [data-view="dashboard"]{
+  background:linear-gradient(135deg,#eaf4ff,#f7fbff)!important;
+  color:#2467ba!important;
+  border-color:#d8e9fb!important;
+}
+
+body.sp-advanced-compact-v396 .top .nav [data-view="profile"]{
+  background:linear-gradient(135deg,#f4efff,#fbf9ff)!important;
+  color:#654eb0!important;
+  border-color:#e5dcfa!important;
+}
+
+body.sp-advanced-compact-v396 .top .nav [data-view="rewards"]{
+  background:linear-gradient(135deg,#fff7df,#fffdf5)!important;
+  color:#956b13!important;
+  border-color:#f0e1b8!important;
+}
+
+body.sp-advanced-compact-v396 .top .nav a[href="index.html"]{
+  background:linear-gradient(135deg,#e9fbff,#f6fdff)!important;
+  color:#237e9b!important;
+  border-color:#d2edf5!important;
+}
+
+/* ---------- LOWER LEARNING NAV ---------- */
+body.sp-advanced-compact-v396 .tabs{
+  width:100%!important;
+  margin:12px 0 10px!important;
+  padding:6px!important;
+  gap:6px!important;
+  justify-content:flex-start!important;
+}
+
+body.sp-advanced-compact-v396 .tabs button,
+body.sp-advanced-compact-v396 .tabs a{
+  min-height:39px!important;
+  padding:9px 13px!important;
+  font-size:10px!important;
+  border-radius:12px!important;
+}
+
+body.sp-advanced-compact-v396 .tabs .sp-adv-moved-tab[data-view="speaking"]{
+  background:linear-gradient(135deg,#fff0dd,#fff9ee)!important;
+  color:#98611b!important;
+  border-color:#f1dcbc!important;
+}
+
+body.sp-advanced-compact-v396 .tabs .sp-adv-moved-tab[data-view="healthy"]{
+  background:linear-gradient(135deg,#eafbee,#f7fff8)!important;
+  color:#267e57!important;
+  border-color:#d4eed9!important;
+}
+
+body.sp-advanced-compact-v396 .tabs .sp-adv-moved-tab[data-view="citizen"]{
+  background:linear-gradient(135deg,#eaf8ff,#f7fcff)!important;
+  color:#247a9d!important;
+  border-color:#d3eaf5!important;
+}
+
+body.sp-advanced-compact-v396 .tabs .sp-adv-moved-tab[data-view="portfolio"]{
+  background:linear-gradient(135deg,#fff2dc,#fff9ee)!important;
+  color:#946816!important;
+  border-color:#f0dfb9!important;
+}
+
+body.sp-advanced-compact-v396 .tabs .sp-adv-moved-tab.active{
+  color:#fff!important;
+  border-color:transparent!important;
+  background:linear-gradient(135deg,#5f61ed,#28c9c0)!important;
+}
+
+/* ---------- COMPACT CLASS 4–6 DASHBOARD ---------- */
+body.sp-advanced-compact-v396 #view-dashboard.view.show{
+  display:grid!important;
+  grid-template-columns:minmax(280px,.72fr) minmax(0,1.28fr)!important;
+  gap:12px 14px!important;
+  align-items:start!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard > .dashboard{
+  grid-column:1 / -1!important;
+  grid-template-columns:minmax(0,.88fr) minmax(0,1.12fr)!important;
+  gap:12px!important;
+  margin-top:8px!important;
+  align-items:start!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard > .section:nth-of-type(1){
+  grid-column:1 / -1!important;
+  margin-top:0!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard > .section:nth-of-type(2){
+  grid-column:1!important;
+  margin-top:0!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard > .section:nth-of-type(3){
+  grid-column:2!important;
+  margin-top:0!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard .panel{
+  padding:14px!important;
+  border-radius:18px!important;
+  box-shadow:0 10px 28px rgba(54,49,135,.08)!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard .panel h2,
+body.sp-advanced-compact-v396 #view-dashboard .section-head h2{
+  font-size:16px!important;
+  margin:0 0 4px!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard .panel > p,
+body.sp-advanced-compact-v396 #view-dashboard .section-head p{
+  font-size:9px!important;
+  line-height:1.4!important;
+  margin-top:2px!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard .stats{
+  gap:6px!important;
+  margin-top:8px!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard .stat{
+  padding:9px 5px!important;
+  border-radius:12px!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard .stat b{
+  font-size:16px!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard .stat small{
+  font-size:6.5px!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard .progress{
+  height:7px!important;
+  margin:9px 0!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard .skills{
+  display:grid!important;
+  grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  gap:5px 12px!important;
+  margin-top:8px!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard .skill{
+  grid-template-columns:72px minmax(0,1fr) 30px!important;
+  gap:6px!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard .skill b{
+  font-size:8px!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard .skill .track{
+  height:6px!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard .skill span{
+  font-size:7px!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard .mission-grid{
+  grid-template-columns:repeat(5,minmax(0,1fr))!important;
+  gap:7px!important;
+  margin-top:8px!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard .mission{
+  min-height:76px!important;
+  padding:9px!important;
+  border-radius:13px!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard .mission span{
+  font-size:19px!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard .mission b{
+  font-size:9px!important;
+  margin-top:4px!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard .mission small{
+  font-size:7px!important;
+  line-height:1.3!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard .focus-box{
+  margin-top:8px!important;
+  padding:9px 11px!important;
+  border-radius:12px!important;
+  font-size:8px!important;
+  line-height:1.4!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard .section-head{
+  margin-bottom:7px!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard > .section:nth-of-type(2){
+  padding:13px!important;
+  border:1px solid var(--line)!important;
+  border-radius:18px!important;
+  background:#fff!important;
+  box-shadow:0 10px 28px rgba(54,49,135,.08)!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard > .section:nth-of-type(2) .section-head{
+  align-items:center!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard #continueLesson{
+  width:100%!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard #continueLesson .lesson-card{
+  min-height:0!important;
+  padding:10px!important;
+  border-radius:15px!important;
+  box-shadow:none!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard #continueLesson .lesson-card .visual{
+  height:76px!important;
+  border-radius:12px!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard #continueLesson .lesson-card h3{
+  margin:7px 0 3px!important;
+  font-size:11px!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard #continueLesson .lesson-card p{
+  margin:0 0 7px!important;
+  font-size:7.5px!important;
+  line-height:1.35!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard #continueLesson .lesson-card button{
+  padding:7px!important;
+  font-size:8px!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard .report-grid{
+  grid-template-columns:repeat(3,minmax(0,1fr))!important;
+  gap:7px!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard .report-box{
+  padding:10px!important;
+  border-radius:13px!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard .report-box b{
+  font-size:9px!important;
+}
+
+body.sp-advanced-compact-v396 #view-dashboard .report-box small{
+  font-size:7px!important;
+}
+
+@media(max-width:1100px){
+  body.sp-advanced-compact-v396 .top .nav{
+    flex-wrap:wrap!important;
+  }
+
+  body.sp-advanced-compact-v396 #view-dashboard .skills{
+    grid-template-columns:1fr!important;
+  }
+}
+
+@media(max-width:850px){
+  body.sp-advanced-compact-v396 #view-dashboard.view.show{
+    grid-template-columns:1fr!important;
+  }
+
+  body.sp-advanced-compact-v396 #view-dashboard > .dashboard,
+  body.sp-advanced-compact-v396 #view-dashboard > .section:nth-of-type(1),
+  body.sp-advanced-compact-v396 #view-dashboard > .section:nth-of-type(2),
+  body.sp-advanced-compact-v396 #view-dashboard > .section:nth-of-type(3){
+    grid-column:1!important;
+  }
+
+  body.sp-advanced-compact-v396 #view-dashboard > .dashboard{
+    grid-template-columns:1fr!important;
+  }
+
+  body.sp-advanced-compact-v396 #view-dashboard .mission-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+}
+
+@media(max-width:520px){
+  body.sp-advanced-compact-v396 .tabs{
+    justify-content:center!important;
+  }
+
+  body.sp-advanced-compact-v396 #view-dashboard .stats{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+
+  body.sp-advanced-compact-v396 #view-dashboard .mission-grid{
+    grid-template-columns:1fr!important;
+  }
+
+  body.sp-advanced-compact-v396 #view-dashboard .report-grid{
+    grid-template-columns:1fr!important;
+  }
+}
+</style>
+
 </head><body>
 <header class="top"><div class="bar"><div class="logo"><span>T</span></div><div class="brand"><b>My Learning Universe</b><small>TANNU SIR'S KIDS DIGITAL ACADEMY</small></div><nav class="nav">
   <button data-view="dashboard">🏠 Dashboard</button>
@@ -666,6 +1012,201 @@ let recognition=null,conversation={step:0,name:'',feeling:'',classText:'',hobby:
   setTimeout(cleanTopNav,50);
   setTimeout(cleanTopNav,350);
   setTimeout(cleanTopNav,1000);
+})();
+</script>
+
+
+
+<script id="studentAdvancedCompactV396Script">
+(() => {
+  "use strict";
+
+  if(window.__studentAdvancedCompactV396) return;
+  window.__studentAdvancedCompactV396 = true;
+
+  let active = false;
+  let syncing = false;
+  let scheduled = false;
+
+  const topLabels = {
+    dashboard: "🏠 Home",
+    profile: "👤 Me",
+    rewards: "🏆 Rewards"
+  };
+
+  const movedTabs = [
+    ["speaking", "🗣️ Speak"],
+    ["healthy", "🌱 Health"],
+    ["citizen", "🛡️ Safety"],
+    ["portfolio", "🎒 My Work"]
+  ];
+
+  const baseTabLabels = {
+    dashboard: "🏠 Home",
+    lessons: "📚 Learn",
+    labs: "🧪 Labs",
+    practice: "🎮 Games",
+    tests: "📝 Tests",
+    battle: "⚔️ Battle"
+  };
+
+  function classNumber(){
+    const chip = document.getElementById("classChip");
+    const text = String(chip?.textContent || "");
+    const match = text.match(/class\s*(\d+)/i);
+    return match ? Number(match[1]) : 0;
+  }
+
+  function isClass46(){
+    const n = classNumber();
+    return n >= 4 && n <= 6;
+  }
+
+  function findGkButton(tabs){
+    return tabs.querySelector('[data-view="gk"]') ||
+      [...tabs.querySelectorAll("button,a")].find(el =>
+        /gk\s*world/i.test(String(el.textContent || ""))
+      ) || null;
+  }
+
+  function ensureMovedButton(view,label){
+    const nav = document.querySelector(".top .nav");
+    const tabs = document.querySelector(".tabs");
+    if(!tabs) return null;
+
+    let button =
+      tabs.querySelector(`[data-view="${view}"]`) ||
+      nav?.querySelector(`[data-view="${view}"]`);
+
+    if(!button){
+      button = document.createElement("button");
+      button.type = "button";
+      button.dataset.view = view;
+    }
+
+    button.textContent = label;
+    button.classList.add("sp-adv-moved-tab");
+    return button;
+  }
+
+  function syncAdvancedUi(){
+    if(syncing || !active) return;
+    syncing = true;
+
+    try{
+      const nav = document.querySelector(".top .nav");
+      const tabs = document.querySelector(".tabs");
+      if(!nav || !tabs) return;
+
+      document.body.classList.add("sp-advanced-compact-v396");
+
+      /* Top navigation labels */
+      Object.entries(topLabels).forEach(([view,label]) => {
+        const el = nav.querySelector(`[data-view="${view}"]`);
+        if(el) el.textContent = label;
+      });
+
+      const mainPage = nav.querySelector('a[href="index.html"]');
+      if(mainPage) mainPage.textContent = "🌐 Main Page";
+
+      /* Lower navigation base labels */
+      Object.entries(baseTabLabels).forEach(([view,label]) => {
+        const el = tabs.querySelector(`[data-view="${view}"]`);
+        if(el) el.textContent = label;
+      });
+
+      /* Move Speak / Health / Safety / My Work beside GK World. */
+      const moved = movedTabs
+        .map(([view,label]) => ensureMovedButton(view,label))
+        .filter(Boolean);
+
+      let anchor = findGkButton(tabs) || tabs.querySelector('[data-view="battle"]');
+
+      moved.forEach(button => {
+        if(!anchor){
+          tabs.appendChild(button);
+          anchor = button;
+          return;
+        }
+
+        if(anchor.nextElementSibling !== button){
+          tabs.insertBefore(button,anchor.nextElementSibling);
+        }
+        anchor = button;
+      });
+
+      /* Top order: Home → Me → Rewards → Main Page → Password → Logout */
+      const home = nav.querySelector('[data-view="dashboard"]');
+      const me = nav.querySelector('[data-view="profile"]');
+      const rewards = nav.querySelector('[data-view="rewards"]');
+      const password = nav.querySelector('#spNavPasswordBtn');
+      const logout = nav.querySelector('.danger') ||
+        [...nav.querySelectorAll('button')].find(b => /logout/i.test(b.textContent || ""));
+
+      const wanted = [home,me,rewards,mainPage,password,logout].filter(Boolean);
+
+      wanted.forEach((el,index) => {
+        const current = nav.children[index];
+        if(current !== el){
+          nav.insertBefore(el,current || null);
+        }
+      });
+
+      /* Remove any stale Class 4–6-only top items if an older enhancer recreates them. */
+      ["speaking","healthy","citizen","portfolio"].forEach(view => {
+        const duplicate = nav.querySelector(`[data-view="${view}"]`);
+        if(duplicate){
+          const label = movedTabs.find(x => x[0] === view)?.[1] || view;
+          const target = ensureMovedButton(view,label);
+          if(target && target !== duplicate){
+            duplicate.remove();
+          }
+        }
+      });
+
+    } finally {
+      syncing = false;
+    }
+  }
+
+  function scheduleSync(){
+    if(!active || scheduled) return;
+    scheduled = true;
+    requestAnimationFrame(() => {
+      scheduled = false;
+      syncAdvancedUi();
+    });
+  }
+
+  function activateWhenReady(){
+    if(active) return;
+    if(!isClass46()) return;
+
+    active = true;
+    syncAdvancedUi();
+
+    const nav = document.querySelector(".top .nav");
+    const tabs = document.querySelector(".tabs");
+
+    const observer = new MutationObserver(scheduleSync);
+    if(nav) observer.observe(nav,{childList:true});
+    if(tabs) observer.observe(tabs,{childList:true});
+
+    /* Covers delayed Password / GK World enhancers. */
+    [80,250,600,1200,2200].forEach(ms => setTimeout(scheduleSync,ms));
+  }
+
+  let attempts = 0;
+  const timer = setInterval(() => {
+    attempts++;
+    activateWhenReady();
+    if(active || attempts >= 80) clearInterval(timer);
+  },125);
+
+  window.addEventListener("pageshow",() => {
+    if(active) scheduleSync();
+    else activateWhenReady();
+  });
 })();
 </script>
 
