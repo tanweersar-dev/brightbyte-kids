@@ -1,5 +1,5 @@
 /* ============================================================
-   V40.14 — FOUNDATION SKILLS UNIVERSE • CLASS 1–3
+   V40.14.1 — FOUNDATION SKILLS UNIVERSE • CLASS 1–3 • STABLE RETURN NAVIGATION
    Presentation + navigation only.
    Existing student-profile course/progress remains the source of truth.
    ============================================================ */
@@ -260,11 +260,17 @@ function classStage(c){
 }
 
 function viewHref(view){
-  return `student-profile.html?view=${encodeURIComponent(view)}`;
+  return `student-profile.html?view=${encodeURIComponent(view)}&from=foundation`;
+}
+
+function withFoundationReturn(href){
+  if(!href) return href;
+  const join = href.includes("?") ? "&" : "?";
+  return `${href}${join}from=foundation`;
 }
 
 function worldTarget(w){
-  return w.href || viewHref(w.view || "dashboard");
+  return w.href ? withFoundationReturn(w.href) : viewHref(w.view || "dashboard");
 }
 
 function speak(text){
