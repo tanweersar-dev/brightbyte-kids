@@ -1,11 +1,193 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin Center — Tannu Sir's Kids Digital Academy</title><style>*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,sans-serif;background:#f5f6ff;color:#222747}button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}.auth{min-height:100vh;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at 15% 20%,#5f50ff44,transparent 30%),linear-gradient(135deg,#101538,#191f50)}.card{width:min(470px,100%);background:#fff;border-radius:28px;padding:28px;box-shadow:0 30px 90px #0005}.brand{display:flex;align-items:center;gap:12px}.brand .t-logo{width:58px;height:58px}.brand h1{margin:0}.brand p{margin:4px 0;color:#717896}.field{margin-top:13px}.field label{display:block;font-size:11px;font-weight:900;margin-bottom:5px}.field input,.field select,.field textarea{width:100%;border:1px solid #dfe2f1;border-radius:13px;padding:12px;outline:none}.btn{border:0;border-radius:13px;padding:11px 14px;font-weight:900}.primary{background:linear-gradient(135deg,#6d5cff,#28cfc2);color:#fff}.soft{background:#efedff;color:#5549c7}.danger{background:#ffe8ed;color:#c33f58}.login{width:100%;margin-top:16px}.home{display:block;text-align:center;margin-top:10px;text-decoration:none}.shell{min-height:100vh;display:grid;grid-template-columns:245px 1fr}aside{background:#151b4c;color:#fff;padding:19px;position:sticky;top:0;height:100vh}aside .brand h1{font-size:17px}aside .brand p{font-size:9px;color:#bbc4eb}nav{display:grid;gap:7px;margin-top:24px}nav button,nav a{border:0;border-radius:12px;padding:11px;text-align:left;text-decoration:none;color:#fff;background:#ffffff0d}main{padding:24px}.top{display:flex;justify-content:space-between;gap:15px;align-items:center}.top-actions{display:flex;gap:8px;flex-wrap:wrap}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}.stat{background:#fff;border-radius:20px;padding:18px;box-shadow:0 12px 34px #4b45901a}.stat b,.stat small{display:block}.stat b{font-size:30px;margin:8px 0}.toolbar{display:flex;justify-content:space-between;gap:10px;margin:15px 0}.toolbar input{flex:1;max-width:420px;border:1px solid #dfe2f1;border-radius:12px;padding:11px}.table{background:#fff;border-radius:20px;overflow:auto;box-shadow:0 12px 34px #4b45901a}table{width:100%;border-collapse:collapse;min-width:1050px}th,td{padding:11px;border-bottom:1px solid #edf0f7;text-align:left;font-size:11px}th{color:#747b98;font-size:9px}.pill{display:inline-block;padding:6px 8px;border-radius:999px;background:#eef0ff;color:#5049bf;font-size:9px;font-weight:900}.actions{display:flex;gap:5px;flex-wrap:wrap}.actions button{padding:7px 8px;border:0;border-radius:9px;font-size:9px}.student-link{color:#3e37a7;font-weight:950;text-decoration:none;border-bottom:1px dashed #7c72dc}.student-link:hover{color:#18a9a0}.overlay{position:fixed;inset:0;display:none;place-items:center;padding:15px;background:#090d2bbd;z-index:100}.overlay.open{display:grid}.modal{width:min(720px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:25px;padding:23px}.modal-head{display:flex;justify-content:space-between;align-items:center}.x{width:38px;height:38px;border:0;border-radius:50%}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.wide{grid-column:1/-1}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:15px}.toast{position:fixed;left:50%;bottom:18px;transform:translate(-50%,100px);background:#1d2248;color:#fff;padding:11px 16px;border-radius:99px;transition:.2s}.toast.show{transform:translate(-50%,0)}@media(max-width:850px){.shell{grid-template-columns:1fr}aside{position:static;height:auto}nav{grid-template-columns:repeat(3,1fr)}main{padding:14px}.stats{grid-template-columns:1fr 1fr}}@media(max-width:560px){.top{display:block}.top-actions{margin-top:10px}.grid{grid-template-columns:1fr}.wide{grid-column:auto}nav{grid-template-columns:1fr 1fr}}</style></head><body><div id="sessionLoader" class="auth">
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin Center — Tannu Sir's Kids Digital Academy</title><style>*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,sans-serif;background:#f5f6ff;color:#222747}button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}.auth{min-height:100vh;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at 15% 20%,#5f50ff44,transparent 30%),linear-gradient(135deg,#101538,#191f50)}.card{width:min(470px,100%);background:#fff;border-radius:28px;padding:28px;box-shadow:0 30px 90px #0005}.brand{display:flex;align-items:center;gap:12px}.brand .t-logo{width:58px;height:58px}.brand h1{margin:0}.brand p{margin:4px 0;color:#717896}.field{margin-top:13px}.field label{display:block;font-size:11px;font-weight:900;margin-bottom:5px}.field input,.field select,.field textarea{width:100%;border:1px solid #dfe2f1;border-radius:13px;padding:12px;outline:none}.btn{border:0;border-radius:13px;padding:11px 14px;font-weight:900}.primary{background:linear-gradient(135deg,#6d5cff,#28cfc2);color:#fff}.soft{background:#efedff;color:#5549c7}.danger{background:#ffe8ed;color:#c33f58}.login{width:100%;margin-top:16px}.home{display:block;text-align:center;margin-top:10px;text-decoration:none}.shell{min-height:100vh;display:grid;grid-template-columns:245px 1fr}aside{background:#151b4c;color:#fff;padding:19px;position:sticky;top:0;height:100vh}aside .brand h1{font-size:17px}aside .brand p{font-size:9px;color:#bbc4eb}nav{display:grid;gap:7px;margin-top:24px}nav button,nav a{border:0;border-radius:12px;padding:11px;text-align:left;text-decoration:none;color:#fff;background:#ffffff0d}main{padding:24px}.top{display:flex;justify-content:space-between;gap:15px;align-items:center}.top-actions{display:flex;gap:8px;flex-wrap:wrap}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}.stat{background:#fff;border-radius:20px;padding:18px;box-shadow:0 12px 34px #4b45901a}.stat b,.stat small{display:block}.stat b{font-size:30px;margin:8px 0}.toolbar{display:flex;justify-content:space-between;gap:10px;margin:15px 0}.toolbar input{flex:1;max-width:420px;border:1px solid #dfe2f1;border-radius:12px;padding:11px}.table{background:#fff;border-radius:20px;overflow:auto;box-shadow:0 12px 34px #4b45901a}table{width:100%;border-collapse:collapse;min-width:1050px}th,td{padding:11px;border-bottom:1px solid #edf0f7;text-align:left;font-size:11px}th{color:#747b98;font-size:9px}.pill{display:inline-block;padding:6px 8px;border-radius:999px;background:#eef0ff;color:#5049bf;font-size:9px;font-weight:900}.actions{display:flex;gap:5px;flex-wrap:wrap}.actions button{padding:7px 8px;border:0;border-radius:9px;font-size:9px}.student-link{color:#3e37a7;font-weight:950;text-decoration:none;border-bottom:1px dashed #7c72dc}.student-link:hover{color:#18a9a0}.overlay{position:fixed;inset:0;display:none;place-items:center;padding:15px;background:#090d2bbd;z-index:100}.overlay.open{display:grid}.modal{width:min(720px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:25px;padding:23px}.modal-head{display:flex;justify-content:space-between;align-items:center}.x{width:38px;height:38px;border:0;border-radius:50%}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.wide{grid-column:1/-1}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:15px}.toast{position:fixed;left:50%;bottom:18px;transform:translate(-50%,100px);background:#1d2248;color:#fff;padding:11px 16px;border-radius:99px;transition:.2s}.toast.show{transform:translate(-50%,0)}@media(max-width:850px){.shell{grid-template-columns:1fr}aside{position:static;height:auto}nav{grid-template-columns:repeat(3,1fr)}main{padding:14px}.stats{grid-template-columns:1fr 1fr}}@media(max-width:560px){.top{display:block}.top-actions{margin-top:10px}.grid{grid-template-columns:1fr}.wide{grid-column:auto}nav{grid-template-columns:1fr 1fr}}</style>
+<style id="tannuEnrollmentAdminV406Style">
+/* ============================================================
+   V40.6 — PRIVATE ENROLLMENT REQUEST ADMIN INBOX
+   ============================================================ */
+.enrollment-admin-badge{
+  display:inline-grid;
+  place-items:center;
+  min-width:20px;
+  height:20px;
+  margin-left:6px;
+  padding:0 6px;
+  border-radius:999px;
+  background:#ff4778;
+  color:#fff;
+  font-size:10px;
+  font-weight:1000;
+  box-shadow:0 0 0 3px rgba(255,71,120,.13);
+}
+.enrollment-admin-badge[hidden]{display:none!important}
+
+#enrollmentAdminBtn{
+  position:relative;
+}
+#enrollmentAdminBtn.has-new{
+  background:linear-gradient(135deg,#6a5cff,#cf5bc7)!important;
+  box-shadow:0 0 0 1px rgba(255,255,255,.12),0 0 22px rgba(207,91,199,.24);
+}
+
+.enroll-admin-summary{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:8px;
+  margin:12px 0;
+}
+.enroll-admin-summary > div{
+  padding:10px 11px;
+  border-radius:13px;
+  background:#f6f7fb;
+}
+.enroll-admin-summary b{
+  display:block;
+  font-size:18px;
+}
+.enroll-admin-summary small{
+  color:#7a819c;
+  font-size:8px;
+  font-weight:900;
+}
+
+.enroll-admin-list{
+  display:grid;
+  gap:10px;
+  max-height:62vh;
+  overflow:auto;
+  padding-right:3px;
+}
+.enroll-admin-card{
+  padding:14px;
+  border:1px solid #e7e9f4;
+  border-radius:16px;
+  background:#fff;
+}
+.enroll-admin-card.is-new{
+  border-color:#b8adff;
+  background:linear-gradient(180deg,#fff,#fbfaff);
+  box-shadow:0 8px 24px rgba(95,80,220,.08);
+}
+.enroll-admin-head{
+  display:flex;
+  justify-content:space-between;
+  gap:10px;
+  align-items:flex-start;
+}
+.enroll-admin-head h3{
+  margin:0;
+  color:#252b51;
+  font-size:15px;
+}
+.enroll-admin-head small{
+  color:#8a90a7;
+}
+.enroll-admin-status{
+  display:inline-block;
+  padding:5px 8px;
+  border-radius:999px;
+  font-size:9px;
+  font-weight:950;
+  text-transform:uppercase;
+}
+.enroll-admin-status.new{
+  background:#ffe6ef;
+  color:#a52e59;
+}
+.enroll-admin-status.contacted{
+  background:#e4faf4;
+  color:#15725e;
+}
+.enroll-admin-status.closed{
+  background:#edf0f6;
+  color:#68708b;
+}
+.enroll-admin-meta{
+  display:grid;
+  grid-template-columns:repeat(2,minmax(0,1fr));
+  gap:7px;
+  margin:11px 0;
+}
+.enroll-admin-meta div{
+  padding:9px 10px;
+  border-radius:11px;
+  background:#f6f7fb;
+  color:#5e6684;
+  font-size:10px;
+  line-height:1.45;
+}
+.enroll-admin-meta b{
+  display:block;
+  color:#272d53;
+  margin-bottom:2px;
+}
+.enroll-admin-contact{
+  word-break:break-word;
+}
+.enroll-admin-note{
+  padding:10px 11px;
+  border-radius:11px;
+  background:#fff9e9;
+  color:#6d6241;
+  font-size:10px;
+  line-height:1.5;
+  white-space:pre-wrap;
+}
+.enroll-admin-actions{
+  display:flex;
+  gap:7px;
+  flex-wrap:wrap;
+  margin-top:10px;
+}
+.enroll-admin-actions button{
+  border:0;
+  border-radius:10px;
+  padding:8px 10px;
+  font-size:10px;
+  font-weight:950;
+  cursor:pointer;
+}
+.enroll-admin-actions .contacted{
+  background:#dff8ef;
+  color:#13715d;
+}
+.enroll-admin-actions .close-request{
+  background:#edf0f6;
+  color:#59617d;
+}
+.enroll-admin-actions .reopen{
+  background:#eeeaff;
+  color:#5b49c3;
+}
+.enroll-admin-actions .copy-contact{
+  background:#e7f6ff;
+  color:#176d99;
+}
+
+.enroll-empty{
+  padding:26px;
+  text-align:center;
+  color:#737b98;
+  background:#f8f9fc;
+  border-radius:14px;
+}
+
+@media(max-width:650px){
+  .enroll-admin-meta{
+    grid-template-columns:1fr;
+  }
+  .enroll-admin-summary{
+    grid-template-columns:1fr;
+  }
+}
+</style>
+
+</head><body><div id="sessionLoader" class="auth">
   <div class="card" style="max-width:380px;text-align:center">
     <div style="width:64px;height:64px;margin:0 auto 14px;border-radius:20px;display:grid;place-items:center;background:linear-gradient(135deg,#46e4df,#7765ff,#ff67b8);color:#fff;font-size:32px;font-weight:950;box-shadow:0 14px 34px #5f50ff33">T</div>
     <h2 style="margin:0 0 7px">Academy Admin</h2>
     <p style="margin:0;color:#717896">Checking secure admin session...</p>
   </div>
 </div>
-<div id="loginScreen" class="auth hidden"><form id="loginForm" class="card"><div class="brand"><span class="t-logo" aria-label="Tannu Sir logo"><svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="tg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#46e4df"/><stop offset=".48" stop-color="#7765ff"/><stop offset="1" stop-color="#ff67b8"/></linearGradient></defs><circle cx="32" cy="32" r="29" fill="url(#tg)"/><circle cx="32" cy="32" r="23" fill="#12194b" opacity=".94"/><path d="M17 18h30v8H36v23h-8V26H17z" fill="#fff"/><path d="M13 35c8 10 30 15 40-1" fill="none" stroke="#55e1d7" stroke-width="2.5" stroke-linecap="round" opacity=".9"/><circle cx="52" cy="33" r="3.3" fill="#ffd65c"/></svg></span><div><h1>Admin Center</h1><p>Tannu Sir's Kids Digital Academy</p></div></div><div class="field"><label>Admin ID</label><input id="adminUser" autocomplete="username" placeholder="Enter Admin ID" required></div><div class="field"><label>Password</label><input id="adminPass" type="password" autocomplete="current-password" placeholder="Use your password" required></div><button class="btn primary login" type="submit">Login to Admin Center →</button><a class="btn soft home" href="index.html">🏠 Return Home</a><p style="font-size:10px;color:#777f9c">Your real admin ID/password are not displayed or stored in this page.</p></form></div><div id="app" class="shell hidden"><aside><div class="brand"><span class="t-logo" aria-label="Tannu Sir logo"><svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="tg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#46e4df"/><stop offset=".48" stop-color="#7765ff"/><stop offset="1" stop-color="#ff67b8"/></linearGradient></defs><circle cx="32" cy="32" r="29" fill="url(#tg)"/><circle cx="32" cy="32" r="23" fill="#12194b" opacity=".94"/><path d="M17 18h30v8H36v23h-8V26H17z" fill="#fff"/><path d="M13 35c8 10 30 15 40-1" fill="none" stroke="#55e1d7" stroke-width="2.5" stroke-linecap="round" opacity=".9"/><circle cx="52" cy="33" r="3.3" fill="#ffd65c"/></svg></span><div><h1>Academy Admin</h1><p>V11 • PRIVATE CONTROL CENTER</p></div></div><nav><a href="index.html">🏠 Home</a><button onclick="openCreate()">➕ Add Student</button><button onclick="manageReviews()">⭐ Review Moderation</button><a href="reviews.html">🌐 Public Reviews</a><button onclick="loadStudents()">↻ Refresh</button><button onclick="logout()">🚪 Logout</button></nav></aside><main><div class="top"><div><h1>Student Management</h1><p>Create accounts, control privacy and manage progress.</p></div><div class="top-actions"><a class="btn soft" href="index.html#students" style="text-decoration:none">Student Galaxy</a><button class="btn primary" onclick="openCreate()">+ Create Student</button></div></div><section class="stats"><article class="stat"><span>🎓</span><b id="sTotal">0</b><small>Total Students</small></article><article class="stat"><span>🌐</span><b id="sPublic">0</b><small>Public</small></article><article class="stat"><span>✅</span><b id="sActive">0</b><small>Active</small></article><article class="stat"><span>📈</span><b id="sProgress">0%</b><small>Average Progress</small></article></section><div class="toolbar"><input id="searchBox" placeholder="Search student name or ID"><button class="btn soft" onclick="loadStudents()">Refresh</button></div><div class="table"><table><thead><tr><th>STUDENT</th><th>USER ID</th><th>CLASS</th><th>ACCESS</th><th>PUBLIC</th><th>PROGRESS</th><th>STARS</th><th>LAST LOGIN</th><th>ACTIONS</th></tr></thead><tbody id="rows"></tbody></table></div></main></div><div id="overlay" class="overlay"><div id="modal" class="modal"></div></div><div id="toast" class="toast"></div><script>const API="https://api.tanweer.site";let token=localStorage.getItem("brightbyte_admin_token")||"",students=[];const $=id=>document.getElementById(id),esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));function toast(t){$("toast").textContent=t;$("toast").classList.add("show");clearTimeout(window.tt);window.tt=setTimeout(()=>$("toast").classList.remove("show"),1600)}async function api(path,opt={}){const h={...(opt.headers||{}),Authorization:`Bearer ${token}`};if(opt.body&&!h["Content-Type"])h["Content-Type"]="application/json";return fetch(API+path,{...opt,headers:h,cache:"no-store"})}function showAdminLogin(){
+<div id="loginScreen" class="auth hidden"><form id="loginForm" class="card"><div class="brand"><span class="t-logo" aria-label="Tannu Sir logo"><svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="tg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#46e4df"/><stop offset=".48" stop-color="#7765ff"/><stop offset="1" stop-color="#ff67b8"/></linearGradient></defs><circle cx="32" cy="32" r="29" fill="url(#tg)"/><circle cx="32" cy="32" r="23" fill="#12194b" opacity=".94"/><path d="M17 18h30v8H36v23h-8V26H17z" fill="#fff"/><path d="M13 35c8 10 30 15 40-1" fill="none" stroke="#55e1d7" stroke-width="2.5" stroke-linecap="round" opacity=".9"/><circle cx="52" cy="33" r="3.3" fill="#ffd65c"/></svg></span><div><h1>Admin Center</h1><p>Tannu Sir's Kids Digital Academy</p></div></div><div class="field"><label>Admin ID</label><input id="adminUser" autocomplete="username" placeholder="Enter Admin ID" required></div><div class="field"><label>Password</label><input id="adminPass" type="password" autocomplete="current-password" placeholder="Use your password" required></div><button class="btn primary login" type="submit">Login to Admin Center →</button><a class="btn soft home" href="index.html">🏠 Return Home</a><p style="font-size:10px;color:#777f9c">Your real admin ID/password are not displayed or stored in this page.</p></form></div><div id="app" class="shell hidden"><aside><div class="brand"><span class="t-logo" aria-label="Tannu Sir logo"><svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="tg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#46e4df"/><stop offset=".48" stop-color="#7765ff"/><stop offset="1" stop-color="#ff67b8"/></linearGradient></defs><circle cx="32" cy="32" r="29" fill="url(#tg)"/><circle cx="32" cy="32" r="23" fill="#12194b" opacity=".94"/><path d="M17 18h30v8H36v23h-8V26H17z" fill="#fff"/><path d="M13 35c8 10 30 15 40-1" fill="none" stroke="#55e1d7" stroke-width="2.5" stroke-linecap="round" opacity=".9"/><circle cx="52" cy="33" r="3.3" fill="#ffd65c"/></svg></span><div><h1>Academy Admin</h1><p>V11 • PRIVATE CONTROL CENTER</p></div></div><nav><a href="index.html">🏠 Home</a><button onclick="openCreate()">➕ Add Student</button><button id="enrollmentAdminBtn" onclick="manageEnrollmentRequests()">📩 Enrollment Requests <span id="enrollmentAdminBadge" class="enrollment-admin-badge" hidden>0</span></button><button onclick="manageReviews()">⭐ Review Moderation</button><a href="reviews.html">🌐 Public Reviews</a><button onclick="loadStudents()">↻ Refresh</button><button onclick="logout()">🚪 Logout</button></nav></aside><main><div class="top"><div><h1>Student Management</h1><p>Create accounts, control privacy and manage progress.</p></div><div class="top-actions"><a class="btn soft" href="index.html#students" style="text-decoration:none">Student Galaxy</a><button class="btn primary" onclick="openCreate()">+ Create Student</button></div></div><section class="stats"><article class="stat"><span>🎓</span><b id="sTotal">0</b><small>Total Students</small></article><article class="stat"><span>🌐</span><b id="sPublic">0</b><small>Public</small></article><article class="stat"><span>✅</span><b id="sActive">0</b><small>Active</small></article><article class="stat"><span>📈</span><b id="sProgress">0%</b><small>Average Progress</small></article></section><div class="toolbar"><input id="searchBox" placeholder="Search student name or ID"><button class="btn soft" onclick="loadStudents()">Refresh</button></div><div class="table"><table><thead><tr><th>STUDENT</th><th>USER ID</th><th>CLASS</th><th>ACCESS</th><th>PUBLIC</th><th>PROGRESS</th><th>STARS</th><th>LAST LOGIN</th><th>ACTIONS</th></tr></thead><tbody id="rows"></tbody></table></div></main></div><div id="overlay" class="overlay"><div id="modal" class="modal"></div></div><div id="toast" class="toast"></div><script>const API="https://api.tanweer.site";let token=localStorage.getItem("brightbyte_admin_token")||"",students=[];const $=id=>document.getElementById(id),esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));function toast(t){$("toast").textContent=t;$("toast").classList.add("show");clearTimeout(window.tt);window.tt=setTimeout(()=>$("toast").classList.remove("show"),1600)}async function api(path,opt={}){const h={...(opt.headers||{}),Authorization:`Bearer ${token}`};if(opt.body&&!h["Content-Type"])h["Content-Type"]="application/json";return fetch(API+path,{...opt,headers:h,cache:"no-store"})}function showAdminLogin(){
   $("sessionLoader")?.classList.add('hidden');
   $("app").classList.add('hidden');
   $("loginScreen").classList.remove('hidden');
@@ -167,4 +349,377 @@ async function boot(){
     `);
   }
 }async function togglePublic(id){const s=find(id);if(!s)return;const adminPassword=await authorizeAdminAction(s.is_public?'Make Student Private':'Change Student Privacy',s);if(!adminPassword)return;const r=await api('/api/admin/students/'+id,{method:'PATCH',body:JSON.stringify({status:s.status,isPublic:!s.is_public,adminPassword})}),d=await r.json();if(!r.ok)return alert(d.error||'Privacy update failed');toast(s.is_public?'Student is now private':'Student is now public');loadStudents()}async function removeStudent(id){const s=find(id);if(!s)return;const adminPassword=await authorizeAdminAction('Permanently Delete Student',s);if(!adminPassword)return;const r=await api('/api/admin/students/'+id,{method:'DELETE',body:JSON.stringify({adminPassword})}),d=await r.json();if(!r.ok)return alert(d.error||'Delete failed');closeModal();toast('Student deleted');loadStudents()}async function manageReviews(){try{const r=await api('/api/admin/reviews'),d=await r.json();if(!r.ok)throw new Error(d.error||'Could not load reviews');const a=d.reviews||[];openModal(`<div class="modal-head"><h2>⭐ Parent Review Moderation</h2><button class="x" onclick="closeModal()">×</button></div><div>${a.length?a.map(x=>`<div style="padding:12px;border:1px solid #e7e9f3;border-radius:14px;margin:9px 0"><b>${'⭐'.repeat(x.rating)} ${esc(x.parent_name)}</b><p>${esc(x.review_text)}</p><small>${esc(x.review_type)} • ${x.status}</small><div class="actions" style="margin-top:8px"><button onclick="setReview(${x.id},'approved')">Approve</button><button onclick="setReview(${x.id},'rejected')">Reject</button><button onclick="deleteReview(${x.id})">Delete</button></div></div>`).join(''):'No reviews yet.'}</div>`)}catch(err){toast(err.message)}}async function setReview(id,status){const r=await api('/api/admin/reviews/'+id,{method:'PATCH',body:JSON.stringify({status})});if(r.ok){toast('Review updated');manageReviews()}}async function deleteReview(id){if(!confirm('Delete this review?'))return;const r=await api('/api/admin/reviews/'+id,{method:'DELETE'});if(r.ok){toast('Review deleted');manageReviews()}}
-async function learningSettings(id){try{const r=await api('/api/admin/students/'+id+'/learning-settings'),d=await r.json();if(!r.ok)throw new Error(d.error||'Could not load learning settings');const x=d.settings||{};openModal(`<div class="modal-head"><h2>📘 Learning Support</h2><button class="x" onclick="closeModal()">×</button></div><div class="field"><label>Teacher Feedback</label><textarea id="lfTeacher" rows="4">${esc(x.teacher_feedback||'')}</textarea></div><div class="field"><label>Parent Home Practice</label><textarea id="lfParent" rows="4">${esc(x.parent_practice||'')}</textarea></div><div class="field"><label><input id="lfComp" type="checkbox" style="width:auto" ${x.competition_enabled?'checked':''}> Allow same-class Knowledge Battle requests</label></div><div class="modal-actions"><button class="btn primary" onclick="saveLearningSettings(${id})">Save</button></div>`)}catch(e){toast(e.message)}}async function saveLearningSettings(id){const r=await api('/api/admin/students/'+id+'/learning-settings',{method:'PATCH',body:JSON.stringify({teacherFeedback:document.getElementById('lfTeacher').value,parentPractice:document.getElementById('lfParent').value,competitionEnabled:document.getElementById('lfComp').checked})}),d=await r.json();if(!r.ok)return alert(d.error||'Could not save');closeModal();toast('Learning support saved')}async function logout(){try{await api('/api/auth/logout',{method:'POST'})}catch{}localStorage.removeItem('brightbyte_admin_token');location.href='index.html'}boot();</script><script src="exam-integration.js?v=39.1"></script></body></html>
+async function learningSettings(id){try{const r=await api('/api/admin/students/'+id+'/learning-settings'),d=await r.json();if(!r.ok)throw new Error(d.error||'Could not load learning settings');const x=d.settings||{};openModal(`<div class="modal-head"><h2>📘 Learning Support</h2><button class="x" onclick="closeModal()">×</button></div><div class="field"><label>Teacher Feedback</label><textarea id="lfTeacher" rows="4">${esc(x.teacher_feedback||'')}</textarea></div><div class="field"><label>Parent Home Practice</label><textarea id="lfParent" rows="4">${esc(x.parent_practice||'')}</textarea></div><div class="field"><label><input id="lfComp" type="checkbox" style="width:auto" ${x.competition_enabled?'checked':''}> Allow same-class Knowledge Battle requests</label></div><div class="modal-actions"><button class="btn primary" onclick="saveLearningSettings(${id})">Save</button></div>`)}catch(e){toast(e.message)}}async function saveLearningSettings(id){const r=await api('/api/admin/students/'+id+'/learning-settings',{method:'PATCH',body:JSON.stringify({teacherFeedback:document.getElementById('lfTeacher').value,parentPractice:document.getElementById('lfParent').value,competitionEnabled:document.getElementById('lfComp').checked})}),d=await r.json();if(!r.ok)return alert(d.error||'Could not save');closeModal();toast('Learning support saved')}async function logout(){try{await api('/api/auth/logout',{method:'POST'})}catch{}localStorage.removeItem('brightbyte_admin_token');location.href='index.html'}boot();</script>
+<script id="tannuEnrollmentAdminV406Script">
+(() => {
+  "use strict";
+
+  if(window.__tannuEnrollmentAdminV406) return;
+  window.__tannuEnrollmentAdminV406 = true;
+
+  let lastEnrollmentCount = null;
+  const originalAdminTitle = document.title;
+
+  function enrollDate(value){
+    if(!value) return "";
+    const raw = String(value);
+    const d = new Date(
+      raw.includes("T")
+        ? raw
+        : raw.replace(" ","T") + "Z"
+    );
+    return Number.isNaN(d.getTime())
+      ? raw
+      : d.toLocaleString();
+  }
+
+  function contactMethodLabel(value){
+    if(value === "email") return "Email";
+    if(value === "phone") return "Phone Call";
+    return "WhatsApp";
+  }
+
+  function escapeText(value){
+    if(typeof window.esc === "function"){
+      return window.esc(value);
+    }
+    return String(value ?? "").replace(
+      /[&<>"']/g,
+      ch => ({
+        "&":"&amp;",
+        "<":"&lt;",
+        ">":"&gt;",
+        '"':"&quot;",
+        "'":"&#39;"
+      }[ch])
+    );
+  }
+
+  async function copyText(value){
+    try{
+      await navigator.clipboard.writeText(String(value || ""));
+      toast("Contact detail copied");
+    }catch{
+      toast("Could not copy contact detail");
+    }
+  }
+
+  window.loadEnrollmentCount = async function(){
+    if(!token) return;
+
+    try{
+      const r = await api(
+        "/api/admin/enrollment-requests/count"
+      );
+
+      if(!r.ok) return;
+
+      const d = await r.json();
+      const count = Number(d.new_count || 0);
+
+      const badge =
+        document.getElementById(
+          "enrollmentAdminBadge"
+        );
+
+      const button =
+        document.getElementById(
+          "enrollmentAdminBtn"
+        );
+
+      if(badge){
+        badge.textContent =
+          count > 99
+            ? "99+"
+            : String(count);
+
+        badge.hidden =
+          count === 0;
+      }
+
+      if(button){
+        button.classList.toggle(
+          "has-new",
+          count > 0
+        );
+      }
+
+      document.title =
+        count > 0
+          ? `(${count}) ${originalAdminTitle}`
+          : originalAdminTitle;
+
+      if(
+        lastEnrollmentCount !== null &&
+        count > lastEnrollmentCount
+      ){
+        toast(
+          "📩 New enrollment request received"
+        );
+      }
+
+      lastEnrollmentCount = count;
+
+    }catch{}
+  };
+
+  window.manageEnrollmentRequests =
+    async function(){
+
+    try{
+      const r = await api(
+        "/api/admin/enrollment-requests"
+      );
+
+      const d = await r.json();
+
+      if(!r.ok){
+        throw new Error(
+          d.error ||
+          "Could not load enrollment requests"
+        );
+      }
+
+      const rows =
+        Array.isArray(d.requests)
+          ? d.requests
+          : [];
+
+      const summary = {
+        new: rows.filter(
+          x => x.status === "new"
+        ).length,
+        contacted: rows.filter(
+          x => x.status === "contacted"
+        ).length,
+        closed: rows.filter(
+          x => x.status === "closed"
+        ).length
+      };
+
+      openModal(`
+        <div class="modal-head">
+          <div>
+            <h2>📩 Enrollment Requests</h2>
+            <p style="margin:4px 0 0;color:#717896;font-size:10px">
+              Private parent / guardian requests. These details are never shown publicly.
+            </p>
+          </div>
+
+          <button
+            class="x"
+            onclick="closeModal()"
+            type="button">×</button>
+        </div>
+
+        <div class="enroll-admin-summary">
+          <div>
+            <b>${summary.new}</b>
+            <small>NEW REQUESTS</small>
+          </div>
+
+          <div>
+            <b>${summary.contacted}</b>
+            <small>CONTACTED</small>
+          </div>
+
+          <div>
+            <b>${summary.closed}</b>
+            <small>CLOSED</small>
+          </div>
+        </div>
+
+        <div class="enroll-admin-list">
+          ${
+            rows.length
+              ? rows.map(x => `
+                <article class="enroll-admin-card ${x.status === "new" ? "is-new" : ""}">
+                  <div class="enroll-admin-head">
+                    <div>
+                      <h3>${escapeText(x.parent_name || "Parent / Guardian")}</h3>
+                      <small>${escapeText(enrollDate(x.created_at))}</small>
+                    </div>
+
+                    <span class="enroll-admin-status ${escapeText(x.status || "new")}">
+                      ${escapeText(x.status || "new")}
+                    </span>
+                  </div>
+
+                  <div class="enroll-admin-meta">
+                    <div>
+                      <b>Student</b>
+                      ${escapeText(x.student_name || "—")}
+                    </div>
+
+                    <div>
+                      <b>Class</b>
+                      Class ${Number(x.class_number || 1)}
+                    </div>
+
+                    <div>
+                      <b>Contact Method</b>
+                      ${escapeText(contactMethodLabel(x.contact_method))}
+                    </div>
+
+                    <div class="enroll-admin-contact">
+                      <b>Contact Detail</b>
+                      ${escapeText(x.contact_value || "—")}
+                    </div>
+                  </div>
+
+                  ${
+                    x.note
+                      ? `
+                        <div class="enroll-admin-note">
+                          <b>Message / Requirement</b><br>
+                          ${escapeText(x.note)}
+                        </div>
+                      `
+                      : ""
+                  }
+
+                  <div class="enroll-admin-actions">
+                    <button
+                      class="copy-contact"
+                      type="button"
+                      onclick='copyEnrollmentContact(${JSON.stringify(String(x.contact_value || ""))})'>
+                      📋 Copy Contact
+                    </button>
+
+                    ${
+                      x.status !== "contacted"
+                        ? `
+                          <button
+                            class="contacted"
+                            type="button"
+                            onclick="setEnrollmentRequestStatus(${Number(x.id)},'contacted')">
+                            ✓ Mark Contacted
+                          </button>
+                        `
+                        : ""
+                    }
+
+                    ${
+                      x.status !== "closed"
+                        ? `
+                          <button
+                            class="close-request"
+                            type="button"
+                            onclick="setEnrollmentRequestStatus(${Number(x.id)},'closed')">
+                            Close Request
+                          </button>
+                        `
+                        : `
+                          <button
+                            class="reopen"
+                            type="button"
+                            onclick="setEnrollmentRequestStatus(${Number(x.id)},'new')">
+                            ↻ Reopen
+                          </button>
+                        `
+                    }
+                  </div>
+                </article>
+              `).join("")
+              : `
+                <div class="enroll-empty">
+                  No enrollment requests yet.
+                </div>
+              `
+          }
+        </div>
+      `);
+
+      await loadEnrollmentCount();
+
+    }catch(error){
+      toast(
+        error?.message ||
+        "Could not load enrollment requests"
+      );
+    }
+  };
+
+  window.copyEnrollmentContact =
+    async function(value){
+      await copyText(value);
+    };
+
+  window.setEnrollmentRequestStatus =
+    async function(id,status){
+
+    try{
+      const r = await api(
+        `/api/admin/enrollment-requests/${Number(id)}`,
+        {
+          method:"PATCH",
+          body:JSON.stringify({status})
+        }
+      );
+
+      const d = await r.json();
+
+      if(!r.ok){
+        throw new Error(
+          d.error ||
+          "Could not update request"
+        );
+      }
+
+      toast(
+        status === "contacted"
+          ? "✓ Marked as contacted"
+          : status === "closed"
+            ? "Request closed"
+            : "Request reopened"
+      );
+
+      await loadEnrollmentCount();
+      await manageEnrollmentRequests();
+
+    }catch(error){
+      toast(
+        error?.message ||
+        "Could not update request"
+      );
+    }
+  };
+
+  const app =
+    document.getElementById("app");
+
+  if(app){
+    new MutationObserver(
+      () => {
+        if(
+          !app.classList.contains("hidden")
+        ){
+          setTimeout(
+            loadEnrollmentCount,
+            150
+          );
+        }
+      }
+    ).observe(
+      app,
+      {
+        attributes:true,
+        attributeFilter:["class"]
+      }
+    );
+  }
+
+  setTimeout(
+    loadEnrollmentCount,
+    900
+  );
+
+  setInterval(
+    loadEnrollmentCount,
+    12000
+  );
+
+})();
+</script>
+
+<script src="exam-integration.js?v=39.1"></script></body></html>
