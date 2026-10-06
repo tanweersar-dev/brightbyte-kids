@@ -1912,4 +1912,530 @@ let recognition=null,conversation={step:0,name:'',feeling:'',classText:'',hobby:
 })();
 </script>
 
+<!-- ============================================================
+     V40.11.1 — CLASS 4–6 DASHBOARD REPAIR + STUDENT EXAM NOTICE
+     SAFE ADDITIVE FINAL OVERRIDE
+     - Repairs V39.6.3 desktop grid overflow/overlap
+     - Restores a student-only exam notification bell on this page
+     - Does NOT modify Worker / D1 / login / course progress
+     - Keeps V40.11 exam questions + detailed marksheet in student-exams.*
+     ============================================================ -->
+<style id="studentDashboardRepairV40111Style">
+@media (min-width:981px){
+  body.sp-advanced-compact-v396 #view-dashboard.view.show{
+    display:grid!important;
+    grid-template-columns:minmax(330px,.90fr) minmax(0,1fr) minmax(0,1fr)!important;
+    grid-template-rows:auto auto auto!important;
+    gap:12px!important;
+    align-items:start!important;
+  }
+
+  body.sp-advanced-compact-v396 #kidsWorldLauncher.sp-v3961-world{
+    grid-column:1!important;
+    grid-row:1 / 4!important;
+    margin:0!important;
+    padding:13px!important;
+    border-radius:20px!important;
+    align-self:start!important;
+    display:block!important;
+    height:auto!important;
+    min-height:0!important;
+    overflow:visible!important;
+  }
+
+  body.sp-advanced-compact-v396 #kidsWorldLauncher .kid-world-head{
+    margin-bottom:10px!important;
+    gap:8px!important;
+  }
+  body.sp-advanced-compact-v396 #kidsWorldLauncher .kid-world-head h2{
+    margin:0!important;font-size:18px!important;line-height:1.12!important;
+  }
+  body.sp-advanced-compact-v396 #kidsWorldLauncher .kid-world-head p{
+    margin-top:3px!important;font-size:8.5px!important;line-height:1.35!important;
+  }
+  body.sp-advanced-compact-v396 #kidsWorldLauncher .kid-visual-note{
+    padding:7px 8px!important;border-radius:11px!important;font-size:7.5px!important;line-height:1.25!important;
+  }
+
+  body.sp-advanced-compact-v396 #kidsWorldLauncher .kid-world-grid{
+    display:grid!important;
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    grid-template-rows:none!important;
+    grid-auto-rows:auto!important;
+    gap:8px!important;
+    align-content:start!important;
+    height:auto!important;
+  }
+  body.sp-advanced-compact-v396 #kidsWorldLauncher .kid-world{
+    min-height:102px!important;
+    height:auto!important;
+    padding:10px!important;
+    border-radius:16px!important;
+    box-shadow:0 8px 18px rgba(33,39,104,.13),inset 0 1px 0 rgba(255,255,255,.18)!important;
+  }
+  body.sp-advanced-compact-v396 #kidsWorldLauncher .kid-world .emoji{font-size:27px!important}
+  body.sp-advanced-compact-v396 #kidsWorldLauncher .kid-world b{
+    margin-top:5px!important;font-size:10.5px!important;line-height:1.12!important;
+  }
+  body.sp-advanced-compact-v396 #kidsWorldLauncher .kid-world small{
+    margin-top:3px!important;font-size:7px!important;line-height:1.25!important;
+  }
+
+  /* Progress + Skill Passport */
+  body.sp-advanced-compact-v396 #view-dashboard > .sp-v3961-overview{
+    grid-column:2 / 4!important;
+    grid-row:1!important;
+    margin:0!important;
+    display:grid!important;
+    grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr)!important;
+    gap:12px!important;
+    align-items:stretch!important;
+  }
+  body.sp-advanced-compact-v396 #view-dashboard > .sp-v3961-overview > article:first-child,
+  body.sp-advanced-compact-v396 #view-dashboard > .sp-v3961-overview > article:nth-child(2){
+    grid-column:auto!important;grid-row:auto!important;margin:0!important;min-width:0!important;align-self:stretch!important;
+  }
+
+  /* Today's Mission */
+  body.sp-advanced-compact-v396 #view-dashboard > .sp-v3961-mission{
+    grid-column:2 / 4!important;
+    grid-row:2!important;
+    margin:0!important;
+    padding:12px!important;
+    min-width:0!important;
+    align-self:start!important;
+    display:block!important;
+  }
+  body.sp-advanced-compact-v396 #view-dashboard > .sp-v3961-mission .section-head{
+    display:flex!important;margin:0 0 7px!important;
+  }
+  body.sp-advanced-compact-v396 #view-dashboard > .sp-v3961-mission .section-head p{display:block!important}
+  body.sp-advanced-compact-v396 #view-dashboard .mission-grid{
+    display:grid!important;
+    grid-template-columns:repeat(5,minmax(0,1fr))!important;
+    gap:7px!important;
+    margin-top:7px!important;
+  }
+  body.sp-advanced-compact-v396 #view-dashboard .mission{
+    min-height:66px!important;padding:8px!important;border-radius:12px!important;display:block!important;text-align:left!important;
+  }
+  body.sp-advanced-compact-v396 #view-dashboard .mission span{display:block!important;font-size:18px!important}
+  body.sp-advanced-compact-v396 #view-dashboard .mission b{
+    display:block!important;margin-top:4px!important;font-size:8px!important;line-height:1.15!important;
+  }
+  body.sp-advanced-compact-v396 #view-dashboard .mission small{
+    display:block!important;margin-top:2px!important;font-size:6.7px!important;line-height:1.25!important;
+  }
+  body.sp-advanced-compact-v396 #view-dashboard > .sp-v3961-mission .focus-box{
+    margin-top:7px!important;padding:8px 10px!important;font-size:7px!important;line-height:1.35!important;
+  }
+
+  /* Continue + Learning Report */
+  body.sp-advanced-compact-v396 #view-dashboard > .sp-v3961-continue{
+    grid-column:2!important;grid-row:3!important;margin:0!important;padding:13px!important;min-width:0!important;
+    align-self:stretch!important;border:1px solid var(--line)!important;border-radius:18px!important;background:#fff!important;
+    box-shadow:0 10px 28px rgba(54,49,135,.08)!important;
+  }
+  body.sp-advanced-compact-v396 #view-dashboard > .sp-v3961-report{
+    grid-column:3!important;grid-row:3!important;margin:0!important;padding:13px!important;min-width:0!important;align-self:stretch!important;
+  }
+
+  body.sp-advanced-compact-v396 #view-dashboard .panel{padding:13px!important;border-radius:18px!important}
+  body.sp-advanced-compact-v396 #view-dashboard .panel h2,
+  body.sp-advanced-compact-v396 #view-dashboard .section-head h2{
+    margin:0 0 3px!important;font-size:14px!important;line-height:1.15!important;
+  }
+  body.sp-advanced-compact-v396 #view-dashboard .panel > p,
+  body.sp-advanced-compact-v396 #view-dashboard .section-head p{
+    margin:1px 0 0!important;font-size:8px!important;line-height:1.35!important;
+  }
+  body.sp-advanced-compact-v396 #view-dashboard .stats{
+    grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:6px!important;margin-top:7px!important;
+  }
+  body.sp-advanced-compact-v396 #view-dashboard .stat{padding:8px 4px!important}
+  body.sp-advanced-compact-v396 #view-dashboard .stat b{font-size:14px!important}
+  body.sp-advanced-compact-v396 #view-dashboard .stat small{font-size:6px!important}
+  body.sp-advanced-compact-v396 #view-dashboard .progress{height:6px!important;margin:7px 0!important}
+
+  body.sp-advanced-compact-v396 #view-dashboard .skills{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:4px 10px!important;margin-top:6px!important;
+  }
+  body.sp-advanced-compact-v396 #view-dashboard .skill{
+    grid-template-columns:62px minmax(0,1fr) 27px!important;gap:5px!important;
+  }
+  body.sp-advanced-compact-v396 #view-dashboard .skill b{font-size:7px!important}
+  body.sp-advanced-compact-v396 #view-dashboard .skill .track{height:5px!important}
+  body.sp-advanced-compact-v396 #view-dashboard .skill span{font-size:6.5px!important}
+
+  body.sp-advanced-compact-v396 #view-dashboard #continueLesson{width:100%!important}
+  body.sp-advanced-compact-v396 #view-dashboard #continueLesson .lesson-card{
+    width:100%!important;max-width:none!important;min-height:0!important;padding:9px!important;border-radius:14px!important;box-shadow:none!important;
+  }
+  body.sp-advanced-compact-v396 #view-dashboard #continueLesson .lesson-card .visual{
+    height:78px!important;border-radius:11px!important;
+  }
+  body.sp-advanced-compact-v396 #view-dashboard #continueLesson .lesson-card h3{
+    margin:6px 0 3px!important;font-size:10px!important;
+  }
+  body.sp-advanced-compact-v396 #view-dashboard #continueLesson .lesson-card p{
+    margin:0 0 6px!important;font-size:7px!important;line-height:1.3!important;
+  }
+  body.sp-advanced-compact-v396 #view-dashboard .report-grid{grid-template-columns:1fr!important;gap:6px!important}
+  body.sp-advanced-compact-v396 #view-dashboard .report-box{padding:9px!important;border-radius:11px!important}
+  body.sp-advanced-compact-v396 #view-dashboard .report-box b{font-size:8px!important}
+  body.sp-advanced-compact-v396 #view-dashboard .report-box small{margin-top:2px!important;font-size:6.5px!important}
+}
+
+@media (max-width:980px){
+  body.sp-advanced-compact-v396 #view-dashboard.view.show{display:block!important}
+  body.sp-advanced-compact-v396 #view-dashboard > .sp-v3961-overview{
+    display:grid!important;grid-template-columns:1fr!important;gap:12px!important;
+  }
+  body.sp-advanced-compact-v396 #kidsWorldLauncher.sp-v3961-world,
+  body.sp-advanced-compact-v396 #view-dashboard > .sp-v3961-overview,
+  body.sp-advanced-compact-v396 #view-dashboard > .sp-v3961-mission,
+  body.sp-advanced-compact-v396 #view-dashboard > .sp-v3961-continue,
+  body.sp-advanced-compact-v396 #view-dashboard > .sp-v3961-report{
+    width:100%!important;margin-top:12px!important;
+  }
+  body.sp-advanced-compact-v396 #kidsWorldLauncher.sp-v3961-world{
+    margin-top:0!important;display:block!important;height:auto!important;
+  }
+  body.sp-advanced-compact-v396 #kidsWorldLauncher .kid-world-grid{
+    grid-template-rows:none!important;height:auto!important;
+  }
+  body.sp-advanced-compact-v396 #view-dashboard .mission-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+  body.sp-advanced-compact-v396 #view-dashboard .mission{
+    display:block!important;min-height:68px!important;padding:8px!important;
+  }
+}
+@media (max-width:520px){
+  body.sp-advanced-compact-v396 #view-dashboard .mission-grid{grid-template-columns:1fr!important}
+}
+
+/* ============================================================
+   V40.11.1 — STUDENT-ONLY EXAM NOTIFICATION CENTER
+   ============================================================ */
+#spExamNoticeBtnV40111{
+  position:relative!important;
+  width:43px!important;min-width:43px!important;height:40px!important;min-height:40px!important;
+  padding:0!important;border:0!important;border-radius:13px!important;
+  display:inline-grid!important;place-items:center!important;
+  background:linear-gradient(180deg,#fff9d9,#ffe36d)!important;
+  color:#40386f!important;
+  box-shadow:0 4px 0 #e7bb39,0 8px 18px #4d4a7c18!important;
+  font-size:17px!important;cursor:pointer!important;flex:0 0 auto!important;
+}
+#spExamNoticeBtnV40111:hover{transform:translateY(-1px)!important}
+#spExamNoticeBtnV40111.ringing .sp-exam-bell-v40111{animation:spExamRingV40111 1.35s ease-in-out infinite;transform-origin:50% 0}
+@keyframes spExamRingV40111{
+  0%,45%,100%{transform:rotate(0)}8%{transform:rotate(17deg)}16%{transform:rotate(-14deg)}24%{transform:rotate(11deg)}32%{transform:rotate(-8deg)}38%{transform:rotate(4deg)}
+}
+#spExamNoticeBtnV40111 .sp-exam-count-v40111{
+  position:absolute;right:-5px;top:-5px;min-width:19px;height:19px;padding:0 5px;border-radius:99px;
+  display:grid;place-items:center;background:#ef456f;color:#fff;border:2px solid #fff;font:950 8px/1 system-ui;
+}
+#spExamNoticeBtnV40111 .sp-exam-count-v40111.zero{display:none}
+
+#spExamOverlayV40111{
+  position:fixed;inset:0;z-index:10080;background:rgba(8,13,44,.55);backdrop-filter:blur(5px);
+  opacity:0;pointer-events:none;transition:.2s;
+}
+#spExamOverlayV40111.open{opacity:1;pointer-events:auto}
+#spExamDrawerV40111{
+  position:absolute;right:0;top:0;height:100%;width:min(440px,100%);background:#f7f8ff;
+  box-shadow:-24px 0 70px rgba(17,23,57,.25);transform:translateX(105%);transition:.24s ease;
+  display:flex;flex-direction:column;color:#242a50;font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+}
+#spExamOverlayV40111.open #spExamDrawerV40111{transform:translateX(0)}
+.sp-exam-head-v40111{
+  padding:18px 18px 14px;background:linear-gradient(135deg,#171d52,#313985 62%,#654bd2);color:#fff;
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+}
+.sp-exam-head-v40111 small{display:block;color:#cdd5ff;font-size:9px;font-weight:850;letter-spacing:1px}
+.sp-exam-head-v40111 h2{margin:3px 0 0;font-size:21px}
+.sp-exam-head-actions-v40111{display:flex;gap:7px}
+.sp-exam-head-actions-v40111 button{
+  width:36px;height:36px;border:0;border-radius:11px;background:rgba(255,255,255,.1);color:#fff;cursor:pointer;font-size:18px;
+}
+.sp-exam-tools-v40111{
+  padding:10px 12px;display:flex;gap:7px;align-items:center;background:#fff;border-bottom:1px solid #e8eaf5;
+}
+.sp-exam-tools-v40111 button,.sp-exam-tools-v40111 a{
+  border:1px solid #e8eaf5;background:#f7f7ff;color:#4e5579;border-radius:10px;padding:8px 10px;
+  font:850 10px/1 system-ui;cursor:pointer;text-decoration:none;
+}
+.sp-exam-tools-v40111 .open-exams{margin-left:auto;background:linear-gradient(135deg,#6557ff,#28cdbd);color:#fff;border-color:transparent}
+#spExamListV40111{padding:12px;overflow:auto;flex:1;display:grid;align-content:start;gap:10px}
+.sp-exam-empty-v40111{
+  padding:42px 18px;text-align:center;background:#fff;border:1px dashed #cfd4e8;border-radius:18px;color:#747b98;
+}
+.sp-exam-card-v40111{
+  position:relative;background:#fff;border:1px solid #e8eaf5;border-radius:18px;padding:14px;
+  box-shadow:0 9px 26px rgba(59,67,128,.06);display:grid;grid-template-columns:42px 1fr;gap:11px;
+}
+.sp-exam-card-v40111.unread{border-color:#bcb7ff;box-shadow:0 10px 30px rgba(101,87,255,.12)}
+.sp-exam-card-v40111.unread:before{
+  content:"";position:absolute;right:13px;top:13px;width:8px;height:8px;border-radius:50%;background:#6a5cff;
+}
+.sp-exam-icon-v40111{width:42px;height:42px;border-radius:13px;background:#f0eeff;display:grid;place-items:center;font-size:21px}
+.sp-exam-card-v40111.pass .sp-exam-icon-v40111{background:#e8fff4}
+.sp-exam-card-v40111.fail .sp-exam-icon-v40111{background:#fff0f3}
+.sp-exam-body-v40111{min-width:0;padding-right:6px}
+.sp-exam-title-v40111{font-size:12px;font-weight:950;line-height:1.35}
+.sp-exam-msg-v40111{font-size:10px;color:#747b98;line-height:1.55;margin-top:4px}
+.sp-exam-meta-v40111{font-size:8.5px;color:#999fb5;margin-top:6px}
+.sp-exam-actions-v40111{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.sp-exam-actions-v40111 a,.sp-exam-actions-v40111 button{
+  border:0;border-radius:10px;padding:8px 10px;text-decoration:none;cursor:pointer;font:900 9px/1 system-ui;
+}
+.sp-exam-open-v40111{background:linear-gradient(135deg,#6557ff,#28cdbd);color:#fff}
+.sp-exam-read-v40111{background:#f0f1f8;color:#626985}
+.sp-exam-foot-v40111{
+  border-top:1px solid #e8eaf5;background:#fff;padding:10px 14px;color:#8a90a7;font-size:9px;line-height:1.4;
+}
+@media(max-width:700px){
+  #spExamNoticeBtnV40111{width:38px!important;min-width:38px!important;height:36px!important;min-height:36px!important;border-radius:11px!important}
+}
+@media(prefers-reduced-motion:reduce){#spExamNoticeBtnV40111.ringing .sp-exam-bell-v40111{animation:none}}
+</style>
+
+<script id="studentDashboardRepairV40111Script">
+(() => {
+  "use strict";
+
+  if(window.__studentDashboardRepairV40111) return;
+  window.__studentDashboardRepairV40111 = true;
+
+  const API = "https://api.tanweer.site";
+  const TOKEN_KEY = "brightbyte_student_token";
+  const READ_KEY = "brightbyte_student_exam_notice_read_v40111";
+  let notices = [];
+  let pollTimer = null;
+
+  const esc = s => String(s ?? "").replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
+
+  function readMap(){
+    try{
+      const value = JSON.parse(localStorage.getItem(READ_KEY) || "{}");
+      return value && typeof value === "object" ? value : {};
+    }catch{return {}}
+  }
+  function writeMap(map){
+    try{localStorage.setItem(READ_KEY,JSON.stringify(map))}catch{}
+  }
+  function isRead(id){return !!readMap()[id]}
+  function markRead(id){const m=readMap();m[id]=new Date().toISOString();writeMap(m)}
+  function markAllRead(){
+    const m=readMap(), stamp=new Date().toISOString();
+    notices.forEach(n=>m[n.id]=stamp);writeMap(m);
+  }
+
+  function getStudentClass(){
+    const text = String(document.getElementById("classChip")?.textContent || "");
+    const match = text.match(/class\s*(\d+)/i);
+    return match ? Number(match[1]) : 0;
+  }
+
+  function tagDashboardParts(){
+    const studentClass = getStudentClass();
+    if(studentClass < 4 || studentClass > 6) return;
+
+    document.body.classList.add("sp-advanced-compact-v396");
+    const view=document.getElementById("view-dashboard");
+    if(!view) return;
+
+    const world=document.getElementById("kidsWorldLauncher");
+    const overview=[...view.children].find(el=>el.classList?.contains("dashboard"));
+    const mission=document.getElementById("missionGrid")?.closest("section");
+    const cont=document.getElementById("continueLesson")?.closest("section");
+    const report=document.getElementById("reportGrid")?.closest("section");
+
+    world?.classList.add("sp-v3961-world");
+    overview?.classList.add("sp-v3961-overview");
+    mission?.classList.add("sp-v3961-mission");
+    cont?.classList.add("sp-v3961-continue");
+    report?.classList.add("sp-v3961-report");
+  }
+
+  function ensureOverlay(){
+    if(document.getElementById("spExamOverlayV40111")) return;
+    const overlay=document.createElement("div");
+    overlay.id="spExamOverlayV40111";
+    overlay.innerHTML=`
+      <aside id="spExamDrawerV40111" role="dialog" aria-modal="true" aria-label="Exam notifications">
+        <header class="sp-exam-head-v40111">
+          <div><small>MY EXAM ALERTS</small><h2>🔔 Notifications</h2></div>
+          <div class="sp-exam-head-actions-v40111">
+            <button id="spExamRefreshV40111" type="button" title="Refresh">↻</button>
+            <button id="spExamCloseV40111" type="button" title="Close">×</button>
+          </div>
+        </header>
+        <div class="sp-exam-tools-v40111">
+          <button id="spExamMarkAllV40111" type="button">✓ Mark all read</button>
+          <a class="open-exams" href="student-exams.html">📝 Open Exam Center</a>
+        </div>
+        <section id="spExamListV40111"></section>
+        <footer class="sp-exam-foot-v40111">Exam notifications are private to the signed-in student. Open Exam Center for assignments, status, detailed results and marksheet.</footer>
+      </aside>`;
+    document.body.appendChild(overlay);
+
+    overlay.addEventListener("click",e=>{if(e.target===overlay) closeNotice()});
+    document.getElementById("spExamCloseV40111").onclick=closeNotice;
+    document.getElementById("spExamRefreshV40111").onclick=()=>refreshNotices(true);
+    document.getElementById("spExamMarkAllV40111").onclick=()=>{
+      markAllRead();renderNoticeList();updateBell();
+    };
+  }
+
+  function ensureBell(){
+    if(!localStorage.getItem(TOKEN_KEY)) return;
+    const nav=document.querySelector(".top .nav");
+    if(!nav) return;
+
+    let btn=document.getElementById("spExamNoticeBtnV40111");
+    if(!btn){
+      btn=document.createElement("button");
+      btn.type="button";
+      btn.id="spExamNoticeBtnV40111";
+      btn.title="Exam notifications";
+      btn.setAttribute("aria-label","Open exam notifications");
+      btn.innerHTML=`<span class="sp-exam-bell-v40111">🔔</span><span class="sp-exam-count-v40111 zero">0</span>`;
+      btn.onclick=openNotice;
+
+      const logout=nav.querySelector(".danger") || [...nav.querySelectorAll("button")].find(b=>/logout/i.test(b.textContent||""));
+      if(logout) nav.insertBefore(btn,logout);
+      else nav.appendChild(btn);
+    }
+    updateBell();
+  }
+
+  function noticeId(row,status){
+    const examId=row.exam_id ?? row.id ?? "exam";
+    if(status==="reviewed") return `reviewed:${examId}:${row.reviewed_at||""}:${row.result||""}:${row.final_score??""}`;
+    if(status==="submitted") return `submitted:${examId}:${row.submitted_at||""}`;
+    if(status==="in_progress") return `inprogress:${examId}:${row.started_at||""}`;
+    return `assigned:${examId}:${row.available_until||row.created_at||""}`;
+  }
+
+  function rowsToNotices(data){
+    return (data?.exams || []).map(row=>{
+      const status=String(row.assignment_status||"").toLowerCase();
+      const base={
+        examId:row.exam_id ?? row.id,
+        title:row.title || "Academy Exam",
+        sortAt:row.reviewed_at||row.submitted_at||row.started_at||row.created_at||row.available_from||"",
+        href:"student-exams.html"
+      };
+      if(status==="assigned") return {...base,id:noticeId(row,status),type:"assigned",icon:"📝",heading:"New exam assigned",message:`${base.title} • ${Number(row.duration_minutes||0)} min • Pass ${Number(row.pass_mark||0)}%`};
+      if(status==="in_progress") return {...base,id:noticeId(row,status),type:"in_progress",icon:"⏱️",heading:"Exam in progress",message:`${base.title} • Your exam has already started.`};
+      if(status==="submitted") return {...base,id:noticeId(row,status),type:"submitted",icon:"📨",heading:"Exam submitted",message:`${base.title} • Waiting for teacher review.`};
+      if(status==="reviewed"){
+        const pass=String(row.result||"").toUpperCase()==="PASS";
+        return {...base,id:noticeId(row,status),type:pass?"pass":"fail",icon:pass?"🏆":"📘",heading:pass?"Result ready — PASS":`Result ready — ${row.result||"REVIEWED"}`,message:`${base.title} • Score ${Number(row.final_score??0)}% • Open detailed marksheet.`};
+      }
+      return null;
+    }).filter(Boolean).sort((a,b)=>String(b.sortAt).localeCompare(String(a.sortAt)));
+  }
+
+  function updateBell(){
+    const btn=document.getElementById("spExamNoticeBtnV40111");
+    if(!btn) return;
+    const count=notices.filter(n=>!isRead(n.id)).length;
+    const badge=btn.querySelector(".sp-exam-count-v40111");
+    badge.textContent=String(Math.min(99,count));
+    badge.classList.toggle("zero",count===0);
+    btn.classList.toggle("ringing",count>0);
+    btn.title=count?`${count} unread exam notification${count===1?"":"s"}`:"No unread exam notifications";
+  }
+
+  function formatTime(v){
+    if(!v) return "";
+    const d=new Date(v);
+    if(Number.isNaN(d.getTime())) return String(v);
+    return d.toLocaleString();
+  }
+
+  function renderNoticeList(){
+    ensureOverlay();
+    const list=document.getElementById("spExamListV40111");
+    if(!notices.length){
+      list.innerHTML=`<div class="sp-exam-empty-v40111"><div style="font-size:40px;margin-bottom:8px">🔔</div><b>No exam alerts right now.</b><div style="margin-top:6px;font-size:10px">New assignments, submissions and reviewed results will appear here.</div></div>`;
+      return;
+    }
+    list.innerHTML=notices.map(n=>`
+      <article class="sp-exam-card-v40111 ${esc(n.type)} ${isRead(n.id)?"":"unread"}">
+        <div class="sp-exam-icon-v40111">${n.icon}</div>
+        <div class="sp-exam-body-v40111">
+          <div class="sp-exam-title-v40111">${esc(n.heading)}</div>
+          <div class="sp-exam-msg-v40111">${esc(n.message)}</div>
+          <div class="sp-exam-meta-v40111">${esc(formatTime(n.sortAt))}</div>
+          <div class="sp-exam-actions-v40111">
+            <a class="sp-exam-open-v40111" href="${esc(n.href)}" data-sp-notice-id="${esc(n.id)}">Open Exam Center</a>
+            ${isRead(n.id)?"":`<button class="sp-exam-read-v40111" type="button" data-sp-mark-read="${esc(n.id)}">✓ Mark read</button>`}
+          </div>
+        </div>
+      </article>`).join("");
+
+    list.querySelectorAll("[data-sp-mark-read]").forEach(btn=>{
+      btn.onclick=()=>{markRead(btn.dataset.spMarkRead);renderNoticeList();updateBell()};
+    });
+    list.querySelectorAll("[data-sp-notice-id]").forEach(a=>{
+      a.addEventListener("click",()=>markRead(a.dataset.spNoticeId));
+    });
+  }
+
+  function openNotice(){
+    ensureOverlay();renderNoticeList();
+    document.getElementById("spExamOverlayV40111").classList.add("open");
+    document.body.style.overflow="hidden";
+  }
+  function closeNotice(){
+    document.getElementById("spExamOverlayV40111")?.classList.remove("open");
+    document.body.style.overflow="";
+  }
+
+  async function refreshNotices(manual=false){
+    const token=localStorage.getItem(TOKEN_KEY)||"";
+    if(!token){notices=[];updateBell();return}
+    try{
+      const r=await fetch(API+"/api/student/exams",{
+        headers:{Authorization:`Bearer ${token}`},cache:"no-store"
+      });
+      if(!r.ok) throw new Error(`HTTP ${r.status}`);
+      const data=await r.json();
+      if(data?.success===false) throw new Error(data?.error||"Exam API error");
+      notices=rowsToNotices(data);
+      ensureBell();updateBell();
+      if(document.getElementById("spExamOverlayV40111")?.classList.contains("open")) renderNoticeList();
+      if(manual){
+        const b=document.getElementById("spExamNoticeBtnV40111");
+        if(b){const old=b.title;b.title="Notifications refreshed";setTimeout(()=>b.title=old,1200)}
+      }
+    }catch(err){
+      console.debug("Student exam notification unavailable",err);
+      ensureBell();
+    }
+  }
+
+  function runRepair(){
+    tagDashboardParts();
+    ensureBell();
+  }
+
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",()=>{runRepair();refreshNotices()},{once:true});
+  else {runRepair();refreshNotices()}
+
+  [80,250,600,1200,2200,4000].forEach(ms=>setTimeout(runRepair,ms));
+  window.addEventListener("pageshow",()=>{runRepair();refreshNotices()});
+  window.addEventListener("focus",()=>{runRepair();refreshNotices()});
+  pollTimer=setInterval(refreshNotices,30000);
+})();
+</script>
+
+
 </body></html>
