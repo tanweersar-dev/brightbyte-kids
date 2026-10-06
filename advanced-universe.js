@@ -1,6 +1,8 @@
 (() => {
 "use strict";
 
+/* V40.13 — 20 Learning Worlds • adds 3 simple Class 4–6 worlds */
+
 const API="https://api.tanweer.site";
 const TOKEN_KEY="brightbyte_student_token";
 const $=id=>document.getElementById(id);
@@ -350,6 +352,90 @@ const worlds=[
       [6,"A good leader mainly...",["Helps the team organise and succeed","Controls everyone without listening","Takes all credit","Avoids responsibility"],0,"Leadership includes responsibility, organisation, listening and support."]
     ],
     projects:{4:["My Balanced Day","Plan a realistic school day with learning, play, breaks and sleep.",["Study","Movement","Screen breaks","Sleep"]],5:["Team Project Roles","Plan how four team members could share a project fairly.",["4 roles","Responsibilities","Communication","Review"]],6:["Leadership Scenario","Write how you would lead a small group when two members disagree.",["Listen","Clarify goal","Fair decision process","Follow-up"]]}
+  },
+  {
+    id:"networkbasics",icon:"🌐",title:"Internet & Network Basics",accent:"#28b6e9",minClass:4,
+    desc:"Learn how the internet, Wi-Fi, routers, network cables and simple device connections work in an easy Class 4–6 way.",
+    lessons:[
+      ["What Is the Internet?","Understand that the internet connects many networks and devices so people can access online services.",4,"🌍","Internet"],
+      ["Wi-Fi and Wired Connections","Learn the simple difference between wireless Wi-Fi and a network cable connection.",4,"📶","Connection"],
+      ["Meet the Router","Learn that a router helps devices connect to a local network and reach the internet.",4,"📡","Device"],
+      ["Safe Wi-Fi Habits","Use trusted networks, protect passwords and ask an adult before joining an unknown network.",4,"🛡️","Safety"],
+      ["LAN: Devices Working Together","Understand a LAN as a small network in a home, school or office.",5,"🏠","LAN"],
+      ["What Is an IP Address?","Learn that an IP address helps identify a device or network connection.",5,"🔢","Address"],
+      ["Signal, Speed and Distance","Understand that weak Wi-Fi signal, distance and obstacles can affect a connection.",5,"📶","Wi-Fi"],
+      ["Simple Network Check","Practise a safe order: check Wi-Fi or cable, check the router, reconnect, then ask for help.",6,"🔎","Solve"],
+      ["Website Name and Internet Address","Learn that easy website names help people reach services without remembering number-style addresses.",6,"🔗","Web"]
+    ],
+    questions:[
+      [4,"Which device usually helps your home devices connect to the internet?",["Router","Keyboard","Printer paper","Mouse pad"],0,"A router helps devices connect to the local network and reach the internet."],
+      [4,"Which is a wireless way to connect a tablet or laptop?",["Wi-Fi","HDMI","Power cable","Printer paper"],0,"Wi-Fi connects devices wirelessly to a network."],
+      [4,"What is a safe Wi-Fi habit?",["Use a trusted network","Share the Wi-Fi password with everyone","Join every unknown network","Turn off all security"],0,"A trusted network is safer than an unknown public connection."],
+      [5,"What is a LAN?",["A small local network","A type of keyboard key","A photo format","A battery"],0,"A LAN is a local area network, such as a network in a home, school or office."],
+      [5,"What is the simple job of an IP address?",["Help identify a device or network connection","Make the monitor brighter","Charge the computer","Print a document"],0,"An IP address helps identify a device or connection on a network."],
+      [6,"Wi-Fi suddenly stops working on one laptop. What is a sensible first step?",["Check whether Wi-Fi is on and connected","Delete all files","Open the power supply","Change every router setting"],0,"Start with a simple safe check: make sure Wi-Fi is on and the device is connected."]
+    ],
+    projects:{
+      4:["My Home Network Picture","Draw or describe a simple home network with internet, router and two connected devices.",["Show the internet","Show the router","Add two devices","Mark Wi-Fi or cable"]],
+      5:["School Network Basics Guide","Create a simple guide explaining router, Wi-Fi, LAN and IP address in your own words.",["Router","Wi-Fi","LAN","IP address"]],
+      6:["Simple Network Troubleshooting Card","Write a safe five-step checklist for a device that cannot connect to the internet.",["Check Wi-Fi or cable","Check another website/device","Reconnect safely","Check router status","Ask an adult or technician if needed"]]
+    }
+  },
+  {
+    id:"problemsolver",icon:"🛠️",title:"Computer Problem Solver",accent:"#ff9f55",minClass:4,
+    desc:"Learn a simple Check → Fix → Test routine for common computer, sound, display, keyboard, mouse, printer and app problems.",
+    lessons:[
+      ["Stop, Look and Describe","Before changing anything, notice what is not working and read any simple message on the screen.",4,"👀","Observe"],
+      ["Check the Simple Things First","Check power, cables, volume, Wi-Fi and whether the correct device is connected.",4,"✅","Check"],
+      ["Restart the Right Way","Learn when a normal restart can safely solve a temporary computer or app problem.",4,"🔄","Restart"],
+      ["Keyboard and Mouse Check","Reconnect safely, try another USB port when allowed and check whether the device is powered.",4,"⌨️","Input"],
+      ["No Sound Basics","Check volume, mute, speaker or headphone connection and the selected sound device.",5,"🔊","Sound"],
+      ["No Display Basics","Check monitor power, display cable and the correct monitor input before asking for help.",5,"🖥️","Display"],
+      ["Printer Basics","Check power, paper, connection and whether the correct printer is selected.",5,"🖨️","Printer"],
+      ["App Not Responding","Wait briefly, save work when possible, close safely and restart the app if needed.",6,"📱","Software"],
+      ["Explain the Fix","Record the problem, what you checked, what fixed it and whether the final test worked.",6,"📝","Report"]
+    ],
+    questions:[
+      [4,"What should you do first when a computer problem appears?",["Look carefully and describe the problem","Press random buttons","Delete files","Open the computer power supply"],0,"Good troubleshooting starts by observing and describing the problem."],
+      [4,"A USB mouse stops working. What is a simple safe check?",["Check its connection","Change the monitor wallpaper","Delete a folder","Turn off the router"],0,"Checking the mouse connection is a sensible first step."],
+      [4,"Why can a normal restart sometimes help?",["It can clear a temporary software problem","It adds more RAM","It repairs a broken screen","It changes the internet provider"],0,"A restart can clear some temporary software problems."],
+      [5,"There is no sound. What should you check first?",["Volume, mute and speaker/headphone connection","Printer paper","Monitor brightness only","Keyboard language only"],0,"Volume, mute and the audio connection are simple first checks."],
+      [5,"A printer will not print. Which check makes sense?",["Power, paper and selected printer","Open the PSU","Delete Windows","Change the mouse"],0,"Power, paper, connection and printer selection are basic safe checks."],
+      [6,"After fixing a problem, what should you do?",["Test that it works and note the fix","Assume it is fixed","Disconnect random cables","Hide what happened"],0,"A final test confirms the fix, and a short note helps next time."]
+    ],
+    projects:{
+      4:["My 3-Step Problem Solver","Create a simple card using Look → Check → Test for one easy computer problem.",["Name the problem","Look for clues","Check one safe thing","Test again"]],
+      5:["Everyday Tech Help Card","Make a help card for No Sound, Mouse Not Working and Printer Not Printing.",["Problem","First check","Second check","When to ask for help"]],
+      6:["Mini Help Desk Report","Write a short support note for one problem from start to finish.",["Problem","Checks","Fix","Final test","What I learned"]]
+    }
+  },
+  {
+    id:"cloudstorage",icon:"☁️",title:"Cloud & Online Storage",accent:"#8b7cf6",minClass:4,
+    desc:"Understand local files, cloud storage, syncing, sharing and smart online habits without making the topic too technical.",
+    lessons:[
+      ["Local File or Cloud File?","Learn that a local file is stored on your device while a cloud file is stored using an online service.",4,"💾","Storage"],
+      ["Why People Use Cloud Storage","Understand simple benefits such as opening school files on more than one approved device.",4,"☁️","Cloud"],
+      ["Folders in the Cloud","Create clear folder names and keep online school work organised.",4,"📁","Organise"],
+      ["Private or Shared?","Understand that sharing a file gives other people access, so choose people carefully.",4,"🔐","Sharing"],
+      ["Sync in Simple Words","Learn that syncing can keep an updated copy of a file available across connected devices.",5,"🔄","Sync"],
+      ["Backup Basics","Understand why an extra safe copy can help when a device is lost or damaged.",5,"🛟","Backup"],
+      ["Sharing Permissions","Learn the simple difference between allowing someone to view a file and allowing them to edit it.",5,"👥","Access"],
+      ["Smart Devices Online","Understand that some TVs, watches, speakers and other devices can use internet services.",6,"⌚","Smart"],
+      ["Protect Online Files","Use strong passwords, trusted accounts and careful sharing for school files.",6,"🛡️","Safety"]
+    ],
+    questions:[
+      [4,"Where is a local file mainly stored?",["On your device","Only in the sky","Inside a router antenna","On printer paper"],0,"A local file is stored on the device or its attached storage."],
+      [4,"What is cloud storage used for?",["Saving files using an online service","Making a mouse move faster","Cooling a CPU","Charging a monitor"],0,"Cloud storage lets an online service store files for your account."],
+      [4,"Before sharing a school file, what should you check?",["Who will receive access","The colour of the keyboard","The monitor stand","The mouse pad size"],0,"Always check who will receive access before sharing a file."],
+      [5,"What does sync mean in simple words?",["Keep updated copies connected across devices","Delete every old file","Turn Wi-Fi into a cable","Print automatically"],0,"Sync helps keep an updated version available across connected devices."],
+      [5,"Why is a backup useful?",["It gives you another copy if something goes wrong","It makes every file public","It removes passwords","It increases screen size"],0,"A backup gives you another copy if the original file or device is lost or damaged."],
+      [6,"Which sharing permission is safer when someone only needs to read your file?",["View only","Full edit access","Account password access","Public access for everyone"],0,"View-only access is enough when the person does not need to change the file."]
+    ],
+    projects:{
+      4:["My Safe Cloud Folder Plan","Plan simple cloud folders for Homework, Projects and Pictures.",["Three folder names","What goes inside","One private item","One safety rule"]],
+      5:["Local vs Cloud Comparison","Create a small comparison showing where local and cloud files are stored and when each can be useful.",["Local storage","Cloud storage","One benefit of each","One safety rule"]],
+      6:["Safe File Sharing Plan","Write a simple plan for sharing a group project without giving too much access.",["Choose the file","Choose people","Pick View or Edit","Check before sharing","Remove access when finished"]]
+    }
   }
 ];
 
