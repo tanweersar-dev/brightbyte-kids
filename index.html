@@ -1288,6 +1288,27 @@ body.enroll-open-v406{
           </div>
 
           <div class="enroll-field-v406">
+            <label for="contactStudentAgeV407">Student Age <span style="font-weight:600">(optional)</span></label>
+            <input id="contactStudentAgeV407"
+                   name="studentAge"
+                   type="number"
+                   min="5"
+                   max="18"
+                   inputmode="numeric"
+                   placeholder="Example: 10">
+          </div>
+
+          <div class="enroll-field-v406 full">
+            <label for="contactParentLocationV407">Parent / Family Location <span style="font-weight:600">(optional)</span></label>
+            <input id="contactParentLocationV407"
+                   name="parentLocation"
+                   type="text"
+                   maxlength="120"
+                   autocomplete="address-level2"
+                   placeholder="City / State / Country — Example: Patna, Bihar, India">
+          </div>
+
+          <div class="enroll-field-v406">
             <label>How should the academy contact you? *</label>
             <div class="enroll-methods-v406">
               <label class="enroll-method-v406">
@@ -2063,6 +2084,14 @@ body.enroll-open-v406{
       parentName:String(form.parentName.value || "").trim(),
       studentName:String(form.studentName.value || "").trim(),
       classNumber:Number(form.classNumber.value),
+      studentAge:
+        form.studentAge && String(form.studentAge.value || "").trim()
+          ? Number(form.studentAge.value)
+          : null,
+      parentLocation:
+        form.parentLocation
+          ? String(form.parentLocation.value || "").trim()
+          : "",
       contactMethod:String(
         form.querySelector(
           'input[name="contactMethod"]:checked'
