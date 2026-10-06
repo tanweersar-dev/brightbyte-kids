@@ -1,7 +1,7 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin Center — Tannu Sir's Kids Digital Academy</title><style>*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,sans-serif;background:#f5f6ff;color:#222747}button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}.auth{min-height:100vh;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at 15% 20%,#5f50ff44,transparent 30%),linear-gradient(135deg,#101538,#191f50)}.card{width:min(470px,100%);background:#fff;border-radius:28px;padding:28px;box-shadow:0 30px 90px #0005}.brand{display:flex;align-items:center;gap:12px}.brand .t-logo{width:58px;height:58px}.brand h1{margin:0}.brand p{margin:4px 0;color:#717896}.field{margin-top:13px}.field label{display:block;font-size:11px;font-weight:900;margin-bottom:5px}.field input,.field select,.field textarea{width:100%;border:1px solid #dfe2f1;border-radius:13px;padding:12px;outline:none}.btn{border:0;border-radius:13px;padding:11px 14px;font-weight:900}.primary{background:linear-gradient(135deg,#6d5cff,#28cfc2);color:#fff}.soft{background:#efedff;color:#5549c7}.danger{background:#ffe8ed;color:#c33f58}.login{width:100%;margin-top:16px}.home{display:block;text-align:center;margin-top:10px;text-decoration:none}.shell{min-height:100vh;display:grid;grid-template-columns:245px 1fr}aside{background:#151b4c;color:#fff;padding:19px;position:sticky;top:0;height:100vh}aside .brand h1{font-size:17px}aside .brand p{font-size:9px;color:#bbc4eb}nav{display:grid;gap:7px;margin-top:24px}nav button,nav a{border:0;border-radius:12px;padding:11px;text-align:left;text-decoration:none;color:#fff;background:#ffffff0d}main{padding:24px}.top{display:flex;justify-content:space-between;gap:15px;align-items:center}.top-actions{display:flex;gap:8px;flex-wrap:wrap}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}.stat{background:#fff;border-radius:20px;padding:18px;box-shadow:0 12px 34px #4b45901a}.stat b,.stat small{display:block}.stat b{font-size:30px;margin:8px 0}.toolbar{display:flex;justify-content:space-between;gap:10px;margin:15px 0}.toolbar input{flex:1;max-width:420px;border:1px solid #dfe2f1;border-radius:12px;padding:11px}.table{background:#fff;border-radius:20px;overflow:auto;box-shadow:0 12px 34px #4b45901a}table{width:100%;border-collapse:collapse;min-width:1050px}th,td{padding:11px;border-bottom:1px solid #edf0f7;text-align:left;font-size:11px}th{color:#747b98;font-size:9px}.pill{display:inline-block;padding:6px 8px;border-radius:999px;background:#eef0ff;color:#5049bf;font-size:9px;font-weight:900}.actions{display:flex;gap:5px;flex-wrap:wrap}.actions button{padding:7px 8px;border:0;border-radius:9px;font-size:9px}.student-link{color:#3e37a7;font-weight:950;text-decoration:none;border-bottom:1px dashed #7c72dc}.student-link:hover{color:#18a9a0}.overlay{position:fixed;inset:0;display:none;place-items:center;padding:15px;background:#090d2bbd;z-index:100}.overlay.open{display:grid}.modal{width:min(720px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:25px;padding:23px}.modal-head{display:flex;justify-content:space-between;align-items:center}.x{width:38px;height:38px;border:0;border-radius:50%}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.wide{grid-column:1/-1}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:15px}.toast{position:fixed;left:50%;bottom:18px;transform:translate(-50%,100px);background:#1d2248;color:#fff;padding:11px 16px;border-radius:99px;transition:.2s}.toast.show{transform:translate(-50%,0)}@media(max-width:850px){.shell{grid-template-columns:1fr}aside{position:static;height:auto}nav{grid-template-columns:repeat(3,1fr)}main{padding:14px}.stats{grid-template-columns:1fr 1fr}}@media(max-width:560px){.top{display:block}.top-actions{margin-top:10px}.grid{grid-template-columns:1fr}.wide{grid-column:auto}nav{grid-template-columns:1fr 1fr}}</style>
 <style id="tannuEnrollmentAdminV407Style">
 /* ============================================================
-   V40.7 — PROFESSIONAL ENROLLMENT CRM / REQUEST TRACKER
+   V40.8 — PROFESSIONAL ENROLLMENT CRM / SECURE DELETE CONFIRMATION
    Raw requests + separate editable tracking records
    ============================================================ */
 .enrollment-admin-badge{
@@ -325,7 +325,7 @@ async function boot(){
   }
 }async function togglePublic(id){const s=find(id);if(!s)return;const adminPassword=await authorizeAdminAction(s.is_public?'Make Student Private':'Change Student Privacy',s);if(!adminPassword)return;const r=await api('/api/admin/students/'+id,{method:'PATCH',body:JSON.stringify({status:s.status,isPublic:!s.is_public,adminPassword})}),d=await r.json();if(!r.ok)return alert(d.error||'Privacy update failed');toast(s.is_public?'Student is now private':'Student is now public');loadStudents()}async function removeStudent(id){const s=find(id);if(!s)return;const adminPassword=await authorizeAdminAction('Permanently Delete Student',s);if(!adminPassword)return;const r=await api('/api/admin/students/'+id,{method:'DELETE',body:JSON.stringify({adminPassword})}),d=await r.json();if(!r.ok)return alert(d.error||'Delete failed');closeModal();toast('Student deleted');loadStudents()}async function manageReviews(){try{const r=await api('/api/admin/reviews'),d=await r.json();if(!r.ok)throw new Error(d.error||'Could not load reviews');const a=d.reviews||[];openModal(`<div class="modal-head"><h2>⭐ Parent Review Moderation</h2><button class="x" onclick="closeModal()">×</button></div><div>${a.length?a.map(x=>`<div style="padding:12px;border:1px solid #e7e9f3;border-radius:14px;margin:9px 0"><b>${'⭐'.repeat(x.rating)} ${esc(x.parent_name)}</b><p>${esc(x.review_text)}</p><small>${esc(x.review_type)} • ${x.status}</small><div class="actions" style="margin-top:8px"><button onclick="setReview(${x.id},'approved')">Approve</button><button onclick="setReview(${x.id},'rejected')">Reject</button><button onclick="deleteReview(${x.id})">Delete</button></div></div>`).join(''):'No reviews yet.'}</div>`)}catch(err){toast(err.message)}}async function setReview(id,status){const r=await api('/api/admin/reviews/'+id,{method:'PATCH',body:JSON.stringify({status})});if(r.ok){toast('Review updated');manageReviews()}}async function deleteReview(id){if(!confirm('Delete this review?'))return;const r=await api('/api/admin/reviews/'+id,{method:'DELETE'});if(r.ok){toast('Review deleted');manageReviews()}}
 async function learningSettings(id){try{const r=await api('/api/admin/students/'+id+'/learning-settings'),d=await r.json();if(!r.ok)throw new Error(d.error||'Could not load learning settings');const x=d.settings||{};openModal(`<div class="modal-head"><h2>📘 Learning Support</h2><button class="x" onclick="closeModal()">×</button></div><div class="field"><label>Teacher Feedback</label><textarea id="lfTeacher" rows="4">${esc(x.teacher_feedback||'')}</textarea></div><div class="field"><label>Parent Home Practice</label><textarea id="lfParent" rows="4">${esc(x.parent_practice||'')}</textarea></div><div class="field"><label><input id="lfComp" type="checkbox" style="width:auto" ${x.competition_enabled?'checked':''}> Allow same-class Knowledge Battle requests</label></div><div class="modal-actions"><button class="btn primary" onclick="saveLearningSettings(${id})">Save</button></div>`)}catch(e){toast(e.message)}}async function saveLearningSettings(id){const r=await api('/api/admin/students/'+id+'/learning-settings',{method:'PATCH',body:JSON.stringify({teacherFeedback:document.getElementById('lfTeacher').value,parentPractice:document.getElementById('lfParent').value,competitionEnabled:document.getElementById('lfComp').checked})}),d=await r.json();if(!r.ok)return alert(d.error||'Could not save');closeModal();toast('Learning support saved')}async function logout(){try{await api('/api/auth/logout',{method:'POST'})}catch{}localStorage.removeItem('brightbyte_admin_token');location.href='index.html'}boot();</script>
-<script id="tannuEnrollmentAdminV407Script">
+<script id="tannuEnrollmentAdminV408Script">
 (() => {
   "use strict";
   if(window.__tannuEnrollmentAdminV407) return;
@@ -362,6 +362,114 @@ async function learningSettings(id){try{const r=await api('/api/admin/students/'
       toast("Contact detail copied");
     }catch{
       toast("Could not copy contact detail");
+    }
+  }
+
+  // V40.8: custom in-page confirmation + Admin password verification.
+  async function secureEnrollmentDeleteV408(kind,item){
+    const isRequest=kind==="request";
+    const parentName=eEsc(item?.parent_name||"Parent / Guardian");
+    const studentName=eEsc(item?.student_name||"Student");
+    const typeLabel=isRequest?"Parent Enrollment Request":"Enrollment Tracking Record";
+    const warningText=isRequest
+      ?"This removes the raw parent request. A separate tracking record, if already created, will remain stored."
+      :"This removes the tracking record. The original parent request will remain stored separately.";
+
+    const sure=await modalChoice(`
+      <div class="modal-head">
+        <div>
+          <h2>⚠️ Remove ${typeLabel}?</h2>
+          <p style="margin:5px 0 0;color:#7a819b;font-size:10px">Secure deletion confirmation</p>
+        </div>
+        <button class="x" type="button" onclick="closeModal(false)">×</button>
+      </div>
+
+      <div style="margin-top:12px;padding:16px;border-radius:16px;background:linear-gradient(135deg,#fff5f7,#fffaf1);border:1px solid #ffd2dd">
+        <div style="width:58px;height:58px;margin:0 auto 10px;display:grid;place-items:center;border-radius:18px;background:#ffe7ee;font-size:28px">🗑️</div>
+        <h3 style="text-align:center;margin:0 0 8px;color:#252b50;font-size:19px">Are you sure?</h3>
+        <p style="text-align:center;margin:0 auto;max-width:560px;color:#6f7692;font-size:11px;line-height:1.65">
+          You are about to remove <b style="color:#443c9d">${parentName}</b>'s ${isRequest?"enrollment request":"tracking record"}
+          for student <b style="color:#443c9d">${studentName}</b>.
+        </p>
+        <div style="margin-top:13px;padding:11px 12px;border-radius:12px;background:#fff;color:#805265;font-size:10px;line-height:1.5;border:1px solid #f5d9e2">
+          <b>Important:</b> ${warningText}
+        </div>
+      </div>
+
+      <div class="modal-actions">
+        <button class="btn soft" type="button" onclick="closeModal(false)">Cancel</button>
+        <button class="btn danger" type="button" onclick="closeModal(true)">Yes, Continue</button>
+      </div>
+    `);
+
+    if(!sure){
+      renderEnrollmentCrm();
+      return null;
+    }
+
+    while(true){
+      const password=await modalChoice(`
+        <div class="modal-head">
+          <div>
+            <h2>🔑 Verify Admin Password</h2>
+            <p style="margin:5px 0 0;color:#7a819b;font-size:10px">Required before permanent removal</p>
+          </div>
+          <button class="x" type="button" onclick="closeModal(null)">×</button>
+        </div>
+
+        <form onsubmit="event.preventDefault();closeModal(document.getElementById('enrollDeletePasswordV408').value)">
+          <div style="margin:12px 0;padding:13px;border-radius:14px;background:#f7f6ff;border:1px solid #e8e5ff;color:#646a86;font-size:10px;line-height:1.55">
+            Enter the current <b>Admin Center password</b>. Nothing will be removed unless the password is verified.
+          </div>
+          <div class="field">
+            <label>Admin Password</label>
+            <input id="enrollDeletePasswordV408" type="password" autocomplete="current-password" placeholder="Enter admin password" required autofocus>
+          </div>
+          <div class="modal-actions">
+            <button class="btn soft" type="button" onclick="closeModal(null)">Cancel</button>
+            <button class="btn danger" type="submit">🔐 Verify & Remove</button>
+          </div>
+        </form>
+      `);
+
+      if(!password){
+        renderEnrollmentCrm();
+        return null;
+      }
+
+      try{
+        const vr=await api('/api/admin/verify-password',{
+          method:'POST',
+          body:JSON.stringify({password:String(password)})
+        });
+        const vd=await vr.json();
+        if(vr.ok) return String(password);
+
+        const retry=await modalChoice(`
+          <div class="modal-head">
+            <h2>❌ Password Not Verified</h2>
+            <button class="x" type="button" onclick="closeModal(false)">×</button>
+          </div>
+          <div style="padding:16px;text-align:center;color:#6d748f;line-height:1.6">
+            <div style="font-size:38px;margin-bottom:8px">🔒</div>
+            <b style="color:#b43759">${eEsc(vd?.error||'Admin password is incorrect.')}</b>
+            <p style="font-size:10px;margin:8px 0 0">Nothing has been deleted.</p>
+          </div>
+          <div class="modal-actions">
+            <button class="btn soft" type="button" onclick="closeModal(false)">Cancel</button>
+            <button class="btn primary" type="button" onclick="closeModal(true)">Try Password Again</button>
+          </div>
+        `);
+
+        if(!retry){
+          renderEnrollmentCrm();
+          return null;
+        }
+      }catch(error){
+        toast(error?.message||'Password verification failed');
+        renderEnrollmentCrm();
+        return null;
+      }
     }
   }
 
@@ -590,14 +698,40 @@ async function learningSettings(id){try{const r=await api('/api/admin/students/'
   };
 
   window.deleteEnrollmentRequestV407=async function(id){
-    if(!confirm("Remove this raw enrollment request? A separate tracking record, if already created, will not be deleted.")) return;
+    const item=enrollmentRequestsCache.find(x=>Number(x.id)===Number(id));
+    if(!item){toast("Enrollment request not found");return;}
+
+    const verified=await secureEnrollmentDeleteV408("request",item);
+    if(!verified) return;
+
     try{
       const r=await api(`/api/admin/enrollment-requests/${Number(id)}`,{method:"DELETE"});
       const d=await r.json();
       if(!r.ok) throw new Error(d.error||"Could not remove request");
-      toast("Request removed");
-      await fetchEnrollmentData();renderEnrollmentCrm();await loadEnrollmentCount();
-    }catch(error){toast(error?.message||"Could not remove request")}
+
+      await fetchEnrollmentData();
+      await loadEnrollmentCount();
+
+      await modalChoice(`
+        <div class="modal-head">
+          <h2>✅ Request Removed</h2>
+          <button class="x" type="button" onclick="closeModal(true)">×</button>
+        </div>
+        <div style="padding:17px;text-align:center;color:#66708a;line-height:1.6">
+          <div style="font-size:42px;margin-bottom:8px">✅</div>
+          <b style="color:#157255">The enrollment request was removed successfully.</b>
+          <p style="font-size:10px;margin:8px 0 0">Any separate tracking record remains unchanged.</p>
+        </div>
+        <div class="modal-actions">
+          <button class="btn primary" type="button" onclick="closeModal(true)">Done</button>
+        </div>
+      `);
+
+      renderEnrollmentCrm();
+    }catch(error){
+      toast(error?.message||"Could not remove request");
+      renderEnrollmentCrm();
+    }
   };
 
   window.createRecordFromRequestV407=async function(requestId){
@@ -774,14 +908,40 @@ async function learningSettings(id){try{const r=await api('/api/admin/students/'
   };
 
   window.deleteEnrollmentRecordV407=async function(id){
-    if(!confirm("Permanently remove this tracking record? The original parent request will remain unless you remove it separately.")) return;
+    const item=enrollmentRecordsCache.find(x=>Number(x.id)===Number(id));
+    if(!item){toast("Enrollment tracking record not found");return;}
+
+    const verified=await secureEnrollmentDeleteV408("record",item);
+    if(!verified) return;
+
     try{
       const r=await api(`/api/admin/enrollment-records/${Number(id)}`,{method:"DELETE"});
       const d=await r.json();
       if(!r.ok) throw new Error(d.error||"Could not remove record");
-      toast("Tracking record removed");
-      await fetchEnrollmentData();renderEnrollmentCrm();await loadEnrollmentCount();
-    }catch(error){toast(error?.message||"Could not remove record")}
+
+      await fetchEnrollmentData();
+      await loadEnrollmentCount();
+
+      await modalChoice(`
+        <div class="modal-head">
+          <h2>✅ Record Removed</h2>
+          <button class="x" type="button" onclick="closeModal(true)">×</button>
+        </div>
+        <div style="padding:17px;text-align:center;color:#66708a;line-height:1.6">
+          <div style="font-size:42px;margin-bottom:8px">✅</div>
+          <b style="color:#157255">The enrollment tracking record was removed successfully.</b>
+          <p style="font-size:10px;margin:8px 0 0">The original parent request remains stored separately unless you remove it too.</p>
+        </div>
+        <div class="modal-actions">
+          <button class="btn primary" type="button" onclick="closeModal(true)">Done</button>
+        </div>
+      `);
+
+      renderEnrollmentCrm();
+    }catch(error){
+      toast(error?.message||"Could not remove record");
+      renderEnrollmentCrm();
+    }
   };
 
   window.renderEnrollmentCrmV407=function(){
