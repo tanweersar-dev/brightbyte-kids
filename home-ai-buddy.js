@@ -2,8 +2,8 @@
 "use strict";
 
 /* ============================================================
-   V40.5 — TANNU'S LEARNING BUDDY 2.5
-   TIGHT HOME HERO • EDGE MARQUEES • FLOWERS • 6 QUICK TABS
+   V40.9 — TANNU'S LEARNING BUDDY 2.9
+   UNIFIED HOME FRAME • ALIGNED EDGE MARQUEES • COMPACT HERO • 6 QUICK TABS
    - Natural casual chat as well as learning questions
    - Respectful manners coaching for abusive language
    - Optional AI fallback for questions not in the local database
@@ -3598,15 +3598,37 @@ function installTannuLearningMarquees(){
         Desktop remains spacious enough to read; mobile stays responsive.
       */
       @media(min-width:1021px){
+        /*
+          V40.9 UNIFIED HOME FRAME
+          Match the Home page width to the same outer dimension as the header.
+          Top marquee, hero, outcome cards, bottom marquee and live-reach panel
+          now share one clean left/right boundary.
+        */
         #home.page.show{
+          width:min(1660px,calc(100% - 16px)) !important;
           padding-top:2px !important;
           padding-bottom:12px !important;
+          box-sizing:border-box !important;
+        }
+
+        #home .hero,
+        #home .outcomes,
+        #home .live-reach,
+        #tannuTopMarqueeV403,
+        #tannuBottomMarqueeV403{
+          width:100% !important;
+          max-width:none !important;
+          box-sizing:border-box !important;
+          margin-left:0 !important;
+          margin-right:0 !important;
         }
 
         #home .hero{
           min-height:clamp(420px,calc(100vh - 390px),490px) !important;
           gap:18px !important;
           align-items:center !important;
+          padding-left:36px !important;
+          padding-right:36px !important;
         }
 
         #home .hero-copy{
@@ -3656,9 +3678,9 @@ function installTannuLearningMarquees(){
 
         #tannuTopMarqueeV403,
         #tannuBottomMarqueeV403{
-          width:calc(100% + 72px) !important;
-          margin-left:-36px !important;
-          margin-right:-36px !important;
+          width:100% !important;
+          margin-left:0 !important;
+          margin-right:0 !important;
         }
 
         #tannuTopMarqueeV403{
@@ -3673,7 +3695,15 @@ function installTannuLearningMarquees(){
 
         #home .outcomes{
           gap:10px !important;
-          margin-bottom:16px !important;
+          margin-top:0 !important;
+          margin-bottom:14px !important;
+          padding-left:0 !important;
+          padding-right:0 !important;
+        }
+
+        #home .live-reach{
+          margin-top:0 !important;
+          margin-bottom:12px !important;
         }
 
         #home .outcomes article{
@@ -3837,14 +3867,30 @@ function installTannuLearningMarquees(){
 
       @media(max-width:1020px){
         #home.page.show{
+          width:calc(100% - 10px) !important;
           padding-top:5px !important;
           padding-bottom:18px !important;
+          box-sizing:border-box !important;
+        }
+
+        #home .hero,
+        #home .outcomes,
+        #home .live-reach,
+        #tannuTopMarqueeV403,
+        #tannuBottomMarqueeV403{
+          width:100% !important;
+          max-width:none !important;
+          box-sizing:border-box !important;
+          margin-left:0 !important;
+          margin-right:0 !important;
         }
 
         #home .hero{
           min-height:auto !important;
           padding-top:3px !important;
           padding-bottom:3px !important;
+          padding-left:10px !important;
+          padding-right:10px !important;
         }
 
         #home .hero-copy{
@@ -3876,7 +3922,13 @@ function installTannuLearningMarquees(){
 
       @media(max-width:700px){
         #home.page.show{
+          width:calc(100% - 6px) !important;
           padding-top:4px !important;
+        }
+
+        #home .hero{
+          padding-left:6px !important;
+          padding-right:6px !important;
         }
 
         #home .hero{
