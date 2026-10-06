@@ -2,7 +2,7 @@
 "use strict";
 
 /* ============================================================
-   V40.11 — FRIENDLY CLASS 4–6 EXAMS + DETAILED MARKSHEET
+   V40.12 — FRIENDLY CLASS 4–6 EXAMS + PRINTABLE DETAILED MARKSHEET
    - Reviewed exams get a full question-by-question marksheet
    - Shows student's answer, correct answer, points and practice topics
    ============================================================ */
@@ -347,6 +347,42 @@ function marksheetQuestionHtmlV4011(q) {
     </article>`;
 }
 
+
+/* ============================================================
+   V40.12 — PRINT / SAVE PDF FOR DETAILED MARKSHEET
+   ============================================================ */
+function printStudentExamMarksheetV4012(){
+  const marksheet = document.querySelector(".marksheet-v4011:not(.loading)");
+  if(!marksheet){
+    toast("Open the detailed marksheet first");
+    return;
+  }
+
+  document.body.classList.add("printing-marksheet-v4012");
+
+  /*
+    Let the browser finish applying print styles before opening
+    the native Print / Save as PDF dialog.
+  */
+  requestAnimationFrame(() => {
+    setTimeout(() => {
+      try{
+        window.print();
+      }catch(err){
+        console.error(err);
+        toast("Print dialog could not be opened");
+        document.body.classList.remove("printing-marksheet-v4012");
+      }
+    }, 80);
+  });
+}
+
+window.printStudentExamMarksheetV4012 = printStudentExamMarksheetV4012;
+
+window.addEventListener("afterprint", () => {
+  document.body.classList.remove("printing-marksheet-v4012");
+});
+
 async function showMarksheet(examId) {
   openModal(`
     <section class="marksheet-v4011 loading">
@@ -386,10 +422,20 @@ async function showMarksheet(examId) {
             <p>${esc(profileData.display_name || "Student")} • Class ${Number(profileData.class_number || 1)} • Reviewed ${esc(fmt(exam.reviewed_at))}</p>
           </div>
 
-          <div class="marksheet-score">
-            <small>FINAL SCORE</small>
-            <b>${Number(exam.final_score || 0)}%</b>
-            <span>${pass ? "🏆 PASS" : "📘 KEEP PRACTISING"}</span>
+          <div class="marksheet-hero-side">
+            <div class="marksheet-score">
+              <small>FINAL SCORE</small>
+              <b>${Number(exam.final_score || 0)}%</b>
+              <span>${pass ? "🏆 PASS" : "📘 KEEP PRACTISING"}</span>
+            </div>
+
+            <button
+              class="btn marksheet-print-btn no-print-v4012"
+              type="button"
+              onclick="printStudentExamMarksheetV4012()"
+              title="Print this marksheet or save it as a PDF">
+              🖨️ Print / Save PDF
+            </button>
           </div>
         </header>
 
@@ -427,7 +473,15 @@ async function showMarksheet(examId) {
             <b>${pass ? "Well done!" : "You can improve this."}</b>
             <span>${pass ? "Keep practising the topics marked above to make your skills even stronger." : "Focus on the Practice Next topics, then try another evaluation when ready."}</span>
           </div>
-          <button class="btn secondary" type="button" onclick="closeStudentExamModal()">← Back to My Exams</button>
+          <div class="marksheet-footer-actions no-print-v4012">
+            <button
+              class="btn marksheet-print-btn"
+              type="button"
+              onclick="printStudentExamMarksheetV4012()">
+              🖨️ Print / Save PDF
+            </button>
+            <button class="btn secondary" type="button" onclick="closeStudentExamModal()">← Back to My Exams</button>
+          </div>
         </footer>
       </section>
     `);
