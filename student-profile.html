@@ -2438,4 +2438,737 @@ let recognition=null,conversation={step:0,name:'',feeling:'',classText:'',hobby:
 </script>
 
 
+
+<!-- ============================================================
+     V40.13.1 — STABLE CLASS 4–6 STUDENT DASHBOARD LAYOUT
+     SAFE FINAL VISUAL OVERRIDE
+     PURPOSE
+     - Preserve the user's existing V39.6/V39.6.3 look and content
+     - Stop the later V40.11.1 grid from leaving large empty areas
+     - Make repeated refreshes deterministic
+     - Keep exam notifications, profile, progress, lessons and API untouched
+     - Desktop >=1100px: filled 4-column / 2-row dashboard
+     - Compact desktop 981–1099px: stable 3-column / 3-row dashboard
+     - Tablet/mobile <=980px: existing stacked layout
+     ============================================================ -->
+<style id="studentDashboardStableV40131Style">
+
+/* ============================================================
+   LARGE DESKTOP — restore the filled V39.6.3-style composition
+   Choose Your World | Progress | Passport
+                     | Continue | Mission | Report
+   ============================================================ */
+@media (min-width:1100px){
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard.view.show{
+    display:grid!important;
+    grid-template-columns:
+      minmax(310px,1.05fr)
+      minmax(0,.92fr)
+      minmax(0,.92fr)
+      minmax(0,.92fr)!important;
+    grid-template-rows:auto auto!important;
+    grid-auto-flow:row!important;
+    gap:12px!important;
+    align-items:stretch!important;
+  }
+
+  /* LEFT — Choose Your World fills both rows */
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #kidsWorldLauncher.sp-v3961-world{
+    grid-column:1!important;
+    grid-row:1 / 3!important;
+    margin:0!important;
+    padding:12px!important;
+    border-radius:20px!important;
+    display:flex!important;
+    flex-direction:column!important;
+    align-self:stretch!important;
+    height:auto!important;
+    min-height:0!important;
+    overflow:visible!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #kidsWorldLauncher .kid-world-head{
+    flex:0 0 auto!important;
+    margin-bottom:8px!important;
+    gap:7px!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #kidsWorldLauncher .kid-world-head h2{
+    margin:0!important;
+    font-size:17px!important;
+    line-height:1.1!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #kidsWorldLauncher .kid-world-head p{
+    margin:3px 0 0!important;
+    font-size:8px!important;
+    line-height:1.3!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #kidsWorldLauncher .kid-visual-note{
+    padding:6px 7px!important;
+    border-radius:10px!important;
+    font-size:7px!important;
+    line-height:1.2!important;
+    white-space:nowrap!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #kidsWorldLauncher .kid-world-grid{
+    flex:1 1 auto!important;
+    display:grid!important;
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    grid-template-rows:repeat(3,minmax(92px,1fr))!important;
+    grid-auto-rows:auto!important;
+    gap:7px!important;
+    align-content:stretch!important;
+    height:auto!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #kidsWorldLauncher .kid-world{
+    min-height:92px!important;
+    height:100%!important;
+    padding:9px!important;
+    border-radius:15px!important;
+    box-shadow:
+      0 7px 16px rgba(33,39,104,.12),
+      inset 0 1px 0 rgba(255,255,255,.18)!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #kidsWorldLauncher .kid-world .emoji{
+    font-size:24px!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #kidsWorldLauncher .kid-world b{
+    margin-top:4px!important;
+    font-size:9.5px!important;
+    line-height:1.1!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #kidsWorldLauncher .kid-world small{
+    margin-top:3px!important;
+    font-size:6.4px!important;
+    line-height:1.22!important;
+  }
+
+  /* TOP RIGHT — Progress + Skill Passport */
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard > .sp-v3961-overview{
+    display:contents!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard > .sp-v3961-overview > article:first-child{
+    grid-column:2!important;
+    grid-row:1!important;
+    margin:0!important;
+    min-width:0!important;
+    align-self:stretch!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard > .sp-v3961-overview > article:nth-child(2){
+    grid-column:3 / 5!important;
+    grid-row:1!important;
+    margin:0!important;
+    min-width:0!important;
+    align-self:stretch!important;
+  }
+
+  /* BOTTOM RIGHT — fill all three spaces */
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard > .sp-v3961-continue{
+    grid-column:2!important;
+    grid-row:2!important;
+    margin:0!important;
+    padding:11px!important;
+    min-width:0!important;
+    align-self:stretch!important;
+    border:1px solid var(--line)!important;
+    border-radius:18px!important;
+    background:#fff!important;
+    box-shadow:0 10px 28px rgba(54,49,135,.08)!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard > .sp-v3961-mission{
+    grid-column:3!important;
+    grid-row:2!important;
+    margin:0!important;
+    padding:11px!important;
+    min-width:0!important;
+    align-self:stretch!important;
+    display:block!important;
+    visibility:visible!important;
+    opacity:1!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard > .sp-v3961-report{
+    grid-column:4!important;
+    grid-row:2!important;
+    margin:0!important;
+    padding:11px!important;
+    min-width:0!important;
+    align-self:stretch!important;
+    display:block!important;
+    visibility:visible!important;
+    opacity:1!important;
+  }
+
+  /* Common compact polish */
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .panel{
+    padding:11px!important;
+    border-radius:17px!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .panel h2,
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .section-head h2{
+    margin:0 0 3px!important;
+    font-size:13px!important;
+    line-height:1.15!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .panel > p,
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .section-head p{
+    margin:1px 0 0!important;
+    font-size:7px!important;
+    line-height:1.3!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .section-head{
+    margin:0 0 6px!important;
+    align-items:flex-start!important;
+  }
+
+  /* Progress */
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .stats{
+    grid-template-columns:repeat(5,minmax(0,1fr))!important;
+    gap:5px!important;
+    margin-top:6px!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .stat{
+    padding:7px 3px!important;
+    border-radius:11px!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .stat b{font-size:13px!important}
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .stat small{font-size:5.8px!important}
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .progress{
+    height:5px!important;
+    margin:6px 0 0!important;
+  }
+
+  /* Skill Passport */
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .skills{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:3px 8px!important;
+    margin-top:5px!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .skill{
+    grid-template-columns:56px minmax(0,1fr) 25px!important;
+    gap:4px!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .skill b{font-size:6.3px!important}
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .skill .track{height:4px!important}
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .skill span{font-size:5.8px!important}
+
+  /* Continue Learning */
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard > .sp-v3961-continue .section-head{
+    display:flex!important;
+    gap:5px!important;
+    align-items:center!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard > .sp-v3961-continue .section-head .soft{
+    padding:6px 7px!important;
+    border-radius:8px!important;
+    font-size:6.2px!important;
+    white-space:nowrap!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard #continueLesson{
+    width:100%!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard #continueLesson .lesson-card{
+    width:100%!important;
+    max-width:none!important;
+    min-height:0!important;
+    padding:8px!important;
+    border-radius:12px!important;
+    box-shadow:none!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard #continueLesson .lesson-card .visual{
+    height:72px!important;
+    border-radius:10px!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard #continueLesson .lesson-card h3{
+    margin:5px 0 2px!important;
+    font-size:9px!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard #continueLesson .lesson-card p{
+    margin:0 0 5px!important;
+    font-size:6.4px!important;
+    line-height:1.25!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard #continueLesson .lesson-card button{
+    min-height:0!important;
+    padding:6px!important;
+    font-size:6.5px!important;
+    border-radius:8px!important;
+  }
+
+  /* Today's Mission — vertical, no empty middle block */
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard > .sp-v3961-mission .section-head p{
+    display:none!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .mission-grid{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:4px!important;
+    margin-top:4px!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .mission{
+    min-height:34px!important;
+    padding:5px 7px!important;
+    border-radius:10px!important;
+    display:grid!important;
+    grid-template-columns:22px minmax(0,1fr)!important;
+    grid-template-rows:auto auto!important;
+    column-gap:6px!important;
+    align-items:center!important;
+    text-align:left!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .mission span{
+    grid-row:1 / 3!important;
+    font-size:15px!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .mission b{
+    display:block!important;
+    margin:0!important;
+    font-size:7px!important;
+    line-height:1.08!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .mission small{
+    display:block!important;
+    margin:1px 0 0!important;
+    font-size:5.8px!important;
+    line-height:1.15!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard > .sp-v3961-mission .focus-box{
+    margin-top:5px!important;
+    padding:6px 7px!important;
+    font-size:5.8px!important;
+    line-height:1.22!important;
+  }
+
+  /* Learning Report */
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard > .sp-v3961-report > h2{
+    margin-bottom:6px!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .report-grid{
+    grid-template-columns:1fr!important;
+    gap:5px!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .report-box{
+    padding:7px!important;
+    border-radius:10px!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .report-box b{font-size:7px!important}
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .report-box small{
+    margin-top:2px!important;
+    font-size:5.8px!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard > .sp-v3961-report .focus-box{
+    margin-top:5px!important;
+    padding:6px 7px!important;
+    font-size:5.8px!important;
+    line-height:1.22!important;
+  }
+}
+
+
+/* ============================================================
+   COMPACT DESKTOP — 981px to 1099px
+   Stable 3-column arrangement without the large blank gap.
+   ============================================================ */
+@media (min-width:981px) and (max-width:1099px){
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard.view.show{
+    display:grid!important;
+    grid-template-columns:minmax(290px,.92fr) minmax(0,1fr) minmax(0,1fr)!important;
+    grid-template-rows:auto auto auto!important;
+    gap:10px!important;
+    align-items:start!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #kidsWorldLauncher.sp-v3961-world{
+    grid-column:1!important;
+    grid-row:1 / 4!important;
+    margin:0!important;
+    padding:11px!important;
+    display:block!important;
+    height:auto!important;
+    min-height:0!important;
+    align-self:start!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #kidsWorldLauncher .kid-world-grid{
+    display:grid!important;
+    grid-template-columns:repeat(3,minmax(0,1fr))!important;
+    grid-template-rows:none!important;
+    grid-auto-rows:auto!important;
+    gap:6px!important;
+    height:auto!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #kidsWorldLauncher .kid-world{
+    min-height:88px!important;
+    height:auto!important;
+    padding:8px!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #kidsWorldLauncher .kid-world .emoji{font-size:23px!important}
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #kidsWorldLauncher .kid-world b{font-size:8.8px!important}
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #kidsWorldLauncher .kid-world small{font-size:6px!important}
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard > .sp-v3961-overview{
+    grid-column:2 / 4!important;
+    grid-row:1!important;
+    margin:0!important;
+    display:grid!important;
+    grid-template-columns:minmax(0,.92fr) minmax(0,1.08fr)!important;
+    gap:10px!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard > .sp-v3961-mission{
+    grid-column:2 / 4!important;
+    grid-row:2!important;
+    margin:0!important;
+    padding:10px!important;
+    display:block!important;
+    visibility:visible!important;
+    opacity:1!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .mission-grid{
+    display:grid!important;
+    grid-template-columns:repeat(5,minmax(0,1fr))!important;
+    gap:5px!important;
+    margin-top:5px!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .mission{
+    display:block!important;
+    min-height:58px!important;
+    padding:6px!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .mission span{display:block!important;font-size:16px!important}
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .mission b{display:block!important;margin-top:3px!important;font-size:7px!important}
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .mission small{display:block!important;margin-top:2px!important;font-size:5.8px!important}
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard > .sp-v3961-continue{
+    grid-column:2!important;
+    grid-row:3!important;
+    margin:0!important;
+    padding:10px!important;
+    min-width:0!important;
+    align-self:stretch!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard > .sp-v3961-report{
+    grid-column:3!important;
+    grid-row:3!important;
+    margin:0!important;
+    padding:10px!important;
+    min-width:0!important;
+    align-self:stretch!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .panel{
+    padding:10px!important;
+    border-radius:16px!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .stats{
+    grid-template-columns:repeat(5,minmax(0,1fr))!important;
+    gap:4px!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .skills{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+    gap:3px 7px!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard #continueLesson .lesson-card .visual{
+    height:68px!important;
+  }
+}
+
+
+/* ============================================================
+   TABLET + MOBILE
+   Keep the existing good stacked interface.
+   ============================================================ */
+@media (max-width:980px){
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard.view.show{
+    display:block!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard > .sp-v3961-overview{
+    display:grid!important;
+    grid-template-columns:1fr!important;
+    gap:12px!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #kidsWorldLauncher.sp-v3961-world,
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard > .sp-v3961-overview,
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard > .sp-v3961-mission,
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard > .sp-v3961-continue,
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard > .sp-v3961-report{
+    width:100%!important;
+    margin-top:12px!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #kidsWorldLauncher.sp-v3961-world{
+    margin-top:0!important;
+    display:block!important;
+    height:auto!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #kidsWorldLauncher .kid-world-grid{
+    grid-template-rows:none!important;
+    height:auto!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .mission-grid{
+    grid-template-columns:repeat(2,minmax(0,1fr))!important;
+  }
+
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .mission{
+    display:block!important;
+    min-height:68px!important;
+    padding:8px!important;
+  }
+}
+
+@media (max-width:520px){
+  body.sp-advanced-compact-v396.sp-v40131-layout-ready
+  #view-dashboard .mission-grid{
+    grid-template-columns:1fr!important;
+  }
+}
+</style>
+
+<script id="studentDashboardStableV40131Script">
+(() => {
+  "use strict";
+
+  if (window.__studentDashboardStableV40131) return;
+  window.__studentDashboardStableV40131 = true;
+
+  let observer = null;
+  let scheduled = false;
+  let stable = false;
+
+  function classNumber(){
+    const text = String(document.getElementById("classChip")?.textContent || "");
+    const match = text.match(/class\s*(\d+)/i);
+    return match ? Number(match[1]) : 0;
+  }
+
+  function tagStableLayout(){
+    const c = classNumber();
+
+    if(c < 4 || c > 6){
+      document.body.classList.remove("sp-v40131-layout-ready");
+      return false;
+    }
+
+    document.body.classList.add("sp-advanced-compact-v396");
+
+    const view = document.getElementById("view-dashboard");
+    const world = document.getElementById("kidsWorldLauncher");
+    const overview = view
+      ? [...view.children].find(el => el.classList?.contains("dashboard"))
+      : null;
+    const mission = document.getElementById("missionGrid")?.closest("section");
+    const cont = document.getElementById("continueLesson")?.closest("section");
+    const report = document.getElementById("reportGrid")?.closest("section");
+
+    if(!view || !world || !overview || !mission || !cont || !report){
+      return false;
+    }
+
+    world.classList.add("sp-v3961-world");
+    overview.classList.add("sp-v3961-overview");
+    mission.classList.add("sp-v3961-mission");
+    cont.classList.add("sp-v3961-continue");
+    report.classList.add("sp-v3961-report");
+
+    document.body.classList.add("sp-v40131-layout-ready");
+    stable = true;
+    return true;
+  }
+
+  function schedule(){
+    if(scheduled) return;
+    scheduled = true;
+
+    requestAnimationFrame(() => {
+      scheduled = false;
+      const ok = tagStableLayout();
+
+      /* Once all required dashboard pieces exist, stop watching the whole page.
+         This prevents repeated-refresh / repeated-mutation layout churn. */
+      if(ok && observer){
+        observer.disconnect();
+        observer = null;
+      }
+    });
+  }
+
+  function start(){
+    schedule();
+
+    if(!observer){
+      observer = new MutationObserver(schedule);
+      observer.observe(document.body,{
+        childList:true,
+        subtree:true,
+        characterData:true
+      });
+    }
+
+    /* Covers profile/class load + delayed Choose Your World injection. */
+    [40,100,180,300,500,800,1200,1800,2600,4000].forEach(ms=>{
+      setTimeout(schedule,ms);
+    });
+  }
+
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded",start,{once:true});
+  }else{
+    start();
+  }
+
+  window.addEventListener("pageshow",()=>{
+    stable = false;
+    start();
+  });
+
+  window.addEventListener("resize",()=>{
+    if(stable) schedule();
+  });
+})();
+</script>
+
 </body></html>
