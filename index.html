@@ -646,13 +646,383 @@
 
 }
 </style>
+
+<style id="contactEnrollmentStyleV406">
+/* ============================================================
+   V40.6 — PRIVATE CONTACT / ENROLLMENT REQUEST
+   Existing index.html only — no extra public page required.
+   No academy phone number, location or personal contact is shown.
+   ============================================================ */
+
+#contactEnrollmentBtn{
+  background:
+    linear-gradient(
+      135deg,
+      #14cdb0,
+      #29b4ec,
+      #7b5cff
+    ) !important;
+  color:#fff !important;
+  border:1px solid rgba(255,255,255,.50) !important;
+  box-shadow:
+    0 0 10px rgba(61,226,211,.38),
+    0 0 20px rgba(83,128,255,.20) !important;
+}
+
+#contactEnrollmentBtn:hover{
+  filter:brightness(1.14) saturate(1.15) !important;
+}
+
+.enroll-modal-v406{
+  position:fixed;
+  inset:0;
+  z-index:999999;
+  display:none;
+  place-items:center;
+  padding:18px;
+  background:rgba(3,8,30,.70);
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+
+.enroll-modal-v406.open{
+  display:grid;
+}
+
+.enroll-card-v406{
+  width:min(680px,100%);
+  max-height:min(90vh,820px);
+  overflow:auto;
+  border-radius:28px;
+  color:#1c2257;
+  background:
+    radial-gradient(circle at 90% 0%,rgba(76,225,214,.20),transparent 28%),
+    radial-gradient(circle at 0% 0%,rgba(126,91,255,.16),transparent 30%),
+    linear-gradient(145deg,#ffffff,#f7f7ff);
+  border:1px solid rgba(255,255,255,.88);
+  box-shadow:
+    0 34px 90px rgba(0,0,0,.38),
+    0 0 0 1px rgba(108,98,220,.10);
+}
+
+.enroll-head-v406{
+  position:relative;
+  padding:24px 58px 20px 24px;
+  color:#fff;
+  background:
+    linear-gradient(
+      135deg,
+      #6759ed,
+      #d85fca,
+      #25bfce
+    );
+  border-radius:27px 27px 0 0;
+  overflow:hidden;
+}
+
+.enroll-head-v406::after{
+  content:"";
+  position:absolute;
+  width:180px;
+  height:180px;
+  border-radius:50%;
+  right:-70px;
+  top:-100px;
+  background:rgba(255,255,255,.16);
+}
+
+.enroll-head-v406 .tag-v406{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  padding:6px 10px;
+  border-radius:999px;
+  background:rgba(255,255,255,.16);
+  border:1px solid rgba(255,255,255,.24);
+  font-size:9px;
+  font-weight:950;
+  letter-spacing:.06em;
+}
+
+.enroll-head-v406 h2{
+  margin:10px 0 6px;
+  color:#fff;
+  font-size:clamp(22px,4vw,32px);
+  line-height:1.08;
+}
+
+.enroll-head-v406 p{
+  margin:0;
+  max-width:560px;
+  color:rgba(255,255,255,.92);
+  font-size:12px;
+  line-height:1.55;
+}
+
+.enroll-close-v406{
+  position:absolute;
+  z-index:3;
+  right:15px;
+  top:15px;
+  width:38px;
+  height:38px;
+  border:0;
+  border-radius:50%;
+  color:#fff;
+  background:rgba(255,255,255,.18);
+  font-size:22px;
+  cursor:pointer;
+}
+
+.enroll-body-v406{
+  padding:22px;
+}
+
+.enroll-note-v406{
+  display:flex;
+  align-items:flex-start;
+  gap:10px;
+  margin-bottom:16px;
+  padding:12px 14px;
+  border-radius:15px;
+  color:#315867;
+  background:#eafcf7;
+  border:1px solid #c8f1e7;
+  font-size:10px;
+  line-height:1.5;
+}
+
+.enroll-grid-v406{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:13px;
+}
+
+.enroll-field-v406{
+  display:grid;
+  gap:6px;
+}
+
+.enroll-field-v406.full{
+  grid-column:1/-1;
+}
+
+.enroll-field-v406 label{
+  color:#383d72;
+  font-size:10px;
+  font-weight:950;
+}
+
+.enroll-field-v406 input,
+.enroll-field-v406 select,
+.enroll-field-v406 textarea{
+  width:100%;
+  box-sizing:border-box;
+  border:1px solid #dcdff3;
+  border-radius:13px;
+  padding:11px 12px;
+  color:#222858;
+  background:#fff;
+  font:inherit;
+  font-size:12px;
+  outline:none;
+  transition:.18s ease;
+}
+
+.enroll-field-v406 textarea{
+  resize:vertical;
+  min-height:88px;
+  line-height:1.45;
+}
+
+.enroll-field-v406 input:focus,
+.enroll-field-v406 select:focus,
+.enroll-field-v406 textarea:focus{
+  border-color:#7a68f4;
+  box-shadow:0 0 0 3px rgba(122,104,244,.12);
+}
+
+.enroll-methods-v406{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+}
+
+.enroll-method-v406{
+  position:relative;
+}
+
+.enroll-method-v406 input{
+  position:absolute;
+  opacity:0;
+  pointer-events:none;
+}
+
+.enroll-method-v406 span{
+  min-height:42px;
+  padding:8px 7px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:5px;
+  border-radius:12px;
+  border:1px solid #dedff0;
+  background:#fff;
+  color:#4a4d7b;
+  font-size:9px;
+  font-weight:900;
+  cursor:pointer;
+  text-align:center;
+}
+
+.enroll-method-v406 input:checked + span{
+  color:#fff;
+  border-color:transparent;
+  background:linear-gradient(135deg,#6759ed,#24bfc5);
+  box-shadow:0 7px 16px rgba(87,86,205,.16);
+}
+
+.enroll-consent-v406{
+  display:flex;
+  gap:9px;
+  align-items:flex-start;
+  margin-top:14px;
+  padding:11px 12px;
+  border-radius:13px;
+  background:#f5f3ff;
+  color:#555b80;
+  font-size:9px;
+  line-height:1.45;
+}
+
+.enroll-consent-v406 input{
+  margin-top:2px;
+  accent-color:#6659ed;
+}
+
+.enroll-actions-v406{
+  display:flex;
+  gap:9px;
+  justify-content:flex-end;
+  margin-top:16px;
+}
+
+.enroll-actions-v406 button{
+  border:0;
+  border-radius:13px;
+  padding:11px 16px;
+  font-weight:950;
+  cursor:pointer;
+}
+
+.enroll-cancel-v406{
+  color:#5f6380;
+  background:#eef0f7;
+}
+
+.enroll-submit-v406{
+  color:#fff;
+  background:linear-gradient(135deg,#6859ef,#ff64b6,#24c6c5);
+  box-shadow:0 9px 20px rgba(98,86,224,.22);
+}
+
+.enroll-submit-v406:disabled{
+  opacity:.62;
+  cursor:wait;
+}
+
+.enroll-status-v406{
+  display:none;
+  margin-top:13px;
+  padding:11px 13px;
+  border-radius:13px;
+  font-size:10px;
+  font-weight:850;
+  line-height:1.45;
+}
+
+.enroll-status-v406.show{
+  display:block;
+}
+
+.enroll-status-v406.good{
+  color:#126046;
+  background:#e7fbf3;
+  border:1px solid #bcebd8;
+}
+
+.enroll-status-v406.bad{
+  color:#8e2f4c;
+  background:#fff0f4;
+  border:1px solid #f3cbd6;
+}
+
+/* hidden anti-spam field */
+.enroll-hp-v406{
+  position:absolute !important;
+  left:-9999px !important;
+  width:1px !important;
+  height:1px !important;
+  opacity:0 !important;
+  pointer-events:none !important;
+}
+
+body.enroll-open-v406{
+  overflow:hidden !important;
+}
+
+@media(max-width:620px){
+  .enroll-modal-v406{
+    padding:8px;
+    align-items:end;
+  }
+
+  .enroll-card-v406{
+    width:100%;
+    max-height:94vh;
+    border-radius:22px 22px 0 0;
+  }
+
+  .enroll-head-v406{
+    padding:18px 52px 16px 17px;
+    border-radius:21px 21px 0 0;
+  }
+
+  .enroll-body-v406{
+    padding:15px;
+  }
+
+  .enroll-grid-v406{
+    grid-template-columns:1fr;
+    gap:10px;
+  }
+
+  .enroll-field-v406.full{
+    grid-column:auto;
+  }
+
+  .enroll-methods-v406{
+    grid-template-columns:1fr 1fr 1fr;
+  }
+
+  .enroll-actions-v406{
+    display:grid;
+    grid-template-columns:1fr 1.5fr;
+  }
+
+  .enroll-actions-v406 button{
+    width:100%;
+  }
+}
+</style>
+
 </head>
 <body>
 <div class="space" aria-hidden="true"><i class="neb a"></i><i class="neb b"></i><span class="fly l1">🚀</span><span class="fly l2">✈️</span><span class="fly l3">🛸</span><span class="fly r1">🌙</span><span class="fly r2">🪐</span><span class="fly r3">👽</span><span class="fly r4">🔴</span></div>
 <header class="topbar glass">
   <a class="brand" href="#home" data-page="home"><span class="t-logo" aria-label="Tannu Sir logo"><svg viewBox="0 0 64 64" aria-hidden="true"><defs><linearGradient id="tg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#46e4df"/><stop offset=".48" stop-color="#7765ff"/><stop offset="1" stop-color="#ff67b8"/></linearGradient></defs><circle cx="32" cy="32" r="29" fill="url(#tg)"/><circle cx="32" cy="32" r="23" fill="#12194b" opacity=".94"/><path d="M17 18h30v8H36v23h-8V26H17z" fill="#fff"/><path d="M13 35c8 10 30 15 40-1" fill="none" stroke="#55e1d7" stroke-width="2.5" stroke-linecap="round" opacity=".9"/><circle cx="52" cy="33" r="3.3" fill="#ffd65c"/></svg></span><span><b>Tannu Sir's</b><small>KIDS DIGITAL ACADEMY</small></span></a>
   <nav class="mainnav">
-    <button data-page="home" class="active">🏠<span>Home</span></button><button data-page="course">🗺️<span>90-Day</span></button><button data-page="digital">💻<span>Digital</span></button><button data-page="english">🗣️<span>English</span></button><button data-page="games">🎮<span>Games</span></button><button data-page="confidence">🌟<span>Confidence</span></button><button data-page="healthy">🌱<span>Healthy</span></button><button data-page="students">🎓<span>Students</span></button><button data-page="rewards">🏆<span>Rewards</span></button><button type="button" onclick="location.href='reviews.html'">⭐<span>Parent Reviews</span></button><button type="button" onclick="location.href='admin.html'">🔐<span>Admin Center</span></button>
+    <button data-page="home" class="active">🏠<span>Home</span></button><button data-page="course">🗺️<span>90-Day</span></button><button data-page="digital">💻<span>Digital</span></button><button data-page="english">🗣️<span>English</span></button><button data-page="games">🎮<span>Games</span></button><button data-page="confidence">🌟<span>Confidence</span></button><button data-page="healthy">🌱<span>Healthy</span></button><button data-page="students">🎓<span>Students</span></button><button data-page="rewards">🏆<span>Rewards</span></button><button type="button" onclick="location.href='reviews.html'">⭐<span>Parent Reviews</span></button><button id="contactEnrollmentBtn" type="button" aria-haspopup="dialog" aria-controls="contactEnrollmentModalV406">📩<span>Contact</span></button><button type="button" onclick="location.href='admin.html'">🔐<span>Admin Center</span></button>
   </nav>
   <div class="header-actions"><a id="studentSessionPill" class="session-pill" href="student-profile.html" hidden>👋 Continue Learning</a><button id="voiceBtn">🔊 Voice</button><button id="adultBtn" hidden aria-hidden="true" tabindex="-1">👨‍👩‍👧 Adults</button></div>
 </header>
@@ -829,7 +1199,170 @@
   <span class="robot-body" aria-hidden="true"><b>?</b></span>
   <small>Tap me!</small>
 </button>
+
 <div id="modal" class="modal" aria-hidden="true"><div class="modal-card"><button id="modalClose" class="close">×</button><div id="modalBody"></div></div></div><div id="toast" class="toast"></div>
+
+<!-- ============================================================
+     V40.6 PRIVATE CONTACT / ENROLLMENT FORM
+     No academy personal phone/location is exposed here.
+     Parent supplies contact details; academy contacts them later.
+     ============================================================ -->
+<div id="contactEnrollmentModalV406"
+     class="enroll-modal-v406"
+     role="dialog"
+     aria-modal="true"
+     aria-labelledby="contactEnrollTitleV406"
+     aria-hidden="true">
+
+  <div class="enroll-card-v406">
+    <div class="enroll-head-v406">
+      <span class="tag-v406">📩 PRIVATE ENROLLMENT REQUEST</span>
+      <h2 id="contactEnrollTitleV406">Interested in enrolling your child?</h2>
+      <p>
+        Send a private request to the academy. Your details are not shown publicly.
+        After reviewing the request, the academy will contact you personally.
+      </p>
+      <button id="contactEnrollCloseV406"
+              class="enroll-close-v406"
+              type="button"
+              aria-label="Close enrollment form">×</button>
+    </div>
+
+    <div class="enroll-body-v406">
+      <div class="enroll-note-v406">
+        <span>🔒</span>
+        <div>
+          <b>Private by design.</b><br>
+          This form does not display the academy owner's mobile number, address or location.
+          The contact details entered below are intended only for the academy administrator.
+        </div>
+      </div>
+
+      <form id="contactEnrollmentFormV406" novalidate>
+        <div class="enroll-hp-v406" aria-hidden="true">
+          <label>
+            Website
+            <input id="contactWebsiteV406"
+                   name="website"
+                   type="text"
+                   tabindex="-1"
+                   autocomplete="off">
+          </label>
+        </div>
+
+        <div class="enroll-grid-v406">
+          <div class="enroll-field-v406">
+            <label for="contactParentNameV406">Parent / Guardian Name *</label>
+            <input id="contactParentNameV406"
+                   name="parentName"
+                   type="text"
+                   maxlength="80"
+                   autocomplete="name"
+                   placeholder="Enter parent or guardian name"
+                   required>
+          </div>
+
+          <div class="enroll-field-v406">
+            <label for="contactStudentNameV406">Student Name *</label>
+            <input id="contactStudentNameV406"
+                   name="studentName"
+                   type="text"
+                   maxlength="80"
+                   placeholder="Enter student's name"
+                   required>
+          </div>
+
+          <div class="enroll-field-v406">
+            <label for="contactClassV406">Student Class *</label>
+            <select id="contactClassV406"
+                    name="classNumber"
+                    required>
+              <option value="">Select Class</option>
+              <option value="1">Class 1</option>
+              <option value="2">Class 2</option>
+              <option value="3">Class 3</option>
+              <option value="4">Class 4</option>
+              <option value="5">Class 5</option>
+              <option value="6">Class 6</option>
+            </select>
+          </div>
+
+          <div class="enroll-field-v406">
+            <label>How should the academy contact you? *</label>
+            <div class="enroll-methods-v406">
+              <label class="enroll-method-v406">
+                <input type="radio"
+                       name="contactMethod"
+                       value="whatsapp"
+                       checked>
+                <span>💬 WhatsApp</span>
+              </label>
+
+              <label class="enroll-method-v406">
+                <input type="radio"
+                       name="contactMethod"
+                       value="phone">
+                <span>📞 Phone</span>
+              </label>
+
+              <label class="enroll-method-v406">
+                <input type="radio"
+                       name="contactMethod"
+                       value="email">
+                <span>✉️ Email</span>
+              </label>
+            </div>
+          </div>
+
+          <div class="enroll-field-v406 full">
+            <label id="contactValueLabelV406"
+                   for="contactValueV406">Your WhatsApp Number *</label>
+            <input id="contactValueV406"
+                   name="contactValue"
+                   type="tel"
+                   maxlength="140"
+                   autocomplete="tel"
+                   placeholder="Example: +966 5X XXX XXXX"
+                   required>
+          </div>
+
+          <div class="enroll-field-v406 full">
+            <label for="contactNoteV406">Learning Requirement / Message <span style="font-weight:600">(optional)</span></label>
+            <textarea id="contactNoteV406"
+                      name="note"
+                      maxlength="700"
+                      placeholder="Tell us briefly what you would like your child to learn or any question about enrollment."></textarea>
+          </div>
+        </div>
+
+        <label class="enroll-consent-v406">
+          <input id="contactConsentV406"
+                 type="checkbox"
+                 required>
+          <span>
+            I confirm that these details are mine and I allow Tannu Sir's Kids Digital Academy
+            to contact me personally regarding this enrollment request.
+          </span>
+        </label>
+
+        <div id="contactStatusV406"
+             class="enroll-status-v406"
+             role="status"
+             aria-live="polite"></div>
+
+        <div class="enroll-actions-v406">
+          <button id="contactCancelV406"
+                  class="enroll-cancel-v406"
+                  type="button">Cancel</button>
+          <button id="contactSubmitV406"
+                  class="enroll-submit-v406"
+                  type="submit">📩 Send Private Request</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
 <script>
 /* ============================================================
    V39.5.1 — LINK GUARDIAN INFO CARDS
@@ -1349,4 +1882,399 @@
 </script>
 
   
+
+<script id="contactEnrollmentScriptV406">
+/* ============================================================
+   V40.6 — PRIVATE CONTACT / ENROLLMENT FRONTEND
+   Existing index.html only.
+   Backend endpoint expected:
+   POST https://api.tanweer.site/api/enrollment-requests
+   ============================================================ */
+(() => {
+  "use strict";
+
+  if(window.__contactEnrollmentV406) return;
+  window.__contactEnrollmentV406 = true;
+
+  const API = "https://api.tanweer.site";
+  const VISITOR_KEY = "tannu_enroll_visitor_v1";
+
+  const $ = id => document.getElementById(id);
+
+  function getVisitorKey(){
+    let key = localStorage.getItem(VISITOR_KEY) || "";
+
+    if(!/^[a-zA-Z0-9_-]{8,90}$/.test(key)){
+      const seed =
+        (window.crypto && crypto.randomUUID)
+          ? crypto.randomUUID()
+          : (
+              Date.now().toString(36) +
+              Math.random().toString(36).slice(2)
+            );
+
+      key = "enr_" + seed.replace(/[^a-zA-Z0-9_-]/g,"");
+      localStorage.setItem(VISITOR_KEY,key);
+    }
+
+    return key;
+  }
+
+  function setStatus(message,type=""){
+    const box = $("contactStatusV406");
+    if(!box) return;
+
+    box.textContent = message || "";
+    box.className =
+      "enroll-status-v406" +
+      (message ? " show" : "") +
+      (type ? " " + type : "");
+  }
+
+  function openContact(){
+    const modal = $("contactEnrollmentModalV406");
+    if(!modal) return;
+
+    setStatus("");
+    modal.classList.add("open");
+    modal.setAttribute("aria-hidden","false");
+    document.body.classList.add("enroll-open-v406");
+
+    setTimeout(
+      () => $("contactParentNameV406")?.focus(),
+      60
+    );
+  }
+
+  function closeContact(){
+    const modal = $("contactEnrollmentModalV406");
+    if(!modal) return;
+
+    modal.classList.remove("open");
+    modal.setAttribute("aria-hidden","true");
+    document.body.classList.remove("enroll-open-v406");
+  }
+
+  function updateContactField(){
+    const selected =
+      document.querySelector(
+        '#contactEnrollmentFormV406 input[name="contactMethod"]:checked'
+      )?.value || "whatsapp";
+
+    const field = $("contactValueV406");
+    const label = $("contactValueLabelV406");
+
+    if(!field || !label) return;
+
+    if(selected === "email"){
+      field.type = "email";
+      field.autocomplete = "email";
+      field.placeholder = "Example: parent@example.com";
+      label.textContent = "Your Email Address *";
+      return;
+    }
+
+    field.type = "tel";
+    field.autocomplete = "tel";
+
+    if(selected === "phone"){
+      field.placeholder = "Enter your phone number";
+      label.textContent = "Your Phone Number *";
+    }else{
+      field.placeholder = "Example: +966 5X XXX XXXX";
+      label.textContent = "Your WhatsApp Number *";
+    }
+  }
+
+  function validate(form){
+    const parentName =
+      String(form.parentName.value || "").trim();
+
+    const studentName =
+      String(form.studentName.value || "").trim();
+
+    const classNumber =
+      Number(form.classNumber.value || 0);
+
+    const contactMethod =
+      String(
+        form.querySelector(
+          'input[name="contactMethod"]:checked'
+        )?.value || ""
+      );
+
+    const contactValue =
+      String(form.contactValue.value || "").trim();
+
+    const consent =
+      $("contactConsentV406")?.checked === true;
+
+    if(parentName.length < 2){
+      return "Please enter the parent / guardian name.";
+    }
+
+    if(studentName.length < 2){
+      return "Please enter the student's name.";
+    }
+
+    if(classNumber < 1 || classNumber > 6){
+      return "Please select the student's class.";
+    }
+
+    if(!["whatsapp","phone","email"].includes(contactMethod)){
+      return "Please choose how the academy should contact you.";
+    }
+
+    if(contactMethod === "email"){
+      if(!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/i.test(contactValue)){
+        return "Please enter a valid email address.";
+      }
+    }else{
+      const digits =
+        contactValue.replace(/\D/g,"");
+
+      if(digits.length < 7 || digits.length > 15){
+        return "Please enter a valid mobile / phone number.";
+      }
+    }
+
+    if(!consent){
+      return "Please confirm that the academy may contact you about enrollment.";
+    }
+
+    return "";
+  }
+
+  async function submitEnrollment(event){
+    event.preventDefault();
+
+    const form = event.currentTarget;
+    const submit = $("contactSubmitV406");
+
+    const problem = validate(form);
+
+    if(problem){
+      setStatus(problem,"bad");
+      return;
+    }
+
+    const payload = {
+      visitorKey:getVisitorKey(),
+      parentName:String(form.parentName.value || "").trim(),
+      studentName:String(form.studentName.value || "").trim(),
+      classNumber:Number(form.classNumber.value),
+      contactMethod:String(
+        form.querySelector(
+          'input[name="contactMethod"]:checked'
+        )?.value || ""
+      ),
+      contactValue:String(form.contactValue.value || "").trim(),
+      note:String(form.note.value || "").trim(),
+      consent:$("contactConsentV406")?.checked === true,
+      website:String(form.website.value || "").trim()
+    };
+
+    if(submit){
+      submit.disabled = true;
+      submit.textContent = "Sending securely…";
+    }
+
+    setStatus(
+      "Sending your private enrollment request…"
+    );
+
+    try{
+      const response = await fetch(
+        API + "/api/enrollment-requests",
+        {
+          method:"POST",
+          headers:{
+            "Content-Type":"application/json"
+          },
+          body:JSON.stringify(payload)
+        }
+      );
+
+      let data = {};
+
+      try{
+        data = await response.json();
+      }catch{}
+
+      if(!response.ok){
+        throw new Error(
+          data.error ||
+          "The request could not be sent right now."
+        );
+      }
+
+      setStatus(
+        "✅ Request received. Thank you! The academy will review your enrollment request and contact you personally.",
+        "good"
+      );
+
+      form.reset();
+
+      const defaultMethod =
+        form.querySelector(
+          'input[name="contactMethod"][value="whatsapp"]'
+        );
+
+      if(defaultMethod){
+        defaultMethod.checked = true;
+      }
+
+      updateContactField();
+
+    }catch(error){
+      setStatus(
+        "⚠️ " +
+        (
+          error?.message ||
+          "The request could not be sent right now. Please try again shortly."
+        ),
+        "bad"
+      );
+
+    }finally{
+      if(submit){
+        submit.disabled = false;
+        submit.textContent = "📩 Send Private Request";
+      }
+    }
+  }
+
+  /*
+    script.js V23 rearranges header buttons on DOMContentLoaded.
+    Run this after the full page has loaded so Contact remains
+    immediately before Admin Center and the existing colours stay aligned.
+  */
+  function repairHeaderOrder(){
+    const nav =
+      document.querySelector(".mainnav");
+
+    const contact =
+      $("contactEnrollmentBtn");
+
+    if(!nav || !contact) return;
+
+    const admin =
+      [...nav.querySelectorAll("button")]
+        .find(
+          button =>
+            String(button.textContent || "")
+              .toLowerCase()
+              .includes("admin center")
+        );
+
+    if(admin){
+      nav.insertBefore(contact,admin);
+    }
+
+    const buttons =
+      [...nav.querySelectorAll("button")];
+
+    buttons.forEach((button,index) => {
+      for(let i=1;i<=14;i++){
+        button.classList.remove(
+          `tannu-nav-${i}`
+        );
+      }
+
+      if(index < 12){
+        button.classList.add(
+          `tannu-nav-${index + 1}`
+        );
+      }
+    });
+  }
+
+  function init(){
+    $("contactEnrollmentBtn")
+      ?.addEventListener(
+        "click",
+        openContact
+      );
+
+    $("contactEnrollCloseV406")
+      ?.addEventListener(
+        "click",
+        closeContact
+      );
+
+    $("contactCancelV406")
+      ?.addEventListener(
+        "click",
+        closeContact
+      );
+
+    $("contactEnrollmentModalV406")
+      ?.addEventListener(
+        "click",
+        event => {
+          if(
+            event.target ===
+            $("contactEnrollmentModalV406")
+          ){
+            closeContact();
+          }
+        }
+      );
+
+    document.addEventListener(
+      "keydown",
+      event => {
+        if(
+          event.key === "Escape" &&
+          $("contactEnrollmentModalV406")
+            ?.classList.contains("open")
+        ){
+          closeContact();
+        }
+      }
+    );
+
+    document.querySelectorAll(
+      '#contactEnrollmentFormV406 input[name="contactMethod"]'
+    ).forEach(
+      radio =>
+        radio.addEventListener(
+          "change",
+          updateContactField
+        )
+    );
+
+    $("contactEnrollmentFormV406")
+      ?.addEventListener(
+        "submit",
+        submitEnrollment
+      );
+
+    updateContactField();
+
+    repairHeaderOrder();
+  }
+
+  if(document.readyState === "loading"){
+    document.addEventListener(
+      "DOMContentLoaded",
+      init,
+      {once:true}
+    );
+  }else{
+    init();
+  }
+
+  window.addEventListener(
+    "load",
+    () => {
+      repairHeaderOrder();
+      setTimeout(repairHeaderOrder,120);
+    },
+    {once:true}
+  );
+
+})();
+</script>
+
 </body></html>
