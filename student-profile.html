@@ -3362,4 +3362,285 @@ let recognition=null,conversation={step:0,name:'',feeling:'',classText:'',hobby:
 })();
 </script>
 
+
+<!-- ============================================================
+     V40.14.3 — CLASS 1–3 CLEAN PROFILE NAVIGATION
+     ------------------------------------------------------------
+     SAFE ADDITIVE UI ORGANIZER — NO BACKEND / DATA CHANGE
+
+     CLASS 1–3 ONLY:
+     • Top Password shortcut is removed because Password already exists
+       under the student's profile photo.
+     • Speak / Health / Safety are moved from the top header to the
+       lower learning navigation, directly after GK World.
+     • Foundation Home / Home navigation from V40.14.2 is preserved.
+     • My Work / Rewards / Me / Academy / notification bell / Logout
+       remain in the top header.
+     • Existing views, course progress, D1, API, exams, notifications,
+       AI Buddy and password functionality are untouched.
+     • Class 4–6 V39.6 / V40.13.1 navigation stays untouched.
+     ============================================================ -->
+<style id="foundationProfileNavStyleV40143">
+
+/* The three moved Class 1–3 learning buttons live beside GK World. */
+body.sp-foundation-nav-v40143
+.tabs .sp-foundation-moved-tab-v40143{
+  min-height:43px!important;
+  padding:10px 15px!important;
+  display:inline-flex!important;
+  align-items:center!important;
+  justify-content:center!important;
+  border-radius:13px!important;
+  font-size:11px!important;
+  line-height:1!important;
+  font-weight:950!important;
+  white-space:nowrap!important;
+}
+
+/* Speak */
+body.sp-foundation-nav-v40143
+.tabs .sp-foundation-moved-tab-v40143[data-view="speaking"]{
+  background:linear-gradient(135deg,#fff1dc,#fff8eb)!important;
+  color:#97601c!important;
+  border-color:#f3dfbd!important;
+}
+
+/* Health */
+body.sp-foundation-nav-v40143
+.tabs .sp-foundation-moved-tab-v40143[data-view="healthy"]{
+  background:linear-gradient(135deg,#eafbef,#f5fff7)!important;
+  color:#258058!important;
+  border-color:#d4efd9!important;
+}
+
+/* Safety */
+body.sp-foundation-nav-v40143
+.tabs .sp-foundation-moved-tab-v40143[data-view="citizen"]{
+  background:linear-gradient(135deg,#e9f8ff,#f3fbff)!important;
+  color:#26789c!important;
+  border-color:#d5edf7!important;
+}
+
+/* Selected moved tab uses the normal premium active identity. */
+body.sp-foundation-nav-v40143
+.tabs .sp-foundation-moved-tab-v40143.active{
+  color:#fff!important;
+  border-color:transparent!important;
+  background:linear-gradient(135deg,#5f61ed,#28c9c0)!important;
+  box-shadow:
+    0 9px 21px rgba(76,79,192,.23),
+    0 0 0 3px rgba(108,92,255,.08)!important;
+}
+
+/* Extra safety: top Password must never flash as a visible Class 1–3 item. */
+body.sp-foundation-nav-v40143
+.top .nav #spNavPasswordBtn{
+  display:none!important;
+}
+
+@media(max-width:800px){
+  body.sp-foundation-nav-v40143 .tabs{
+    width:100%!important;
+    justify-content:center!important;
+  }
+}
+
+@media(max-width:520px){
+  body.sp-foundation-nav-v40143
+  .tabs .sp-foundation-moved-tab-v40143{
+    min-height:38px!important;
+    padding:8px 10px!important;
+    font-size:9px!important;
+  }
+}
+</style>
+
+<script id="foundationProfileNavV40143">
+(() => {
+  "use strict";
+
+  if(window.__foundationProfileNavV40143) return;
+  window.__foundationProfileNavV40143 = true;
+
+  let active = false;
+  let syncing = false;
+  let scheduled = false;
+  let navObserver = null;
+  let tabsObserver = null;
+
+  const movedTabs = [
+    ["speaking","🗣️ Speak"],
+    ["healthy","🌱 Health"],
+    ["citizen","🛡️ Safety"]
+  ];
+
+  function classNumber(){
+    const text = String(document.getElementById("classChip")?.textContent || "");
+    const match = text.match(/class\s*(\d+)/i);
+    return match ? Number(match[1]) : 0;
+  }
+
+  function isClass13(){
+    const c = classNumber();
+    return c >= 1 && c <= 3;
+  }
+
+  function findGkButton(tabs){
+    if(!tabs) return null;
+
+    return (
+      tabs.querySelector('[data-view="gk"]') ||
+      [...tabs.querySelectorAll("button,a")].find(el =>
+        /gk\s*world/i.test(
+          String(el.textContent || "").replace(/\s+/g," ").trim()
+        )
+      ) ||
+      null
+    );
+  }
+
+  function ensureLearningButton(view,label,nav,tabs){
+    let button =
+      tabs.querySelector(`[data-view="${view}"]`) ||
+      nav.querySelector(`[data-view="${view}"]`);
+
+    if(!button){
+      button = document.createElement("button");
+      button.type = "button";
+      button.dataset.view = view;
+    }
+
+    button.textContent = label;
+    button.classList.add("sp-foundation-moved-tab-v40143");
+
+    return button;
+  }
+
+  function removeTopPassword(nav){
+    /*
+      Remove ONLY the duplicate header shortcut.
+      #spChangePasswordBtn under the profile photo is intentionally preserved.
+    */
+    const password = nav.querySelector("#spNavPasswordBtn");
+    if(password) password.remove();
+  }
+
+  function moveLearningButtons(nav,tabs){
+    const buttons = movedTabs.map(([view,label]) =>
+      ensureLearningButton(view,label,nav,tabs)
+    );
+
+    /*
+      Exact requested order:
+      ... Battle → GK World → Speak → Health → Safety
+    */
+    let anchor = findGkButton(tabs) || tabs.querySelector('[data-view="battle"]');
+
+    buttons.forEach(button => {
+      if(!anchor){
+        if(button.parentElement !== tabs){
+          tabs.appendChild(button);
+        }
+        anchor = button;
+        return;
+      }
+
+      if(button.parentElement !== tabs || anchor.nextElementSibling !== button){
+        tabs.insertBefore(button,anchor.nextElementSibling);
+      }
+
+      anchor = button;
+    });
+  }
+
+  function sync(){
+    if(syncing || !active) return;
+    syncing = true;
+
+    try{
+      const nav = document.querySelector(".top .nav");
+      const tabs = document.querySelector(".tabs");
+
+      if(!nav || !tabs) return;
+
+      document.body.classList.add("sp-foundation-nav-v40143");
+
+      removeTopPassword(nav);
+      moveLearningButtons(nav,tabs);
+
+    } finally {
+      syncing = false;
+    }
+  }
+
+  function scheduleSync(){
+    if(!active || scheduled) return;
+    scheduled = true;
+
+    requestAnimationFrame(() => {
+      scheduled = false;
+      sync();
+    });
+  }
+
+  function startObservers(){
+    if(navObserver || tabsObserver) return;
+
+    const nav = document.querySelector(".top .nav");
+    const tabs = document.querySelector(".tabs");
+
+    if(nav){
+      navObserver = new MutationObserver(scheduleSync);
+      navObserver.observe(nav,{childList:true});
+    }
+
+    if(tabs){
+      tabsObserver = new MutationObserver(scheduleSync);
+      tabsObserver.observe(tabs,{childList:true});
+    }
+  }
+
+  function activateWhenReady(){
+    if(!isClass13()) return false;
+
+    active = true;
+    sync();
+    startObservers();
+    return true;
+  }
+
+  /*
+    Class data and account/navigation enhancers load asynchronously.
+    We retry briefly and keep small childList observers because the old
+    account script can recreate the header Password button on pageshow.
+  */
+  let attempts = 0;
+  const timer = setInterval(() => {
+    attempts++;
+
+    if(activateWhenReady() || attempts >= 50){
+      clearInterval(timer);
+    }
+  },100);
+
+  if(document.readyState === "loading"){
+    document.addEventListener("DOMContentLoaded",activateWhenReady,{once:true});
+  }else{
+    activateWhenReady();
+  }
+
+  [80,180,350,650,1100,1800,2800,4000].forEach(ms=>{
+    setTimeout(() => {
+      if(!active) activateWhenReady();
+      else scheduleSync();
+    },ms);
+  });
+
+  window.addEventListener("pageshow",() => {
+    if(!active) activateWhenReady();
+    else scheduleSync();
+  });
+})();
+</script>
+
 </body></html>
