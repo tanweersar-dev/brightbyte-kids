@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#161b50">
+<title>Foundation Skills Universe — Tannu Sir's Kids Digital Academy</title>
+<link rel="stylesheet" href="foundation-universe.css?v=40.14">
+</head>
+<body>
+<div class="aurora a1"></div>
+<div class="aurora a2"></div>
+<div class="starfield"></div>
+
+<header class="topbar">
+  <a class="brand" href="foundation-universe.html">
+    <span class="brand-logo">T</span>
+    <span>
+      <b>Foundation Skills Universe</b>
+      <small>TANNU SIR'S KIDS DIGITAL ACADEMY • CLASS 1–3</small>
+    </span>
+  </a>
+
+  <div class="top-actions">
+    <span id="studentChip" class="chip">👤 Student</span>
+    <span id="classChip" class="chip">🎓 Class —</span>
+    <a href="index.html" class="chip button-chip">🏠 Home</a>
+    <a href="student-profile.html?view=profile" class="chip button-chip">👤 My Profile</a>
+    <button id="voiceBtn" class="chip button-chip" type="button">🔊 Voice On</button>
+    <button id="logoutBtn" class="chip button-chip danger-chip" type="button">🚪 Logout</button>
+  </div>
+</header>
+
+<main class="shell">
+  <section class="hero">
+    <div class="photo-side">
+      <div class="photo-ring">
+        <div id="photoFallback" class="avatar">🧒</div>
+        <img id="studentPhoto" alt="Student profile photo" hidden>
+      </div>
+      <a class="photo-manage" href="student-profile.html?view=profile">📷 Profile</a>
+    </div>
+
+    <div class="hero-copy">
+      <span id="levelEyebrow" class="eyebrow">LEVEL 1 • STRONG DIGITAL FOUNDATIONS</span>
+      <h1 id="heroTitle">Discover. Practise. Play. Grow.</h1>
+      <p id="heroText">
+        Learn computer basics, mouse and keyboard, spoken English, safety, healthy habits,
+        simple AI, GK and confidence through friendly guided activities.
+      </p>
+
+      <div class="hero-chips">
+        <span>🚀 90-Day Program</span>
+        <span>🛡️ Safe Learning</span>
+        <span>🗣️ English + Digital</span>
+        <span>👨‍🏫 Teacher Guided</span>
+      </div>
+    </div>
+
+    <div class="hero-stats">
+      <article><span>⭐</span><b id="starsCount">0</b><small>STARS</small></article>
+      <article><span>✅</span><b id="lessonCount">0</b><small>LESSONS</small></article>
+      <article><span>🔥</span><b id="streakCount">0</b><small>DAY STREAK</small></article>
+      <article><span>🏅</span><b id="badgeCount">0</b><small>BADGES</small></article>
+    </div>
+
+    <div class="hero-shortcuts">
+      <a href="student-profile.html?view=lessons" class="hero-shortcut course">
+        <span>📘</span><b>90-Day Course</b><small>Continue your next lesson</small>
+      </a>
+      <a href="virtual-it-lab.html" class="hero-shortcut lab">
+        <span>🧪</span><b>Guided IT Lab</b><small>See • connect • practise safely</small>
+      </a>
+      <a href="student-exams.html" class="hero-shortcut exam">
+        <span>📝</span><b>Exam Center</b><small>Tests • results • marksheet</small>
+      </a>
+      <a href="student-profile.html?view=rewards" class="hero-shortcut rewards">
+        <span>🏆</span><b>Rewards</b><small>Badges • stars • achievements</small>
+      </a>
+    </div>
+  </section>
+
+  <section class="mission-strip">
+    <div>
+      <span class="eyebrow dark">TODAY'S HAPPY MISSIONS</span>
+      <h2>Three small missions. One confident learner.</h2>
+    </div>
+    <div id="dailyMissions" class="daily-missions"></div>
+  </section>
+
+  <section class="section-head">
+    <div>
+      <span class="eyebrow dark">CHOOSE YOUR WORLD</span>
+      <h2>Foundation Learning Universe</h2>
+      <p id="worldIntro">Every world follows Look → Listen → Try → Learn.</p>
+    </div>
+    <div class="section-actions">
+      <a class="soft-btn" href="student-profile.html?view=dashboard">🪪 Skill Passport</a>
+      <a class="soft-btn" href="student-profile.html?view=portfolio">🎒 My Work</a>
+      <a class="soft-btn" href="student-profile.html?view=dashboard">📊 Learning Report</a>
+      <a class="soft-btn" href="student-profile.html?view=profile">👤 My Profile</a>
+      <a class="soft-btn" href="student-profile.html?view=tests">📝 Weekly Tests</a>
+      <a class="soft-btn" href="virtual-it-lab.html">🧪 Computer Lab</a>
+    </div>
+  </section>
+
+  <section id="worldGrid" class="world-grid" aria-label="Foundation learning worlds"></section>
+
+  <section class="roadmap">
+    <div class="section-head compact">
+      <div>
+        <span class="eyebrow dark">CLASS PROGRESSION</span>
+        <h2>One foundation, three growing levels</h2>
+        <p>Content stays simple, visual and safe while responsibility grows step by step.</p>
+      </div>
+    </div>
+
+    <div class="roadmap-grid">
+      <article id="roadmapClass1">
+        <span>1️⃣</span>
+        <h3>Class 1 • Discover</h3>
+        <p>Look, listen, point, click, name computer parts, speak short English and follow simple safety habits.</p>
+      </article>
+      <article id="roadmapClass2">
+        <span>2️⃣</span>
+        <h3>Class 2 • Practise</h3>
+        <p>Use mouse and keyboard with more control, organise simple work, speak clearly and build healthy digital habits.</p>
+      </article>
+      <article id="roadmapClass3">
+        <span>3️⃣</span>
+        <h3>Class 3 • Build Confidence</h3>
+        <p>Create small digital work, explain simple technology, use the internet and AI safely, and solve beginner problems.</p>
+      </article>
+    </div>
+  </section>
+</main>
+
+<div id="worldModal" class="modal-backdrop" aria-hidden="true">
+  <div class="modal-card">
+    <button id="modalClose" class="modal-close" type="button" aria-label="Close">×</button>
+    <div id="modalBody"></div>
+  </div>
+</div>
+
+<div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+<script src="foundation-universe.js?v=40.14"></script>
+<script src="home-ai-buddy.js?v=21.2"></script>
+<script src="exam-integration.js?v=39.4.1"></script>
+</body>
+</html>
