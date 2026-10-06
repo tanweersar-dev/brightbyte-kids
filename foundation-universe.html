@@ -22,8 +22,10 @@
   </a>
 
   <div class="top-actions">
-    <span id="studentChip" class="chip">👤 Student</span>
-    <span id="classChip" class="chip">🎓 Class —</span>
+    <!-- V40.14.3: internal profile/class state stays available to JS,
+         but these duplicate chips are intentionally hidden from the child UI. -->
+    <span id="studentChip" class="chip" hidden aria-hidden="true">👤 Student</span>
+    <span id="classChip" class="chip" hidden aria-hidden="true">🎓 Class —</span>
     <a href="foundation-universe.html" class="chip button-chip" aria-current="page">🏠 Home</a>
     <a href="student-profile.html?view=profile&from=foundation" class="chip button-chip">👤 My Profile</a>
     <button id="voiceBtn" class="chip button-chip" type="button">🔊 Voice On</button>
