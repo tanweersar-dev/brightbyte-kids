@@ -2,7 +2,7 @@
 "use strict";
 
 /* ============================================================
-   V40.9.1 — TANNU'S LEARNING BUDDY 2.9
+   V40.9.2 — TANNU'S LEARNING BUDDY 2.9
    UNIFIED HOME FRAME • ALIGNED EDGE MARQUEES • COMPACT HERO • 6 QUICK TABS
    - Natural casual chat as well as learning questions
    - Respectful manners coaching for abusive language
@@ -2473,11 +2473,61 @@ function updatePill(){
       :"✨ Ready";
 }
 
+/* ============================================================
+   V40.9.2 — FEMALE HINDI / HINGLISH BUDDY GRAMMAR
+   The Learning Buddy uses a friendly female-style voice.
+   Keep first-person Hindi/Hinglish grammar feminine too.
+   Only BOT replies are normalized — user messages are untouched.
+   ============================================================ */
+
+function feminizeBuddyReplyText(text){
+
+  return String(
+    text ?? ""
+  )
+
+    /* Common first-person capability forms */
+    .replace(/\bde sakta hoon\b/gi,"de sakti hoon")
+    .replace(/\bban sakta hoon\b/gi,"ban sakti hoon")
+    .replace(/\bkar sakta hoon\b/gi,"kar sakti hoon")
+    .replace(/\bbata sakta hoon\b/gi,"bata sakti hoon")
+    .replace(/\bbol sakta hoon\b/gi,"bol sakti hoon")
+    .replace(/\bsamjha sakta hoon\b/gi,"samjha sakti hoon")
+    .replace(/\bsakta hoon\b/gi,"sakti hoon")
+
+    /* Common first-person present forms */
+    .replace(/\bjanta hoon\b/gi,"jaanti hoon")
+    .replace(/\bnahi janta\b/gi,"nahi jaanti")
+    .replace(/\bmaangta hoon\b/gi,"maangti hoon")
+    .replace(/\bmaangta\b/gi,"maangti")
+    .replace(/\brehta hoon\b/gi,"rehti hoon")
+    .replace(/\bkarta hoon\b/gi,"karti hoon")
+    .replace(/\braha hoon\b/gi,"rahi hoon")
+    .replace(/\bachha hoon\b/gi,"achhi hoon")
+
+    /* Common first-person future forms */
+    .replace(/\bnahi dunga\b/gi,"nahi dungi")
+    .replace(/\bdunga\b/gi,"dungi")
+    .replace(/\bkarunga\b/gi,"karungi")
+    .replace(/\bsamjhaunga\b/gi,"samjhaungi")
+    .replace(/\bbataunga\b/gi,"bataungi")
+    .replace(/\bbolunga\b/gi,"bolungi")
+    .replace(/\bkahunga\b/gi,"kahungi")
+    .replace(/\bchahunga\b/gi,"chahungi");
+}
+
 function addMessage(
   role,
   text,
   chips=[]
 ){
+
+  if(role==="bot"){
+    text=
+      feminizeBuddyReplyText(
+        text
+      );
+  }
 
   const box=
     $("tannuBuddyMessages");
@@ -2653,19 +2703,24 @@ async function sendInput(){
 async function deliverBuddyReply(question,reply,options={}){
   if(!reply?.text) return;
 
+  const finalReplyText=
+    feminizeBuddyReplyText(
+      reply.text
+    );
+
   state.lastQuestion=String(question||"").slice(0,500);
-  state.lastAnswer=String(reply.text||"").slice(0,1200);
+  state.lastAnswer=String(finalReplyText||"").slice(0,1200);
   saveState();
 
   addMessage(
     "bot",
-    reply.text,
+    finalReplyText,
     reply.chips
   );
 
   if(options.fromVoice){
     setTimeout(
-      ()=>speak(reply.text),
+      ()=>speak(finalReplyText),
       120
     );
   }
@@ -2974,7 +3029,9 @@ function speak(text){
 
   const spoken=
     cleanTextForSpeech(
-      text
+      feminizeBuddyReplyText(
+        text
+      )
     );
 
   if(!spoken){
