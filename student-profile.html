@@ -3173,88 +3173,191 @@ let recognition=null,conversation={step:0,name:'',feeling:'',classText:'',hobby:
 
 
 <!-- ============================================================
-     V40.14 — FOUNDATION UNIVERSE RETURN + DEEP-LINK ROUTER
-     SAFE ADDITIVE PATCH FOR CLASS 1–3 ONLY
-     - Lets Foundation Universe open a specific existing view
-     - Adds a return button to Foundation Skills Universe
-     - Does not change course, progress, profile, exam, D1 or API logic
+     V40.14.2 — CLASS 1–3 FOUNDATION HOME CONTROLLER
+     ------------------------------------------------------------
+     FINAL NAVIGATION RULES
+     - Class 1–3 Home = foundation-universe.html
+     - BOTH legacy Home/Dashboard buttons return to Foundation Home
+     - Detailed views still work normally
+     - Detailed views get a visible "← Foundation Home" button
+     - Plain student-profile.html returns to Foundation Home
+     - Lab / Exam back links that return to plain student-profile.html
+       are therefore automatically sent to Foundation Home
+     - Class 4–6 behavior remains completely unchanged
      ============================================================ -->
-<script id="foundationReturnRouterV4014">
+<style id="foundationHomeControllerStyleV40142">
+#foundationHomeBackV40142{
+  order:-1000!important;
+  color:#fff!important;
+  border-color:transparent!important;
+  background:linear-gradient(135deg,#6557ef,#28c9c0)!important;
+  box-shadow:
+    0 8px 18px rgba(81,76,190,.20),
+    0 0 0 3px rgba(108,92,255,.07)!important;
+}
+#foundationHomeBackV40142:hover,
+#foundationHomeBackV40142:focus-visible{
+  transform:translateY(-2px)!important;
+  filter:brightness(1.04)!important;
+}
+@media(max-width:520px){
+  #foundationHomeBackV40142{
+    width:100%!important;
+  }
+}
+</style>
+
+<script id="foundationHomeControllerV40142">
 (() => {
   "use strict";
 
-  if(window.__foundationReturnRouterV4014) return;
-  window.__foundationReturnRouterV4014 = true;
+  if(window.__foundationHomeControllerV40142) return;
+  window.__foundationHomeControllerV40142 = true;
 
-  const allowed = new Set([
+  const allowedViews = new Set([
     "dashboard","lessons","labs","practice","speaking","healthy","citizen",
     "gk","tests","battle","portfolio","rewards","profile"
   ]);
 
-  let routed = false;
-  let added = false;
+  let firstRouteHandled = false;
 
-  function classNumber(){
+  function getClassNumber(){
     const text = String(document.getElementById("classChip")?.textContent || "");
-    const m = text.match(/class\s*(\d+)/i);
-    return m ? Number(m[1]) : 0;
+    const match = text.match(/class\s*(\d+)/i);
+    return match ? Number(match[1]) : 0;
   }
 
-  function addReturnLink(){
-    if(added) return;
-    const c = classNumber();
-    if(c < 1 || c > 3) return;
+  function isFoundationStudent(){
+    const c = getClassNumber();
+    return c >= 1 && c <= 3;
+  }
+
+  function goFoundationHome(replace=false){
+    if(replace){
+      location.replace("foundation-universe.html");
+    }else{
+      location.href = "foundation-universe.html";
+    }
+  }
+
+  function requestedView(){
+    return new URLSearchParams(location.search).get("view") || "";
+  }
+
+  function keepViewRefreshSafe(view){
+    if(!allowedViews.has(view)) return;
+    const url = new URL(location.href);
+    url.searchParams.set("view",view);
+    url.searchParams.set("from","foundation");
+    history.replaceState(
+      {foundationView:view},
+      "",
+      url.pathname + url.search + url.hash
+    );
+  }
+
+  function addFoundationBackButton(){
+    if(!isFoundationStudent()) return false;
 
     const nav = document.querySelector(".top .nav");
-    if(!nav) return;
+    if(!nav) return false;
 
-    let link = document.getElementById("foundationUniverseLinkV4014");
-    if(!link){
-      link = document.createElement("a");
-      link.id = "foundationUniverseLinkV4014";
+    if(!document.getElementById("foundationHomeBackV40142")){
+      const link = document.createElement("a");
+      link.id = "foundationHomeBackV40142";
       link.href = "foundation-universe.html";
-      link.textContent = "🌈 Universe";
+      link.textContent = "← Foundation Home";
       link.title = "Back to Foundation Skills Universe";
-
-      const mainPage = nav.querySelector('a[href="index.html"]');
-      if(mainPage) nav.insertBefore(link,mainPage);
-      else nav.appendChild(link);
+      nav.prepend(link);
     }
 
-    added = true;
+    return true;
   }
 
-  function routeRequestedView(){
-    if(routed) return;
+  /*
+    Important:
+    Both arrows in the user's screenshot point to buttons with
+    data-view="dashboard". Capture those clicks BEFORE the old handler.
+    For Class 1–3 they now ALWAYS mean Foundation Home.
+  */
+  document.addEventListener("click", event => {
+    if(!isFoundationStudent()) return;
 
-    const c = classNumber();
-    if(c < 1 || c > 3) return;
+    const control = event.target.closest("[data-view]");
+    if(!control) return;
 
-    const view = new URLSearchParams(location.search).get("view") || "";
-    if(!allowed.has(view)){
-      routed = true;
+    const view = String(control.dataset.view || "");
+    if(!allowedViews.has(view)) return;
+
+    if(view === "dashboard"){
+      event.preventDefault();
+      event.stopImmediatePropagation();
+      goFoundationHome(false);
       return;
     }
 
-    const target = document.getElementById("view-"+view);
-    if(!target || typeof showView !== "function") return;
+    /* Keep a detailed page stable if the child refreshes while using it. */
+    keepViewRefreshSafe(view);
+  }, true);
 
-    showView(view);
-    routed = true;
+  function handleInitialRoute(){
+    if(firstRouteHandled || !isFoundationStudent()) return false;
+
+    const view = requestedView();
+
+    /*
+      Plain student-profile.html is never the Class 1–3 Home.
+      This is also what makes old Lab/Exam "Back" links land on
+      the new Foundation Skills Universe automatically.
+    */
+    if(!view){
+      firstRouteHandled = true;
+      goFoundationHome(true);
+      return true;
+    }
+
+    if(!allowedViews.has(view)){
+      firstRouteHandled = true;
+      goFoundationHome(true);
+      return true;
+    }
+
+    /*
+      Explicit view=dashboard is kept available because the Foundation
+      page uses it for Skill Passport / Learning Report.
+      The moment the student presses either visible Home button,
+      the capture handler above returns to Foundation Home.
+    */
+    const target = document.getElementById("view-" + view);
+    if(!target || typeof window.showView !== "function") return false;
+
+    window.showView(view);
+    keepViewRefreshSafe(view);
+    firstRouteHandled = true;
+    return true;
   }
 
   function sync(){
-    addReturnLink();
-    routeRequestedView();
+    if(!isFoundationStudent()) return;
+    addFoundationBackButton();
+    handleInitialRoute();
   }
 
-  if(document.readyState==="loading"){
+  if(document.readyState === "loading"){
     document.addEventListener("DOMContentLoaded",sync,{once:true});
   }else{
     sync();
   }
 
-  [120,250,500,900,1400,2200,3500].forEach(ms=>setTimeout(sync,ms));
+  /*
+    Student class/profile is loaded asynchronously.
+    Short deterministic retries avoid a permanent observer and avoid
+    disturbing the stable Class 4–6 dashboard code.
+  */
+  [60,120,220,350,550,800,1200,1800,2600,3800].forEach(ms=>{
+    setTimeout(sync,ms);
+  });
+
   window.addEventListener("pageshow",sync);
 })();
 </script>
