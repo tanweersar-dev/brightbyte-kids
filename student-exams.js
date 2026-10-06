@@ -1,6 +1,12 @@
 (() => {
 "use strict";
 
+/* ============================================================
+   V40.11 — FRIENDLY CLASS 4–6 EXAMS + DETAILED MARKSHEET
+   - Reviewed exams get a full question-by-question marksheet
+   - Shows student's answer, correct answer, points and practice topics
+   ============================================================ */
+
 const EXAM_API = "https://api.tanweer.site";
 const TOKEN = localStorage.getItem("brightbyte_student_token") || "";
 const $ = id => document.getElementById(id);
@@ -55,13 +61,16 @@ function ensureDialogStyles(){
   document.head.appendChild(s);
 }
 function openModal(html) {
-  $("modalCard").innerHTML = html;
+  const card = $("modalCard");
+  card.classList.toggle("marksheet-modal", /marksheet-v4011/.test(String(html || "")));
+  card.innerHTML = html;
   $("modalWrap").classList.add("open");
   $("modalWrap").setAttribute("aria-hidden", "false");
 }
 function closeModal(value = null) {
   $("modalWrap").classList.remove("open");
   $("modalWrap").setAttribute("aria-hidden", "true");
+  $("modalCard").classList.remove("marksheet-modal");
   if(modalResolver){ const r=modalResolver; modalResolver=null; r(value); }
 }
 window.closeStudentExamModal = closeModal;
@@ -115,8 +124,9 @@ async function loadDashboard({silent=false} = {}) {
     const fresh = examRows.find(x => x.assignment_status === "reviewed" && !isResultSeen(x));
     if(fresh && !examActive){
       const pass=String(fresh.result||"").toUpperCase()==="PASS";
-      await dialogInfo({icon:pass?"🏆":"📘",title:pass?"Congratulations — PASS":"Exam Result Ready",message:`${fresh.title}: ${fresh.result} • ${fresh.final_score ?? 0}%`,detail:pass?"Well done! Your teacher has finalized your result.":"Your teacher has finalized your result. Review the exam card for the final score.",buttonText:"View My Exams",resultClass:pass?"v392-pass":"v392-fail"});
+      await dialogInfo({icon:pass?"🏆":"📘",title:pass?"Congratulations — PASS":"Exam Result Ready",message:`${fresh.title}: ${fresh.result} • ${fresh.final_score ?? 0}%`,detail:"Your detailed marksheet is ready. You can see every question, your answer, the correct answer and what to practise next.",buttonText:"View Marksheet",resultClass:pass?"v392-pass":"v392-fail"});
       markResultSeen(fresh);
+      await showMarksheet(fresh.exam_id);
     } else if(!silent) {
       // no extra popup on ordinary refresh
     }
@@ -140,21 +150,294 @@ function renderExams() {
     $("examList").innerHTML = `<div class="empty-card"><b>No exam is assigned right now.</b><br><small>Your teacher's new exam will appear here automatically.</small></div>`;
     return;
   }
+
   $("examList").innerHTML = examRows.map(row => {
     const status = row.assignment_status;
     const result = row.result || "";
     const finished = status === "reviewed";
     const unavailable = ["missed","cancelled"].includes(status);
-    return `<article class="exam-card"><div class="exam-card-head"><div><h3>${esc(row.title)}</h3><p>${row.group_code === "junior" ? "Class 1–3 Foundation" : "Class 4–6 Advanced"} Skills Check</p></div><span class="status ${esc(status)}">${esc(examStatusText(row))}</span></div><div class="exam-meta-grid"><span><b>${row.duration_minutes}</b><small>MINUTES</small></span><span><b>${row.mcq_count + row.written_count}</b><small>QUESTIONS</small></span><span><b>${row.pass_mark}%</b><small>PASS MARK</small></span></div><p>${status === "assigned" ? `Available until <b>${esc(fmt(row.available_until))}</b>` : status === "in_progress" ? `Started <b>${esc(fmt(row.started_at))}</b>` : status === "submitted" ? `Submitted <b>${esc(fmt(row.submitted_at))}</b>` : status === "reviewed" ? `Reviewed <b>${esc(fmt(row.reviewed_at))}</b>` : `Status: <b>${esc(examStatusText(row))}</b>`}</p><div class="card-actions"><div>${finished ? `<span class="result-badge ${esc(result)}">${esc(result || "DONE")}</span><br><small>${row.final_score ?? 0}%</small>` : status === "submitted" ? `<b>Teacher review pending</b>` : row.integrity_warnings ? `<small>⚠ ${row.integrity_warnings} warning(s)</small>` : `<small>Same paper for assigned group</small>`}</div>${isActionable(row) ? `<button class="btn primary" type="button" data-start="${row.exam_id}">${actionLabel(row)}</button>` : `<button class="btn secondary" type="button" data-status="${row.exam_id}" ${unavailable ? "disabled" : ""}>${unavailable ? examStatusText(row) : "Status"}</button>`}</div></article>`;
+
+    let actionHtml = "";
+    if (isActionable(row)) {
+      actionHtml = `<button class="btn primary" type="button" data-start="${row.exam_id}">${actionLabel(row)}</button>`;
+    } else if (finished) {
+      actionHtml = `<button class="btn result-btn" type="button" data-result="${row.exam_id}">📊 View Marksheet</button>`;
+    } else {
+      actionHtml = `<button class="btn secondary" type="button" data-status="${row.exam_id}" ${unavailable ? "disabled" : ""}>${unavailable ? examStatusText(row) : "Status"}</button>`;
+    }
+
+    return `<article class="exam-card">
+      <div class="exam-card-head">
+        <div>
+          <h3>${esc(row.title)}</h3>
+          <p>${row.group_code === "junior" ? "Class 1–3 Foundation" : "Class 4–6 Future Skills"} Check</p>
+        </div>
+        <span class="status ${esc(status)}">${esc(examStatusText(row))}</span>
+      </div>
+
+      <div class="exam-meta-grid">
+        <span><b>${row.duration_minutes}</b><small>MINUTES</small></span>
+        <span><b>${row.mcq_count + row.written_count}</b><small>QUESTIONS</small></span>
+        <span><b>${row.pass_mark}%</b><small>PASS MARK</small></span>
+      </div>
+
+      <p>${
+        status === "assigned" ? `Available until <b>${esc(fmt(row.available_until))}</b>` :
+        status === "in_progress" ? `Started <b>${esc(fmt(row.started_at))}</b>` :
+        status === "submitted" ? `Submitted <b>${esc(fmt(row.submitted_at))}</b>` :
+        status === "reviewed" ? `Reviewed <b>${esc(fmt(row.reviewed_at))}</b>` :
+        `Status: <b>${esc(examStatusText(row))}</b>`
+      }</p>
+
+      <div class="card-actions">
+        <div>${
+          finished
+            ? `<span class="result-badge ${esc(result)}">${esc(result || "DONE")}</span><br><small>${row.final_score ?? 0}% • Detailed marksheet ready</small>`
+            : status === "submitted"
+              ? `<b>Teacher review pending</b>`
+              : row.integrity_warnings
+                ? `<small>⚠ ${row.integrity_warnings} warning(s)</small>`
+                : `<small>Questions match your assigned class level</small>`
+        }</div>
+        ${actionHtml}
+      </div>
+    </article>`;
   }).join("");
-  document.querySelectorAll("[data-start]").forEach(btn => btn.addEventListener("click", () => confirmStart(Number(btn.dataset.start))));
-  document.querySelectorAll("[data-status]").forEach(btn => btn.addEventListener("click", () => showStatus(Number(btn.dataset.status))));
+
+  document.querySelectorAll("[data-start]").forEach(btn =>
+    btn.addEventListener("click", () => confirmStart(Number(btn.dataset.start)))
+  );
+  document.querySelectorAll("[data-status]").forEach(btn =>
+    btn.addEventListener("click", () => showStatus(Number(btn.dataset.status)))
+  );
+  document.querySelectorAll("[data-result]").forEach(btn =>
+    btn.addEventListener("click", () => showMarksheet(Number(btn.dataset.result)))
+  );
 }
+
 function showStatus(examId) {
-  const row = examRows.find(x => x.exam_id === examId); if (!row) return;
-  const body = row.assignment_status === "submitted" ? "Your exam was submitted successfully. Written answers are waiting for teacher review." : row.assignment_status === "reviewed" ? `Final score: ${row.final_score}% • Result: ${row.result}` : `Current status: ${examStatusText(row)}`;
+  const row = examRows.find(x => x.exam_id === examId);
+  if (!row) return;
+
+  if (row.assignment_status === "reviewed") {
+    showMarksheet(examId);
+    return;
+  }
+
+  const body = row.assignment_status === "submitted"
+    ? "Your exam was submitted successfully. Written answers are waiting for teacher review. Your full marksheet will appear after the review is finished."
+    : `Current status: ${examStatusText(row)}`;
+
   openModal(`<div class="modal-icon">📝</div><h2>${esc(row.title)}</h2><p>${esc(body)}</p><div class="modal-actions"><button class="btn primary" onclick="closeStudentExamModal()">OK</button></div>`);
 }
+
+function answerLabelV4011(q, option) {
+  const letter = String(option || "").toUpperCase();
+  const i = ["A","B","C","D"].indexOf(letter);
+  if (i < 0) return "No answer";
+  return `${letter} — ${q.options?.[i] || ""}`;
+}
+
+function marksheetVerdictLabelV4011(q) {
+  const v = q.verdict;
+  if (v === "correct") return ["✅","Correct","correct"];
+  if (v === "incorrect") return ["❌","Incorrect","incorrect"];
+  if (v === "full_credit") return ["✅","Full Credit","correct"];
+  if (v === "partial_credit") return ["🟡","Partial Credit","partial"];
+  if (v === "unanswered") return ["⚪","Not Answered","unanswered"];
+  return ["📘","Needs Improvement","incorrect"];
+}
+
+function marksheetTopicAnalysisV4011(rows) {
+  const weak = [];
+  const strong = [];
+
+  rows.forEach(q => {
+    const topic = String(q.topic || "General");
+    const good = q.type === "mcq"
+      ? q.verdict === "correct"
+      : Number(q.awardedPoints || 0) >= Number(q.maxPoints || 0) && Number(q.maxPoints || 0) > 0;
+
+    if (good) strong.push(topic);
+    else weak.push(topic);
+  });
+
+  return {
+    strong:[...new Set(strong)].slice(0,8),
+    weak:[...new Set(weak)].slice(0,8)
+  };
+}
+
+function marksheetQuestionHtmlV4011(q) {
+  const [ico,label,cls] = marksheetVerdictLabelV4011(q);
+  const points = `${Number(q.awardedPoints || 0)} / ${Number(q.maxPoints || 0)}`;
+
+  if (q.type === "mcq") {
+    return `
+      <article class="marksheet-q ${cls}">
+        <div class="marksheet-q-head">
+          <div>
+            <span class="marksheet-q-no">Q${Number(q.seq)} • ${esc(q.topic || "Topic")} • MCQ</span>
+            <h3>${esc(q.prompt)}</h3>
+          </div>
+          <span class="marksheet-verdict ${cls}">${ico} ${label}</span>
+        </div>
+
+        <div class="marksheet-answer-grid">
+          <div class="marksheet-answer yours">
+            <small>YOUR ANSWER</small>
+            <b>${esc(answerLabelV4011(q, q.selectedOption))}</b>
+          </div>
+
+          <div class="marksheet-answer correct-answer">
+            <small>CORRECT ANSWER</small>
+            <b>${esc(answerLabelV4011(q, q.correctOption))}</b>
+          </div>
+
+          <div class="marksheet-points">
+            <small>POINTS</small>
+            <b>${esc(points)}</b>
+          </div>
+        </div>
+
+        <p class="marksheet-tip">${
+          q.verdict === "correct"
+            ? "Great job — you understood this concept."
+            : q.verdict === "unanswered"
+              ? "This question was not answered. Review this topic and try a similar practice question."
+              : `Review <b>${esc(q.topic || "this topic")}</b> and compare your answer with the correct one above.`
+        }</p>
+      </article>`;
+  }
+
+  return `
+    <article class="marksheet-q ${cls}">
+      <div class="marksheet-q-head">
+        <div>
+          <span class="marksheet-q-no">Q${Number(q.seq)} • ${esc(q.topic || "Topic")} • WRITTEN</span>
+          <h3>${esc(q.prompt)}</h3>
+        </div>
+        <span class="marksheet-verdict ${cls}">${ico} ${label}</span>
+      </div>
+
+      <div class="marksheet-written">
+        <div>
+          <small>YOUR ANSWER</small>
+          <p>${esc(q.answerText || "No answer submitted.")}</p>
+        </div>
+
+        <div>
+          <small>MODEL / LEARNING ANSWER</small>
+          <p>${esc(q.modelAnswer || "Review this topic with your teacher or learning material.")}</p>
+        </div>
+      </div>
+
+      <div class="marksheet-written-score">
+        <b>Teacher Score: ${esc(points)}</b>
+        <span>${
+          q.verdict === "full_credit"
+            ? "Excellent — full credit."
+            : q.verdict === "partial_credit"
+              ? "Good attempt — compare your answer with the model answer and improve the missing part."
+              : q.verdict === "unanswered"
+                ? "No answer was submitted."
+                : "Review the model answer and practise this topic again."
+        }</span>
+      </div>
+    </article>`;
+}
+
+async function showMarksheet(examId) {
+  openModal(`
+    <section class="marksheet-v4011 loading">
+      <div class="marksheet-loading">📊 Preparing your detailed marksheet...</div>
+    </section>
+  `);
+
+  try {
+    const d = await jsonApi(`/api/student/exams/${Number(examId)}/result`);
+    const exam = d.exam || {};
+    const rows = Array.isArray(d.questions) ? d.questions : [];
+    const profileData = d.profile || {};
+
+    const pass = String(exam.result || "").toUpperCase() === "PASS";
+    const mcqs = rows.filter(q => q.type === "mcq");
+    const correctMcq = mcqs.filter(q => q.verdict === "correct").length;
+    const wrongMcq = mcqs.filter(q => q.verdict === "incorrect").length;
+    const unanswered = rows.filter(q => q.verdict === "unanswered").length;
+    const awarded = rows.reduce((n,q) => n + Number(q.awardedPoints || 0), 0);
+    const maxPoints = rows.reduce((n,q) => n + Number(q.maxPoints || 0), 0);
+    const topicAnalysis = marksheetTopicAnalysisV4011(rows);
+
+    const weakHtml = topicAnalysis.weak.length
+      ? topicAnalysis.weak.map(t => `<span>${esc(t)}</span>`).join("")
+      : `<span class="good-chip">No weak topic detected 🎉</span>`;
+
+    const strongHtml = topicAnalysis.strong.length
+      ? topicAnalysis.strong.map(t => `<span>${esc(t)}</span>`).join("")
+      : `<span>Keep practising</span>`;
+
+    openModal(`
+      <section class="marksheet-v4011">
+        <header class="marksheet-hero ${pass ? "pass" : "fail"}">
+          <div>
+            <span class="marksheet-kicker">MY DETAILED EXAM MARKSHEET</span>
+            <h2>${esc(exam.title || "Exam Result")}</h2>
+            <p>${esc(profileData.display_name || "Student")} • Class ${Number(profileData.class_number || 1)} • Reviewed ${esc(fmt(exam.reviewed_at))}</p>
+          </div>
+
+          <div class="marksheet-score">
+            <small>FINAL SCORE</small>
+            <b>${Number(exam.final_score || 0)}%</b>
+            <span>${pass ? "🏆 PASS" : "📘 KEEP PRACTISING"}</span>
+          </div>
+        </header>
+
+        <div class="marksheet-summary">
+          <div><b>${correctMcq}</b><small>CORRECT MCQ</small></div>
+          <div><b>${wrongMcq}</b><small>WRONG MCQ</small></div>
+          <div><b>${unanswered}</b><small>UNANSWERED</small></div>
+          <div><b>${Number(exam.manual_points || 0)}</b><small>WRITTEN POINTS</small></div>
+          <div><b>${awarded}/${maxPoints}</b><small>TOTAL POINTS</small></div>
+          <div><b>${Number(exam.pass_mark || 60)}%</b><small>PASS MARK</small></div>
+        </div>
+
+        <section class="marksheet-analysis">
+          <div>
+            <small>🌟 STRONG TOPICS</small>
+            <div class="marksheet-chips strong">${strongHtml}</div>
+          </div>
+          <div>
+            <small>🎯 PRACTISE NEXT</small>
+            <div class="marksheet-chips weak">${weakHtml}</div>
+          </div>
+        </section>
+
+        <div class="marksheet-note">
+          <b>How to use this marksheet:</b>
+          Read every wrong or partial answer, compare it with the correct/model answer, then practise that topic again. This is for learning — not only for pass or fail.
+        </div>
+
+        <div class="marksheet-question-list">
+          ${rows.map(marksheetQuestionHtmlV4011).join("")}
+        </div>
+
+        <footer class="marksheet-footer">
+          <div>
+            <b>${pass ? "Well done!" : "You can improve this."}</b>
+            <span>${pass ? "Keep practising the topics marked above to make your skills even stronger." : "Focus on the Practice Next topics, then try another evaluation when ready."}</span>
+          </div>
+          <button class="btn secondary" type="button" onclick="closeStudentExamModal()">← Back to My Exams</button>
+        </footer>
+      </section>
+    `);
+
+  } catch (err) {
+    await showError(err, "Detailed marksheet is not available yet");
+  }
+}
+window.showStudentExamMarksheetV4011 = showMarksheet;
+
 function confirmStart(examId) {
   const row = examRows.find(x => x.exam_id === examId); if (!row) return;
   const resume = row.assignment_status === "in_progress";
