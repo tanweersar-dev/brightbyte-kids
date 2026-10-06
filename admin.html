@@ -1,182 +1,157 @@
 <!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Admin Center — Tannu Sir's Kids Digital Academy</title><style>*{box-sizing:border-box}body{margin:0;font-family:Inter,system-ui,sans-serif;background:#f5f6ff;color:#222747}button,input,select,textarea{font:inherit}button{cursor:pointer}.hidden{display:none!important}.auth{min-height:100vh;display:grid;place-items:center;padding:20px;background:radial-gradient(circle at 15% 20%,#5f50ff44,transparent 30%),linear-gradient(135deg,#101538,#191f50)}.card{width:min(470px,100%);background:#fff;border-radius:28px;padding:28px;box-shadow:0 30px 90px #0005}.brand{display:flex;align-items:center;gap:12px}.brand .t-logo{width:58px;height:58px}.brand h1{margin:0}.brand p{margin:4px 0;color:#717896}.field{margin-top:13px}.field label{display:block;font-size:11px;font-weight:900;margin-bottom:5px}.field input,.field select,.field textarea{width:100%;border:1px solid #dfe2f1;border-radius:13px;padding:12px;outline:none}.btn{border:0;border-radius:13px;padding:11px 14px;font-weight:900}.primary{background:linear-gradient(135deg,#6d5cff,#28cfc2);color:#fff}.soft{background:#efedff;color:#5549c7}.danger{background:#ffe8ed;color:#c33f58}.login{width:100%;margin-top:16px}.home{display:block;text-align:center;margin-top:10px;text-decoration:none}.shell{min-height:100vh;display:grid;grid-template-columns:245px 1fr}aside{background:#151b4c;color:#fff;padding:19px;position:sticky;top:0;height:100vh}aside .brand h1{font-size:17px}aside .brand p{font-size:9px;color:#bbc4eb}nav{display:grid;gap:7px;margin-top:24px}nav button,nav a{border:0;border-radius:12px;padding:11px;text-align:left;text-decoration:none;color:#fff;background:#ffffff0d}main{padding:24px}.top{display:flex;justify-content:space-between;gap:15px;align-items:center}.top-actions{display:flex;gap:8px;flex-wrap:wrap}.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}.stat{background:#fff;border-radius:20px;padding:18px;box-shadow:0 12px 34px #4b45901a}.stat b,.stat small{display:block}.stat b{font-size:30px;margin:8px 0}.toolbar{display:flex;justify-content:space-between;gap:10px;margin:15px 0}.toolbar input{flex:1;max-width:420px;border:1px solid #dfe2f1;border-radius:12px;padding:11px}.table{background:#fff;border-radius:20px;overflow:auto;box-shadow:0 12px 34px #4b45901a}table{width:100%;border-collapse:collapse;min-width:1050px}th,td{padding:11px;border-bottom:1px solid #edf0f7;text-align:left;font-size:11px}th{color:#747b98;font-size:9px}.pill{display:inline-block;padding:6px 8px;border-radius:999px;background:#eef0ff;color:#5049bf;font-size:9px;font-weight:900}.actions{display:flex;gap:5px;flex-wrap:wrap}.actions button{padding:7px 8px;border:0;border-radius:9px;font-size:9px}.student-link{color:#3e37a7;font-weight:950;text-decoration:none;border-bottom:1px dashed #7c72dc}.student-link:hover{color:#18a9a0}.overlay{position:fixed;inset:0;display:none;place-items:center;padding:15px;background:#090d2bbd;z-index:100}.overlay.open{display:grid}.modal{width:min(720px,100%);max-height:90vh;overflow:auto;background:#fff;border-radius:25px;padding:23px}.modal-head{display:flex;justify-content:space-between;align-items:center}.x{width:38px;height:38px;border:0;border-radius:50%}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.wide{grid-column:1/-1}.modal-actions{display:flex;justify-content:flex-end;gap:8px;margin-top:15px}.toast{position:fixed;left:50%;bottom:18px;transform:translate(-50%,100px);background:#1d2248;color:#fff;padding:11px 16px;border-radius:99px;transition:.2s}.toast.show{transform:translate(-50%,0)}@media(max-width:850px){.shell{grid-template-columns:1fr}aside{position:static;height:auto}nav{grid-template-columns:repeat(3,1fr)}main{padding:14px}.stats{grid-template-columns:1fr 1fr}}@media(max-width:560px){.top{display:block}.top-actions{margin-top:10px}.grid{grid-template-columns:1fr}.wide{grid-column:auto}nav{grid-template-columns:1fr 1fr}}</style>
-<style id="tannuEnrollmentAdminV406Style">
+<style id="tannuEnrollmentAdminV407Style">
 /* ============================================================
-   V40.6 — PRIVATE ENROLLMENT REQUEST ADMIN INBOX
+   V40.7 — PROFESSIONAL ENROLLMENT CRM / REQUEST TRACKER
+   Raw requests + separate editable tracking records
    ============================================================ */
 .enrollment-admin-badge{
-  display:inline-grid;
-  place-items:center;
-  min-width:20px;
-  height:20px;
-  margin-left:6px;
-  padding:0 6px;
-  border-radius:999px;
-  background:#ff4778;
-  color:#fff;
-  font-size:10px;
-  font-weight:1000;
-  box-shadow:0 0 0 3px rgba(255,71,120,.13);
+  display:inline-grid;place-items:center;min-width:20px;height:20px;margin-left:6px;
+  padding:0 6px;border-radius:999px;background:#ff4778;color:#fff;font-size:10px;
+  font-weight:1000;box-shadow:0 0 0 3px rgba(255,71,120,.13)
 }
 .enrollment-admin-badge[hidden]{display:none!important}
-
-#enrollmentAdminBtn{
-  position:relative;
-}
+#enrollmentAdminBtn{position:relative}
 #enrollmentAdminBtn.has-new{
   background:linear-gradient(135deg,#6a5cff,#cf5bc7)!important;
-  box-shadow:0 0 0 1px rgba(255,255,255,.12),0 0 22px rgba(207,91,199,.24);
+  box-shadow:0 0 0 1px rgba(255,255,255,.12),0 0 22px rgba(207,91,199,.24)
 }
-
-.enroll-admin-summary{
-  display:grid;
-  grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:8px;
-  margin:12px 0;
+#modal:has(.enroll-crm-v407),
+#modal:has(.enroll-record-form-v407){
+  width:min(1160px,96vw);
+  padding:18px
 }
-.enroll-admin-summary > div{
-  padding:10px 11px;
-  border-radius:13px;
-  background:#f6f7fb;
+.enroll-crm-v407{display:grid;gap:14px}
+.enroll-crm-head{
+  display:flex;justify-content:space-between;gap:12px;align-items:flex-start;
+  padding:4px 2px 2px
 }
-.enroll-admin-summary b{
-  display:block;
-  font-size:18px;
+.enroll-crm-head h2{margin:0;color:#22294d;font-size:24px}
+.enroll-crm-head p{margin:5px 0 0;color:#747b98;font-size:10px;line-height:1.5}
+.enroll-crm-summary{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px
 }
-.enroll-admin-summary small{
-  color:#7a819c;
-  font-size:8px;
-  font-weight:900;
+.enroll-crm-summary>div{
+  padding:12px;border-radius:15px;background:linear-gradient(180deg,#f8f8ff,#f2f4fb);
+  border:1px solid #eceefa
 }
-
-.enroll-admin-list{
-  display:grid;
-  gap:10px;
-  max-height:62vh;
-  overflow:auto;
-  padding-right:3px;
+.enroll-crm-summary b{display:block;font-size:22px;color:#272d55}
+.enroll-crm-summary small{font-size:8px;color:#7b829f;font-weight:950}
+.enroll-crm-tabs{display:flex;gap:7px;flex-wrap:wrap}
+.enroll-crm-tab{
+  border:0;border-radius:12px;padding:10px 13px;background:#eef0f7;color:#5b6280;
+  font-size:10px;font-weight:950
 }
-.enroll-admin-card{
-  padding:14px;
-  border:1px solid #e7e9f4;
-  border-radius:16px;
-  background:#fff;
+.enroll-crm-tab.active{
+  color:#fff;background:linear-gradient(135deg,#6657ee,#28c7c4);
+  box-shadow:0 8px 18px rgba(82,80,210,.16)
 }
-.enroll-admin-card.is-new{
-  border-color:#b8adff;
-  background:linear-gradient(180deg,#fff,#fbfaff);
-  box-shadow:0 8px 24px rgba(95,80,220,.08);
+.enroll-crm-toolbar{
+  display:grid;grid-template-columns:minmax(220px,1fr) 180px 160px auto;gap:8px
 }
-.enroll-admin-head{
-  display:flex;
-  justify-content:space-between;
-  gap:10px;
-  align-items:flex-start;
+.enroll-crm-toolbar input,.enroll-crm-toolbar select{
+  border:1px solid #dfe2ef;border-radius:11px;padding:10px 11px;background:#fff;color:#343a61;
+  outline:none;font-size:10px
 }
-.enroll-admin-head h3{
-  margin:0;
-  color:#252b51;
-  font-size:15px;
+.enroll-crm-toolbar button{
+  border:0;border-radius:11px;padding:10px 12px;background:#edeaff;color:#5448c0;
+  font-weight:950;font-size:10px
 }
-.enroll-admin-head small{
-  color:#8a90a7;
+.enroll-crm-list{
+  display:grid;gap:10px;max-height:58vh;overflow:auto;padding:1px 4px 2px 1px
 }
-.enroll-admin-status{
-  display:inline-block;
-  padding:5px 8px;
-  border-radius:999px;
-  font-size:9px;
-  font-weight:950;
-  text-transform:uppercase;
+.enroll-request-v407,.enroll-record-v407{
+  border:1px solid #e6e8f3;border-radius:17px;padding:14px;background:#fff
 }
-.enroll-admin-status.new{
-  background:#ffe6ef;
-  color:#a52e59;
+.enroll-request-v407.is-new{
+  border-color:#b9aeff;background:linear-gradient(180deg,#fff,#fbfaff);
+  box-shadow:0 8px 24px rgba(91,78,220,.08)
 }
-.enroll-admin-status.contacted{
-  background:#e4faf4;
-  color:#15725e;
+.enroll-record-v407.priority-high{
+  border-color:#ffb5c9;box-shadow:0 7px 22px rgba(244,83,130,.08)
 }
-.enroll-admin-status.closed{
-  background:#edf0f6;
-  color:#68708b;
+.enroll-card-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.enroll-card-head h3{margin:0;font-size:16px;color:#242a51}
+.enroll-card-head small{display:block;margin-top:3px;color:#8a90a6;font-size:9px}
+.enroll-status-v407,.enroll-priority-v407{
+  display:inline-flex;align-items:center;padding:5px 8px;border-radius:999px;font-size:8px;
+  font-weight:1000;text-transform:uppercase
 }
-.enroll-admin-meta{
-  display:grid;
-  grid-template-columns:repeat(2,minmax(0,1fr));
-  gap:7px;
-  margin:11px 0;
+.enroll-status-v407.new{background:#ffe7ef;color:#a72d59}
+.enroll-status-v407.contacted{background:#e4faf3;color:#11705a}
+.enroll-status-v407.closed{background:#edf0f6;color:#676f88}
+.enroll-status-v407.lead{background:#eeeaff;color:#584bc4}
+.enroll-status-v407.interested{background:#fff3cc;color:#8b6500}
+.enroll-status-v407.enrolled{background:#dff9ed;color:#0c754f}
+.enroll-status-v407.not_interested{background:#f1f2f6;color:#777d91}
+.enroll-priority-v407.high{background:#ffe6ef;color:#b12f5c}
+.enroll-priority-v407.normal{background:#eef1f7;color:#6d748d}
+.enroll-meta-v407{
+  display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:7px;margin:10px 0
 }
-.enroll-admin-meta div{
-  padding:9px 10px;
-  border-radius:11px;
-  background:#f6f7fb;
-  color:#5e6684;
-  font-size:10px;
-  line-height:1.45;
+.enroll-meta-v407>div{
+  padding:9px 10px;border-radius:11px;background:#f6f7fb;color:#606883;font-size:9px;
+  line-height:1.4;min-width:0;word-break:break-word
 }
-.enroll-admin-meta b{
-  display:block;
-  color:#272d53;
-  margin-bottom:2px;
+.enroll-meta-v407 b{display:block;color:#292f55;font-size:9px;margin-bottom:2px}
+.enroll-note-v407{
+  padding:10px 11px;border-radius:11px;background:#fff9e8;color:#6b6243;
+  font-size:9px;line-height:1.5;white-space:pre-wrap
 }
-.enroll-admin-contact{
-  word-break:break-word;
+.enroll-record-notes-v407{
+  display:grid;grid-template-columns:1fr 1fr;gap:7px;margin-top:8px
 }
-.enroll-admin-note{
-  padding:10px 11px;
-  border-radius:11px;
-  background:#fff9e9;
-  color:#6d6241;
-  font-size:10px;
-  line-height:1.5;
-  white-space:pre-wrap;
+.enroll-record-notes-v407>div{
+  padding:10px;border-radius:11px;background:#f8f8fc;color:#626982;font-size:9px;line-height:1.45;
+  white-space:pre-wrap
 }
-.enroll-admin-actions{
-  display:flex;
-  gap:7px;
-  flex-wrap:wrap;
-  margin-top:10px;
+.enroll-actions-v407{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+.enroll-actions-v407 button{
+  border:0;border-radius:10px;padding:8px 10px;font-size:9px;font-weight:950
 }
-.enroll-admin-actions button{
-  border:0;
-  border-radius:10px;
-  padding:8px 10px;
-  font-size:10px;
-  font-weight:950;
-  cursor:pointer;
+.a-copy{background:#e6f6ff;color:#176d98}
+.a-contact{background:#ddf8ee;color:#0e7058}
+.a-record{background:#eeeaff;color:#5648c0}
+.a-close{background:#eef0f5;color:#61697f}
+.a-delete{background:#ffe9ee;color:#af3556}
+.a-enrolled{background:#ddf8e9;color:#0b714c}
+.a-edit{background:#fff2d7;color:#8a6200}
+.enroll-empty-v407{
+  padding:32px;text-align:center;border-radius:15px;background:#f8f9fc;color:#747c98
 }
-.enroll-admin-actions .contacted{
-  background:#dff8ef;
-  color:#13715d;
+.enroll-record-form-v407 h2{margin:0;color:#242a50}
+.enroll-record-form-v407 p{margin:5px 0 14px;color:#747c98;font-size:10px}
+.enroll-record-grid-v407{
+  display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px
 }
-.enroll-admin-actions .close-request{
-  background:#edf0f6;
-  color:#59617d;
+.enroll-record-field-v407{display:grid;gap:5px}
+.enroll-record-field-v407.full{grid-column:1/-1}
+.enroll-record-field-v407 label{font-size:9px;font-weight:950;color:#444a70}
+.enroll-record-field-v407 input,
+.enroll-record-field-v407 select,
+.enroll-record-field-v407 textarea{
+  width:100%;border:1px solid #dfe2ef;border-radius:11px;padding:10px 11px;background:#fff;
+  color:#2c3259;outline:none;font-size:10px
 }
-.enroll-admin-actions .reopen{
-  background:#eeeaff;
-  color:#5b49c3;
+.enroll-record-field-v407 textarea{min-height:92px;resize:vertical;line-height:1.5}
+.enroll-form-actions-v407{
+  display:flex;justify-content:flex-end;gap:8px;margin-top:14px;flex-wrap:wrap
 }
-.enroll-admin-actions .copy-contact{
-  background:#e7f6ff;
-  color:#176d99;
+.enroll-form-actions-v407 button{
+  border:0;border-radius:11px;padding:10px 13px;font-size:10px;font-weight:950
 }
-
-.enroll-empty{
-  padding:26px;
-  text-align:center;
-  color:#737b98;
-  background:#f8f9fc;
-  border-radius:14px;
+@media(max-width:850px){
+  .enroll-crm-summary{grid-template-columns:1fr 1fr}
+  .enroll-crm-toolbar{grid-template-columns:1fr 1fr}
+  .enroll-meta-v407{grid-template-columns:1fr 1fr}
 }
-
-@media(max-width:650px){
-  .enroll-admin-meta{
-    grid-template-columns:1fr;
-  }
-  .enroll-admin-summary{
-    grid-template-columns:1fr;
-  }
+@media(max-width:560px){
+  #modal:has(.enroll-crm-v407),#modal:has(.enroll-record-form-v407){width:100%;padding:13px}
+  .enroll-crm-summary{grid-template-columns:1fr 1fr}
+  .enroll-crm-toolbar{grid-template-columns:1fr}
+  .enroll-meta-v407{grid-template-columns:1fr}
+  .enroll-record-notes-v407{grid-template-columns:1fr}
+  .enroll-record-grid-v407{grid-template-columns:1fr}
+  .enroll-record-field-v407.full{grid-column:auto}
 }
 </style>
 
@@ -350,375 +325,499 @@ async function boot(){
   }
 }async function togglePublic(id){const s=find(id);if(!s)return;const adminPassword=await authorizeAdminAction(s.is_public?'Make Student Private':'Change Student Privacy',s);if(!adminPassword)return;const r=await api('/api/admin/students/'+id,{method:'PATCH',body:JSON.stringify({status:s.status,isPublic:!s.is_public,adminPassword})}),d=await r.json();if(!r.ok)return alert(d.error||'Privacy update failed');toast(s.is_public?'Student is now private':'Student is now public');loadStudents()}async function removeStudent(id){const s=find(id);if(!s)return;const adminPassword=await authorizeAdminAction('Permanently Delete Student',s);if(!adminPassword)return;const r=await api('/api/admin/students/'+id,{method:'DELETE',body:JSON.stringify({adminPassword})}),d=await r.json();if(!r.ok)return alert(d.error||'Delete failed');closeModal();toast('Student deleted');loadStudents()}async function manageReviews(){try{const r=await api('/api/admin/reviews'),d=await r.json();if(!r.ok)throw new Error(d.error||'Could not load reviews');const a=d.reviews||[];openModal(`<div class="modal-head"><h2>⭐ Parent Review Moderation</h2><button class="x" onclick="closeModal()">×</button></div><div>${a.length?a.map(x=>`<div style="padding:12px;border:1px solid #e7e9f3;border-radius:14px;margin:9px 0"><b>${'⭐'.repeat(x.rating)} ${esc(x.parent_name)}</b><p>${esc(x.review_text)}</p><small>${esc(x.review_type)} • ${x.status}</small><div class="actions" style="margin-top:8px"><button onclick="setReview(${x.id},'approved')">Approve</button><button onclick="setReview(${x.id},'rejected')">Reject</button><button onclick="deleteReview(${x.id})">Delete</button></div></div>`).join(''):'No reviews yet.'}</div>`)}catch(err){toast(err.message)}}async function setReview(id,status){const r=await api('/api/admin/reviews/'+id,{method:'PATCH',body:JSON.stringify({status})});if(r.ok){toast('Review updated');manageReviews()}}async function deleteReview(id){if(!confirm('Delete this review?'))return;const r=await api('/api/admin/reviews/'+id,{method:'DELETE'});if(r.ok){toast('Review deleted');manageReviews()}}
 async function learningSettings(id){try{const r=await api('/api/admin/students/'+id+'/learning-settings'),d=await r.json();if(!r.ok)throw new Error(d.error||'Could not load learning settings');const x=d.settings||{};openModal(`<div class="modal-head"><h2>📘 Learning Support</h2><button class="x" onclick="closeModal()">×</button></div><div class="field"><label>Teacher Feedback</label><textarea id="lfTeacher" rows="4">${esc(x.teacher_feedback||'')}</textarea></div><div class="field"><label>Parent Home Practice</label><textarea id="lfParent" rows="4">${esc(x.parent_practice||'')}</textarea></div><div class="field"><label><input id="lfComp" type="checkbox" style="width:auto" ${x.competition_enabled?'checked':''}> Allow same-class Knowledge Battle requests</label></div><div class="modal-actions"><button class="btn primary" onclick="saveLearningSettings(${id})">Save</button></div>`)}catch(e){toast(e.message)}}async function saveLearningSettings(id){const r=await api('/api/admin/students/'+id+'/learning-settings',{method:'PATCH',body:JSON.stringify({teacherFeedback:document.getElementById('lfTeacher').value,parentPractice:document.getElementById('lfParent').value,competitionEnabled:document.getElementById('lfComp').checked})}),d=await r.json();if(!r.ok)return alert(d.error||'Could not save');closeModal();toast('Learning support saved')}async function logout(){try{await api('/api/auth/logout',{method:'POST'})}catch{}localStorage.removeItem('brightbyte_admin_token');location.href='index.html'}boot();</script>
-<script id="tannuEnrollmentAdminV406Script">
+<script id="tannuEnrollmentAdminV407Script">
 (() => {
   "use strict";
-
-  if(window.__tannuEnrollmentAdminV406) return;
-  window.__tannuEnrollmentAdminV406 = true;
+  if(window.__tannuEnrollmentAdminV407) return;
+  window.__tannuEnrollmentAdminV407 = true;
 
   let lastEnrollmentCount = null;
+  let enrollmentRequestsCache = [];
+  let enrollmentRecordsCache = [];
+  let enrollmentActiveTab = "requests";
+  let enrollmentSearch = "";
+  let enrollmentStatusFilter = "all";
+  let enrollmentClassFilter = "all";
   const originalAdminTitle = document.title;
 
-  function enrollDate(value){
+  function eDate(value){
     if(!value) return "";
-    const raw = String(value);
-    const d = new Date(
-      raw.includes("T")
-        ? raw
-        : raw.replace(" ","T") + "Z"
-    );
-    return Number.isNaN(d.getTime())
-      ? raw
-      : d.toLocaleString();
+    const raw=String(value);
+    const d=new Date(raw.includes("T")?raw:raw.replace(" ","T")+"Z");
+    return Number.isNaN(d.getTime())?raw:d.toLocaleString();
   }
-
-  function contactMethodLabel(value){
-    if(value === "email") return "Email";
-    if(value === "phone") return "Phone Call";
-    return "WhatsApp";
+  function eEsc(v){
+    return typeof window.esc==="function"
+      ? window.esc(v)
+      : String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
   }
-
-  function escapeText(value){
-    if(typeof window.esc === "function"){
-      return window.esc(value);
-    }
-    return String(value ?? "").replace(
-      /[&<>"']/g,
-      ch => ({
-        "&":"&amp;",
-        "<":"&lt;",
-        ">":"&gt;",
-        '"':"&quot;",
-        "'":"&#39;"
-      }[ch])
-    );
+  function eMethod(v){
+    return v==="email"?"Email":v==="phone"?"Phone Call":v==="whatsapp"?"WhatsApp":"—";
   }
+  function eVal(v){ return String(v??""); }
 
-  async function copyText(value){
+  async function eCopy(value){
     try{
-      await navigator.clipboard.writeText(String(value || ""));
+      await navigator.clipboard.writeText(String(value||""));
       toast("Contact detail copied");
     }catch{
       toast("Could not copy contact detail");
     }
   }
 
-  window.loadEnrollmentCount = async function(){
-    if(!token) return;
+  async function fetchEnrollmentData(){
+    const [rq,rr] = await Promise.all([
+      api("/api/admin/enrollment-requests"),
+      api("/api/admin/enrollment-records")
+    ]);
+    const [qd,rd] = await Promise.all([rq.json(),rr.json()]);
+    if(!rq.ok) throw new Error(qd.error||"Could not load requests");
+    if(!rr.ok) throw new Error(rd.error||"Could not load records");
+    enrollmentRequestsCache=Array.isArray(qd.requests)?qd.requests:[];
+    enrollmentRecordsCache=Array.isArray(rd.records)?rd.records:[];
+  }
 
+  function filteredRequests(){
+    const q=enrollmentSearch.trim().toLowerCase();
+    return enrollmentRequestsCache.filter(x=>{
+      const searchOk=!q || [
+        x.parent_name,x.student_name,x.contact_value,x.parent_location,x.note
+      ].some(v=>String(v||"").toLowerCase().includes(q));
+      const statusOk=enrollmentStatusFilter==="all" || x.status===enrollmentStatusFilter;
+      const classOk=enrollmentClassFilter==="all" || String(x.class_number)===enrollmentClassFilter;
+      return searchOk && statusOk && classOk;
+    });
+  }
+
+  function filteredRecords(){
+    const q=enrollmentSearch.trim().toLowerCase();
+    return enrollmentRecordsCache.filter(x=>{
+      const searchOk=!q || [
+        x.parent_name,x.parent_mobile,x.parent_email,x.parent_location,
+        x.student_name,x.school_name,x.admin_notes,x.fee_notes
+      ].some(v=>String(v||"").toLowerCase().includes(q));
+      const statusOk=enrollmentStatusFilter==="all" || x.status===enrollmentStatusFilter;
+      const classOk=enrollmentClassFilter==="all" || String(x.class_number)===enrollmentClassFilter;
+      return searchOk && statusOk && classOk;
+    });
+  }
+
+  function summaryCounts(){
+    return {
+      newCount:enrollmentRequestsCache.filter(x=>x.status==="new").length,
+      contacted:enrollmentRequestsCache.filter(x=>x.status==="contacted").length,
+      records:enrollmentRecordsCache.length,
+      enrolled:enrollmentRecordsCache.filter(x=>x.status==="enrolled").length
+    };
+  }
+
+  function toolbarHtml(){
+    const statuses = enrollmentActiveTab==="requests"
+      ? [["all","All Status"],["new","New"],["contacted","Contacted"],["closed","Closed"]]
+      : [["all","All Status"],["lead","Lead"],["contacted","Contacted"],["interested","Interested"],["enrolled","Enrolled"],["not_interested","Not Interested"],["closed","Closed"]];
+
+    return `
+      <div class="enroll-crm-toolbar">
+        <input id="enrollSearchV407" placeholder="Search parent, student, mobile, location..." value="${eEsc(enrollmentSearch)}">
+        <select id="enrollStatusV407">
+          ${statuses.map(([v,l])=>`<option value="${v}" ${enrollmentStatusFilter===v?"selected":""}>${l}</option>`).join("")}
+        </select>
+        <select id="enrollClassV407">
+          <option value="all">All Classes</option>
+          ${[1,2,3,4,5,6].map(c=>`<option value="${c}" ${enrollmentClassFilter===String(c)?"selected":""}>Class ${c}</option>`).join("")}
+        </select>
+        ${enrollmentActiveTab==="records"
+          ? `<button type="button" onclick="openEnrollmentRecordEditorV407(0)">＋ New Record</button>`
+          : `<button type="button" onclick="refreshEnrollmentCrmV407()">↻ Refresh</button>`}
+      </div>`;
+  }
+
+  function requestCard(x){
+    const hasRecord=Number(x.record_id||0)>0;
+    return `
+      <article class="enroll-request-v407 ${x.status==="new"?"is-new":""}">
+        <div class="enroll-card-head">
+          <div>
+            <h3>${eEsc(x.parent_name||"Parent / Guardian")}</h3>
+            <small>Request #${Number(x.id)} • ${eEsc(eDate(x.created_at))}</small>
+          </div>
+          <span class="enroll-status-v407 ${eEsc(x.status||"new")}">${eEsc(x.status||"new")}</span>
+        </div>
+
+        <div class="enroll-meta-v407">
+          <div><b>Student</b>${eEsc(x.student_name||"—")}</div>
+          <div><b>Class / Age</b>Class ${Number(x.class_number||1)}${x.student_age?` • Age ${Number(x.student_age)}`:""}</div>
+          <div><b>Contact Method</b>${eEsc(eMethod(x.contact_method))}</div>
+          <div><b>Contact Detail</b>${eEsc(x.contact_value||"—")}</div>
+          <div><b>Parent Location</b>${eEsc(x.parent_location||"Not provided")}</div>
+          <div><b>Tracking Record</b>${hasRecord?`Record #${Number(x.record_id)}`:"Not created yet"}</div>
+        </div>
+
+        ${x.note?`<div class="enroll-note-v407"><b>Message / Requirement</b><br>${eEsc(x.note)}</div>`:""}
+
+        <div class="enroll-actions-v407">
+          <button class="a-copy" type="button" onclick='copyEnrollmentContactV407(${JSON.stringify(String(x.contact_value||""))})'>📋 Copy Contact</button>
+          ${x.status!=="contacted"?`<button class="a-contact" type="button" onclick="setEnrollmentRequestStatusV407(${Number(x.id)},'contacted')">✓ Mark Contacted</button>`:""}
+          ${hasRecord
+            ? `<button class="a-record" type="button" onclick="openEnrollmentRecordEditorV407(${Number(x.record_id)})">🗂️ View Record</button>`
+            : `<button class="a-record" type="button" onclick="createRecordFromRequestV407(${Number(x.id)})">＋ Save to Records</button>`}
+          ${x.status!=="closed"
+            ? `<button class="a-close" type="button" onclick="setEnrollmentRequestStatusV407(${Number(x.id)},'closed')">Close Request</button>`
+            : `<button class="a-record" type="button" onclick="setEnrollmentRequestStatusV407(${Number(x.id)},'new')">↻ Reopen</button>`}
+          <button class="a-delete" type="button" onclick="deleteEnrollmentRequestV407(${Number(x.id)})">🗑 Remove Request</button>
+        </div>
+      </article>`;
+  }
+
+  function recordCard(x){
+    return `
+      <article class="enroll-record-v407 priority-${eEsc(x.priority||"normal")}">
+        <div class="enroll-card-head">
+          <div>
+            <h3>${eEsc(x.parent_name||"Parent")} → ${eEsc(x.student_name||"Student")}</h3>
+            <small>Record #${Number(x.id)} • Updated ${eEsc(eDate(x.updated_at))}</small>
+          </div>
+          <div style="display:flex;gap:5px;flex-wrap:wrap;justify-content:flex-end">
+            <span class="enroll-priority-v407 ${eEsc(x.priority||"normal")}">${eEsc(x.priority||"normal")}</span>
+            <span class="enroll-status-v407 ${eEsc(x.status||"lead")}">${eEsc(String(x.status||"lead").replace("_"," "))}</span>
+          </div>
+        </div>
+
+        <div class="enroll-meta-v407">
+          <div><b>Student</b>${eEsc(x.student_name||"—")}${x.student_age?` • Age ${Number(x.student_age)}`:""}</div>
+          <div><b>Class / School</b>Class ${Number(x.class_number||1)}${x.school_name?` • ${eEsc(x.school_name)}`:""}</div>
+          <div><b>Mobile</b>${eEsc(x.parent_mobile||"—")}</div>
+          <div><b>Email</b>${eEsc(x.parent_email||"—")}</div>
+          <div><b>Location</b>${eEsc(x.parent_location||"—")}</div>
+          <div><b>Follow-up</b>${eEsc(x.follow_up_date||"Not scheduled")}</div>
+        </div>
+
+        <div class="enroll-record-notes-v407">
+          <div><b>Admin Notes</b><br>${eEsc(x.admin_notes||"No notes yet.")}</div>
+          <div><b>Fee / Deal Notes</b><br>${eEsc(x.fee_notes||"No private fee/deal note yet.")}</div>
+        </div>
+
+        <div class="enroll-actions-v407">
+          <button class="a-edit" type="button" onclick="openEnrollmentRecordEditorV407(${Number(x.id)})">✏️ Edit Record</button>
+          ${x.status!=="enrolled"?`<button class="a-enrolled" type="button" onclick="quickEnrollmentRecordStatusV407(${Number(x.id)},'enrolled')">✓ Mark Enrolled</button>`:""}
+          <button class="a-delete" type="button" onclick="deleteEnrollmentRecordV407(${Number(x.id)})">🗑 Remove Record</button>
+        </div>
+      </article>`;
+  }
+
+  function renderEnrollmentCrm(){
+    const s=summaryCounts();
+    const rows=enrollmentActiveTab==="requests"?filteredRequests():filteredRecords();
+
+    openModal(`
+      <section class="enroll-crm-v407">
+        <div class="enroll-crm-head">
+          <div>
+            <h2>📩 Enrollment Management</h2>
+            <p>Private parent requests + separate editable tracking records for follow-up, enrollment and personal deal notes.</p>
+          </div>
+          <button class="x" onclick="closeModal()" type="button">×</button>
+        </div>
+
+        <div class="enroll-crm-summary">
+          <div><b>${s.newCount}</b><small>NEW REQUESTS</small></div>
+          <div><b>${s.contacted}</b><small>CONTACTED REQUESTS</small></div>
+          <div><b>${s.records}</b><small>TRACKING RECORDS</small></div>
+          <div><b>${s.enrolled}</b><small>ENROLLED</small></div>
+        </div>
+
+        <div class="enroll-crm-tabs">
+          <button class="enroll-crm-tab ${enrollmentActiveTab==="requests"?"active":""}" onclick="switchEnrollmentTabV407('requests')">📥 Parent Requests</button>
+          <button class="enroll-crm-tab ${enrollmentActiveTab==="records"?"active":""}" onclick="switchEnrollmentTabV407('records')">🗂️ Enrollment Records</button>
+        </div>
+
+        ${toolbarHtml()}
+
+        <div class="enroll-crm-list">
+          ${rows.length
+            ? rows.map(x=>enrollmentActiveTab==="requests"?requestCard(x):recordCard(x)).join("")
+            : `<div class="enroll-empty-v407">No matching ${enrollmentActiveTab==="requests"?"requests":"records"} found.</div>`}
+        </div>
+      </section>
+    `);
+
+    setTimeout(()=>{
+      const q=document.getElementById("enrollSearchV407");
+      const st=document.getElementById("enrollStatusV407");
+      const cl=document.getElementById("enrollClassV407");
+      q?.addEventListener("input",()=>{enrollmentSearch=q.value;renderEnrollmentCrm()});
+      st?.addEventListener("change",()=>{enrollmentStatusFilter=st.value;renderEnrollmentCrm()});
+      cl?.addEventListener("change",()=>{enrollmentClassFilter=cl.value;renderEnrollmentCrm()});
+    },0);
+  }
+
+  window.manageEnrollmentRequests=async function(){
     try{
-      const r = await api(
-        "/api/admin/enrollment-requests/count"
-      );
+      enrollmentActiveTab="requests";
+      enrollmentStatusFilter="all";
+      enrollmentClassFilter="all";
+      await fetchEnrollmentData();
+      renderEnrollmentCrm();
+      await loadEnrollmentCount();
+    }catch(error){toast(error?.message||"Could not load enrollment management")}
+  };
 
+  window.refreshEnrollmentCrmV407=async function(){
+    try{await fetchEnrollmentData();renderEnrollmentCrm();await loadEnrollmentCount()}
+    catch(error){toast(error?.message||"Could not refresh enrollment data")}
+  };
+
+  window.switchEnrollmentTabV407=function(tab){
+    enrollmentActiveTab=tab==="records"?"records":"requests";
+    enrollmentStatusFilter="all";
+    enrollmentClassFilter="all";
+    enrollmentSearch="";
+    renderEnrollmentCrm();
+  };
+
+  window.copyEnrollmentContactV407=eCopy;
+
+  window.setEnrollmentRequestStatusV407=async function(id,status){
+    try{
+      const r=await api(`/api/admin/enrollment-requests/${Number(id)}`,{
+        method:"PATCH",body:JSON.stringify({status})
+      });
+      const d=await r.json();
+      if(!r.ok) throw new Error(d.error||"Could not update request");
+      toast(status==="contacted"?"✓ Marked as contacted":status==="closed"?"Request closed":"Request reopened");
+      await fetchEnrollmentData();renderEnrollmentCrm();await loadEnrollmentCount();
+    }catch(error){toast(error?.message||"Could not update request")}
+  };
+
+  window.deleteEnrollmentRequestV407=async function(id){
+    if(!confirm("Remove this raw enrollment request? A separate tracking record, if already created, will not be deleted.")) return;
+    try{
+      const r=await api(`/api/admin/enrollment-requests/${Number(id)}`,{method:"DELETE"});
+      const d=await r.json();
+      if(!r.ok) throw new Error(d.error||"Could not remove request");
+      toast("Request removed");
+      await fetchEnrollmentData();renderEnrollmentCrm();await loadEnrollmentCount();
+    }catch(error){toast(error?.message||"Could not remove request")}
+  };
+
+  window.createRecordFromRequestV407=async function(requestId){
+    try{
+      const r=await api("/api/admin/enrollment-records",{
+        method:"POST",body:JSON.stringify({requestId:Number(requestId)})
+      });
+      const d=await r.json();
+      if(!r.ok && r.status!==409) throw new Error(d.error||"Could not create record");
+      toast(r.status===409?"Tracking record already exists":"Tracking record created");
+      await fetchEnrollmentData();
+      enrollmentActiveTab="records";
+      enrollmentSearch="";
+      enrollmentStatusFilter="all";
+      enrollmentClassFilter="all";
+      renderEnrollmentCrm();
+      await loadEnrollmentCount();
+    }catch(error){toast(error?.message||"Could not create record")}
+  };
+
+  function recordById(id){
+    return enrollmentRecordsCache.find(x=>Number(x.id)===Number(id))||null;
+  }
+
+  window.openEnrollmentRecordEditorV407=function(id=0){
+    const rec=id?recordById(id):null;
+    const title=rec?"Edit Enrollment Record":"New Enrollment Record";
+    const val=(k,fallback="")=>eEsc(rec?.[k]??fallback);
+
+    openModal(`
+      <section class="enroll-record-form-v407">
+        <div class="enroll-crm-head">
+          <div>
+            <h2>${rec?"✏️":"＋"} ${title}</h2>
+            <p>Maintain a private admin record for parent contact, student details, follow-up, enrollment status and private deal notes.</p>
+          </div>
+          <button class="x" onclick="renderEnrollmentCrmV407()" type="button">×</button>
+        </div>
+
+        <form id="enrollmentRecordFormV407" onsubmit="saveEnrollmentRecordV407(event,${rec?Number(rec.id):0})">
+          <div class="enroll-record-grid-v407">
+            <div class="enroll-record-field-v407">
+              <label>Parent / Guardian Name *</label>
+              <input name="parentName" maxlength="80" required value="${val("parent_name")}">
+            </div>
+
+            <div class="enroll-record-field-v407">
+              <label>Parent Mobile / WhatsApp</label>
+              <input name="parentMobile" maxlength="40" value="${val("parent_mobile")}">
+            </div>
+
+            <div class="enroll-record-field-v407">
+              <label>Parent Email</label>
+              <input name="parentEmail" type="email" maxlength="140" value="${val("parent_email")}">
+            </div>
+
+            <div class="enroll-record-field-v407">
+              <label>Parent Location</label>
+              <input name="parentLocation" maxlength="120" placeholder="City / State / Country" value="${val("parent_location")}">
+            </div>
+
+            <div class="enroll-record-field-v407">
+              <label>Student Name *</label>
+              <input name="studentName" maxlength="80" required value="${val("student_name")}">
+            </div>
+
+            <div class="enroll-record-field-v407">
+              <label>Student Age</label>
+              <input name="studentAge" type="number" min="5" max="18" value="${val("student_age")}">
+            </div>
+
+            <div class="enroll-record-field-v407">
+              <label>Class *</label>
+              <select name="classNumber">
+                ${[1,2,3,4,5,6].map(c=>`<option value="${c}" ${Number(rec?.class_number||1)===c?"selected":""}>Class ${c}</option>`).join("")}
+              </select>
+            </div>
+
+            <div class="enroll-record-field-v407">
+              <label>School Name</label>
+              <input name="schoolName" maxlength="120" value="${val("school_name")}">
+            </div>
+
+            <div class="enroll-record-field-v407">
+              <label>Preferred Contact</label>
+              <select name="preferredContact">
+                ${[["","Not set"],["whatsapp","WhatsApp"],["phone","Phone"],["email","Email"]].map(([v,l])=>`<option value="${v}" ${(rec?.preferred_contact||"")===v?"selected":""}>${l}</option>`).join("")}
+              </select>
+            </div>
+
+            <div class="enroll-record-field-v407">
+              <label>Tracking Status</label>
+              <select name="status">
+                ${[["lead","Lead"],["contacted","Contacted"],["interested","Interested"],["enrolled","Enrolled"],["not_interested","Not Interested"],["closed","Closed"]].map(([v,l])=>`<option value="${v}" ${(rec?.status||"lead")===v?"selected":""}>${l}</option>`).join("")}
+              </select>
+            </div>
+
+            <div class="enroll-record-field-v407">
+              <label>Priority</label>
+              <select name="priority">
+                <option value="normal" ${(rec?.priority||"normal")==="normal"?"selected":""}>Normal</option>
+                <option value="high" ${(rec?.priority||"normal")==="high"?"selected":""}>High</option>
+              </select>
+            </div>
+
+            <div class="enroll-record-field-v407">
+              <label>Follow-up Date</label>
+              <input name="followUpDate" type="date" value="${val("follow_up_date")}">
+            </div>
+
+            <div class="enroll-record-field-v407 full">
+              <label>Admin Notes</label>
+              <textarea name="adminNotes" maxlength="2000" placeholder="Conversation summary, learning requirement, next step...">${val("admin_notes")}</textarea>
+            </div>
+
+            <div class="enroll-record-field-v407 full">
+              <label>Private Fee / Deal Notes</label>
+              <textarea name="feeNotes" maxlength="1000" placeholder="Any personally agreed fee, plan or payment discussion. Visible only in Admin Center.">${val("fee_notes")}</textarea>
+            </div>
+          </div>
+
+          <div class="enroll-form-actions-v407">
+            <button type="button" class="a-close" onclick="renderEnrollmentCrmV407()">Cancel</button>
+            <button type="submit" class="btn primary">${rec?"💾 Save Changes":"＋ Create Record"}</button>
+          </div>
+        </form>
+      </section>
+    `);
+  };
+
+  window.saveEnrollmentRecordV407=async function(event,id){
+    event.preventDefault();
+    const form=event.currentTarget;
+    const payload={
+      parentName:eVal(form.parentName.value).trim(),
+      parentMobile:eVal(form.parentMobile.value).trim(),
+      parentEmail:eVal(form.parentEmail.value).trim(),
+      parentLocation:eVal(form.parentLocation.value).trim(),
+      studentName:eVal(form.studentName.value).trim(),
+      studentAge:eVal(form.studentAge.value).trim() || null,
+      classNumber:Number(form.classNumber.value),
+      schoolName:eVal(form.schoolName.value).trim(),
+      preferredContact:eVal(form.preferredContact.value),
+      status:eVal(form.status.value),
+      priority:eVal(form.priority.value),
+      followUpDate:eVal(form.followUpDate.value),
+      adminNotes:eVal(form.adminNotes.value).trim(),
+      feeNotes:eVal(form.feeNotes.value).trim()
+    };
+    try{
+      const r=await api(id?`/api/admin/enrollment-records/${Number(id)}`:"/api/admin/enrollment-records",{
+        method:id?"PATCH":"POST",body:JSON.stringify(payload)
+      });
+      const d=await r.json();
+      if(!r.ok) throw new Error(d.error||"Could not save record");
+      toast(id?"Enrollment record updated":"Enrollment record created");
+      await fetchEnrollmentData();
+      enrollmentActiveTab="records";
+      renderEnrollmentCrm();
+      await loadEnrollmentCount();
+    }catch(error){toast(error?.message||"Could not save record")}
+  };
+
+  window.quickEnrollmentRecordStatusV407=async function(id,status){
+    try{
+      const r=await api(`/api/admin/enrollment-records/${Number(id)}`,{
+        method:"PATCH",body:JSON.stringify({status})
+      });
+      const d=await r.json();
+      if(!r.ok) throw new Error(d.error||"Could not update record");
+      toast(status==="enrolled"?"✓ Student marked enrolled":"Record updated");
+      await fetchEnrollmentData();renderEnrollmentCrm();await loadEnrollmentCount();
+    }catch(error){toast(error?.message||"Could not update record")}
+  };
+
+  window.deleteEnrollmentRecordV407=async function(id){
+    if(!confirm("Permanently remove this tracking record? The original parent request will remain unless you remove it separately.")) return;
+    try{
+      const r=await api(`/api/admin/enrollment-records/${Number(id)}`,{method:"DELETE"});
+      const d=await r.json();
+      if(!r.ok) throw new Error(d.error||"Could not remove record");
+      toast("Tracking record removed");
+      await fetchEnrollmentData();renderEnrollmentCrm();await loadEnrollmentCount();
+    }catch(error){toast(error?.message||"Could not remove record")}
+  };
+
+  window.renderEnrollmentCrmV407=function(){
+    enrollmentActiveTab="records";
+    renderEnrollmentCrm();
+  };
+
+  window.loadEnrollmentCount=async function(){
+    if(!token) return;
+    try{
+      const r=await api("/api/admin/enrollment-requests/count");
       if(!r.ok) return;
-
-      const d = await r.json();
-      const count = Number(d.new_count || 0);
-
-      const badge =
-        document.getElementById(
-          "enrollmentAdminBadge"
-        );
-
-      const button =
-        document.getElementById(
-          "enrollmentAdminBtn"
-        );
-
+      const d=await r.json();
+      const count=Number(d.new_count||0);
+      const badge=document.getElementById("enrollmentAdminBadge");
+      const button=document.getElementById("enrollmentAdminBtn");
       if(badge){
-        badge.textContent =
-          count > 99
-            ? "99+"
-            : String(count);
-
-        badge.hidden =
-          count === 0;
+        badge.textContent=count>99?"99+":String(count);
+        badge.hidden=count===0;
       }
-
-      if(button){
-        button.classList.toggle(
-          "has-new",
-          count > 0
-        );
-      }
-
-      document.title =
-        count > 0
-          ? `(${count}) ${originalAdminTitle}`
-          : originalAdminTitle;
-
-      if(
-        lastEnrollmentCount !== null &&
-        count > lastEnrollmentCount
-      ){
-        toast(
-          "📩 New enrollment request received"
-        );
-      }
-
-      lastEnrollmentCount = count;
-
+      if(button) button.classList.toggle("has-new",count>0);
+      document.title=count>0?`(${count}) ${originalAdminTitle}`:originalAdminTitle;
+      if(lastEnrollmentCount!==null && count>lastEnrollmentCount) toast("📩 New enrollment request received");
+      lastEnrollmentCount=count;
     }catch{}
   };
 
-  window.manageEnrollmentRequests =
-    async function(){
-
-    try{
-      const r = await api(
-        "/api/admin/enrollment-requests"
-      );
-
-      const d = await r.json();
-
-      if(!r.ok){
-        throw new Error(
-          d.error ||
-          "Could not load enrollment requests"
-        );
-      }
-
-      const rows =
-        Array.isArray(d.requests)
-          ? d.requests
-          : [];
-
-      const summary = {
-        new: rows.filter(
-          x => x.status === "new"
-        ).length,
-        contacted: rows.filter(
-          x => x.status === "contacted"
-        ).length,
-        closed: rows.filter(
-          x => x.status === "closed"
-        ).length
-      };
-
-      openModal(`
-        <div class="modal-head">
-          <div>
-            <h2>📩 Enrollment Requests</h2>
-            <p style="margin:4px 0 0;color:#717896;font-size:10px">
-              Private parent / guardian requests. These details are never shown publicly.
-            </p>
-          </div>
-
-          <button
-            class="x"
-            onclick="closeModal()"
-            type="button">×</button>
-        </div>
-
-        <div class="enroll-admin-summary">
-          <div>
-            <b>${summary.new}</b>
-            <small>NEW REQUESTS</small>
-          </div>
-
-          <div>
-            <b>${summary.contacted}</b>
-            <small>CONTACTED</small>
-          </div>
-
-          <div>
-            <b>${summary.closed}</b>
-            <small>CLOSED</small>
-          </div>
-        </div>
-
-        <div class="enroll-admin-list">
-          ${
-            rows.length
-              ? rows.map(x => `
-                <article class="enroll-admin-card ${x.status === "new" ? "is-new" : ""}">
-                  <div class="enroll-admin-head">
-                    <div>
-                      <h3>${escapeText(x.parent_name || "Parent / Guardian")}</h3>
-                      <small>${escapeText(enrollDate(x.created_at))}</small>
-                    </div>
-
-                    <span class="enroll-admin-status ${escapeText(x.status || "new")}">
-                      ${escapeText(x.status || "new")}
-                    </span>
-                  </div>
-
-                  <div class="enroll-admin-meta">
-                    <div>
-                      <b>Student</b>
-                      ${escapeText(x.student_name || "—")}
-                    </div>
-
-                    <div>
-                      <b>Class</b>
-                      Class ${Number(x.class_number || 1)}
-                    </div>
-
-                    <div>
-                      <b>Contact Method</b>
-                      ${escapeText(contactMethodLabel(x.contact_method))}
-                    </div>
-
-                    <div class="enroll-admin-contact">
-                      <b>Contact Detail</b>
-                      ${escapeText(x.contact_value || "—")}
-                    </div>
-                  </div>
-
-                  ${
-                    x.note
-                      ? `
-                        <div class="enroll-admin-note">
-                          <b>Message / Requirement</b><br>
-                          ${escapeText(x.note)}
-                        </div>
-                      `
-                      : ""
-                  }
-
-                  <div class="enroll-admin-actions">
-                    <button
-                      class="copy-contact"
-                      type="button"
-                      onclick='copyEnrollmentContact(${JSON.stringify(String(x.contact_value || ""))})'>
-                      📋 Copy Contact
-                    </button>
-
-                    ${
-                      x.status !== "contacted"
-                        ? `
-                          <button
-                            class="contacted"
-                            type="button"
-                            onclick="setEnrollmentRequestStatus(${Number(x.id)},'contacted')">
-                            ✓ Mark Contacted
-                          </button>
-                        `
-                        : ""
-                    }
-
-                    ${
-                      x.status !== "closed"
-                        ? `
-                          <button
-                            class="close-request"
-                            type="button"
-                            onclick="setEnrollmentRequestStatus(${Number(x.id)},'closed')">
-                            Close Request
-                          </button>
-                        `
-                        : `
-                          <button
-                            class="reopen"
-                            type="button"
-                            onclick="setEnrollmentRequestStatus(${Number(x.id)},'new')">
-                            ↻ Reopen
-                          </button>
-                        `
-                    }
-                  </div>
-                </article>
-              `).join("")
-              : `
-                <div class="enroll-empty">
-                  No enrollment requests yet.
-                </div>
-              `
-          }
-        </div>
-      `);
-
-      await loadEnrollmentCount();
-
-    }catch(error){
-      toast(
-        error?.message ||
-        "Could not load enrollment requests"
-      );
-    }
-  };
-
-  window.copyEnrollmentContact =
-    async function(value){
-      await copyText(value);
-    };
-
-  window.setEnrollmentRequestStatus =
-    async function(id,status){
-
-    try{
-      const r = await api(
-        `/api/admin/enrollment-requests/${Number(id)}`,
-        {
-          method:"PATCH",
-          body:JSON.stringify({status})
-        }
-      );
-
-      const d = await r.json();
-
-      if(!r.ok){
-        throw new Error(
-          d.error ||
-          "Could not update request"
-        );
-      }
-
-      toast(
-        status === "contacted"
-          ? "✓ Marked as contacted"
-          : status === "closed"
-            ? "Request closed"
-            : "Request reopened"
-      );
-
-      await loadEnrollmentCount();
-      await manageEnrollmentRequests();
-
-    }catch(error){
-      toast(
-        error?.message ||
-        "Could not update request"
-      );
-    }
-  };
-
-  const app =
-    document.getElementById("app");
-
+  const app=document.getElementById("app");
   if(app){
-    new MutationObserver(
-      () => {
-        if(
-          !app.classList.contains("hidden")
-        ){
-          setTimeout(
-            loadEnrollmentCount,
-            150
-          );
-        }
-      }
-    ).observe(
-      app,
-      {
-        attributes:true,
-        attributeFilter:["class"]
-      }
-    );
+    new MutationObserver(()=>{
+      if(!app.classList.contains("hidden")) setTimeout(loadEnrollmentCount,150);
+    }).observe(app,{attributes:true,attributeFilter:["class"]});
   }
 
-  setTimeout(
-    loadEnrollmentCount,
-    900
-  );
-
-  setInterval(
-    loadEnrollmentCount,
-    12000
-  );
-
+  setTimeout(loadEnrollmentCount,900);
+  setInterval(loadEnrollmentCount,12000);
 })();
 </script>
 
