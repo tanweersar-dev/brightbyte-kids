@@ -4039,4 +4039,667 @@ body.sp-foundation-nav-v40143
 })();
 </script>
 
+<!-- V40.17: Class 1-3 guided lab progression, previews, ticks and optional checks. -->
+
+<script id="foundationLabProgressV4017">
+(() => {
+"use strict";
+
+/*
+  V40.17 — CLASS 1–3 GUIDED LAB PROGRESSION
+  -------------------------------------------
+  - Class 1–3 only.
+  - Removes the duplicate Virtual IT Lab card from the Labs grid visually.
+  - Keeps the Home/Foundation Guided IT Lab shortcut unchanged.
+  - 25 labs: Hardware Explorer → Weekend Family Mission.
+  - Sequential study cards: current item -> green tick -> next item.
+  - Progress is stored in the EXISTING course.completed array and existing D1
+    course-progress API. No new table / Worker route / schema.
+  - Optional Lab Check: pass 2/3 to unlock the next lab.
+  - Locked labs still offer Preview.
+  - Class 4–6 keeps the existing Labs behavior.
+*/
+
+const V4017_LABS = {"hardware":{"skill":"Computer","items":[["🖥️","Monitor","The monitor shows words, pictures and videos.","मॉनिटर पर शब्द, चित्र और वीडियो दिखाई देते हैं।","monitor"],["🖱️","Mouse","The mouse helps us point, click and drag.","माउस से हम पॉइंट, क्लिक और ड्रैग करते हैं।","mouse"],["⌨️","Keyboard","The keyboard helps us type letters, numbers and words.","कीबोर्ड से हम अक्षर, नंबर और शब्द टाइप करते हैं।","keyboard"],["🖥️","System Unit","Important computer parts work inside the system unit.","सिस्टम यूनिट के अंदर जरूरी कंप्यूटर भाग काम करते हैं।","system"],["🖨️","Printer","A printer puts digital work onto paper.","प्रिंटर डिजिटल काम को कागज़ पर छापता है।","printer"],["🔊","Speaker","A speaker plays sound from the computer.","स्पीकर कंप्यूटर की आवाज़ सुनाता है।","speaker"],["📷","Webcam","A webcam is a camera used with a computer.","वेबकैम कंप्यूटर के साथ इस्तेमाल होने वाला कैमरा है।","webcam"],["🧠","RAM","RAM helps the computer with active work.","RAM कंप्यूटर के चल रहे काम में मदद करती है।","ram"],["💾","SSD","An SSD stores files, photos and programs.","SSD में फ़ाइलें, फोटो और प्रोग्राम सेव रहते हैं।","ssd"],["📡","Router","A router helps devices reach other networks and the internet.","राउटर डिवाइस को दूसरे नेटवर्क और इंटरनेट तक पहुँचने में मदद करता है।","router"],["🔀","Network Switch","A network switch connects wired devices in one local network.","नेटवर्क स्विच एक लोकल नेटवर्क में कई wired devices को जोड़ता है।","switch"],["🔌","Ethernet Cable","An Ethernet cable carries network data between devices.","ईथरनेट केबल डिवाइस के बीच नेटवर्क डेटा ले जाती है।","cable"]],"test":[["Which part helps us type?","कौन सा भाग टाइप करने में मदद करता है?","Keyboard",["Keyboard","Speaker","Router"]],["Which device puts work on paper?","कौन सा डिवाइस काम को कागज़ पर छापता है?","Printer",["Printer","Mouse","RAM"]],["Which device helps reach the internet?","कौन सा डिवाइस इंटरनेट तक पहुँचने में मदद करता है?","Router",["Router","Keyboard","Monitor"]]]},"mouse":{"skill":"Mouse","items":[["🤲","Hold Gently","Rest your hand gently on the mouse.","माउस पर हाथ धीरे और आराम से रखें।","mouse"],["🎯","Move the Pointer","Move the mouse slowly to move the pointer.","पॉइंटर चलाने के लिए माउस को धीरे चलाएँ।","mouse"],["👆","Left Click","Use one left click to select an item.","किसी चीज़ को चुनने के लिए एक लेफ्ट-क्लिक करें।","mouse"],["⚡","Double Click","Two quick left clicks can open an item.","दो तेज़ लेफ्ट-क्लिक से कई बार कोई item खुलता है।","mouse"],["📋","Right Click","Right click can open a small menu.","राइट-क्लिक से छोटा menu खुल सकता है।","mouse"],["📦","Drag & Drop","Hold, move and release an item in a new place.","किसी item को पकड़ें, चलाएँ और नई जगह छोड़ें।","mouse"],["↕️","Scroll","Use the wheel to move a page up and down.","पेज ऊपर-नीचे करने के लिए wheel से scroll करें।","mouse"],["⭐","Accuracy First","Move slowly and click the correct target.","धीरे चलाएँ और सही जगह पर क्लिक करें।","mouse"]],"test":[["Which click usually selects an item?","कौन सा क्लिक आमतौर पर item चुनता है?","Left click",["Left click","Scroll","Power off"]],["What means hold, move and release?","पकड़कर चलाना और फिर छोड़ना क्या कहलाता है?","Drag and drop",["Drag and drop","Double click","Typing"]],["What should come before speed?","Speed से पहले क्या जरूरी है?","Accuracy",["Accuracy","Rushing","Hard clicking"]]]},"typing":{"skill":"Typing","items":[["🪑","Sit Comfortably","Sit comfortably with relaxed shoulders.","आराम से बैठें और कंधों को ढीला रखें।","keyboard"],["🔤","Letter Keys","Find the A to Z letter keys.","A से Z तक letter keys पहचानें।","keyboard"],["🔢","Number Keys","Find and type the number keys.","Number keys पहचानें और टाइप करें।","keyboard"],["␠","Spacebar","Use the Spacebar between words.","शब्दों के बीच Spacebar दबाएँ।","keyboard"],["↵","Enter & Backspace","Enter can move to a new line; Backspace removes a mistake.","Enter नई लाइन देता है और Backspace गलती हटाता है।","keyboard"],["📝","Type a Word","Type one short word slowly and correctly.","एक छोटा शब्द धीरे और सही टाइप करें।","keyboard"],["✍️","Type a Sentence","Type one short sentence with spaces.","एक छोटा वाक्य सही spaces के साथ टाइप करें।","keyboard"],["✅","Accuracy First","Correct typing is more important than fast typing.","तेज़ टाइप करने से पहले सही टाइप करना जरूरी है।","keyboard"]],"test":[["Which key makes a space?","कौन सी key space देती है?","Spacebar",["Spacebar","Monitor","Mouse"]],["Which key removes a character?","कौन सी key एक अक्षर हटाती है?","Backspace",["Backspace","Speaker","Printer"]],["What is more important first?","शुरुआत में क्या ज्यादा जरूरी है?","Correct typing",["Correct typing","Maximum speed","Hard key presses"]]]},"files":{"skill":"Computer","items":[["📄","File","A file can hold a picture, document or school work.","फ़ाइल में picture, document या school work हो सकता है।",""],["📁","Folder","A folder keeps files together.","फ़ोल्डर कई फ़ाइलों को एक जगह रखता है।",""],["➕","Create","Create a folder for one clear purpose.","एक काम के लिए साफ़ नाम वाला folder बनाएँ।",""],["🏷️","Rename","Give files and folders clear names.","Files और folders को साफ़ और आसान नाम दें।",""],["➡️","Move","Move a file into the correct folder.","फ़ाइल को सही folder में ले जाएँ।",""],["🗑️","Delete Carefully","Delete only when you are sure.","केवल सही होने पर ही किसी file को delete करें।",""],["♻️","Recycle Bin","A deleted item may be restored from the Recycle Bin.","Delete की गई चीज़ Recycle Bin से वापस मिल सकती है।",""]],"test":[["What keeps many files together?","कई files को एक जगह कौन रखता है?","Folder",["Folder","Speaker","Cable"]],["What should a folder name be?","Folder का नाम कैसा होना चाहिए?","Clear and simple",["Clear and simple","Random","Secret password"]],["Where may a deleted file go first?","Delete की गई file पहले कहाँ जा सकती है?","Recycle Bin",["Recycle Bin","Monitor","Keyboard"]]]},"windows":{"skill":"Computer","items":[["🖥️","Desktop","The desktop is the main Windows screen.","Desktop Windows की मुख्य screen है।","monitor"],["🪟","Start","The Start button helps us open apps and options.","Start button से apps और options खोले जा सकते हैं।",""],["📌","Taskbar","The taskbar can show open and pinned apps.","Taskbar पर open और pinned apps दिखाई दे सकते हैं।",""],["🔷","App Icon","An icon is a small picture for an app or file.","Icon किसी app या file का छोटा picture होता है।",""],["▣","Window","A program can open inside a window.","Program एक window के अंदर खुल सकता है।","monitor"],["⏻","Safe Shutdown","Save your work, then use the normal Shut down option.","पहले काम save करें, फिर normal Shut down option इस्तेमाल करें।","system"]],"test":[["What is the main Windows screen called?","Windows की मुख्य screen क्या कहलाती है?","Desktop",["Desktop","Printer","Router"]],["Where can pinned apps appear?","Pinned apps कहाँ दिखाई दे सकते हैं?","Taskbar",["Taskbar","Mouse wheel","Paper tray"]],["What should you do before shutdown?","Shutdown से पहले क्या करना चाहिए?","Save your work",["Save your work","Pull the cable","Press random keys"]]]},"network":{"skill":"Network","items":[["💻","Computer","A computer can connect to a network.","कंप्यूटर नेटवर्क से connect हो सकता है।","monitor"],["🔀","Switch","A switch connects wired devices in one local network.","Switch एक local network में wired devices को जोड़ता है।","switch"],["📡","Router","A router helps networks reach other networks and the internet.","Router network को दूसरे network और internet तक पहुँचाता है।","router"],["📶","Wi-Fi","Wi-Fi connects supported devices without a network cable.","Wi-Fi supported devices को बिना network cable के जोड़ता है।",""],["🔌","Ethernet Cable","Ethernet is a common wired network connection.","Ethernet एक आम wired network connection है।","cable"],["🖨️","Network Printer","A printer can be shared through a network.","Printer को network के जरिए share किया जा सकता है।","printer"],["☎️","IP Phone","An IP phone can use a data network for calls.","IP phone calls के लिए data network इस्तेमाल कर सकता है।",""],["🌍","Internet Path","A simple path can be PC → Switch → Router → Internet.","एक आसान path हो सकता है: PC → Switch → Router → Internet।","router"]],"test":[["Which device connects local wired devices?","कौन सा device local wired devices को जोड़ता है?","Switch",["Switch","Monitor","Keyboard"]],["Which device helps reach other networks?","कौन सा device दूसरे networks तक पहुँचाता है?","Router",["Router","Mouse","Speaker"]],["Which is a common wired network connection?","Common wired network connection कौन सा है?","Ethernet",["Ethernet","Paper","Pencil"]]]},"printer":{"skill":"Troubleshooting","items":[["⚡","Power","Check that the printer is powered on.","देखें कि printer power on है।","printer"],["📄","Paper","Make sure suitable paper is loaded correctly.","सही paper ठीक से load है या नहीं देखें।","printer"],["🧴","Ink or Toner","Printers need ink or toner to print.","Print करने के लिए printer को ink या toner चाहिए।","printer"],["📋","Print Queue","The queue shows jobs waiting to print.","Print queue में waiting print jobs दिखाई देते हैं।","printer"],["🌐","Offline","If offline, check power and connection first.","Offline हो तो पहले power और connection जाँचें।","printer"],["⚠️","Paper Jam","Ask an adult or teacher before clearing a jam.","Paper jam हो तो adult या teacher से मदद लें।","printer"],["✅","Test Print","After simple checks, try one safe test print.","Simple checks के बाद एक safe test print करें।","printer"]],"test":[["Printer says offline. What should you check first?","Printer offline है। पहले क्या जाँचें?","Power and connection",["Power and connection","Wallpaper","Webcam"]],["What does a printer need to print on?","Printer किस पर print करता है?","Paper",["Paper","Keyboard","Mouse pad"]],["What should a child do with a paper jam?","Paper jam में बच्चे को क्या करना चाहिए?","Ask an adult or teacher",["Ask an adult or teacher","Pull hard","Pour water"]]]},"listening":{"skill":"Listening","items":[["👂","Listen First","Listen to the whole instruction before acting.","काम करने से पहले पूरी instruction सुनें।",""],["🧠","Remember One Step","Remember the first simple action.","पहला आसान step याद रखें।",""],["🖼️","Choose the Picture","Match the instruction to the correct picture.","Instruction को सही picture से मिलाएँ।",""],["✅","Do the Action","Complete the action slowly and carefully.","Action को धीरे और ध्यान से पूरा करें।",""],["🙋","Ask to Repeat","If you did not hear, politely ask to hear it again.","अगर सुनाई न दे तो विनम्रता से दोबारा सुनने को कहें।",""]],"test":[["What should you do before acting?","Action करने से पहले क्या करना चाहिए?","Listen to the whole instruction",["Listen to the whole instruction","Guess quickly","Press random keys"]],["If you did not hear clearly, what should you do?","साफ़ न सुनाई दे तो क्या करें?","Ask to repeat",["Ask to repeat","Pretend","Run away"]],["What should you match to a picture?","Picture से किस चीज़ को match करना है?","The instruction",["The instruction","A password","A cable"]]]},"logic":{"skill":"Logic","items":[["🟰","Same or Different","Look carefully and decide what is same or different.","ध्यान से देखें और बताएं क्या same है और क्या different।",""],["🔢","Simple Sequence","Find what comes next in a simple order.","आसान sequence में अगली चीज़ पहचानें।",""],["🧩","Match Pairs","Match two things that belong together.","जो दो चीज़ें साथ में सही लगती हैं उन्हें match करें।",""],["➡️","Cause and Effect","Think what may happen after an action.","सोचें कि किसी action के बाद क्या हो सकता है।",""],["🧠","Think Before Answering","Pause, look and choose the best answer.","रुकें, देखें और सबसे अच्छा answer चुनें।",""]],"test":[["What comes after 1, 2, 3?","1, 2, 3 के बाद क्या आता है?","4",["4","8","1"]],["What should you do before answering?","Answer देने से पहले क्या करें?","Think and look",["Think and look","Rush","Close eyes"]],["Which activity uses logic?","कौन सी activity logic इस्तेमाल करती है?","Finding a pattern",["Finding a pattern","Pulling cables","Sharing passwords"]]]},"observe":{"skill":"Logic","items":[["👀","Look Closely","Look at the whole picture before choosing.","Answer चुनने से पहले पूरा picture ध्यान से देखें।",""],["❓","Find the Missing Part","Notice which important part is missing.","देखें कौन सा जरूरी part गायब है।",""],["🔍","Spot the Difference","Compare two pictures slowly.","दो pictures को धीरे-धीरे compare करें।",""],["⚠️","Find the Unsafe Action","Notice actions that may be unsafe.","कौन सा action unsafe हो सकता है, पहचानें।",""],["✅","Check Again","Look once more before giving your answer.","Answer देने से पहले एक बार फिर देखें।",""]],"test":[["What should you do first in an observation task?","Observation task में पहले क्या करें?","Look closely",["Look closely","Rush","Guess"]],["What does 'missing' mean?","Missing का क्या मतलब है?","Not there",["Not there","Very loud","Very fast"]],["Before giving an answer, what is useful?","Answer देने से पहले क्या useful है?","Check again",["Check again","Close the page","Share a password"]]]},"creative":{"skill":"Creativity","items":[["🔷","Shapes","Use simple shapes to build a picture.","Simple shapes से picture बनाएँ।",""],["🎨","Colours","Choose a few clear colours.","कुछ साफ़ और अच्छे colours चुनें।",""],["✏️","Draw an Idea","Draw one simple idea on the screen.","Screen पर एक simple idea draw करें।",""],["🪧","Make a Mini Poster","Add one title and one useful message.","एक title और एक useful message वाला mini poster बनाएँ।",""],["🤖","Robot Idea","Design a friendly robot for one helpful job.","एक helpful काम के लिए friendly robot design करें।",""],["💾","Save Your Work","Save your creation with a clear name.","अपनी creation को साफ़ नाम से save करें।",""]],"test":[["What can help make a digital picture?","Digital picture बनाने में क्या मदद करता है?","Shapes and colours",["Shapes and colours","Passwords","Power cables"]],["What should a mini poster have?","Mini poster में क्या होना चाहिए?","A clear title",["A clear title","A secret password","Random cables"]],["What should you do after creating work?","Work बनाने के बाद क्या करें?","Save it",["Save it","Delete it immediately","Share private info"]]]},"tech":{"skill":"Troubleshooting","items":[["👂","Hear the Problem","Listen carefully to what is not working.","ध्यान से सुनें कि क्या काम नहीं कर रहा है।",""],["🔍","Look for Simple Clues","Check the screen, lights and connections.","Screen, lights और connections देखें।",""],["⚡","Check Power","Make sure power is available where it should be.","जहाँ जरूरी हो वहाँ power available है या नहीं देखें।","system"],["🔌","Check the Cable","Look for a loose or missing cable.","Loose या missing cable देखें।","cable"],["🧠","Try One Safe Step","Change only one simple thing at a time.","एक समय में केवल एक simple safe step try करें।",""],["✅","Test Again","Check whether the problem is fixed.","फिर check करें कि problem ठीक हुई या नहीं।",""],["🗣️","Report Clearly","Tell a teacher or adult what you checked.","Teacher या adult को साफ़ बताएं कि आपने क्या check किया।",""]],"test":[["PC has no power. What is a good first check?","PC में power नहीं है। पहला अच्छा check क्या है?","Power connection",["Power connection","Wallpaper","Printer paper"]],["Why change one thing at a time?","एक समय में एक चीज़ क्यों बदलनी चाहिए?","To know what fixed it",["To know what fixed it","To make confusion","To hide the problem"]],["After a fix, what should you do?","Fix के बाद क्या करना चाहिए?","Test again",["Test again","Ignore it","Share a password"]]]},"ai":{"skill":"AI","items":[["🤖","Meet AI","AI is a tool that follows instructions and can make mistakes.","AI एक tool है जो instructions पर काम करता है और गलती कर सकता है।",""],["💬","Prompt","A prompt is what we ask AI to do.","Prompt वह instruction या सवाल है जो हम AI को देते हैं।",""],["🎯","Be Clear","Use short and clear instructions.","छोटी और साफ़ instructions दें।",""],["🔒","Keep Private Info Safe","Do not give passwords, OTPs or private details to AI.","AI को password, OTP या private details न दें।",""],["🔎","Check Important Answers","Check important answers with a trusted source.","Important answers को trusted source से check करें।",""],["🙋","Ask an Adult","Ask a teacher or parent when you are unsure.","Confusion हो तो teacher या parent से पूछें।",""]],"test":[["What is a prompt?","Prompt क्या है?","An instruction for AI",["An instruction for AI","A power cable","A printer tray"]],["Should AI get your password?","क्या AI को आपका password देना चाहिए?","No",["No","Yes","Always"]],["What should you do with an important AI answer?","Important AI answer के साथ क्या करें?","Check it",["Check it","Believe everything","Share private info"]]]},"safety":{"skill":"Safety","items":[["🔐","Password Safety","Keep passwords private and hard to guess.","Passwords private और guess करना मुश्किल रखें।",""],["👤","Private Information","Keep your address, phone number and OTP private.","Address, phone number और OTP private रखें।",""],["🔗","Unknown Links","Do not open unknown links without checking.","Unknown links बिना check किए न खोलें।",""],["📥","Downloads","Ask before downloading unknown files or apps.","Unknown files या apps download करने से पहले पूछें।",""],["💬","Stranger Messages","Do not continue private chats with unknown people.","Unknown लोगों के साथ private chat जारी न रखें।",""],["🧑‍🏫","Trusted Adult","Tell a trusted adult if something feels unsafe.","कुछ unsafe लगे तो trusted adult को बताएं।",""]],"test":[["Which should stay private?","इनमें से क्या private रहना चाहिए?","Password",["Password","Favorite color","Cartoon name"]],["Before an unknown download, what should you do?","Unknown download से पहले क्या करें?","Ask a trusted adult",["Ask a trusted adult","Download quickly","Share OTP"]],["If something online feels unsafe, what should you do?","Online कुछ unsafe लगे तो क्या करें?","Tell a trusted adult",["Tell a trusted adult","Keep it secret","Reply to stranger"]]]},"confidence":{"skill":"Confidence","items":[["👋","Say Hello","Start with a simple friendly greeting.","Simple friendly greeting से शुरुआत करें।",""],["🙂","Introduce Yourself","Say your name and class in a short sentence.","छोटे sentence में अपना नाम और class बताएं।",""],["🔊","Clear Voice","Speak slowly enough to be understood.","इतना धीरे और साफ़ बोलें कि समझ आए।",""],["🙋","Ask a Question","Use a polite question when you need help.","Help चाहिए तो polite question पूछें।",""],["🖼️","Explain One Thing","Describe one picture or one thing you learned.","एक picture या सीखी हुई एक बात explain करें।",""],["🙏","Finish Politely","Say thank you when someone helps you.","कोई मदद करे तो thank you कहें।",""]],"test":[["What helps people understand you?","लोग आपको अच्छी तरह समझें, इसके लिए क्या मदद करता है?","Speak clearly",["Speak clearly","Rush every word","Whisper away"]],["Which is a polite way to ask?","कौन सा तरीका polite है?","Please help me",["Please help me","Move!","Give me now"]],["What can you explain for practice?","Practice के लिए क्या explain कर सकते हैं?","One thing you learned",["One thing you learned","Someone's password","An OTP"]]]},"healthy":{"skill":"Healthy","items":[["💧","Drink Water","Drink water regularly through the day.","दिन भर समय-समय पर पानी पिएँ।",""],["🧼","Clean Hands","Wash hands before eating and after the toilet.","खाने से पहले और toilet के बाद हाथ धोएँ।",""],["😴","Sleep Well","A calm bedtime routine helps the body rest.","शांत bedtime routine से शरीर को आराम मिलता है।",""],["🏃","Move & Play","Move your body and enjoy active play.","Body को move करें और active play करें।",""],["👀","Screen Break","Look away, blink and stretch during screen breaks.","Screen break में दूर देखें, blink करें और stretch करें।",""],["🥗","Balanced Food","Choose a mix of everyday foods and enjoy treats sometimes.","रोज़ के अलग-अलग balanced foods चुनें और treats कभी-कभी लें।",""]],"test":[["Which is a good everyday drink?","रोज़ के लिए अच्छा drink कौन सा है?","Water",["Water","Energy drink","Sugary drink every time"]],["What should you do during a screen break?","Screen break में क्या करना चाहिए?","Look away and stretch",["Look away and stretch","Stare harder","Skip sleep"]],["When should hands be washed?","हाथ कब धोने चाहिए?","Before eating",["Before eating","Never","Only once a week"]]]},"emotion":{"skill":"Confidence","items":[["😊","Happy","It is okay to say when you feel happy.","खुश महसूस हो तो उसे बताना ठीक है।",""],["😢","Sad","It is okay to say when you feel sad.","उदास महसूस हो तो उसे बताना ठीक है।",""],["😟","Worried","Tell a trusted adult when you feel worried.","Worried हों तो trusted adult को बताएं।",""],["😠","Angry","Use calm words and take a short pause.","Angry हों तो calm words बोलें और थोड़ा pause लें।",""],["🌬️","Slow Breathing","Slow breathing can help you calm down.","धीरे breathing करने से calm होने में मदद मिल सकती है।",""],["🙋","Ask for Help","You can ask a trusted adult for help.","आप trusted adult से help माँग सकते हैं।",""]],"test":[["If you feel worried, what is a good step?","Worried महसूस हो तो अच्छा step क्या है?","Tell a trusted adult",["Tell a trusted adult","Keep it secret forever","Share a password"]],["What can help you calm down?","Calm होने में क्या मदद कर सकता है?","Slow breathing",["Slow breathing","Shouting","Random clicking"]],["Are feelings okay to talk about?","क्या feelings के बारे में बात करना ठीक है?","Yes",["Yes","No","Never"]]]},"social":{"skill":"Citizen","items":[["👋","Greeting","Say hello politely when meeting someone.","किसी से मिलें तो विनम्रता से hello कहें।",""],["👂","Listen","Listen while another person is speaking.","जब दूसरा बोल रहा हो तो ध्यान से सुनें।",""],["🤝","Sharing","Share classroom things when it is safe and allowed.","Safe और allowed हो तो classroom की चीज़ें share करें।",""],["⏳","Take Turns","Wait for your turn in a game or conversation.","Game या conversation में अपनी turn का इंतज़ार करें।",""],["🙏","Please & Thank You","Use please and thank you in polite conversation.","Polite conversation में please और thank you बोलें।",""],["💛","Sorry & Kind Words","Use sorry and kind words when needed.","जरूरत होने पर sorry और kind words बोलें।",""]],"test":[["What should you do while someone else is speaking?","जब कोई और बोल रहा हो तो क्या करें?","Listen",["Listen","Interrupt","Shout"]],["What do we do in turn-taking?","Turn-taking में क्या करते हैं?","Wait for our turn",["Wait for our turn","Grab first","Leave"]],["Which words are polite?","कौन से words polite हैं?","Please and thank you",["Please and thank you","Move now","Give me"]]]},"story":{"skill":"Listening","items":[["📖","Listen to the Story","Listen to a short story from beginning to end.","Short story को शुरू से अंत तक सुनें।",""],["👤","Who?","Remember who is in the story.","Story में कौन है, याद रखें।",""],["📍","Where?","Remember where the story happens.","Story कहाँ होती है, याद रखें।",""],["❓","What Happened?","Remember the main event.","Story में क्या हुआ, main event याद रखें।",""],["1️⃣","Beginning","Think about what happened first.","पहले क्या हुआ, सोचें।",""],["3️⃣","Ending","Think about what happened at the end.","अंत में क्या हुआ, सोचें।",""]],"test":[["Which question asks about a person in a story?","Story में person के बारे में कौन सा सवाल पूछता है?","Who?",["Who?","Where?","When?"]],["What should you remember after a story?","Story के बाद क्या याद रखना चाहिए?","Main event",["Main event","A password","A cable"]],["What does the ending tell us?","Ending क्या बताती है?","What happened last",["What happened last","What happened first","A Wi-Fi password"]]]},"focus":{"skill":"Logic","items":[["👀","Look","Look at the task before you start.","Start करने से पहले task को देखें।",""],["👂","Listen","Listen to the instruction carefully.","Instruction ध्यान से सुनें।",""],["🧠","Remember","Keep one or two simple steps in mind.","एक या दो simple steps याद रखें।",""],["1️⃣2️⃣","Follow Two Steps","Do the first step, then the second.","पहला step करें, फिर दूसरा।",""],["✅","Finish One Task","Finish one small task before jumping to another.","दूसरे task पर जाने से पहले एक छोटा task पूरा करें।",""],["🌿","Take a Short Break","A short break can help you refocus.","Short break से फिर focus करने में मदद मिल सकती है।",""]],"test":[["What should you do before starting a task?","Task शुरू करने से पहले क्या करें?","Look and listen",["Look and listen","Rush","Guess"]],["In a two-step task, what comes first?","Two-step task में पहले क्या आता है?","Step 1",["Step 1","Step 2","Nothing"]],["What can help you refocus?","फिर focus करने में क्या मदद कर सकता है?","A short break",["A short break","No sleep","Random clicking"]]]},"money":{"skill":"Logic","items":[["🍞","Need","A need is something important for everyday life.","Need रोज़मर्रा की जरूरी चीज़ होती है।",""],["🧸","Want","A want is something we would like but may not need now.","Want वह चीज़ है जो हमें अच्छी लगती है, पर अभी जरूरी नहीं होती।",""],["🐷","Saving Jar","Saving means keeping some money for later.","Saving का मतलब कुछ पैसे बाद के लिए रखना है।",""],["🪙","Coins & Notes","Money can come as coins and notes.","Money coins और notes के रूप में हो सकता है।",""],["🛒","Simple Shop","Look at a price and choose carefully.","Price देखें और सोच-समझकर choose करें।",""],["🙋","Ask an Adult","Ask a trusted adult before buying anything online.","Online कुछ खरीदने से पहले trusted adult से पूछें।",""]],"test":[["Which is usually a need?","इनमें से आमतौर पर need क्या है?","Food",["Food","Toy number 10","Extra game skin"]],["What does saving mean?","Saving का क्या मतलब है?","Keeping some money for later",["Keeping some money for later","Spending everything","Sharing a password"]],["Before buying online, what should a child do?","Online खरीदने से पहले बच्चे को क्या करना चाहिए?","Ask a trusted adult",["Ask a trusted adult","Buy secretly","Share OTP"]]]},"time":{"skill":"Logic","items":[["🌅","Morning","Morning can include waking, washing and getting ready.","Morning में उठना, wash करना और ready होना शामिल हो सकता है।",""],["🏫","School Time","School time is for learning and classroom routines.","School time learning और classroom routines के लिए है।",""],["🎮","Play Time","Play time is for safe fun and movement.","Play time safe fun और movement के लिए है।",""],["🕓","Simple Clock Time","The clock helps us know when activities happen.","Clock से हमें activities का time पता चलता है।",""],["🌆","Evening","Evening can include family time, homework and tidying up.","Evening में family time, homework और tidy-up हो सकता है।",""],["🌙","Bedtime","A regular bedtime helps the body rest.","Regular bedtime से body को rest मिलता है।",""]],"test":[["Which comes after morning in a simple day routine?","Simple routine में morning के बाद क्या आ सकता है?","School time",["School time","Bedtime first","Midnight play"]],["What helps us know activity time?","Activity का time जानने में क्या मदद करता है?","Clock",["Clock","Mouse","Printer"]],["What helps the body rest?","Body को rest में क्या मदद करता है?","Regular bedtime",["Regular bedtime","All-night screen","No sleep"]]]},"science":{"skill":"Logic","items":[["💡","Light","Light helps us see things.","Light से हमें चीज़ें देखने में मदद मिलती है।",""],["🔊","Sound","Sound is something we can hear.","Sound वह है जिसे हम सुन सकते हैं।",""],["🌱","Plants","Plants need water, light and care to grow.","Plants को grow करने के लिए water, light और care चाहिए।",""],["☀️","Weather","Weather can be sunny, cloudy, rainy or windy.","Weather sunny, cloudy, rainy या windy हो सकता है।",""],["🧲","Magnet","A magnet can attract some metal objects.","Magnet कुछ metal objects को खींच सकता है।",""],["🥽","Safe Curiosity","Ask questions and do experiments with safe adult guidance.","Questions पूछें और safe adult guidance के साथ experiments करें।",""]],"test":[["What helps us see things?","चीज़ें देखने में क्या मदद करता है?","Light",["Light","Password","Folder"]],["What do plants need?","Plants को क्या चाहिए?","Water and light",["Water and light","Printer toner","Mouse clicks"]],["How should children do experiments?","बच्चों को experiments कैसे करने चाहिए?","With safe adult guidance",["With safe adult guidance","Alone with unknown chemicals","By guessing"]]]},"habits":{"skill":"Healthy","items":[["💧","Water Check","Remember to drink water.","पानी पीना याद रखें।",""],["🦷","Teeth Check","Brush teeth in your daily routine.","Daily routine में teeth brush करें।",""],["💛","Kindness Check","Do one kind or helpful action.","एक kind या helpful action करें।",""],["📚","Learning Check","Complete one small learning task.","एक छोटा learning task पूरा करें।",""],["😴","Sleep Check","Follow a calm sleep routine.","Calm sleep routine follow करें।",""],["🏃","Movement Check","Move, stretch or play actively.","Move करें, stretch करें या active play करें।",""]],"test":[["Which habit helps hydration?","Hydration में कौन सी habit मदद करती है?","Drink water",["Drink water","Skip water","Only screen time"]],["Which habit helps dental care?","Dental care में कौन सी habit मदद करती है?","Brush teeth",["Brush teeth","Share password","Pull cables"]],["Which habit helps the body stay active?","Body active रखने में कौन सी habit मदद करती है?","Move and play",["Move and play","Sit all day","No sleep"]]]},"weekend":{"skill":"Confidence","items":[["👨‍👩‍👧","Family Tech Hunt","With family, name three safe technology items at home.","Family के साथ घर की तीन safe technology चीज़ों के नाम बताएं।",""],["🧹","Tidy the Learning Space","Tidy the desk and keep drinks away from devices.","Desk tidy करें और drinks को devices से दूर रखें।",""],["📖","Tell a Short Story","Read or listen to a short story and tell one thing you remember.","Short story पढ़ें या सुनें और एक बात बताएं जो याद रही।",""],["🚶","Move Together","Take a short family walk or active play break.","Family के साथ short walk या active play break लें।",""],["🥗","Healthy Choice","Help choose water or one balanced snack.","Water या balanced snack choose करने में मदद करें।",""],["🗣️","Teach Back","Explain one computer or safety idea to a family member.","Family member को एक computer या safety idea समझाएँ।",""]],"test":[["Which is a good family mission?","कौन सा अच्छा family mission है?","Tidy the learning space",["Tidy the learning space","Share passwords","Pull cables"]],["What can you teach back?","आप family को क्या explain कर सकते हैं?","One computer or safety idea",["One computer or safety idea","Someone's OTP","A secret password"]],["Which is a healthy family choice?","Healthy family choice कौन सा है?","Water",["Water","No sleep","Only screen time"]]]}};
+
+let v4017ActiveLab = -1;
+let v4017Preview = false;
+let v4017TestState = null;
+
+function v4017ClassNumber(){
+  return Number(profile?.class_number || 0);
+}
+
+function v4017IsFoundation(){
+  const c=v4017ClassNumber();
+  return c>=1 && c<=3;
+}
+
+function v4017LabDef(i){
+  const x=LABS[i];
+  if(!x) return null;
+  const key=x[3];
+  return {base:x,key,def:V4017_LABS[key]};
+}
+
+function v4017DoneToken(key){
+  return `lab:v4017:${key}:done`;
+}
+
+function v4017StepToken(key,n){
+  return `lab:v4017:${key}:step:${n}`;
+}
+
+function v4017Has(token){
+  return Array.isArray(course?.completed) && course.completed.includes(token);
+}
+
+function v4017LabComplete(i){
+  const d=v4017LabDef(i);
+  return !!d && v4017Has(v4017DoneToken(d.key));
+}
+
+function v4017LabUnlocked(i){
+  return i===0 || v4017LabComplete(i-1);
+}
+
+function v4017StepDone(key,n){
+  return v4017Has(v4017StepToken(key,n));
+}
+
+function v4017StudiedCount(i){
+  const d=v4017LabDef(i);
+  if(!d?.def) return 0;
+  return d.def.items.filter((_,n)=>v4017StepDone(d.key,n)).length;
+}
+
+function v4017FirstPending(i){
+  const d=v4017LabDef(i);
+  if(!d?.def) return 0;
+  const n=d.def.items.findIndex((_,idx)=>!v4017StepDone(d.key,idx));
+  return n<0 ? d.def.items.length : n;
+}
+
+function v4017AddStyles(){
+  if(document.getElementById("foundationLabProgressStyleV4017")) return;
+  const st=document.createElement("style");
+  st.id="foundationLabProgressStyleV4017";
+  st.textContent=`
+    body.v4017-foundation #v14VirtualLabCard{display:none!important}
+
+    .v4017-lab-card{position:relative;overflow:hidden}
+    .v4017-lab-card .v4017-status{
+      display:inline-flex;align-items:center;gap:6px;
+      margin-top:8px;padding:6px 9px;border-radius:999px;
+      background:#f0efff;color:#5b51c5;font-size:11px;font-weight:1000
+    }
+    .v4017-lab-card.complete{border:2px solid #8ee1be;background:linear-gradient(180deg,#fff,#f3fff9)}
+    .v4017-lab-card.locked{opacity:.88}
+    .v4017-lab-card button{margin-top:10px}
+    .v4017-preview-btn{background:#fff7dd!important;color:#88620c!important}
+
+    .v4017-lab-head{
+      display:grid;grid-template-columns:1fr auto;gap:14px;align-items:center;
+      padding:18px 20px;border-radius:22px;
+      background:linear-gradient(135deg,#f1efff,#e9fffb);
+      border:1px solid #dfe2f2
+    }
+    .v4017-lab-head h2{margin:3px 0 6px;font-size:clamp(25px,3vw,34px);color:#202657}
+    .v4017-lab-head p{margin:0;color:#65708e;line-height:1.55}
+    .v4017-lab-progress-ring{
+      min-width:120px;padding:13px;text-align:center;border-radius:18px;
+      background:#fff;box-shadow:0 8px 22px rgba(50,48,120,.08)
+    }
+    .v4017-lab-progress-ring b{display:block;font-size:25px;color:#5149c6}
+    .v4017-lab-progress-ring small{font-weight:900;color:#7a829d}
+    .v4017-preview-note{
+      margin:12px 0;padding:12px 14px;border-radius:14px;
+      background:#fff6d9;border:1px solid #ffe19a;color:#775810;
+      font-size:13px;font-weight:800;line-height:1.55
+    }
+    .v4017-study-note{
+      margin:12px 0;padding:12px 14px;border-radius:14px;
+      background:#edfdf7;border:1px solid #c9eee0;color:#276a57;
+      font-size:13px;font-weight:800;line-height:1.55
+    }
+    .v4017-step-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:14px}
+    .v4017-step{
+      position:relative;padding:14px;border-radius:19px;border:2px solid #e4e6f2;
+      background:#fff;box-shadow:0 9px 24px rgba(52,49,126,.06);
+      transition:.18s transform,.18s border-color,.18s box-shadow;
+      cursor:pointer;min-height:255px
+    }
+    .v4017-step:hover{transform:translateY(-2px)}
+    .v4017-step.current{border-color:#8c82ff;box-shadow:0 0 0 4px #8c82ff18,0 12px 28px #5c50c91c}
+    .v4017-step.done{border-color:#6ed9ac;background:linear-gradient(180deg,#fff,#effff7)}
+    .v4017-step.future{opacity:.52;cursor:not-allowed}
+    .v4017-step.preview{cursor:default}
+    .v4017-step-mark{
+      position:absolute;right:10px;top:10px;min-width:30px;height:30px;border-radius:999px;
+      display:grid;place-items:center;background:#eeecff;color:#6258cb;font-weight:1000
+    }
+    .v4017-step.done .v4017-step-mark{background:#dff9ed;color:#138260}
+    .v4017-step.current .v4017-step-mark{background:#6c5cff;color:#fff}
+    .v4017-step-visual{
+      height:112px;border-radius:15px;background:linear-gradient(135deg,#f2f0ff,#effdfa);
+      display:grid;place-items:center;overflow:hidden;margin-bottom:10px
+    }
+    .v4017-step-visual svg{width:100%;height:112px}
+    .v4017-step-emoji{font-size:58px;line-height:1}
+    .v4017-step h3{margin:2px 0 6px;color:#252b59;font-size:17px}
+    .v4017-step .en{font-size:13px;line-height:1.45;color:#56607e;margin:0}
+    .v4017-step .hi{
+      font-family:system-ui,-apple-system,"Noto Sans Devanagari","Mangal","Segoe UI",sans-serif;
+      font-size:13px;line-height:1.55;color:#665f80;margin:6px 0 0
+    }
+    .v4017-hear-row{display:flex;gap:6px;flex-wrap:wrap;margin-top:10px}
+    .v4017-hear{
+      border:0;border-radius:10px;padding:8px 9px;background:#eeecff;color:#564bc3;
+      font-size:11px;font-weight:1000;cursor:pointer
+    }
+    .v4017-hear.hi{background:#fff0c8;color:#915f10}
+    .v4017-hear:disabled{cursor:not-allowed;opacity:.5}
+
+    .v4017-check-box{
+      margin-top:16px;padding:17px;border-radius:19px;border:1px solid #e1e4f1;
+      background:linear-gradient(135deg,#fafaff,#f4fffc)
+    }
+    .v4017-check-box h3{margin:0 0 7px;color:#252b59}
+    .v4017-check-box p{margin:0 0 10px;color:#69718d;line-height:1.55}
+    .v4017-check-btn{
+      border:0;border-radius:13px;padding:11px 14px;
+      background:linear-gradient(135deg,#6c5cff,#24cfc2);color:#fff;font-weight:1000
+    }
+    .v4017-check-btn:disabled{background:#e6e8f0;color:#979db0}
+
+    .v4017-test-wrap{padding:5px 0}
+    .v4017-test-top{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+    .v4017-test-top h2{margin:0;color:#222957}
+    .v4017-q-card{margin-top:14px;padding:18px;border-radius:19px;background:#f7f7ff;border:1px solid #e1e3ef}
+    .v4017-q-card h3{font-size:22px;line-height:1.4;margin:0 0 7px;color:#202657}
+    .v4017-q-hi{
+      font-family:system-ui,-apple-system,"Noto Sans Devanagari","Mangal","Segoe UI",sans-serif;
+      color:#66607f;font-size:16px;margin:0 0 13px
+    }
+    .v4017-test-choices{display:grid;grid-template-columns:1fr;gap:8px}
+    .v4017-test-choice{
+      border:1px solid #dfe2ef;border-radius:13px;background:#fff;padding:12px 13px;
+      text-align:left;font-weight:900;color:#303766
+    }
+    .v4017-test-choice.correct{background:#e8fbf2;border-color:#74d5aa;color:#167859}
+    .v4017-test-choice.wrong{background:#fff0f3;border-color:#efa3b3;color:#a2344f}
+    .v4017-result{
+      text-align:center;padding:26px;border-radius:21px;
+      background:linear-gradient(135deg,#f2f0ff,#ebfff9)
+    }
+    .v4017-result .big{font-size:52px}
+    .v4017-result h2{color:#222957;margin:8px 0}
+    .v4017-result p{color:#626b87;line-height:1.6}
+
+    @media(max-width:900px){
+      .v4017-step-grid{grid-template-columns:1fr 1fr}
+    }
+    @media(max-width:620px){
+      .v4017-lab-head{grid-template-columns:1fr}
+      .v4017-lab-progress-ring{width:100%}
+      .v4017-step-grid{grid-template-columns:1fr}
+      .v4017-step{min-height:0}
+    }
+  `;
+  document.head.appendChild(st);
+}
+
+function v4017ChooseVoice(lang){
+  const voices=window.speechSynthesis?.getVoices?.() || [];
+  if(lang==="hi"){
+    return voices.find(v=>/hi[-_]?IN/i.test(v.lang) && /swara|heera|kalpana|female|google/i.test(v.name))
+      || voices.find(v=>/hi/i.test(v.lang))
+      || null;
+  }
+  return voices.find(v=>/en/i.test(v.lang) && /aria|jenny|zira|samantha|sonia|hazel|female|google/i.test(v.name))
+    || voices.find(v=>/en-(US|GB)/i.test(v.lang))
+    || voices.find(v=>/en/i.test(v.lang))
+    || null;
+}
+
+function v4017Speak(text,lang="en"){
+  try{
+    if(!("speechSynthesis" in window)) return;
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(String(text||""));
+    u.lang=lang==="hi"?"hi-IN":"en-US";
+    u.rate=lang==="hi"?.76:.80;
+    u.pitch=1.04;
+    const v=v4017ChooseVoice(lang);
+    if(v)u.voice=v;
+    speechSynthesis.speak(u);
+  }catch(_){}
+}
+
+function v4017ItemVisual(item){
+  const key=item[4];
+  if(key && typeof svg==="function"){
+    try{ return svg(key); }catch(_){}
+  }
+  return `<div class="v4017-step-emoji">${esc(item[0]||"⭐")}</div>`;
+}
+
+function v4017SkillGain(skill,amount){
+  try{
+    ensureSkills();
+    if(skill && course.skills){
+      course.skills[skill]=Math.min(100,Number(course.skills[skill]||0)+amount);
+    }
+  }catch(_){}
+}
+
+function v4017RecordStep(i,n){
+  if(v4017Preview) return;
+  const d=v4017LabDef(i);
+  if(!d?.def) return;
+  const token=v4017StepToken(d.key,n);
+  if(v4017Has(token)) return;
+
+  if(!Array.isArray(course.completed)) course.completed=[];
+  course.completed.push(token);
+  course.stars=Number(course.stars||120)+1;
+  v4017SkillGain(d.def.skill,1);
+  saveCourse();
+  v4017RefreshModal();
+  renderLabs();
+}
+
+function v4017RefreshModal(){
+  const d=v4017LabDef(v4017ActiveLab);
+  if(!d?.def) return;
+
+  const total=d.def.items.length;
+  const count=v4017StudiedCount(v4017ActiveLab);
+  const first=v4017FirstPending(v4017ActiveLab);
+
+  const countEl=document.getElementById("v4017LabCount");
+  if(countEl) countEl.textContent=`${count}/${total}`;
+
+  const check=document.getElementById("v4017StartCheck");
+  if(check){
+    check.disabled=v4017Preview || count<total;
+    check.textContent=v4017Preview
+      ? "🔒 Preview Only"
+      : count<total
+        ? `Study all items first (${count}/${total})`
+        : v4017LabComplete(v4017ActiveLab)
+          ? "📝 Retake Optional Lab Check"
+          : "📝 Start Optional Lab Check";
+  }
+
+  document.querySelectorAll("[data-v4017-step]").forEach(card=>{
+    const n=Number(card.dataset.v4017Step);
+    const done=v4017StepDone(d.key,n);
+    const current=!v4017Preview && n===first && first<total;
+    const future=!v4017Preview && !done && n>first;
+
+    card.classList.toggle("done",done);
+    card.classList.toggle("current",current);
+    card.classList.toggle("future",future);
+    card.classList.toggle("preview",v4017Preview);
+
+    const mark=card.querySelector(".v4017-step-mark");
+    if(mark) mark.textContent=done?"✓":current?"▶":v4017Preview?"👀":"🔒";
+
+    card.querySelectorAll(".v4017-hear").forEach(b=>b.disabled=future);
+  });
+
+  if(!v4017Preview && first<total){
+    const currentCard=document.querySelector(`[data-v4017-step="${first}"]`);
+    if(currentCard){
+      setTimeout(()=>currentCard.scrollIntoView({behavior:"smooth",block:"nearest"}),120);
+    }
+  }
+}
+
+function v4017RenderLabs(){
+  if(!v4017IsFoundation()) return false;
+
+  document.body.classList.add("v4017-foundation");
+
+  const grid=document.getElementById("labGrid");
+  if(!grid) return true;
+
+  grid.innerHTML=LABS.map((x,i)=>{
+    const d=v4017LabDef(i);
+    if(!d?.def) return "";
+
+    const done=v4017LabComplete(i);
+    const unlocked=v4017LabUnlocked(i);
+    const studied=v4017StudiedCount(i);
+    const total=d.def.items.length;
+    const state=done
+      ? "✅ Lab Complete"
+      : unlocked
+        ? studied===total ? "📝 Optional Check Ready" : `▶ ${studied}/${total} studied`
+        : "🔒 Locked • Preview available";
+
+    return `
+      <article class="topic-card v4017-lab-card ${done?"complete":""} ${!unlocked?"locked":""}">
+        <span>${x[0]}</span>
+        <h3>${esc(x[1])}</h3>
+        <p>${esc(x[2])}</p>
+        <div class="v4017-status">${state}</div>
+        <button
+          data-v4017-lab="${i}"
+          data-preview="${unlocked?0:1}"
+          class="${!unlocked?"v4017-preview-btn":""}"
+          type="button"
+        >${done?"Review Lab":unlocked?"Open Lab":"👀 Preview"}</button>
+      </article>
+    `;
+  }).join("");
+
+  grid.querySelectorAll("[data-v4017-lab]").forEach(btn=>{
+    btn.onclick=()=>v4017OpenLab(Number(btn.dataset.v4017Lab),btn.dataset.preview==="1");
+  });
+
+  return true;
+}
+
+function v4017OpenLab(i,preview=false){
+  const d=v4017LabDef(i);
+  if(!d?.def) return;
+
+  if(!v4017LabUnlocked(i)) preview=true;
+
+  v4017ActiveLab=i;
+  v4017Preview=!!preview;
+  v4017TestState=null;
+
+  const count=v4017StudiedCount(i);
+  const total=d.def.items.length;
+  const first=v4017FirstPending(i);
+
+  $("modalBody").innerHTML=`
+    <section class="v4017-lab-head">
+      <div>
+        <small>CLASS 1–3 • GUIDED LEARNING LAB • LAB ${i+1} OF ${LABS.length}</small>
+        <h2>${d.base[0]} ${esc(d.base[1])}</h2>
+        <p>${esc(d.base[2])}</p>
+      </div>
+      <div class="v4017-lab-progress-ring">
+        <b id="v4017LabCount">${count}/${total}</b>
+        <small>STUDIED</small>
+      </div>
+    </section>
+
+    ${preview
+      ? `<div class="v4017-preview-note">👀 <b>Preview Mode:</b> This lab is locked until the previous lab check is passed. You can still look, read and hear every item.</div>`
+      : `<div class="v4017-study-note">✅ Study in order. Tap the current card or Hear button. It turns green, then the next item becomes ready.</div>`
+    }
+
+    <div class="v4017-step-grid">
+      ${d.def.items.map((item,n)=>{
+        const done=v4017StepDone(d.key,n);
+        const current=!preview && n===first && first<total;
+        const future=!preview && !done && n>first;
+        return `
+          <article
+            class="v4017-step ${done?"done":""} ${current?"current":""} ${future?"future":""} ${preview?"preview":""}"
+            data-v4017-step="${n}"
+          >
+            <div class="v4017-step-mark">${done?"✓":current?"▶":preview?"👀":"🔒"}</div>
+            <div class="v4017-step-visual">${v4017ItemVisual(item)}</div>
+            <h3>${n+1}. ${esc(item[1])}</h3>
+            <p class="en">${esc(item[2])}</p>
+            <p class="hi" lang="hi">${esc(item[3])}</p>
+            <div class="v4017-hear-row">
+              <button class="v4017-hear" type="button" data-v4017-hear-en="${n}" ${future?"disabled":""}>🔊 EN</button>
+              <button class="v4017-hear hi" type="button" data-v4017-hear-hi="${n}" ${future?"disabled":""}>🔊 हिन्दी</button>
+            </div>
+          </article>
+        `;
+      }).join("")}
+    </div>
+
+    <section class="v4017-check-box">
+      <h3>🎯 Optional Lab Check</h3>
+      <p>Study all items first. Pass 2 out of 3 questions to unlock the next lab. You can always come back and review.</p>
+      <button id="v4017StartCheck" class="v4017-check-btn" type="button"></button>
+    </section>
+
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-top:14px">
+      <button class="soft" type="button" id="v4017BackLabs">← Back to Labs</button>
+    </div>
+  `;
+
+  openModal();
+
+  const grid=$("modalBody");
+
+  grid.querySelectorAll("[data-v4017-step]").forEach(card=>{
+    card.onclick=e=>{
+      if(e.target.closest("button")) return;
+      const n=Number(card.dataset.v4017Step);
+      const item=d.def.items[n];
+      const firstNow=v4017FirstPending(i);
+      if(!preview && !v4017StepDone(d.key,n) && n!==firstNow) return;
+      v4017Speak(`${item[1]}. ${item[2]}`,"en");
+      if(!preview) v4017RecordStep(i,n);
+    };
+  });
+
+  grid.querySelectorAll("[data-v4017-hear-en]").forEach(btn=>{
+    btn.onclick=e=>{
+      e.stopPropagation();
+      const n=Number(btn.dataset.v4017HearEn);
+      const item=d.def.items[n];
+      v4017Speak(`${item[1]}. ${item[2]}`,"en");
+      if(!preview) v4017RecordStep(i,n);
+    };
+  });
+
+  grid.querySelectorAll("[data-v4017-hear-hi]").forEach(btn=>{
+    btn.onclick=e=>{
+      e.stopPropagation();
+      const n=Number(btn.dataset.v4017HearHi);
+      const item=d.def.items[n];
+      v4017Speak(item[3],"hi");
+      if(!preview) v4017RecordStep(i,n);
+    };
+  });
+
+  $("v4017StartCheck").onclick=()=>v4017StartTest(i);
+  $("v4017BackLabs").onclick=()=>closeModal();
+
+  v4017RefreshModal();
+}
+
+function v4017StartTest(i){
+  const d=v4017LabDef(i);
+  if(!d?.def || v4017Preview) return;
+
+  if(v4017StudiedCount(i)<d.def.items.length){
+    toast("Study all lab items first");
+    return;
+  }
+
+  v4017TestState={labIndex:i,q:0,score:0,answered:false};
+  v4017DrawTest();
+}
+
+function v4017DrawTest(){
+  const s=v4017TestState;
+  if(!s) return;
+
+  const d=v4017LabDef(s.labIndex);
+  const qs=d.def.test;
+
+  if(s.q>=qs.length){
+    return v4017FinishTest(s.labIndex,s.score,qs.length);
+  }
+
+  const q=qs[s.q];
+  const choices=shuffle(q[3]);
+
+  $("modalBody").innerHTML=`
+    <section class="v4017-test-wrap">
+      <div class="v4017-test-top">
+        <div>
+          <small>${d.base[0]} ${esc(d.base[1])} • OPTIONAL LAB CHECK</small>
+          <h2>Question ${s.q+1} of ${qs.length}</h2>
+        </div>
+        <div class="v4017-lab-progress-ring">
+          <b>${s.score}</b><small>CORRECT</small>
+        </div>
+      </div>
+
+      <article class="v4017-q-card">
+        <h3>${esc(q[0])}</h3>
+        <p class="v4017-q-hi" lang="hi">${esc(q[1])}</p>
+        <div class="v4017-hear-row" style="margin-bottom:12px">
+          <button id="v4017QEn" class="v4017-hear" type="button">🔊 English</button>
+          <button id="v4017QHi" class="v4017-hear hi" type="button">🔊 हिन्दी</button>
+        </div>
+        <div class="v4017-test-choices">
+          ${choices.map(x=>`<button class="v4017-test-choice" data-v4017-answer="${esc(x)}">${esc(x)}</button>`).join("")}
+        </div>
+        <div id="v4017TestFeedback" class="v4017-feedback">Choose one answer • एक जवाब चुनें</div>
+        <button id="v4017NextQ" class="v4017-check-btn" type="button" style="margin-top:12px;display:none">
+          ${s.q===qs.length-1?"See Result →":"Next Question →"}
+        </button>
+      </article>
+
+      <button id="v4017CancelTest" class="soft" type="button" style="margin-top:12px">← Back to Lab</button>
+    </section>
+  `;
+
+  $("v4017QEn").onclick=()=>v4017Speak(q[0],"en");
+  $("v4017QHi").onclick=()=>v4017Speak(q[1],"hi");
+  $("v4017CancelTest").onclick=()=>v4017OpenLab(s.labIndex,false);
+
+  document.querySelectorAll("[data-v4017-answer]").forEach(btn=>{
+    btn.onclick=()=>{
+      if(s.answered) return;
+      s.answered=true;
+
+      const ok=btn.dataset.v4017Answer===q[2];
+      if(ok){
+        s.score++;
+        btn.classList.add("correct");
+        $("v4017TestFeedback").textContent="✅ Correct! बहुत अच्छा!";
+      }else{
+        btn.classList.add("wrong");
+        $("v4017TestFeedback").textContent=`🙂 Good try. Correct answer: ${q[2]}`;
+        document.querySelectorAll("[data-v4017-answer]").forEach(b=>{
+          if(b.dataset.v4017Answer===q[2]) b.classList.add("correct");
+        });
+      }
+
+      document.querySelectorAll("[data-v4017-answer]").forEach(b=>b.disabled=true);
+      $("v4017NextQ").style.display="inline-block";
+    };
+  });
+
+  $("v4017NextQ").onclick=()=>{
+    s.q++;
+    s.answered=false;
+    v4017DrawTest();
+  };
+}
+
+function v4017FinishTest(i,score,total){
+  const d=v4017LabDef(i);
+  const pass=score>=2;
+  const already=v4017LabComplete(i);
+
+  if(pass && !already){
+    if(!Array.isArray(course.completed)) course.completed=[];
+    course.completed.push(v4017DoneToken(d.key));
+    course.stars=Number(course.stars||120)+5;
+    v4017SkillGain(d.def.skill,5);
+    saveCourse();
+    markStudyDay();
+    try{celebrate(20)}catch(_){}
+  }
+
+  renderLabs();
+
+  const nextExists=i<LABS.length-1;
+  $("modalBody").innerHTML=`
+    <section class="v4017-result">
+      <div class="big">${pass?"🏆":"🙂"}</div>
+      <h2>${pass?"Lab Check Passed!":"Good Try!"}</h2>
+      <p>
+        You scored <b>${score}/${total}</b>.
+        ${pass
+          ? nextExists
+            ? "The next lab is now unlocked."
+            : "You completed the final Foundation lab."
+          : "Study the lab again and try the check when you are ready."
+        }
+      </p>
+      <p lang="hi">
+        ${pass
+          ? nextExists
+            ? "बहुत अच्छा! अगला lab अब unlock हो गया है।"
+            : "बहुत अच्छा! आपने आख़िरी Foundation lab पूरा कर लिया।"
+          : "Lab को फिर से देखें और तैयार होने पर test दोबारा try करें।"
+        }
+      </p>
+      <div style="display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-top:16px">
+        <button class="soft" id="v4017ReviewAgain" type="button">Review Lab</button>
+        ${pass && nextExists ? `<button class="v4017-check-btn" id="v4017NextLab" type="button">Next Lab →</button>` : ""}
+        ${!pass ? `<button class="v4017-check-btn" id="v4017TryAgain" type="button">Try Check Again</button>` : ""}
+      </div>
+    </section>
+  `;
+
+  $("v4017ReviewAgain").onclick=()=>v4017OpenLab(i,false);
+  if($("v4017NextLab")) $("v4017NextLab").onclick=()=>v4017OpenLab(i+1,false);
+  if($("v4017TryAgain")) $("v4017TryAgain").onclick=()=>v4017StartTest(i);
+}
+
+function v4017Install(){
+  if(window.__FOUNDATION_LAB_PROGRESS_V4017__) return;
+  if(typeof window.renderLabs!=="function" || typeof window.openLab!=="function"){
+    return setTimeout(v4017Install,120);
+  }
+
+  window.__FOUNDATION_LAB_PROGRESS_V4017__=true;
+  v4017AddStyles();
+
+  const oldRenderLabs=window.renderLabs;
+  const oldOpenLab=window.openLab;
+
+  window.renderLabs=function(){
+    if(v4017IsFoundation()){
+      v4017RenderLabs();
+      return;
+    }
+    return oldRenderLabs.apply(this,arguments);
+  };
+
+  window.openLab=function(i){
+    if(v4017IsFoundation()){
+      return v4017OpenLab(Number(i),!v4017LabUnlocked(Number(i)));
+    }
+    return oldOpenLab.apply(this,arguments);
+  };
+
+  // Refresh if the page finished the first async profile render before this add-on installed.
+  [0,180,500,1000].forEach(ms=>setTimeout(()=>{
+    if(v4017IsFoundation()){
+      document.body.classList.add("v4017-foundation");
+      v4017RenderLabs();
+    }
+  },ms));
+
+  console.info("[V40.17] Class 1–3 guided lab progression installed");
+}
+
+if(document.readyState==="loading"){
+  document.addEventListener("DOMContentLoaded",v4017Install,{once:true});
+}else{
+  v4017Install();
+}
+})();
+</script>
+
 </body></html>
