@@ -1516,6 +1516,7 @@ body.sp-foundation-nav-v40143 .top .nav #spNavPasswordBtn{
 })();
 </script>
 
+<!-- V40.16: Class 1-3 core lessons simplified to bilingual English + Devanagari Hindi; Quick Check retained. -->
 </head><body>
 <header class="top"><div class="bar"><div class="logo"><span>T</span></div><div class="brand"><b>My Learning Universe</b><small>TANNU SIR'S KIDS DIGITAL ACADEMY</small></div><nav class="nav">
   <button data-view="dashboard">🏠 Dashboard</button>
@@ -1642,6 +1643,349 @@ let recognition=null,conversation={step:0,name:'',feeling:'',classText:'',hobby:
 </script>
 <script src="foundation-upgrade-v12.js"></script>
   <script src="academy-expansion-v13.js"></script>
+
+<script id="foundationSimpleBilingualLessonsV4016">
+(() => {
+"use strict";
+
+/*
+  V40.16 — CLASS 1–3 SIMPLE BILINGUAL CORE LESSONS
+  -------------------------------------------------
+  Runs AFTER Foundation v12 and Academy Expansion v13.
+  Class 1–3 gets the new clean bilingual lesson popup.
+  Class 4–6 keeps the existing lesson behavior unchanged.
+  D1, Worker, progress, stars, unlocking and Quick Check completion
+  logic stay on the existing student-profile functions.
+*/
+
+const V4016_TEXT = {"computer":{"en":"A computer is an electronic machine. It helps us learn, type, draw, watch, listen and create.","hi":"कंप्यूटर एक इलेक्ट्रॉनिक मशीन है। यह हमें पढ़ने, टाइप करने, चित्र बनाने, देखने, सुनने और नई चीज़ें बनाने में मदद करता है।"},"parts":{"en":"A computer has important parts such as a monitor, keyboard, mouse and system unit. Each part has a different job.","hi":"कंप्यूटर के मुख्य भाग मॉनिटर, कीबोर्ड, माउस और सिस्टम यूनिट हैं। हर भाग का अपना अलग काम होता है।"},"monitor":{"en":"A monitor is the screen of a computer. It shows words, pictures, videos and apps.","hi":"मॉनिटर कंप्यूटर की स्क्रीन है। इस पर शब्द, चित्र, वीडियो और ऐप दिखाई देते हैं।"},"mouse":{"en":"A mouse moves the pointer on the screen. We use it to point and left-click.","hi":"माउस स्क्रीन पर पॉइंटर चलाता है। हम इससे किसी चीज़ पर पॉइंट और लेफ्ट-क्लिक करते हैं।"},"mouse2":{"en":"A mouse can also right-click, double-click, drag, drop and scroll.","hi":"माउस से राइट-क्लिक, डबल-क्लिक, ड्रैग, ड्रॉप और स्क्रॉल भी किया जाता है।"},"keyboard":{"en":"A keyboard helps us type letters, numbers and spaces.","hi":"कीबोर्ड से हम अक्षर, नंबर और शब्दों के बीच स्पेस टाइप करते हैं।"},"keyboard2":{"en":"Enter, Backspace, Shift, Caps Lock and Arrow keys have special jobs on a keyboard.","hi":"कीबोर्ड पर Enter, Backspace, Shift, Caps Lock और Arrow keys के खास काम होते हैं।"},"system":{"en":"The system unit is the computer case that holds important parts inside it.","hi":"सिस्टम यूनिट कंप्यूटर का बॉक्स है। इसके अंदर कई जरूरी कंप्यूटर भाग होते हैं।"},"ram":{"en":"RAM is the computer's short-term working memory. It helps active work run smoothly.","hi":"RAM कंप्यूटर की थोड़े समय की काम करने वाली मेमोरी है। यह चल रहे काम को आसानी से चलाने में मदद करती है।"},"ssd":{"en":"SSD and HDD are storage devices. They keep files, photos and programs.","hi":"SSD और HDD स्टोरेज डिवाइस हैं। इनमें फ़ाइलें, फोटो और प्रोग्राम सेव रहते हैं।"},"motherboard":{"en":"The motherboard connects important computer parts. The CPU follows instructions and does calculations.","hi":"मदरबोर्ड कंप्यूटर के जरूरी भागों को जोड़ता है। CPU निर्देशों पर काम करता है और गणना करता है।"},"printer":{"en":"A printer puts digital work on paper. It needs paper and ink or toner.","hi":"प्रिंटर डिजिटल काम को कागज़ पर छापता है। इसे कागज़ और इंक या टोनर की जरूरत होती है।"},"speaker":{"en":"Speakers and headphones let us hear sound from a computer. Keep the volume comfortable.","hi":"स्पीकर और हेडफोन से हम कंप्यूटर की आवाज़ सुनते हैं। आवाज़ को आरामदायक स्तर पर रखें।"},"webcam":{"en":"A webcam is a camera used with a computer. Use it only with permission and keep privacy in mind.","hi":"वेबकैम कंप्यूटर के साथ इस्तेमाल होने वाला कैमरा है। इसे अनुमति से इस्तेमाल करें और अपनी गोपनीयता का ध्यान रखें।"},"devicecare":{"en":"Keep the computer clean and dry. Use gentle hands and keep food and drinks away.","hi":"कंप्यूटर को साफ और सूखा रखें। उसे धीरे से इस्तेमाल करें और खाना-पानी दूर रखें।"},"windows":{"en":"The Windows desktop is the main screen. It can show the Start button, taskbar, icons and open windows.","hi":"Windows desktop मुख्य स्क्रीन है। इसमें Start button, taskbar, icons और खुले हुए windows दिखाई देते हैं।"},"files":{"en":"A file keeps work such as a picture or document. A folder keeps files together.","hi":"फ़ाइल में चित्र या डॉक्यूमेंट जैसा काम रहता है। फ़ोल्डर कई फ़ाइलों को एक जगह रखता है।"},"files2":{"en":"We can create, rename, move and delete files or folders. Deleted items may go to the Recycle Bin.","hi":"हम फ़ाइल और फ़ोल्डर बना, नाम बदल, दूसरी जगह ले और डिलीट कर सकते हैं। डिलीट की गई चीज़ Recycle Bin में जा सकती है।"},"drawing":{"en":"Digital drawing uses shapes, colours and simple tools to make a picture on a computer.","hi":"डिजिटल ड्रॉइंग में shapes, colours और आसान tools से कंप्यूटर पर चित्र बनाया जाता है।"},"review1":{"en":"This lesson reviews the computer, mouse, keyboard, files and safe computer care.","hi":"इस पाठ में कंप्यूटर, माउस, कीबोर्ड, फ़ाइलें और कंप्यूटर की सुरक्षित देखभाल को दोहराया जाता है।"},"poweron":{"en":"To start a computer, find the power button, press it once and wait for the computer to start.","hi":"कंप्यूटर चालू करने के लिए पावर बटन ढूँढें, उसे एक बार दबाएँ और कंप्यूटर के शुरू होने का इंतज़ार करें।"},"monitorcare":{"en":"Use the monitor power button gently. Keep brightness comfortable and clean the screen with a dry soft cloth.","hi":"मॉनिटर का पावर बटन धीरे दबाएँ। ब्राइटनेस आरामदायक रखें और स्क्रीन को सूखे मुलायम कपड़े से साफ करें।"},"mousepractice":{"en":"Practise left-click, right-click, double-click, scroll and drag-and-drop slowly and carefully.","hi":"लेफ्ट-क्लिक, राइट-क्लिक, डबल-क्लिक, स्क्रॉल और ड्रैग-ड्रॉप का अभ्यास धीरे और ध्यान से करें।"},"typingposture":{"en":"Sit comfortably, relax your hands and type slowly. Correct typing is more important than fast typing.","hi":"आराम से बैठें, हाथ ढीले रखें और धीरे टाइप करें। तेज़ टाइप करने से पहले सही टाइप करना जरूरी है।"},"shutdown":{"en":"Save your work first. Use Shut down when you finish, and Restart when the computer needs to start again.","hi":"पहले अपना काम सेव करें। काम पूरा होने पर Shut down और जरूरत होने पर Restart का इस्तेमाल करें।"},"english":{"en":"Use simple polite words such as Hello, Good morning, Please, Thank you and Goodbye.","hi":"Hello, Good morning, Please, Thank you और Goodbye जैसे आसान और विनम्र शब्द बोलें।"},"name":{"en":"Introduce yourself with short sentences: My name is..., I am ... years old, and I am in Class ....","hi":"छोटे वाक्यों में अपना परिचय दें: मेरा नाम..., मेरी उम्र..., और मैं कक्षा... में हूँ।"},"feel":{"en":"Use simple words to tell how you feel, such as happy, sad, tired or excited. Ask a trusted adult for help when needed.","hi":"happy, sad, tired या excited जैसे आसान शब्दों से अपनी भावना बताएं। जरूरत हो तो भरोसेमंद बड़े से मदद माँगें।"},"family":{"en":"Use simple words and short sentences to talk about your family and home.","hi":"अपने परिवार और घर के बारे में आसान शब्दों और छोटे वाक्यों में बात करें।"},"classroom":{"en":"Learn useful classroom words and simple instructions such as listen, read, write, open and close.","hi":"कक्षा में काम आने वाले आसान शब्द और निर्देश सीखें, जैसे listen, read, write, open और close।"},"help":{"en":"Ask for help politely. You can say: Please help me, I do not understand, or Please repeat.","hi":"मदद विनम्रता से माँगें। आप कह सकते हैं: Please help me, I do not understand, या Please repeat।"},"manners":{"en":"Good manners include Please, Thank you, Sorry, Excuse me, sharing and waiting for your turn.","hi":"अच्छे व्यवहार में Please, Thank you, Sorry, Excuse me, चीज़ें बाँटना और अपनी बारी का इंतज़ार करना शामिल है।"},"listen":{"en":"Listen to one short sentence carefully, then repeat it slowly and clearly.","hi":"एक छोटा वाक्य ध्यान से सुनें, फिर उसे धीरे और साफ़ आवाज़ में दोहराएँ।"},"talk":{"en":"Practise a short conversation about your name, feelings and class.","hi":"अपने नाम, भावना और कक्षा के बारे में छोटी बातचीत का अभ्यास करें।"},"talk2":{"en":"Practise a short conversation about school, hobbies, family and computers.","hi":"स्कूल, शौक, परिवार और कंप्यूटर के बारे में छोटी बातचीत का अभ्यास करें।"},"speak":{"en":"Speak clearly and give a short introduction. Then explain one simple thing you learned.","hi":"साफ़ बोलें और अपना छोटा परिचय दें। फिर सीखी हुई एक आसान बात समझाएँ।"},"typingsent":{"en":"Type short useful words and sentences slowly. Focus on correct letters and spaces.","hi":"छोटे उपयोगी शब्द और वाक्य धीरे टाइप करें। सही अक्षर और स्पेस पर ध्यान दें।"},"internetbasics":{"en":"A browser opens websites. Search helps us find information. Ask before uploading or downloading anything.","hi":"Browser से website खुलती है। Search से जानकारी मिलती है। कुछ upload या download करने से पहले पूछें।"},"network":{"en":"Wi-Fi and Ethernet connect devices to a network. A router helps devices reach other networks and the internet.","hi":"Wi-Fi और Ethernet डिवाइस को नेटवर्क से जोड़ते हैं। Router डिवाइस को दूसरे नेटवर्क और इंटरनेट तक पहुँचने में मदद करता है।"},"review2":{"en":"This lesson reviews computer use, English, typing, communication and basic networking.","hi":"इस पाठ में कंप्यूटर चलाना, English, typing, communication और basic networking को दोहराया जाता है।"},"internetsafety":{"en":"Use the internet safely. Avoid unknown links and tell a trusted adult if something feels wrong.","hi":"इंटरनेट को सुरक्षित तरीके से इस्तेमाल करें। अनजान लिंक से बचें और कुछ गलत लगे तो भरोसेमंद बड़े को बताएं।"},"password":{"en":"A password should be strong and private. Do not share it with strangers or friends.","hi":"पासवर्ड मजबूत और निजी होना चाहिए। इसे अनजान लोगों या दोस्तों के साथ साझा न करें।"},"privacy":{"en":"Private information includes your home address, phone number, password and OTP. Keep it safe.","hi":"घर का पता, फोन नंबर, पासवर्ड और OTP निजी जानकारी हैं। इन्हें सुरक्षित रखें।"},"kindness":{"en":"Be kind and respectful online. Do not send mean messages or bully anyone.","hi":"ऑनलाइन भी दयालु और सम्मानजनक रहें। बुरा संदेश न भेजें और किसी को परेशान न करें।"},"downloads":{"en":"Download files or apps only with permission from a trusted adult or teacher.","hi":"फ़ाइल या ऐप केवल भरोसेमंद बड़े या शिक्षक की अनुमति से डाउनलोड करें।"},"screen":{"en":"Take short screen breaks, blink your eyes, stretch your body and keep a healthy balance.","hi":"स्क्रीन से छोटे ब्रेक लें, आँखें झपकाएँ, शरीर स्ट्रेच करें और संतुलित समय रखें।"},"food":{"en":"Choose a mix of healthy everyday foods and drink water during the day.","hi":"रोज़ के भोजन में अलग-अलग पौष्टिक चीज़ें चुनें और दिन में पानी पिएँ।"},"sometimes":{"en":"Sweets and highly processed foods can be enjoyed sometimes, not as the main everyday food.","hi":"मिठाई और बहुत processed food कभी-कभी खाए जा सकते हैं, लेकिन उन्हें रोज़ का मुख्य भोजन न बनाएं।"},"routine":{"en":"Drink water, sleep well and follow a simple daily routine for study, play and rest.","hi":"पानी पिएँ, अच्छी नींद लें और पढ़ाई, खेल और आराम के लिए आसान रोज़ की दिनचर्या रखें।"},"hygiene":{"en":"Wash hands, brush teeth and keep your body and surroundings clean.","hi":"हाथ धोएँ, दाँत साफ करें और अपने शरीर तथा आसपास की जगह को साफ रखें।"},"ai":{"en":"AI is a tool that follows instructions and gives answers. AI can also make mistakes.","hi":"AI एक tool है जो निर्देशों पर काम करता है और जवाब देता है। AI से गलती भी हो सकती है।"},"prompt":{"en":"A prompt is what we ask AI to do. A good prompt is clear, simple and safe.","hi":"Prompt वह निर्देश या सवाल है जो हम AI को देते हैं। अच्छा prompt साफ, आसान और सुरक्षित होता है।"},"aicheck":{"en":"AI answers can be wrong. Check important answers with a teacher, book or trusted source.","hi":"AI का जवाब गलत हो सकता है। जरूरी जवाब को शिक्षक, किताब या भरोसेमंद स्रोत से जाँचें।"},"fix":{"en":"When a computer does not work, start with simple checks such as power and cable connections.","hi":"कंप्यूटर काम न करे तो पहले आसान जाँच करें, जैसे पावर और केबल कनेक्शन।"},"fix2":{"en":"For simple problems, check sound, mouse, keyboard and the app before changing many things.","hi":"आसान समस्या में पहले sound, mouse, keyboard और app जाँचें। एक साथ बहुत कुछ न बदलें।"},"printfix":{"en":"If a printer has a problem, check power, paper, connection and printer status first.","hi":"प्रिंटर में समस्या हो तो पहले power, paper, connection और printer status जाँचें।"},"netfix":{"en":"If the network is not working, check the cable or Wi-Fi icon and the simple connection path.","hi":"नेटवर्क काम न करे तो cable या Wi-Fi icon और आसान connection path जाँचें।"},"citizen":{"en":"A good digital citizen uses technology safely, kindly and responsibly.","hi":"अच्छा digital citizen technology का इस्तेमाल सुरक्षित, दयालु और जिम्मेदार तरीके से करता है।"},"presentation":{"en":"Stand calmly, speak clearly and use short sentences to explain a picture or something you learned.","hi":"शांत खड़े हों, साफ़ बोलें और चित्र या सीखी हुई बात समझाने के लिए छोटे वाक्य बोलें।"},"final":{"en":"Use the computer, English, safety and thinking skills you learned to finish the final mission.","hi":"सीखी हुई computer, English, safety और thinking skills का इस्तेमाल करके final mission पूरा करें।"}};
+const V4016_CHECKS = {"computer":{"en":"Which one can help us type, draw and learn?","hi":"इनमें से कौन टाइप करने, चित्र बनाने और सीखने में मदद करता है?","answer":"Computer","choices":["Computer","Banana","Pillow"]},"parts":{"en":"Which part helps us type?","hi":"कौन सा भाग टाइप करने में मदद करता है?","answer":"Keyboard","choices":["Keyboard","Speaker","Cup"]},"monitor":{"en":"What does a monitor show?","hi":"मॉनिटर क्या दिखाता है?","answer":"Words and pictures","choices":["Words and pictures","Food","Shoes"]},"mouse":{"en":"Which click usually selects an item?","hi":"किस क्लिक से आमतौर पर कोई चीज़ चुनी जाती है?","answer":"Left click","choices":["Left click","Drink water","Power cable"]},"mouse2":{"en":"What means hold, move and release?","hi":"पकड़कर चलाना और फिर छोड़ना किसे कहते हैं?","answer":"Drag and drop","choices":["Drag and drop","Sleep","Print"]},"keyboard":{"en":"Which key makes a space?","hi":"कौन सी key शब्दों के बीच space देती है?","answer":"Spacebar","choices":["Spacebar","Monitor","Mouse wheel"]},"keyboard2":{"en":"Which key can remove a character?","hi":"कौन सी key एक अक्षर हटा सकती है?","answer":"Backspace","choices":["Backspace","Speaker","Printer"]},"system":{"en":"Where are many important computer parts kept?","hi":"कई जरूरी कंप्यूटर parts कहाँ होते हैं?","answer":"System unit","choices":["System unit","Mouse pad","Paper"]},"ram":{"en":"What does RAM help with?","hi":"RAM किस काम में मदद करती है?","answer":"Active computer work","choices":["Active computer work","Printing paper","Cleaning screen"]},"ssd":{"en":"Which device keeps files after power is off?","hi":"कौन सा device बिजली बंद होने के बाद भी files रखता है?","answer":"SSD","choices":["SSD","Mouse","Speaker"]},"motherboard":{"en":"Which part connects many internal computer parts?","hi":"कौन सा part कई अंदरूनी computer parts को जोड़ता है?","answer":"Motherboard","choices":["Motherboard","Keyboard","Printer"]},"printer":{"en":"Which device puts digital work on paper?","hi":"कौन सा device digital work को paper पर छापता है?","answer":"Printer","choices":["Printer","Mouse","Router"]},"speaker":{"en":"Which device plays computer sound?","hi":"कौन सा device computer की आवाज़ सुनाता है?","answer":"Speaker","choices":["Speaker","Keyboard","SSD"]},"webcam":{"en":"What is a webcam used for?","hi":"Webcam किस काम के लिए इस्तेमाल होती है?","answer":"Camera and video","choices":["Camera and video","Printing","Typing"]},"devicecare":{"en":"What should stay away from the keyboard?","hi":"Keyboard से क्या दूर रखना चाहिए?","answer":"Drinks","choices":["Drinks","Dry hands","Clean desk"]},"windows":{"en":"Where can you see Start and the taskbar?","hi":"Start और taskbar कहाँ दिखाई देते हैं?","answer":"Windows desktop","choices":["Windows desktop","Printer tray","Mouse wheel"]},"files":{"en":"What keeps many files together?","hi":"कई files को एक जगह कौन रखता है?","answer":"Folder","choices":["Folder","Speaker","Cable"]},"files2":{"en":"Where may a deleted file go first?","hi":"Delete की गई file पहले कहाँ जा सकती है?","answer":"Recycle Bin","choices":["Recycle Bin","Monitor","Keyboard"]},"drawing":{"en":"What can help make a digital picture?","hi":"Digital picture बनाने में क्या मदद करता है?","answer":"Shapes and colours","choices":["Shapes and colours","Passwords","Power cables"]},"review1":{"en":"Which device helps us type?","hi":"कौन सा device टाइप करने में मदद करता है?","answer":"Keyboard","choices":["Keyboard","Speaker","Monitor stand"]},"poweron":{"en":"How many times should you normally press the power button to start?","hi":"कंप्यूटर चालू करने के लिए power button सामान्यतः कितनी बार दबाना चाहिए?","answer":"Once","choices":["Once","Many times quickly","Keep holding"]},"monitorcare":{"en":"How should you clean a monitor?","hi":"मॉनिटर को कैसे साफ करना चाहिए?","answer":"Dry soft cloth","choices":["Dry soft cloth","Pour water","Wet hands"]},"mousepractice":{"en":"Which action opens a small menu in many desktop systems?","hi":"कई desktop systems में छोटा menu कौन सा action खोलता है?","answer":"Right click","choices":["Right click","Drink water","Shutdown"]},"typingposture":{"en":"What comes before typing speed?","hi":"Typing speed से पहले क्या जरूरी है?","answer":"Accuracy","choices":["Accuracy","Hitting keys hard","Rushing"]},"shutdown":{"en":"When finished, what is the safe normal action?","hi":"काम पूरा होने पर सामान्य सुरक्षित action क्या है?","answer":"Use Shut down","choices":["Use Shut down","Pull power cable","Press keys randomly"]},"english":{"en":"Which word is polite when asking for something?","hi":"कुछ माँगते समय कौन सा word polite है?","answer":"Please","choices":["Please","Hey you","Now"]},"name":{"en":"Which sentence tells your name?","hi":"कौन सा sentence आपका नाम बताता है?","answer":"My name is Ashaaz.","choices":["My name is Ashaaz.","Open the printer.","The mouse is blue."]},"feel":{"en":"If you feel worried, what can you do?","hi":"अगर आप worried महसूस करें तो क्या कर सकते हैं?","answer":"Tell a trusted adult","choices":["Tell a trusted adult","Keep it secret forever","Share a password"]},"family":{"en":"Which word can name a family member?","hi":"इनमें से कौन family member का नाम हो सकता है?","answer":"Mother","choices":["Mother","Router","Folder"]},"classroom":{"en":"Which word means we should pay attention with our ears?","hi":"कौन सा word कानों से ध्यान देने के लिए कहा जाता है?","answer":"Listen","choices":["Listen","Delete","Download"]},"help":{"en":"Which sentence asks for help politely?","hi":"कौन सा sentence विनम्रता से मदद माँगता है?","answer":"Please help me.","choices":["Please help me.","Move!","Give me now."]},"manners":{"en":"Which sounds polite?","hi":"कौन सा वाक्य विनम्र है?","answer":"Please help me","choices":["Please help me","Move!","Give me now"]},"listen":{"en":"What should you do after listening to a short sentence?","hi":"छोटा sentence सुनने के बाद क्या करना चाहिए?","answer":"Repeat it clearly","choices":["Repeat it clearly","Press random keys","Close your ears"]},"talk":{"en":"Which topic fits this conversation lesson?","hi":"इस conversation lesson में किस बारे में बात की जाती है?","answer":"Name, feelings and class","choices":["Name, feelings and class","Printer toner only","Passwords"]},"talk2":{"en":"Which topic fits this conversation lesson?","hi":"इस conversation lesson में किस बारे में बात की जाती है?","answer":"School, hobbies and family","choices":["School, hobbies and family","Only cables","Only passwords"]},"speak":{"en":"What helps a brave speaker?","hi":"अच्छा speaker बनने में क्या मदद करता है?","answer":"Speak clearly","choices":["Speak clearly","Rush every word","Turn away"]},"typingsent":{"en":"What is most important before speed?","hi":"Speed से पहले क्या सबसे जरूरी है?","answer":"Correct typing","choices":["Correct typing","Random keys","Hard key presses"]},"internetbasics":{"en":"Which app opens websites?","hi":"Websites कौन सा app खोलता है?","answer":"Browser","choices":["Browser","Printer","Calculator paper"]},"network":{"en":"Which device helps devices reach the internet?","hi":"कौन सा device दूसरे devices को internet तक पहुँचने में मदद करता है?","answer":"Router","choices":["Router","Monitor","Keyboard"]},"review2":{"en":"Which device connects us to a network without a cable?","hi":"बिना cable के network से कौन जोड़ सकता है?","answer":"Wi-Fi","choices":["Wi-Fi","Printer paper","Mouse pad"]},"internetsafety":{"en":"Before opening an unknown link, what should you do?","hi":"Unknown link खोलने से पहले क्या करना चाहिए?","answer":"Ask a trusted adult","choices":["Ask a trusted adult","Open quickly","Share password"]},"password":{"en":"A password should be...","hi":"Password कैसा होना चाहिए?","answer":"Private","choices":["Private","Shared with strangers","Written publicly"]},"privacy":{"en":"Which should stay private?","hi":"इनमें से क्या private रहना चाहिए?","answer":"Home address","choices":["Home address","Favorite color","Favorite fruit"]},"kindness":{"en":"Good online behavior is...","hi":"अच्छा online behavior क्या है?","answer":"Being kind","choices":["Being kind","Bullying","Sending mean messages"]},"downloads":{"en":"Before installing an unknown app...","hi":"Unknown app install करने से पहले क्या करें?","answer":"Ask a trusted adult","choices":["Ask a trusted adult","Install secretly","Share password"]},"screen":{"en":"What is a good screen habit?","hi":"अच्छी screen habit क्या है?","answer":"Take short breaks","choices":["Take short breaks","Never blink","Use screen all night"]},"food":{"en":"Choose an everyday drink.","hi":"रोज़ पीने के लिए अच्छा drink चुनें।","answer":"Water","choices":["Water","Sugary drink every time","Energy drink"]},"sometimes":{"en":"Which can be a sometimes food?","hi":"इनमें से कौन कभी-कभी खाने वाला food हो सकता है?","answer":"Candy","choices":["Candy","Water","Vegetables"]},"routine":{"en":"Which helps a healthy routine?","hi":"Healthy routine में क्या मदद करता है?","answer":"Enough sleep","choices":["Enough sleep","No sleep","Only screen time"]},"hygiene":{"en":"When should you wash hands?","hi":"हाथ कब धोने चाहिए?","answer":"Before eating","choices":["Before eating","Never","Only once a week"]},"ai":{"en":"What should you remember about AI?","hi":"AI के बारे में क्या याद रखना चाहिए?","answer":"AI can make mistakes","choices":["AI can make mistakes","AI is always correct","AI is a human"]},"prompt":{"en":"Which is a clearer AI prompt?","hi":"इनमें से कौन सा AI prompt ज्यादा साफ है?","answer":"Explain a computer in simple words.","choices":["Explain a computer in simple words.","Do anything.","Give me a password."]},"aicheck":{"en":"What should you do with an important AI answer?","hi":"Important AI answer के साथ क्या करना चाहिए?","answer":"Check it","choices":["Check it","Believe everything","Share private data"]},"fix":{"en":"PC will not turn on. First simple check?","hi":"PC चालू नहीं हो रहा। पहले क्या जाँचें?","answer":"Power cable","choices":["Power cable","Printer paper","Wallpaper"]},"fix2":{"en":"No sound. First check?","hi":"आवाज़ नहीं आ रही। पहले क्या जाँचें?","answer":"Volume","choices":["Volume","Printer toner","Mouse pad"]},"printfix":{"en":"Printer says offline. Good first check?","hi":"Printer offline दिखा रहा है। पहले क्या जाँचें?","answer":"Connection/power","choices":["Connection/power","Change wallpaper","Open camera"]},"netfix":{"en":"No network. Good first check?","hi":"Network नहीं चल रहा। पहले क्या जाँचें?","answer":"Cable or Wi-Fi","choices":["Cable or Wi-Fi","Printer paper","Screen brightness"]},"citizen":{"en":"If something online feels unsafe...","hi":"Online कुछ unsafe लगे तो क्या करें?","answer":"Tell a trusted adult","choices":["Tell a trusted adult","Keep it secret","Reply to stranger"]},"presentation":{"en":"What helps a clear presentation?","hi":"Clear presentation में क्या मदद करता है?","answer":"Speak slowly and clearly","choices":["Speak slowly and clearly","Rush","Look away all the time"]},"final":{"en":"What should you use in the final mission?","hi":"Final mission में क्या इस्तेमाल करना चाहिए?","answer":"Skills you learned","choices":["Skills you learned","Random clicking","Someone else's password"]}};
+
+function classNumberV4016(){
+  return Number(profile?.class_number || 0);
+}
+
+function isFoundationV4016(){
+  const c=classNumberV4016();
+  return c>=1 && c<=3;
+}
+
+function addV4016Styles(){
+  if(document.getElementById("foundationSimpleBilingualStyleV4016")) return;
+  const st=document.createElement("style");
+  st.id="foundationSimpleBilingualStyleV4016";
+  st.textContent=`
+    .v4016-language-strip{
+      margin:16px 0 0;
+      display:grid;
+      grid-template-columns:1fr 1fr;
+      gap:12px;
+    }
+    .v4016-lang-card{
+      padding:17px 18px;
+      border:1px solid #e2e5f2;
+      border-radius:18px;
+      box-shadow:0 8px 22px rgba(54,49,135,.06);
+    }
+    .v4016-lang-card.en{
+      background:linear-gradient(135deg,#f3f7ff,#fbfcff);
+    }
+    .v4016-lang-card.hi{
+      background:linear-gradient(135deg,#fff7e8,#fffdf7);
+      font-family:system-ui,-apple-system,"Noto Sans Devanagari","Mangal","Segoe UI",sans-serif;
+    }
+    .v4016-lang-card b{
+      display:block;
+      color:#202657;
+      font-size:16px;
+      margin-bottom:7px;
+    }
+    .v4016-lang-card p{
+      margin:0;
+      color:#4e5877;
+      font-size:15px;
+      line-height:1.65;
+      font-weight:650;
+    }
+    .v4016-lang-card.hi p{
+      font-size:16px;
+      line-height:1.72;
+    }
+    .v4016-voice-row{
+      display:flex;
+      gap:9px;
+      flex-wrap:wrap;
+      margin-top:11px;
+    }
+    .v4016-voice{
+      border:0;
+      border-radius:12px;
+      padding:10px 13px;
+      background:#eceaff;
+      color:#564bc4;
+      font-weight:950;
+      cursor:pointer;
+    }
+    .v4016-lang-card.hi .v4016-voice{
+      background:#fff0c8;
+      color:#98620f;
+    }
+    .v4016-simple-note{
+      margin:14px 0 0;
+      padding:11px 14px;
+      border:1px solid #d9eee7;
+      border-radius:14px;
+      background:#f0fff9;
+      color:#2b6957;
+      font-size:12px;
+      font-weight:800;
+    }
+    .v4016-scene-note{
+      display:block;
+      margin-top:5px;
+      color:#7b829c;
+      font-size:12px;
+      line-height:1.5;
+    }
+    .v4016-scene-hear{
+      margin-top:10px!important;
+    }
+    .v4016-quiz-head{
+      display:flex;
+      justify-content:space-between;
+      gap:10px;
+      align-items:center;
+      flex-wrap:wrap;
+    }
+    .v4016-quiz-head h3{
+      margin:0;
+    }
+    .v4016-q-hi{
+      margin-top:-7px!important;
+      color:#6a638c!important;
+      font-family:system-ui,-apple-system,"Noto Sans Devanagari","Mangal","Segoe UI",sans-serif;
+      font-size:17px!important;
+    }
+    .v4016-feedback{
+      margin-top:10px;
+      min-height:23px;
+      color:#555e7d;
+      font-size:13px;
+      font-weight:850;
+    }
+    @media(max-width:720px){
+      .v4016-language-strip{grid-template-columns:1fr}
+      .v4016-lang-card p{font-size:14px}
+      .v4016-lang-card.hi p{font-size:15px}
+    }
+  `;
+  document.head.appendChild(st);
+}
+
+function chooseVoiceV4016(lang){
+  const voices=window.speechSynthesis?.getVoices?.() || [];
+  if(lang==="hi"){
+    return voices.find(v=>/hi[-_]?IN/i.test(v.lang) && /swara|heera|kalpana|female|google/i.test(v.name))
+      || voices.find(v=>/hi/i.test(v.lang))
+      || null;
+  }
+  return voices.find(v=>/en/i.test(v.lang) && /aria|jenny|zira|samantha|sonia|hazel|female|google/i.test(v.name))
+    || voices.find(v=>/en-(US|GB)/i.test(v.lang))
+    || voices.find(v=>/en/i.test(v.lang))
+    || null;
+}
+
+function speakV4016(text,lang="en"){
+  try{
+    if(!("speechSynthesis" in window)) return toast("Voice is not available in this browser");
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(String(text || ""));
+    u.lang=lang==="hi" ? "hi-IN" : "en-US";
+    u.rate=lang==="hi" ? .76 : .80;
+    u.pitch=1.04;
+    const v=chooseVoiceV4016(lang);
+    if(v) u.voice=v;
+    speechSynthesis.speak(u);
+  }catch(_){
+    toast("Voice could not start");
+  }
+}
+
+function simpleTextV4016(l){
+  return V4016_TEXT[l.kind] || {
+    en:l.desc,
+    hi:"इस पाठ में हम " + l.title + " को आसान तरीके से सीखेंगे।"
+  };
+}
+
+function quickV4016(l){
+  return V4016_CHECKS[l.kind] || {
+    en:"What is a good learning habit?",
+    hi:"अच्छी learning habit क्या है?",
+    answer:"Try carefully",
+    choices:["Try carefully","Rush without looking","Share passwords"]
+  };
+}
+
+function buildQuickCheckV4016(l){
+  const box=$("lessonActivity");
+  if(!box) return;
+
+  const q=quickV4016(l);
+  const options=shuffle(q.choices);
+
+  box.innerHTML=`
+    <div class="quiz">
+      <div class="v4016-quiz-head">
+        <h3>🎯 Quick Check</h3>
+        <div class="v4016-voice-row">
+          <button id="v4016HearQuestionEn" class="v4016-voice" type="button">🔊 English</button>
+          <button id="v4016HearQuestionHi" class="v4016-voice" type="button">🔊 हिन्दी</button>
+        </div>
+      </div>
+      <p>${esc(q.en)}</p>
+      <p class="v4016-q-hi" lang="hi">${esc(q.hi)}</p>
+      <div class="choices">
+        ${options.map(x=>`<button data-v4016-correct="${x===q.answer?1:0}">${esc(x)}</button>`).join("")}
+      </div>
+      <div id="v4016Feedback" class="v4016-feedback">Choose one answer • एक जवाब चुनें</div>
+    </div>
+  `;
+
+  $("v4016HearQuestionEn").onclick=()=>speakV4016(q.en,"en");
+  $("v4016HearQuestionHi").onclick=()=>speakV4016(q.hi,"hi");
+
+  box.querySelectorAll("[data-v4016-correct]").forEach(btn=>{
+    btn.onclick=()=>{
+      const ok=btn.dataset.v4016Correct==="1";
+      const fb=$("v4016Feedback");
+
+      if(ok){
+        btn.style.background="#e7fbf3";
+        btn.style.borderColor="#7fd7b2";
+        if(fb) fb.textContent="✅ Correct! बहुत अच्छा!";
+        const complete=$("completeLesson");
+        if(complete) complete.disabled=false;
+      }else{
+        btn.style.background="#fff1f4";
+        btn.style.borderColor="#efa6b4";
+        if(fb) fb.textContent="🙂 Good try. फिर कोशिश करें।";
+      }
+    };
+  });
+}
+
+function openFoundationLessonV4016(i){
+  const l=LESSONS[i];
+  if(!l) return;
+  if(!unlocked(i)) return toast("Finish the previous lesson first");
+
+  const scenes=lessonScenes(l);
+  const t=simpleTextV4016(l);
+
+  $("modalBody").innerHTML=`
+    <section class="lesson-hero">
+      <div class="art">${svg(deviceForLesson(l))}</div>
+      <div>
+        <small>MONTH ${l.m} • LESSON ${i+1}</small>
+        <h2>${l.icon} ${esc(l.title)}</h2>
+        <p>${esc(l.desc)}</p>
+        <div class="button-row">
+          <button id="v4016LessonEnglish" class="voicebtn" type="button">🔊 English</button>
+          <button id="v4016LessonHindi" class="soft" type="button">🔊 हिन्दी</button>
+        </div>
+      </div>
+    </section>
+
+    <div class="visual-grid rich-scenes">
+      ${scenes.map((x,k)=>`
+        <article class="visual-card">
+          <div class="img">${svg(x[0])}</div>
+          <b>${k+1}. ${esc(x[1])}</b>
+          <small>${esc(x[2])}</small>
+          <button class="v4016-scene-hear" data-v4016-scene="${k}" type="button">🔊 Hear English</button>
+        </article>
+      `).join("")}
+    </div>
+
+    <section class="v4016-language-strip" aria-label="Simple bilingual lesson explanation">
+      <article class="v4016-lang-card en">
+        <b>🇬🇧 Simple English</b>
+        <p>${esc(t.en)}</p>
+        <div class="v4016-voice-row">
+          <button id="v4016EnglishAgain" class="v4016-voice" type="button">🔊 Hear English Clearly</button>
+        </div>
+      </article>
+
+      <article class="v4016-lang-card hi" lang="hi">
+        <b>🇮🇳 सरल हिन्दी</b>
+        <p>${esc(t.hi)}</p>
+        <div class="v4016-voice-row">
+          <button id="v4016HindiAgain" class="v4016-voice" type="button">🔊 हिन्दी साफ़ सुनें</button>
+        </div>
+      </article>
+    </section>
+
+    <div class="v4016-simple-note">
+      👀 Look at the pictures • चित्र देखें &nbsp; • &nbsp;
+      👂 Listen • सुनें &nbsp; • &nbsp;
+      ✅ Then do the Quick Check • फिर Quick Check करें
+    </div>
+
+    <div id="lessonActivity"></div>
+
+    <button id="completeLesson" class="primary" style="width:100%;margin-top:15px" disabled>
+      ${lessonDone(l.id) ? "Review Complete" : "Complete Lesson & Unlock Next"}
+    </button>
+  `;
+
+  openModal();
+
+  $("v4016LessonEnglish").onclick=()=>speakV4016(`${l.title}. ${t.en}`,"en");
+  $("v4016LessonHindi").onclick=()=>speakV4016(`${l.title}. ${t.hi}`,"hi");
+  $("v4016EnglishAgain").onclick=()=>speakV4016(t.en,"en");
+  $("v4016HindiAgain").onclick=()=>speakV4016(t.hi,"hi");
+
+  document.querySelectorAll("[data-v4016-scene]").forEach(btn=>{
+    btn.onclick=()=>{
+      const x=scenes[Number(btn.dataset.v4016Scene)];
+      if(x) speakV4016(`${x[1]}. ${x[2]}`,"en");
+    };
+  });
+
+  buildQuickCheckV4016(l);
+
+  $("completeLesson").onclick=()=>completeLesson(i);
+
+  // No automatic speech. Child chooses English or हिन्दी.
+}
+
+function installV4016(){
+  if(window.__FOUNDATION_SIMPLE_BILINGUAL_V4016__) return;
+  window.__FOUNDATION_SIMPLE_BILINGUAL_V4016__=true;
+
+  addV4016Styles();
+
+  // At DOMContentLoaded this already includes the current V12/V13 wrappers.
+  // We preserve that exact path for Classes 4–6.
+  const previousOpenLesson=window.openLesson;
+
+  window.openLesson=function(i){
+    if(isFoundationV4016()) return openFoundationLessonV4016(Number(i));
+    return previousOpenLesson.apply(this,arguments);
+  };
+
+  console.info("[V40.16] Simple bilingual Class 1–3 lessons installed");
+}
+
+if(document.readyState==="loading"){
+  document.addEventListener("DOMContentLoaded",installV4016,{once:true});
+}else{
+  setTimeout(installV4016,0);
+}
+})();
+</script>
+
 <script src="kids-ui-upgrade-v14.js"></script>
 <script src="battle-v2.js"></script>
   <script src="home-ai-buddy.js?v=21.2"></script>
