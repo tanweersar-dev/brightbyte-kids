@@ -5292,4 +5292,706 @@ if(document.readyState==="loading"){
 })();
 </script>
 
+<!-- V40.19: Class 1-3 bilingual Speak + Health + Safety upgrade. -->
+
+<script id="foundationSpeakHealthSafetyV4019">
+(() => {
+"use strict";
+
+/*
+ V40.19 — FOUNDATION SPEAK + HEALTH + SAFETY SUPER UPGRADE
+ --------------------------------------------------------
+ Scope: Class 1–3 student-profile.html only.
+ Safe additive runtime override:
+ - Replaces only #view-speaking, #view-healthy and #view-citizen content.
+ - Keeps V40.16 Learn, V40.17 Labs, V40.18 GK World untouched.
+ - No D1 schema change.
+ - No Worker/API change.
+ - Uses existing course.completed / stars / skill_scores persistence.
+ - Speech recognition transcript is NOT saved; only completion tokens are saved.
+*/
+
+const V19_SPEAK=[["Me","👋","Introduce Yourself","अपना परिचय दें","Hello! My name is {name}. I am in Class {class}.","नमस्ते! मेरा नाम {name} है। मैं कक्षा {class} में हूँ।","Say your name and class.","अपना नाम और कक्षा बोलें।"],["Me","🎂","My Age","मेरी उम्र","I am ___ years old.","मैं ___ साल का / की हूँ।","Say your age in one sentence.","अपनी उम्र एक वाक्य में बोलें।"],["Me","😊","How I Feel","मैं कैसा महसूस करता / करती हूँ","I feel happy today.","आज मैं खुश महसूस कर रहा / रही हूँ।","Say how you feel today.","आज आप कैसा महसूस कर रहे हैं, बोलें।"],["Me","❤️","Something I Like","मुझे क्या पसंद है","I like drawing and playing.","मुझे चित्र बनाना और खेलना पसंद है।","Say one thing you like.","अपनी पसंद की एक चीज़ बताएं।"],["Family","👨‍👩‍👧","My Family","मेरा परिवार","I love my family. We help each other.","मैं अपने परिवार से प्यार करता / करती हूँ। हम एक-दूसरे की मदद करते हैं।","Say one kind sentence about your family.","अपने परिवार के बारे में एक प्यारा वाक्य बोलें।"],["School","🏫","My School","मेरा स्कूल","I go to school to learn and grow.","मैं सीखने और आगे बढ़ने के लिए स्कूल जाता / जाती हूँ।","Say one thing you like at school.","स्कूल में पसंद की एक बात बोलें।"],["School","🧑‍🏫","My Teacher","मेरे शिक्षक","My teacher helps me learn.","मेरे शिक्षक मुझे सीखने में मदद करते हैं।","Say one respectful sentence about your teacher.","अपने शिक्षक के बारे में एक सम्मानजनक वाक्य बोलें।"],["School","🤝","My Friend","मेरा दोस्त","A good friend is kind and helpful.","एक अच्छा दोस्त दयालु और मददगार होता है।","Say one kind sentence about a friend.","एक दोस्त के बारे में अच्छा वाक्य बोलें।"],["Manners","🙋","Ask for Help","मदद माँगना","Please help me. I do not understand.","कृपया मेरी मदद करें। मुझे समझ नहीं आया।","Practise asking for help politely.","विनम्रता से मदद माँगने का अभ्यास करें।"],["Manners","🙏","Please & Thank You","कृपया और धन्यवाद","Please pass the book. Thank you!","कृपया किताब दीजिए। धन्यवाद!","Say a sentence with please and thank you.","कृपया और धन्यवाद वाला वाक्य बोलें।"],["Manners","🙂","Sorry & Excuse Me","सॉरी और एक्सक्यूज़ मी","Excuse me, may I come in?","माफ़ कीजिए, क्या मैं अंदर आ सकता / सकती हूँ?","Practise a polite excuse-me sentence.","एक विनम्र 'माफ़ कीजिए' वाला वाक्य बोलें।"],["Daily","🌞","Morning Routine","सुबह की दिनचर्या","I wake up, wash, brush and get ready.","मैं उठता / उठती हूँ, हाथ-मुँह धोता / धोती हूँ, ब्रश करता / करती हूँ और तैयार होता / होती हूँ।","Say two things you do in the morning.","सुबह के दो काम बोलें।"],["Daily","🍎","My Favorite Food","मेरा पसंदीदा खाना","My favorite food is ___.","मेरा पसंदीदा खाना ___ है।","Name a food you enjoy.","आपको पसंद खाना बोलें।"],["Daily","⚽","My Hobby","मेरा शौक","My hobby is playing football.","मेरा शौक फुटबॉल खेलना है।","Say your hobby.","अपना शौक बोलें।"],["Daily","☀️","Today's Weather","आज का मौसम","Today is sunny and warm.","आज धूप है और मौसम गर्म है।","Describe today's weather in a short sentence.","आज के मौसम के बारे में छोटा वाक्य बोलें।"],["Daily","🎨","Colors Around Me","मेरे आसपास के रंग","I can see a blue bag and a red book.","मुझे नीला बैग और लाल किताब दिख रही है।","Name two colors you can see.","दो रंगों के नाम बोलें।"],["Computer","🖥️","Talk About the Monitor","मॉनिटर के बारे में बोलें","A monitor shows words and pictures.","मॉनिटर शब्द और चित्र दिखाता है।","Name the monitor and say its job.","मॉनिटर का नाम और उसका काम बोलें।"],["Computer","⌨️","Talk About the Keyboard","कीबोर्ड के बारे में बोलें","A keyboard helps me type letters and numbers.","कीबोर्ड मुझे अक्षर और नंबर टाइप करने में मदद करता है।","Say what a keyboard does.","कीबोर्ड का काम बोलें।"],["Computer","🖱️","Talk About the Mouse","माउस के बारे में बोलें","A mouse helps me point and click.","माउस मुझे पॉइंट और क्लिक करने में मदद करता है।","Say what a mouse does.","माउस का काम बोलें।"],["Computer","🖨️","Talk About the Printer","प्रिंटर के बारे में बोलें","A printer puts digital work on paper.","प्रिंटर डिजिटल काम को कागज़ पर छापता है।","Say what a printer does.","प्रिंटर का काम बोलें।"],["Safety","🔐","Password Safety Sentence","पासवर्ड सुरक्षा","I keep my password private.","मैं अपना पासवर्ड निजी रखता / रखती हूँ।","Say the safe password sentence.","सुरक्षित पासवर्ड वाला वाक्य बोलें।"],["Safety","🛡️","Ask Before Downloading","डाउनलोड से पहले पूछें","I ask a trusted adult before an unknown download.","मैं अनजान डाउनलोड से पहले किसी भरोसेमंद बड़े से पूछता / पूछती हूँ।","Say the safe download rule.","सुरक्षित डाउनलोड नियम बोलें।"],["Safety","🤖","Use AI Safely","AI का सुरक्षित उपयोग","I do not share private information with AI.","मैं AI के साथ निजी जानकारी साझा नहीं करता / करती हूँ।","Say one safe AI rule.","AI का एक सुरक्षित नियम बोलें।"],["Confidence","🎤","Brave Speaker","बहादुर वक्ता","Hello everyone! Today I want to tell you about something I learned.","नमस्ते सभी को! आज मैं आपको अपनी सीखी हुई एक बात बताना चाहता / चाहती हूँ।","Speak for about 20 seconds about something you learned.","सीखी हुई किसी बात पर लगभग 20 सेकंड बोलें।"],["Confidence","📦","Show & Tell","दिखाओ और बताओ","This is my book. It has many colorful pictures.","यह मेरी किताब है। इसमें कई रंगीन चित्र हैं।","Choose a safe object and say two things about it.","कोई सुरक्षित चीज़ चुनें और उसके बारे में दो बातें बोलें।"],["Confidence","🖼️","Describe a Picture","चित्र का वर्णन","I can see a child, a tree and a blue sky.","मुझे एक बच्चा, एक पेड़ और नीला आसमान दिख रहा है।","Look around and describe three things you see.","आसपास देखकर तीन चीज़ों का वर्णन करें।"],["Confidence","📖","Mini Story","छोटी कहानी","I found a small plant. I gave it water. It grew slowly.","मुझे एक छोटा पौधा मिला। मैंने उसे पानी दिया। वह धीरे-धीरे बढ़ा।","Tell a three-sentence mini story.","तीन वाक्यों की छोटी कहानी सुनाएँ।"],["Confidence","🧠","Remember & Retell","याद करो और फिर बताओ","I listened carefully. Now I can tell the idea in my own words.","मैंने ध्यान से सुना। अब मैं बात को अपने शब्दों में बता सकता / सकती हूँ।","Retell one thing you learned today.","आज सीखी हुई एक बात अपने शब्दों में बोलें।"],["Confidence","👨‍🏫","Teach Back","सिखाकर बताओ","A computer follows instructions and helps us do many tasks.","कंप्यूटर निर्देशों का पालन करता है और कई काम करने में हमारी मदद करता है।","Explain one simple lesson to a parent, friend or teacher.","किसी आसान पाठ को माता-पिता, दोस्त या शिक्षक को समझाएँ।"],["Confidence","⭐","My Proud Moment","मेरा गर्व वाला पल","I am proud because I tried and learned something new.","मुझे गर्व है क्योंकि मैंने कोशिश की और कुछ नया सीखा।","Say one thing you are proud of learning.","सीखी हुई एक ऐसी बात बोलें जिस पर आपको गर्व है।"]];
+const V19_HEALTH=[["Food","🥗","Balanced Plate","संतुलित थाली","Choose a mix of foods your family eats: grains, protein foods, vegetables or fruit, and water.","परिवार में खाए जाने वाले अलग-अलग भोजन चुनें: अनाज, प्रोटीन वाले भोजन, सब्ज़ी या फल और पानी।","Which is a balanced idea?","Different kinds of food + water","Only candy","No food all day"],["Food","🍎","Fruit Explorer","फल पहचानें","Fruits come in many colors and can be part of everyday meals.","फल कई रंगों में आते हैं और रोज़ के भोजन का हिस्सा हो सकते हैं।","Which is a fruit?","Apple","Soap","Pencil"],["Food","🥕","Vegetable Explorer","सब्ज़ियाँ पहचानें","Vegetables come in many colors and forms. Try family foods calmly.","सब्ज़ियाँ कई रंग और रूप में होती हैं। परिवार के भोजन को आराम से आज़माएँ।","Which is a vegetable?","Carrot","Chocolate bar","Notebook"],["Food","🍚","Grains & Energy Foods","अनाज और ऊर्जा","Rice, roti, oats and other grains can be part of balanced meals.","चावल, रोटी, ओट्स और दूसरे अनाज संतुलित भोजन का हिस्सा हो सकते हैं।","Which is a grain food?","Rice","Shampoo","Eraser"],["Food","🫘","Protein Foods","प्रोटीन वाले भोजन","Beans, lentils, eggs, fish and other family protein foods help build meals.","बीन्स, दाल, अंडे, मछली और परिवार के दूसरे प्रोटीन वाले भोजन थाली का हिस्सा हो सकते हैं।","Which can be a protein food?","Lentils","Candy","Soft drink"],["Food","🥛","Milk, Yogurt & Alternatives","दूध, दही और विकल्प","Milk, yogurt or suitable family alternatives can be part of meals.","दूध, दही या परिवार के लिए सही विकल्प भोजन का हिस्सा हो सकते हैं।","What is a good rule?","Follow family choices and allergies","Drink anything without asking","Ignore allergies"],["Food","🍭","Sometimes Foods","कभी-कभी वाले भोजन","Sweets and sugary drinks can fit sometimes. Balance matters; food is not a reason for shame.","मिठाई और मीठे पेय कभी-कभी लिए जा सकते हैं। संतुलन ज़रूरी है; खाने को लेकर शर्म की बात नहीं है।","Which is the best idea?","Enjoy sometimes and keep balance","Only sweets all day","Never drink water"],["Food","🍳","Breakfast Basics","नाश्ते की आदत","A morning meal can be part of a steady start to the day.","सुबह का भोजन दिन की अच्छी शुरुआत का हिस्सा हो सकता है।","Which sounds sensible?","Eat a family breakfast when available","Only candy","Skip water all day"],["Water","💧","Water Hero","पानी का हीरो","Drink water regularly during the day, especially after active play.","दिन भर नियमित पानी पिएँ, खासकर खेल-कूद के बाद।","After active play, what is a good drink?","Water","Unknown drink","Nothing ever"],["Hygiene","🧼","Clean Hands","साफ हाथ","Wash hands before eating and after using the toilet.","खाने से पहले और टॉयलेट के बाद हाथ धोएँ।","When should we wash hands?","Before eating","Never","Only on birthdays"],["Hygiene","🦷","Brush Teeth","दाँत साफ करें","Brush teeth morning and night with grown-up help when needed.","ज़रूरत हो तो बड़े की मदद से सुबह और रात दाँत साफ करें।","A good tooth habit is...","Brush morning and night","Never brush","Use candy to clean teeth"],["Hygiene","🛁","Clean Body","शरीर की सफाई","Regular washing helps keep the body fresh and clean.","नियमित सफाई शरीर को ताज़ा और साफ रखने में मदद करती है।","Which is a clean habit?","Regular washing","Never washing","Sharing dirty towels"],["Hygiene","🤧","Cough & Sneeze Care","खाँसी और छींक की आदत","Cover a cough or sneeze with a tissue or your elbow, then clean your hands.","खाँसी या छींक को टिश्यू या कोहनी से ढकें, फिर हाथ साफ करें।","What is a good choice?","Cover cough with elbow or tissue","Cough toward a friend","Touch everyone"],["Routine","🌞","Morning Routine","सुबह की दिनचर्या","Wake, wash, brush, get dressed and prepare step by step.","उठें, साफ हों, ब्रश करें, कपड़े पहनें और धीरे-धीरे तैयार हों।","Which is a routine?","Get ready step by step","Rush and skip everything","Stay awake all night"],["Routine","🌙","Evening Routine","शाम की दिनचर्या","Wind down, tidy up and prepare calmly for sleep.","धीरे-धीरे काम खत्म करें, सामान रखें और नींद की तैयारी करें।","Before sleep, a calm choice is...","Wind down calmly","Start loud games all night","Drink lots of sugary drinks"],["Sleep","😴","Sleep Routine","नींद की आदत","A calm bedtime routine helps the body rest.","शांत सोने की दिनचर्या शरीर को आराम करने में मदद करती है।","Which helps bedtime?","A calm routine","Very loud play in bed","Bright screen all night"],["Movement","🏃","Move & Play","चलो और खेलो","Move your body and enjoy safe active play.","शरीर को चलाएँ और सुरक्षित सक्रिय खेल का आनंद लें।","Which is active play?","Running or playing safely","Sitting all day without breaks","Only watching a screen"],["Movement","🤸","Stretch Break","स्ट्रेच ब्रेक","Stand up, stretch gently and move after sitting for a while.","कुछ देर बैठने के बाद उठें, हल्का स्ट्रेच करें और चलें।","After sitting a long time...","Take a gentle movement break","Never move","Jump on furniture"],["Screen","👀","Eye Break","आँखों का ब्रेक","Look away from the screen regularly and blink.","स्क्रीन से नियमित नज़र हटाएँ और पलकें झपकाएँ।","A smart screen habit is...","Look away and blink","Stare without breaks","Sit extremely close"],["Screen","🪑","Sit Well","ठीक से बैठें","Sit comfortably and keep the screen at a sensible distance.","आराम से बैठें और स्क्रीन से सही दूरी रखें।","Which is better?","Comfortable posture","Twist painfully for hours","Put face on screen"],["Screen","⏱️","Screen Balance","स्क्रीन संतुलन","Learning on a screen is useful, and so are sleep, movement and offline play.","स्क्रीन पर सीखना उपयोगी है, साथ में नींद, चलना-फिरना और ऑफलाइन खेल भी ज़रूरी हैं।","A balanced day includes...","Learning + movement + rest","Only screen all day","No sleep"],["Feelings","🧘","Calm Breathing","शांत साँस","Slow breathing can help you pause and settle.","धीरे साँस लेना रुककर शांत होने में मदद कर सकता है।","When you need a calm moment...","Take slow breaths","Throw things","Shout at everyone"],["Feelings","😊","Name Your Feeling","अपनी भावना बताएं","You can say: I feel happy, sad, worried, tired or excited.","आप बोल सकते हैं: मैं खुश, उदास, चिंतित, थका / थकी या उत्साहित हूँ।","If you feel worried...","Tell a trusted adult","Keep every worry secret","Share a password"],["Feelings","❤️","Kindness Is Healthy Too","दयालुता भी अच्छी आदत है","Kind words and helpful actions support a happy social life.","अच्छे शब्द और मदद करने वाले काम खुशहाल साथ रहने में मदद करते हैं।","Which is kind?","Helping politely","Bullying","Calling names"],["Habits","🧹","Clean Learning Space","साफ पढ़ाई की जगह","Keep your desk tidy and keep drinks away from electronics.","पढ़ाई की जगह साफ रखें और इलेक्ट्रॉनिक चीज़ों से पेय दूर रखें।","Where should a drink be?","Away from electronics","On the keyboard","Inside the computer"],["Habits","🌤️","Outdoor Time","बाहर का समय","Safe outdoor play gives your body a chance to move and explore.","सुरक्षित बाहर का खेल शरीर को चलने और खोजने का मौका देता है।","A good outdoor rule is...","Play safely with supervision as needed","Run into traffic","Ignore safety rules"],["Habits","📚","Learning Break","सीखने के बीच ब्रेक","Short breaks can help you return to learning fresh.","छोटे ब्रेक आपको फिर से ताज़ा होकर सीखने में मदद कर सकते हैं।","After focused learning...","Take a short sensible break","Never stop for hours","Throw your device"],["Habits","🏆","Healthy Day Review","आज की अच्छी आदतें","At the end of the day, remember one healthy habit you practised.","दिन के अंत में अपनी की हुई एक अच्छी आदत याद करें।","A useful review is...","Name one healthy habit","Say nothing matters","Copy someone else's answer"]];
+const V19_SAFETY=[["Digital","🔐","Protect Passwords","पासवर्ड सुरक्षित रखें","Keep passwords private. Ask a trusted adult for help if needed.","पासवर्ड निजी रखें। ज़रूरत हो तो भरोसेमंद बड़े से मदद लें।","Someone asks for your password. What do you do?","Keep it private","Tell the stranger","Post it online"],["Digital","👤","Protect Personal Info","निजी जानकारी बचाएँ","Do not share your home address, phone number, school details or passwords with strangers.","घर का पता, फोन नंबर, स्कूल की जानकारी या पासवर्ड अनजान लोगों से साझा न करें।","Which should stay private?","Home address","Favorite color","Favorite fruit"],["Digital","🔗","Unknown Links","अनजान लिंक","Stop and ask a trusted adult before opening an unknown link.","अनजान लिंक खोलने से पहले रुकें और भरोसेमंद बड़े से पूछें।","An unknown link arrives. What first?","Ask a trusted adult","Click fast","Send your password"],["Digital","📥","Ask Before Downloading","डाउनलोड से पहले पूछें","Unknown files and apps should be checked by a trusted adult.","अनजान फाइल और ऐप को भरोसेमंद बड़े से जाँच करवाएँ।","Before an unknown download...","Ask first","Download secretly","Turn off safety"],["Digital","▦","QR Code Safety","QR कोड सुरक्षा","Do not scan an unknown QR code without checking with a trusted adult.","अनजान QR कोड भरोसेमंद बड़े से पूछे बिना स्कैन न करें।","Unknown QR code?","Check first","Scan everything","Share password"],["Digital","🪟","Pop-up Safety","पॉप-अप सुरक्षा","Do not click scary or prize pop-ups. Close them and ask for help.","डराने वाले या इनाम वाले पॉप-अप पर क्लिक न करें। बंद करें और मदद लें।","A strange prize pop-up appears...","Close and ask for help","Enter password","Click every button"],["Digital","💬","No Stranger Chat","अनजान व्यक्ति से चैट नहीं","Do not continue private chats with unknown people.","अनजान लोगों से निजी चैट जारी न रखें।","An unknown person asks to chat privately...","Stop and tell a trusted adult","Keep chatting secretly","Meet them alone"],["Digital","📸","Think Before Sharing","शेयर करने से पहले सोचें","Ask permission before sharing someone else's photo.","किसी और की फोटो शेयर करने से पहले अनुमति लें।","Before sharing a friend's photo...","Ask permission","Share secretly","Add their address"],["Digital","🎥","Camera & Microphone Permission","कैमरा और माइक्रोफोन अनुमति","Use camera and microphone only when you know why they are needed.","कैमरा और माइक्रोफोन तभी उपयोग करें जब आपको पता हो कि उनकी ज़रूरत क्यों है।","A website asks for camera access...","Ask a trusted adult if unsure","Always allow","Share everything"],["Digital","📍","Location Sharing","लोकेशन शेयरिंग","Keep your live location private unless a trusted adult says it is needed.","अपनी लाइव लोकेशन निजी रखें, जब तक भरोसेमंद बड़ा इसकी ज़रूरत न बताए।","A stranger asks for live location...","Do not share it","Send it quickly","Post it publicly"],["AI","🤖","Use AI Safely","AI का सुरक्षित उपयोग","Do not give AI your password, home address or other private details.","AI को पासवर्ड, घर का पता या दूसरी निजी जानकारी न दें।","What should you NOT give AI?","Your password","A math question","A story idea"],["AI","✅","Check AI Answers","AI के जवाब जाँचें","AI can make mistakes. Check important information with a teacher, parent or trusted source.","AI गलती कर सकता है। ज़रूरी जानकारी को शिक्षक, माता-पिता या भरोसेमंद स्रोत से जाँचें।","AI gives an important fact. What next?","Check it","Believe everything","Never ask anyone"],["AI","🧠","Clear & Kind AI Prompts","साफ और अच्छा AI प्रश्न","Use clear, kind prompts and ask for school-safe help.","साफ, विनम्र और स्कूल के लिए सुरक्षित प्रश्न पूछें।","Which prompt is better?","Explain this safely for a child","Give me someone's password","Show private data"],["Kindness","💙","Be Kind Online","ऑनलाइन दयालु रहें","Use respectful words. Do not bully or send mean messages.","सम्मानजनक शब्दों का उपयोग करें। बुली न करें और बुरे संदेश न भेजें।","Which message is kind?","Great job!","You are stupid!","I will bully you"],["Kindness","🙋","Tell a Trusted Adult","भरोसेमंद बड़े को बताएं","If something online feels unsafe or uncomfortable, tell a trusted adult.","ऑनलाइन कुछ असुरक्षित या असहज लगे तो भरोसेमंद बड़े को बताएं।","Something online scares you...","Tell a trusted adult","Keep it secret forever","Reply to the stranger"],["Kindness","🛡️","Bullying Help","बुली होने पर मदद","Do not fight back with mean messages. Save evidence if an adult asks and get help.","बुरे संदेश से जवाब न दें। बड़ा कहे तो सबूत रखें और मदद लें।","If someone bullies you online...","Get trusted adult help","Bully them back","Share your password"],["Device","🔌","Cable Care","केबल की देखभाल","Use cables gently and do not pull them by force.","केबल को धीरे संभालें और ज़ोर से न खींचें।","How should you unplug a cable?","Gently with adult guidance when needed","Pull hard","Use wet hands"],["Device","💧","Dry Hands Near Devices","डिवाइस के पास सूखे हाथ","Keep wet hands and drinks away from electrical devices.","गीले हाथ और पेय इलेक्ट्रॉनिक डिवाइस से दूर रखें।","Your hands are wet...","Dry them before touching devices","Touch a plug","Pour water on keyboard"],["Device","⚡","Power Safety","बिजली सुरक्षा","Ask an adult before touching plugs, sockets or power strips.","प्लग, सॉकेट या पावर स्ट्रिप छूने से पहले बड़े से पूछें।","A plug looks loose...","Tell an adult","Push it with wet hands","Play with it"],["Device","🧽","Clean Devices Safely","डिवाइस सुरक्षित साफ करें","Use a dry soft cloth. Never pour or spray liquid directly on a device.","सूखे मुलायम कपड़े का उपयोग करें। डिवाइस पर सीधे तरल न डालें या स्प्रे न करें।","How should a screen be cleaned?","Dry soft cloth","Pour water","Wet sponge while powered"],["Device","🪑","Healthy Computer Posture","कंप्यूटर पर ठीक से बैठें","Sit comfortably and take regular movement breaks.","आराम से बैठें और नियमित चलने-फिरने के ब्रेक लें।","A good computer habit is...","Sit comfortably and take breaks","Sit painfully for hours","Put face on screen"],["Device","⚙️","Ask Before Changing Settings","सेटिंग बदलने से पहले पूछें","Ask a teacher or parent before changing important settings or installing apps.","महत्वपूर्ण सेटिंग बदलने या ऐप इंस्टॉल करने से पहले शिक्षक या माता-पिता से पूछें।","Before changing an important setting...","Ask first","Change everything","Delete files secretly"],["Personal","🚸","Cross the Road Safely","सड़क सुरक्षित पार करें","Use a safe crossing and stay with a responsible adult when needed.","सुरक्षित क्रॉसिंग का उपयोग करें और ज़रूरत हो तो जिम्मेदार बड़े के साथ रहें।","Where should you cross when possible?","A safe crossing","Between fast cars","Without looking"],["Personal","💺","Seat Belt","सीट बेल्ट","Use a seat belt in a vehicle.","वाहन में सीट बेल्ट लगाएँ।","In a car, what is a safe choice?","Wear a seat belt","Stand while moving","Open the door while moving"],["Personal","⛑️","Helmet Safety","हेलमेट सुरक्षा","Wear a suitable helmet for activities where it is needed.","जिन गतिविधियों में ज़रूरत हो वहाँ सही हेलमेट पहनें।","When a helmet is required...","Wear it properly","Leave it at home","Hold it in your hand"],["Personal","🔥","Fire & Smoke","आग और धुआँ","If you see fire or dangerous smoke, move away and tell an adult immediately.","आग या खतरनाक धुआँ दिखे तो दूर जाएँ और तुरंत किसी बड़े को बताएं।","You see dangerous smoke...","Move away and tell an adult","Hide and play","Touch the fire"],["Personal","💊","Medicine Safety","दवा सुरक्षा","Take medicine only when a responsible adult gives it to you as directed.","दवा केवल जिम्मेदार बड़े के निर्देश पर लें।","You find unknown medicine...","Do not take it; tell an adult","Taste it","Give it to a friend"],["Personal","🔪","Sharp Object Safety","नुकीली चीज़ों से सुरक्षा","Do not play with sharp tools. Ask an adult for help.","नुकीले औज़ार से न खेलें। बड़े से मदद लें।","You find a sharp tool...","Ask an adult","Play with it","Run with it"],["Personal","🏫","School Safety","स्कूल सुरक्षा","Follow teacher instructions, walk calmly and use equipment properly.","शिक्षक की बात मानें, शांति से चलें और सामान सही तरह उपयोग करें।","In a school corridor...","Walk calmly","Push others","Run into people"],["Personal","🚑","Emergency Helpers","आपातकालीन मददगार","Police, firefighters, doctors and trusted adults can help in emergencies.","पुलिस, फायरफाइटर, डॉक्टर और भरोसेमंद बड़े आपातकाल में मदद कर सकते हैं।","In an emergency, who can help?","Trusted emergency helpers","An unknown online stranger","Nobody ever"],["Personal","🧑‍🤝‍🧑","Stay With Your Group","अपने समूह के साथ रहें","On a school trip or busy place, stay with your teacher, parent or group.","स्कूल ट्रिप या भीड़ वाली जगह पर शिक्षक, माता-पिता या समूह के साथ रहें।","In a busy place...","Stay with your group","Walk away alone","Follow a stranger"],["Personal","⭐","Stop • Think • Ask","रुको • सोचो • पूछो","If you are unsure, stop, think and ask a trusted adult.","अगर समझ न आए तो रुकें, सोचें और भरोसेमंद बड़े से पूछें।","When you are unsure...","Stop, think and ask","Rush and hide","Do anything quickly"]];
+const V19_CONVO=[["👋","Hello! I am Tannu's Learning Buddy. What is your name?","नमस्ते! मैं Tannu's Learning Buddy हूँ। आपका नाम क्या है?"],["😊","Nice to meet you, {name}! How are you today?","{name}, आपसे मिलकर अच्छा लगा! आज आप कैसे हैं?"],["🎒","What class are you in?","आप किस कक्षा में पढ़ते / पढ़ती हैं?"],["🏫","Tell me one thing you like at school.","स्कूल में आपको पसंद की एक बात बताइए।"],["💻","Can you name one computer part?","कंप्यूटर के एक भाग का नाम बताइए।"],["🧠","What does that computer part do?","वह कंप्यूटर भाग क्या काम करता है?"],["🙋","Now practise: Please help me. I do not understand.","अब बोलिए: कृपया मेरी मदद करें। मुझे समझ नहीं आया।"],["🙏","Say one polite sentence using please or thank you.","कृपया या धन्यवाद वाला एक विनम्र वाक्य बोलें।"],["🛡️","Tell me one safe internet rule.","इंटरनेट का एक सुरक्षित नियम बताइए।"],["🤖","Tell me one safe AI rule.","AI का एक सुरक्षित नियम बताइए।"],["⭐","Tell me one thing you learned today.","आज सीखी हुई एक बात बताइए।"],["🏆","Wonderful! You finished the bilingual speaking practice.","बहुत बढ़िया! आपने द्विभाषी बोलने का अभ्यास पूरा कर लिया।"]];
+const V19_DAILY=[["💧","Drink Water","पानी पिएँ"],["🧼","Clean Hands","हाथ साफ रखें"],["🏃","Move & Play","चलें और खेलें"],["👀","Eye Break","आँखों को ब्रेक दें"],["❤️","Kind Words","अच्छे शब्द बोलें"]];
+
+let v19SpeakFilter="All";
+let v19HealthFilter="All";
+let v19SafetyFilter="All";
+let v19ConversationStep=0;
+let v19ConversationName="";
+let v19ConversationLang="both";
+
+function v19Esc(v){
+  return String(v??"").replace(/[&<>"']/g,c=>({
+    "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
+  }[c]));
+}
+function v19Class(){
+  try{return Number(profile?.class_number||0)}catch(_){return 0}
+}
+function v19Foundation(){
+  const c=v19Class();
+  return !c || (c>=1 && c<=3);
+}
+function v19Token(kind,id){
+  return `v4019:${kind}:${id}`;
+}
+function v19Done(kind,id){
+  try{return new Set(course?.completed||[]).has(v19Token(kind,id))}
+  catch(_){return false}
+}
+function v19EnsureCourse(){
+  try{
+    if(!Array.isArray(course.completed))course.completed=[];
+    if(!course.skills||typeof course.skills!=="object")course.skills={};
+    return true;
+  }catch(_){return false}
+}
+function v19Reward(kind,id,skill,stars=2){
+  if(!v19EnsureCourse())return false;
+  const token=v19Token(kind,id);
+  if(course.completed.includes(token))return false;
+  course.completed.push(token);
+  course.stars=Number(course.stars||0)+stars;
+  if(skill){
+    course.skills[skill]=Math.min(100,Number(course.skills[skill]||0)+3);
+  }
+  try{if(typeof saveCourse==="function")saveCourse()}catch(_){}
+  try{if(typeof markStudyDay==="function")markStudyDay()}catch(_){}
+  return true;
+}
+function v19Toast(t){
+  try{if(typeof toast==="function")return toast(t)}catch(_){}
+}
+function v19Celebrate(n=12){
+  try{if(typeof celebrate==="function")celebrate(n)}catch(_){}
+}
+function v19Modal(html){
+  const body=document.getElementById("modalBody");
+  if(!body)return;
+  body.innerHTML=html;
+  try{if(typeof openModal==="function")openModal()}
+  catch(_){document.getElementById("modal")?.classList.add("open")}
+}
+function v19Speak(text,lang="en"){
+  try{
+    if(!("speechSynthesis" in window))return v19Toast("Voice is not supported in this browser");
+    speechSynthesis.cancel();
+    const u=new SpeechSynthesisUtterance(String(text||""));
+    u.lang=lang==="hi"?"hi-IN":"en-US";
+    u.rate=lang==="hi"?.74:.78;
+    u.pitch=1.05;
+    u.volume=1;
+    const voices=speechSynthesis.getVoices();
+    if(lang==="hi"){
+      u.voice=
+        voices.find(v=>/hi[-_]?IN/i.test(v.lang)&&/swara|heera|kalpana|female|google|microsoft/i.test(v.name))||
+        voices.find(v=>/hi/i.test(v.lang))||null;
+    }else{
+      u.voice=
+        voices.find(v=>/en/i.test(v.lang)&&/aria|jenny|zira|samantha|sonia|hazel|female|google|microsoft/i.test(v.name))||
+        voices.find(v=>/en-(US|GB)/i.test(v.lang))||
+        voices.find(v=>/en/i.test(v.lang))||null;
+    }
+    speechSynthesis.speak(u);
+  }catch(_){}
+}
+function v19LocalDate(){
+  const d=new Date(),p=n=>String(n).padStart(2,"0");
+  return `${d.getFullYear()}-${p(d.getMonth()+1)}-${p(d.getDate())}`;
+}
+function v19Name(){
+  try{return profile?.display_name||"my friend"}catch(_){return "my friend"}
+}
+function v19ClassText(){
+  const c=v19Class();
+  return c?String(c):"1";
+}
+function v19Fill(s){
+  return String(s||"").replaceAll("{name}",v19Name()).replaceAll("{class}",v19ClassText());
+}
+function v19Percent(kind,total){
+  let n=0;
+  for(let i=0;i<total;i++)if(v19Done(kind,i))n++;
+  return {n,p:total?Math.round(n/total*100):0};
+}
+function v19Shuffle(a){
+  return [...a].sort(()=>Math.random()-.5);
+}
+function v19BigVisual(emoji,title,subtitle=""){
+  return `<div class="v19-bigpic">
+    <div class="v19-bigemoji">${v19Esc(emoji)}</div>
+    <strong>${v19Esc(title)}</strong>
+    ${subtitle?`<small>${v19Esc(subtitle)}</small>`:""}
+  </div>`;
+}
+function v19Recognize(lang,onDone,onFail){
+  const SR=window.SpeechRecognition||window.webkitSpeechRecognition;
+  if(!SR){
+    onFail?.("Speech recognition is not available here. Listen and practise aloud.");
+    return;
+  }
+  const r=new SR();
+  r.lang=lang==="hi"?"hi-IN":"en-US";
+  r.interimResults=false;
+  r.maxAlternatives=1;
+  r.onresult=e=>onDone?.(e.results?.[0]?.[0]?.transcript||"");
+  r.onerror=()=>onFail?.("I could not hear clearly. Please try again.");
+  try{r.start()}catch(_){onFail?.("Microphone is busy. Please try again.")}
+}
+
+/* ----------------------------- STYLE ----------------------------- */
+function v19Style(){
+  if(document.getElementById("foundationSpeakHealthSafetyStyleV4019"))return;
+  const s=document.createElement("style");
+  s.id="foundationSpeakHealthSafetyStyleV4019";
+  s.textContent=`
+  .v19-stack{display:grid;gap:15px}
+  .v19-hero{border-radius:28px;padding:24px;color:#fff;overflow:hidden;position:relative;box-shadow:0 16px 40px rgba(38,34,99,.16)}
+  .v19-hero.speak{background:linear-gradient(135deg,#1a1f5e,#7553d9 56%,#1ab7be)}
+  .v19-hero.health{background:linear-gradient(135deg,#0e5f56,#38b976 55%,#74c8ee)}
+  .v19-hero.safety{background:linear-gradient(135deg,#152b61,#3a66d6 54%,#34c5ae)}
+  .v19-eyebrow{display:inline-flex;padding:7px 10px;border-radius:999px;background:#ffffff1b;font-size:11px;font-weight:1000;letter-spacing:.05em}
+  .v19-hero h2{font-size:clamp(28px,4vw,42px);margin:8px 0 7px}
+  .v19-hero p{margin:0;max-width:920px;color:#eef1ff;line-height:1.6}
+  .v19-hero-stats{display:flex;gap:8px;flex-wrap:wrap;margin-top:13px}
+  .v19-chip{padding:8px 11px;border-radius:999px;background:#ffffff18;font-size:11px;font-weight:950}
+  .v19-panel{background:#fff;border:1px solid #e1e5f0;border-radius:22px;padding:18px;box-shadow:0 11px 32px rgba(54,49,135,.08)}
+  .v19-panel h3{margin:0 0 8px;color:#242a59}
+  .v19-sub{color:#68708e;line-height:1.5;margin:0}
+  .v19-progress{height:10px;background:#edf0f7;border-radius:999px;overflow:hidden;margin-top:9px}
+  .v19-progress i{display:block;height:100%;background:linear-gradient(90deg,#665cff,#27c9c0,#ff6ea9);border-radius:999px}
+  .v19-filter{display:flex;gap:7px;flex-wrap:wrap}
+  .v19-filter button{border:0;border-radius:999px;padding:8px 11px;background:#eeecff;color:#554bc0;font-size:11px;font-weight:950;cursor:pointer}
+  .v19-filter button.active{background:linear-gradient(135deg,#665cff,#26c9c0);color:#fff}
+  .v19-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  .v19-card{position:relative;border:1px solid #e0e4ef;border-radius:18px;padding:14px;background:linear-gradient(145deg,#fff,#fbfbff);min-height:190px;display:flex;flex-direction:column;box-shadow:0 7px 18px rgba(52,47,118,.05)}
+  .v19-card.done{border-color:#63d6aa;background:linear-gradient(145deg,#f1fff8,#fff)}
+  .v19-card .v19-icon{font-size:34px;line-height:1}
+  .v19-card h4{font-size:16px;color:#252a59;margin:9px 0 3px}
+  .v19-card .hi{font-family:system-ui,-apple-system,"Noto Sans Devanagari","Mangal",sans-serif;color:#6c6584;font-weight:800;font-size:13px}
+  .v19-card p{font-size:12px;color:#707895;line-height:1.45;flex:1}
+  .v19-card button{border:0;border-radius:11px;padding:9px 10px;background:#efedff;color:#574cc3;font-weight:950;cursor:pointer}
+  .v19-done{position:absolute;right:10px;top:10px;background:#dffff0;color:#137958;border-radius:999px;padding:5px 8px;font-size:10px;font-weight:1000}
+  .v19-daily{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+  .v19-daily button{border:1px solid #e0e4ef;border-radius:15px;min-height:82px;background:#fff;color:#343b68;font-weight:950;cursor:pointer}
+  .v19-daily button.done{background:#eafff4;border-color:#74d8af;color:#147252}
+  .v19-convo{display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start}
+  .v19-bot{width:68px;height:68px;border-radius:20px;display:grid;place-items:center;font-size:38px;background:linear-gradient(135deg,#6c5cff,#28d5c9);box-shadow:0 9px 24px #6055de33}
+  .v19-bubble{padding:16px;border-radius:18px;background:#f2f0ff;color:#252b60;font-weight:850;line-height:1.55}
+  .v19-bubble .hi{display:block;margin-top:7px;color:#675f80;font-family:system-ui,-apple-system,"Noto Sans Devanagari","Mangal",sans-serif}
+  .v19-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
+  .v19-btn{border:0;border-radius:11px;padding:9px 11px;font-weight:950;cursor:pointer}
+  .v19-en{background:#eeecff;color:#564bc0}
+  .v19-hi{background:#fff1c9;color:#8b6113}
+  .v19-mic{background:#ffe8f2;color:#b13f75}
+  .v19-next{background:#e8fff9;color:#147a69}
+  .v19-status{font-size:11px;color:#747c97;margin-top:8px;min-height:18px}
+  .v19-two{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .v19-foodboard{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .v19-foodcol{border-radius:18px;padding:15px;border:1px solid #e2e6ef}
+  .v19-foodcol.every{background:linear-gradient(135deg,#effff6,#f4fbff)}
+  .v19-foodcol.some{background:linear-gradient(135deg,#fff7eb,#fff0fa)}
+  .v19-foodchips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+  .v19-foodchips span{border-radius:999px;background:#fff;padding:6px 8px;font-size:10px;font-weight:850;border:1px solid #e7e8ee}
+  .v19-bigpic{min-height:190px;border-radius:22px;background:linear-gradient(135deg,#f2f0ff,#eafffa);display:grid;place-items:center;text-align:center;padding:18px;margin-bottom:13px}
+  .v19-bigemoji{font-size:82px;filter:drop-shadow(0 10px 16px #453f7a24)}
+  .v19-bigpic strong{font-size:22px;color:#252a59}
+  .v19-bigpic small{color:#6b7391}
+  .v19-bi{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .v19-langbox{border:1px solid #e0e4ef;border-radius:16px;padding:14px;background:#fff}
+  .v19-langbox.en{background:#f8f7ff}
+  .v19-langbox.hi{background:#fffaf0;font-family:system-ui,-apple-system,"Noto Sans Devanagari","Mangal",sans-serif}
+  .v19-langbox b{display:block;color:#262c5c;margin-bottom:6px}
+  .v19-langbox p{margin:0;color:#5f6885;line-height:1.6}
+  .v19-quiz{margin-top:12px;border:1px solid #e0e4ef;border-radius:17px;padding:14px;background:#fbfbff}
+  .v19-quiz h4{margin:0 0 9px;color:#252a59}
+  .v19-choices{display:grid;grid-template-columns:repeat(3,1fr);gap:7px}
+  .v19-choices button{border:1px solid #dfe3ef;border-radius:11px;padding:10px;background:#fff;color:#333a68;font-weight:900;cursor:pointer}
+  .v19-choices button.good{background:#e7fff2;border-color:#68d5a5;color:#116d51}
+  .v19-choices button.bad{background:#fff0f3;border-color:#ef9daf;color:#a23550}
+  .v19-safestrip{display:grid;grid-template-columns:repeat(5,1fr);gap:8px}
+  .v19-safestrip div{border-radius:14px;padding:12px;text-align:center;background:#f4f5ff;color:#303665;font-weight:850;font-size:11px}
+  .v19-note{padding:11px 12px;border-radius:14px;background:#fff8dc;color:#725b16;font-size:12px;line-height:1.55}
+  @media(max-width:1000px){.v19-grid{grid-template-columns:repeat(3,1fr)}.v19-safestrip{grid-template-columns:repeat(3,1fr)}}
+  @media(max-width:760px){.v19-grid{grid-template-columns:1fr 1fr}.v19-daily{grid-template-columns:1fr 1fr}.v19-two,.v19-foodboard,.v19-bi{grid-template-columns:1fr}.v19-safestrip{grid-template-columns:1fr 1fr}}
+  @media(max-width:480px){.v19-grid{grid-template-columns:1fr}.v19-convo{grid-template-columns:1fr}.v19-bot{width:58px;height:58px}.v19-choices{grid-template-columns:1fr}.v19-safestrip{grid-template-columns:1fr}}
+  `;
+  document.head.appendChild(s);
+}
+
+/* -------------------------- SPEAKING -------------------------- */
+function v19SpeakCats(){
+  return ["All",...new Set(V19_SPEAK.map(x=>x[0]))];
+}
+function v19RenderConvo(){
+  const bubble=document.getElementById("v19BuddyBubble");
+  if(!bubble)return;
+  const step=V19_CONVO[Math.min(v19ConversationStep,V19_CONVO.length-1)];
+  const name=v19ConversationName||v19Name();
+  const en=String(step[1]).replaceAll("{name}",name);
+  const hi=String(step[2]).replaceAll("{name}",name);
+  bubble.innerHTML=`${v19Esc(step[0])} ${v19Esc(en)}<span class="hi" lang="hi">${v19Esc(hi)}</span>`;
+  const count=document.getElementById("v19ConvoCount");
+  if(count)count.textContent=`Step ${Math.min(v19ConversationStep+1,V19_CONVO.length)} / ${V19_CONVO.length}`;
+}
+function v19ConvoHeard(text,lang){
+  const status=document.getElementById("v19BuddyStatus");
+  if(status)status.textContent=`✅ I heard: “${text}” • आपकी आवाज़ सेव नहीं हुई।`;
+  if(v19ConversationStep===0 && text.trim()){
+    v19ConversationName=text.trim().split(/\s+/).slice(0,3).join(" ");
+  }
+  const id=v19ConversationStep;
+  if(v19Reward("conversation",id,"Speaking",2)){
+    try{course.skills.English=Math.min(100,Number(course.skills.English||0)+1)}catch(_){}
+  }
+  v19ConversationStep=Math.min(v19ConversationStep+1,V19_CONVO.length-1);
+  v19RenderConvo();
+  const next=V19_CONVO[v19ConversationStep];
+  setTimeout(()=>v19Speak(lang==="hi"?next[2]:next[1],lang),250);
+  v19UpdateSpeakStats();
+}
+function v19RenderSpeakGrid(){
+  const g=document.getElementById("v19SpeakGrid");
+  if(!g)return;
+  const rows=V19_SPEAK.map((x,i)=>({x,i})).filter(o=>v19SpeakFilter==="All"||o.x[0]===v19SpeakFilter);
+  g.innerHTML=rows.map(({x,i})=>`
+    <article class="v19-card ${v19Done("speak",i)?"done":""}">
+      ${v19Done("speak",i)?'<span class="v19-done">✓ PRACTISED</span>':""}
+      <div class="v19-icon">${v19Esc(x[1])}</div>
+      <h4>${v19Esc(x[2])}</h4>
+      <div class="hi" lang="hi">${v19Esc(x[3])}</div>
+      <p>${v19Esc(v19Fill(x[4]))}</p>
+      <button data-v19-speak="${i}">Open Mission →</button>
+    </article>`).join("");
+  g.querySelectorAll("[data-v19-speak]").forEach(b=>b.onclick=()=>v19OpenSpeakMission(Number(b.dataset.v19Speak)));
+}
+function v19OpenSpeakMission(i){
+  const x=V19_SPEAK[i];
+  const en=v19Fill(x[4]),hi=v19Fill(x[5]);
+  const promptEn=v19Fill(x[6]),promptHi=v19Fill(x[7]);
+  v19Modal(`
+    ${v19BigVisual(x[1],x[2],x[3])}
+    <div class="v19-bi">
+      <section class="v19-langbox en"><b>🇬🇧 English</b><p>${v19Esc(en)}</p><button class="v19-btn v19-en" id="v19MissionHearEn">🔊 Hear English</button></section>
+      <section class="v19-langbox hi" lang="hi"><b>🇮🇳 हिन्दी</b><p>${v19Esc(hi)}</p><button class="v19-btn v19-hi" id="v19MissionHearHi">🔊 हिन्दी सुनें</button></section>
+    </div>
+    <div class="v19-quiz">
+      <h4>🎤 Your Turn • अब आपकी बारी</h4>
+      <p>${v19Esc(promptEn)}</p>
+      <p lang="hi">${v19Esc(promptHi)}</p>
+      <div class="v19-actions">
+        <button class="v19-btn v19-mic" id="v19MissionSpeakEn">🎤 Speak English</button>
+        <button class="v19-btn v19-mic" id="v19MissionSpeakHi">🎤 हिन्दी में बोलें</button>
+        <button class="v19-btn v19-next" id="v19MissionManual">✅ I Practised This</button>
+      </div>
+      <div id="v19MissionStatus" class="v19-status">Your voice is processed by the browser and is not saved by this page.</div>
+    </div>`);
+  document.getElementById("v19MissionHearEn").onclick=()=>v19Speak(en,"en");
+  document.getElementById("v19MissionHearHi").onclick=()=>v19Speak(hi,"hi");
+  const finish=(transcript="")=>{
+    const added=v19Reward("speak",i,"Speaking",3);
+    if(added){
+      try{course.skills.English=Math.min(100,Number(course.skills.English||0)+2);saveCourse()}catch(_){}
+      v19Celebrate(10);
+    }
+    const st=document.getElementById("v19MissionStatus");
+    if(st)st.textContent=transcript?`✅ Heard: “${transcript}” • Mission practised!`:"✅ Mission practised!";
+    v19UpdateSpeakStats();
+    v19RenderSpeakGrid();
+  };
+  document.getElementById("v19MissionSpeakEn").onclick=()=>v19Recognize("en",finish,msg=>document.getElementById("v19MissionStatus").textContent=msg);
+  document.getElementById("v19MissionSpeakHi").onclick=()=>v19Recognize("hi",finish,msg=>document.getElementById("v19MissionStatus").textContent=msg);
+  document.getElementById("v19MissionManual").onclick=()=>finish("");
+}
+function v19UpdateSpeakStats(){
+  const p=v19Percent("speak",V19_SPEAK.length);
+  const n=document.getElementById("v19SpeakDone"),bar=document.getElementById("v19SpeakBar");
+  if(n)n.textContent=`✅ ${p.n}/${V19_SPEAK.length} missions practised`;
+  if(bar)bar.style.width=p.p+"%";
+}
+function v19RenderSpeak(){
+  if(!v19Foundation())return;
+  const sec=document.getElementById("view-speaking");
+  if(!sec)return;
+  sec.innerHTML=`
+    <div class="v19-stack">
+      <section class="v19-hero speak">
+        <span class="v19-eyebrow">🗣️ CLASS 1–3 • BILINGUAL SPEAKING WORLD</span>
+        <h2>Tannu's Speaking & Communication Studio</h2>
+        <p>Look • Listen • Repeat • Speak. Friendly English + हिन्दी practice for introductions, school, manners, computers, safety, confidence and teach-back.</p>
+        <div class="v19-hero-stats"><span class="v19-chip">${V19_SPEAK.length} speaking missions</span><span class="v19-chip" id="v19SpeakDone">✅ 0/${V19_SPEAK.length} missions practised</span><span class="v19-chip">🔒 Voice recordings are not stored by this page</span></div>
+        <div class="v19-progress"><i id="v19SpeakBar" style="width:0%"></i></div>
+      </section>
+
+      <section class="v19-panel">
+        <div class="v19-convo">
+          <div class="v19-bot">🤖</div>
+          <div>
+            <h3>💬 Bilingual Learning Buddy</h3>
+            <div id="v19BuddyBubble" class="v19-bubble"></div>
+            <div class="v19-actions">
+              <button class="v19-btn v19-en" id="v19BuddyEn">🔊 English</button>
+              <button class="v19-btn v19-hi" id="v19BuddyHi">🔊 हिन्दी</button>
+              <button class="v19-btn v19-mic" id="v19BuddyMicEn">🎤 Answer in English</button>
+              <button class="v19-btn v19-mic" id="v19BuddyMicHi">🎤 हिन्दी में जवाब</button>
+              <button class="v19-btn v19-next" id="v19BuddyNext">Next →</button>
+              <button class="v19-btn v19-next" id="v19BuddyRestart">↻ Restart</button>
+            </div>
+            <div id="v19BuddyStatus" class="v19-status">Speak slowly. The page does not save your voice recording.</div>
+            <small id="v19ConvoCount"></small>
+          </div>
+        </div>
+      </section>
+
+      <section class="v19-panel">
+        <h3>🎯 Today's 3 Speaking Steps</h3>
+        <div class="v19-safestrip">
+          <div>👀 Look<br><small>चित्र या चीज़ देखें</small></div>
+          <div>🔊 Listen<br><small>English + हिन्दी सुनें</small></div>
+          <div>🗣️ Speak<br><small>छोटा वाक्य बोलें</small></div>
+          <div>⭐ Try Again<br><small>गलती हो तो फिर बोलें</small></div>
+          <div>👨‍🏫 Teach Back<br><small>किसी को समझाएँ</small></div>
+        </div>
+      </section>
+
+      <section class="v19-panel">
+        <h3>🎤 Speaking Missions</h3>
+        <p class="v19-sub">Choose any child-friendly mission. Practised missions get a green ✓ and stay available for review.</p>
+        <div class="v19-filter" id="v19SpeakFilters" style="margin-top:10px">
+          ${v19SpeakCats().map(c=>`<button data-v19-sf="${v19Esc(c)}">${v19Esc(c)}</button>`).join("")}
+        </div>
+      </section>
+
+      <div id="v19SpeakGrid" class="v19-grid"></div>
+    </div>`;
+
+  sec.querySelectorAll("[data-v19-sf]").forEach(b=>b.onclick=()=>{
+    v19SpeakFilter=b.dataset.v19Sf;
+    sec.querySelectorAll("[data-v19-sf]").forEach(x=>x.classList.toggle("active",x.dataset.v19Sf===v19SpeakFilter));
+    v19RenderSpeakGrid();
+  });
+  sec.querySelector(`[data-v19-sf="${v19SpeakFilter}"]`)?.classList.add("active");
+
+  document.getElementById("v19BuddyEn").onclick=()=>{
+    const x=V19_CONVO[Math.min(v19ConversationStep,V19_CONVO.length-1)];
+    v19Speak(String(x[1]).replaceAll("{name}",v19ConversationName||v19Name()),"en");
+  };
+  document.getElementById("v19BuddyHi").onclick=()=>{
+    const x=V19_CONVO[Math.min(v19ConversationStep,V19_CONVO.length-1)];
+    v19Speak(String(x[2]).replaceAll("{name}",v19ConversationName||v19Name()),"hi");
+  };
+  document.getElementById("v19BuddyMicEn").onclick=()=>{
+    document.getElementById("v19BuddyStatus").textContent="🎤 Listening in English...";
+    v19Recognize("en",t=>v19ConvoHeard(t,"en"),msg=>document.getElementById("v19BuddyStatus").textContent=msg);
+  };
+  document.getElementById("v19BuddyMicHi").onclick=()=>{
+    document.getElementById("v19BuddyStatus").textContent="🎤 हिन्दी में सुन रही हूँ...";
+    v19Recognize("hi",t=>v19ConvoHeard(t,"hi"),msg=>document.getElementById("v19BuddyStatus").textContent=msg);
+  };
+  document.getElementById("v19BuddyNext").onclick=()=>{
+    v19ConversationStep=Math.min(v19ConversationStep+1,V19_CONVO.length-1);
+    v19RenderConvo();
+  };
+  document.getElementById("v19BuddyRestart").onclick=()=>{
+    v19ConversationStep=0;v19ConversationName="";
+    document.getElementById("v19BuddyStatus").textContent="Restarted. Listen and speak slowly.";
+    v19RenderConvo();
+  };
+  v19RenderConvo();
+  v19RenderSpeakGrid();
+  v19UpdateSpeakStats();
+}
+
+/* -------------------------- HEALTH -------------------------- */
+function v19HealthCats(){
+  return ["All",...new Set(V19_HEALTH.map(x=>x[0]))];
+}
+function v19RenderHealthyDaily(){
+  const e=document.getElementById("v19HealthyDaily");if(!e)return;
+  const date=v19LocalDate();
+  e.innerHTML=V19_DAILY.map((x,i)=>{
+    const done=v19Done("healthday",`${date}:${i}`);
+    return `<button class="${done?"done":""}" data-v19-hday="${i}">${done?"✅":x[0]}<br>${v19Esc(x[1])}<br><small lang="hi">${v19Esc(x[2])}</small></button>`;
+  }).join("");
+  e.querySelectorAll("[data-v19-hday]").forEach(b=>b.onclick=()=>{
+    const i=Number(b.dataset.v19Hday);
+    if(v19Reward("healthday",`${date}:${i}`,"Healthy",1)){
+      v19Toast("Healthy step complete! +1 ⭐");
+    }
+    v19RenderHealthyDaily();
+  });
+}
+function v19RenderHealthGrid(){
+  const g=document.getElementById("v19HealthGrid");if(!g)return;
+  const rows=V19_HEALTH.map((x,i)=>({x,i})).filter(o=>v19HealthFilter==="All"||o.x[0]===v19HealthFilter);
+  g.innerHTML=rows.map(({x,i})=>`
+    <article class="v19-card ${v19Done("health",i)?"done":""}">
+      ${v19Done("health",i)?'<span class="v19-done">✓ LEARNED</span>':""}
+      <div class="v19-icon">${v19Esc(x[1])}</div>
+      <h4>${v19Esc(x[2])}</h4>
+      <div class="hi" lang="hi">${v19Esc(x[3])}</div>
+      <p>${v19Esc(x[4])}</p>
+      <button data-v19-health="${i}">Learn / सीखें →</button>
+    </article>`).join("");
+  g.querySelectorAll("[data-v19-health]").forEach(b=>b.onclick=()=>v19OpenHealth(Number(b.dataset.v19Health)));
+}
+function v19OpenHealth(i){
+  const x=V19_HEALTH[i];
+  const options=v19Shuffle([x[8],x[9],x[10]]);
+  v19Modal(`
+    ${v19BigVisual(x[1],x[2],x[3])}
+    <div class="v19-bi">
+      <section class="v19-langbox en"><b>🇬🇧 English</b><p>${v19Esc(x[4])}</p><button id="v19HealthEn" class="v19-btn v19-en">🔊 Hear English</button></section>
+      <section class="v19-langbox hi" lang="hi"><b>🇮🇳 हिन्दी</b><p>${v19Esc(x[5])}</p><button id="v19HealthHi" class="v19-btn v19-hi">🔊 हिन्दी सुनें</button></section>
+    </div>
+    <div class="v19-quiz">
+      <h4>🎯 Quick Check</h4>
+      <p>${v19Esc(x[6])}</p>
+      <div class="v19-choices">${options.map(o=>`<button data-v19-hanswer="${v19Esc(o)}">${v19Esc(o)}</button>`).join("")}</div>
+      <div id="v19HealthStatus" class="v19-status">Choose the best answer.</div>
+    </div>`);
+  document.getElementById("v19HealthEn").onclick=()=>v19Speak(`${x[2]}. ${x[4]}`,"en");
+  document.getElementById("v19HealthHi").onclick=()=>v19Speak(`${x[3]}। ${x[5]}`,"hi");
+  document.querySelectorAll("[data-v19-hanswer]").forEach(b=>b.onclick=()=>{
+    const ok=b.dataset.v19Hanswer===x[8];
+    b.classList.add(ok?"good":"bad");
+    if(ok){
+      document.querySelectorAll("[data-v19-hanswer]").forEach(z=>z.disabled=true);
+      document.getElementById("v19HealthStatus").textContent="✅ Correct! Great healthy-habit learning.";
+      if(v19Reward("health",i,"Healthy",2)){v19Celebrate(8)}
+      v19RenderHealthGrid();v19UpdateHealthStats();
+      v19Speak("Correct. Well done!","en");
+    }else{
+      document.getElementById("v19HealthStatus").textContent="🙂 Good try. Look again and choose another answer.";
+    }
+  });
+}
+function v19UpdateHealthStats(){
+  const p=v19Percent("health",V19_HEALTH.length);
+  const n=document.getElementById("v19HealthDone"),bar=document.getElementById("v19HealthBar");
+  if(n)n.textContent=`✅ ${p.n}/${V19_HEALTH.length} topics learned`;
+  if(bar)bar.style.width=p.p+"%";
+}
+function v19RenderHealth(){
+  if(!v19Foundation())return;
+  const sec=document.getElementById("view-healthy");
+  if(!sec)return;
+  sec.innerHTML=`
+    <div class="v19-stack">
+      <section class="v19-hero health">
+        <span class="v19-eyebrow">🌱 CLASS 1–3 • HEALTH & HAPPY HABITS</span>
+        <h2>Healthy Body • Happy Mind • Kind Heart</h2>
+        <p>Simple English + हिन्दी learning about food balance, water, hygiene, sleep, movement, screen breaks, feelings, calm moments and kindness.</p>
+        <div class="v19-hero-stats"><span class="v19-chip">${V19_HEALTH.length} health topics</span><span id="v19HealthDone" class="v19-chip">✅ 0/${V19_HEALTH.length} topics learned</span><span class="v19-chip">⭐ Learn • Check • Practise</span></div>
+        <div class="v19-progress"><i id="v19HealthBar" style="width:0%"></i></div>
+      </section>
+
+      <section class="v19-panel">
+        <h3>🌞 My Healthy 5 Today</h3>
+        <p class="v19-sub">Tap a step after you actually do it today. कल यह checklist फिर नया होगा।</p>
+        <div id="v19HealthyDaily" class="v19-daily" style="margin-top:10px"></div>
+      </section>
+
+      <section class="v19-foodboard">
+        <article class="v19-foodcol every">
+          <h3>🥗 Everyday Variety • रोज़ की विविधता</h3>
+          <p class="v19-sub">Different family foods can build balanced meals.</p>
+          <div class="v19-foodchips"><span>🍎 Fruit</span><span>🥕 Vegetables</span><span>🍚 Grains</span><span>🫘 Protein foods</span><span>🥛 Dairy / alternatives</span><span>💧 Water</span></div>
+        </article>
+        <article class="v19-foodcol some">
+          <h3>🍭 Sometimes Foods • कभी-कभी</h3>
+          <p class="v19-sub">Sweets can fit sometimes. Balance matters; no food-shaming.</p>
+          <div class="v19-foodchips"><span>🍫 Chocolate</span><span>🍬 Candy</span><span>🍟 Fries</span><span>🥤 Sugary drinks</span><span>🍰 Cake</span></div>
+        </article>
+      </section>
+
+      <section class="v19-panel">
+        <h3>🌈 Explore Healthy Topics</h3>
+        <div id="v19HealthFilters" class="v19-filter" style="margin-top:10px">
+          ${v19HealthCats().map(c=>`<button data-v19-hf="${v19Esc(c)}">${v19Esc(c)}</button>`).join("")}
+        </div>
+      </section>
+
+      <div id="v19HealthGrid" class="v19-grid"></div>
+
+      <section class="v19-note">👨‍👩‍👧 <b>For families:</b> This section teaches general healthy habits for children. It is not medical or diet treatment advice. Family needs, allergies and clinician guidance come first.</section>
+    </div>`;
+
+  sec.querySelectorAll("[data-v19-hf]").forEach(b=>b.onclick=()=>{
+    v19HealthFilter=b.dataset.v19Hf;
+    sec.querySelectorAll("[data-v19-hf]").forEach(x=>x.classList.toggle("active",x.dataset.v19Hf===v19HealthFilter));
+    v19RenderHealthGrid();
+  });
+  sec.querySelector(`[data-v19-hf="${v19HealthFilter}"]`)?.classList.add("active");
+  v19RenderHealthyDaily();
+  v19RenderHealthGrid();
+  v19UpdateHealthStats();
+}
+
+/* -------------------------- SAFETY -------------------------- */
+function v19SafetyCats(){
+  return ["All",...new Set(V19_SAFETY.map(x=>x[0]))];
+}
+function v19RenderSafetyGrid(){
+  const g=document.getElementById("v19SafetyGrid");if(!g)return;
+  const rows=V19_SAFETY.map((x,i)=>({x,i})).filter(o=>v19SafetyFilter==="All"||o.x[0]===v19SafetyFilter);
+  g.innerHTML=rows.map(({x,i})=>`
+    <article class="v19-card ${v19Done("safety",i)?"done":""}">
+      ${v19Done("safety",i)?'<span class="v19-done">✓ SAFE SKILL</span>':""}
+      <div class="v19-icon">${v19Esc(x[1])}</div>
+      <h4>${v19Esc(x[2])}</h4>
+      <div class="hi" lang="hi">${v19Esc(x[3])}</div>
+      <p>${v19Esc(x[4])}</p>
+      <button data-v19-safety="${i}">Safe Choice →</button>
+    </article>`).join("");
+  g.querySelectorAll("[data-v19-safety]").forEach(b=>b.onclick=()=>v19OpenSafety(Number(b.dataset.v19Safety)));
+}
+function v19OpenSafety(i){
+  const x=V19_SAFETY[i];
+  const options=v19Shuffle([x[8],x[9],x[10]]);
+  v19Modal(`
+    ${v19BigVisual(x[1],x[2],x[3])}
+    <div class="v19-bi">
+      <section class="v19-langbox en"><b>🇬🇧 English Safety Rule</b><p>${v19Esc(x[4])}</p><button id="v19SafetyEn" class="v19-btn v19-en">🔊 Hear English</button></section>
+      <section class="v19-langbox hi" lang="hi"><b>🇮🇳 हिन्दी सुरक्षा नियम</b><p>${v19Esc(x[5])}</p><button id="v19SafetyHi" class="v19-btn v19-hi">🔊 हिन्दी सुनें</button></section>
+    </div>
+    <div class="v19-quiz">
+      <h4>🛡️ Safe Choice Challenge</h4>
+      <p>${v19Esc(x[6])}</p>
+      <div class="v19-choices">${options.map(o=>`<button data-v19-sanswer="${v19Esc(o)}">${v19Esc(o)}</button>`).join("")}</div>
+      <div id="v19SafetyStatus" class="v19-status">Choose the safest action.</div>
+    </div>`);
+  document.getElementById("v19SafetyEn").onclick=()=>v19Speak(`${x[2]}. ${x[4]}`,"en");
+  document.getElementById("v19SafetyHi").onclick=()=>v19Speak(`${x[3]}। ${x[5]}`,"hi");
+  document.querySelectorAll("[data-v19-sanswer]").forEach(b=>b.onclick=()=>{
+    const ok=b.dataset.v19Sanswer===x[8];
+    b.classList.add(ok?"good":"bad");
+    if(ok){
+      document.querySelectorAll("[data-v19-sanswer]").forEach(z=>z.disabled=true);
+      document.getElementById("v19SafetyStatus").textContent="✅ Safe choice! Great thinking.";
+      if(v19Reward("safety",i,"Safety",3)){
+        try{course.skills.Citizen=Math.min(100,Number(course.skills.Citizen||0)+2);saveCourse()}catch(_){}
+        v19Celebrate(8);
+      }
+      v19RenderSafetyGrid();v19UpdateSafetyStats();
+      v19Speak("Safe choice. Well done!","en");
+    }else{
+      document.getElementById("v19SafetyStatus").textContent="🙂 Think again. Which choice keeps you safer?";
+    }
+  });
+}
+function v19UpdateSafetyStats(){
+  const p=v19Percent("safety",V19_SAFETY.length);
+  const n=document.getElementById("v19SafetyDone"),bar=document.getElementById("v19SafetyBar");
+  if(n)n.textContent=`✅ ${p.n}/${V19_SAFETY.length} safe skills learned`;
+  if(bar)bar.style.width=p.p+"%";
+}
+function v19DailySafety(){
+  const e=document.getElementById("v19SafetyDaily");if(!e)return;
+  const day=Math.floor(Date.now()/86400000);
+  const ids=[day%V19_SAFETY.length,(day+7)%V19_SAFETY.length,(day+17)%V19_SAFETY.length];
+  e.innerHTML=ids.map(i=>{
+    const x=V19_SAFETY[i];
+    return `<button class="${v19Done("safety",i)?"done":""}" data-v19-safe-daily="${i}">${v19Done("safety",i)?"✅":x[1]}<br>${v19Esc(x[2])}<br><small lang="hi">${v19Esc(x[3])}</small></button>`;
+  }).join("");
+  e.querySelectorAll("[data-v19-safe-daily]").forEach(b=>b.onclick=()=>v19OpenSafety(Number(b.dataset.v19SafeDaily)));
+}
+function v19RenderSafety(){
+  if(!v19Foundation())return;
+  const sec=document.getElementById("view-citizen");
+  if(!sec)return;
+  sec.innerHTML=`
+    <div class="v19-stack">
+      <section class="v19-hero safety">
+        <span class="v19-eyebrow">🛡️ CLASS 1–3 • JUNIOR DIGITAL CITIZEN & SAFETY</span>
+        <h2>Stop • Think • Ask • Stay Safe</h2>
+        <p>Simple English + हिन्दी safety for passwords, links, downloads, AI, devices, online kindness, trusted adults, road/home basics and everyday safe choices.</p>
+        <div class="v19-hero-stats"><span class="v19-chip">${V19_SAFETY.length} safety skills</span><span id="v19SafetyDone" class="v19-chip">✅ 0/${V19_SAFETY.length} safe skills learned</span><span class="v19-chip">👨‍👩‍👧 Trusted-adult guided</span></div>
+        <div class="v19-progress"><i id="v19SafetyBar" style="width:0%"></i></div>
+      </section>
+
+      <section class="v19-panel">
+        <h3>⭐ Five Golden Safety Rules</h3>
+        <div class="v19-safestrip">
+          <div>🛑 STOP<br><small>जल्दी क्लिक मत करो</small></div>
+          <div>🧠 THINK<br><small>सोचो: क्या यह safe है?</small></div>
+          <div>🙋 ASK<br><small>trusted adult से पूछो</small></div>
+          <div>🔐 PRIVATE<br><small>password और address बचाओ</small></div>
+          <div>💙 KIND<br><small>online भी अच्छे शब्द</small></div>
+        </div>
+      </section>
+
+      <section class="v19-panel">
+        <h3>🎯 Today's 3 Safe Choices</h3>
+        <div id="v19SafetyDaily" class="v19-daily" style="grid-template-columns:repeat(3,1fr);margin-top:10px"></div>
+      </section>
+
+      <section class="v19-panel">
+        <h3>🧭 Explore Safety Zones</h3>
+        <div id="v19SafetyFilters" class="v19-filter" style="margin-top:10px">
+          ${v19SafetyCats().map(c=>`<button data-v19-safe-filter="${v19Esc(c)}">${v19Esc(c)}</button>`).join("")}
+        </div>
+      </section>
+
+      <div id="v19SafetyGrid" class="v19-grid"></div>
+
+      <section class="v19-note">🛡️ <b>Kid rule:</b> If something feels unsafe, confusing or scary, stop and tell a trusted adult. Do not handle dangerous situations alone.</section>
+    </div>`;
+
+  sec.querySelectorAll("[data-v19-safe-filter]").forEach(b=>b.onclick=()=>{
+    v19SafetyFilter=b.dataset.v19SafeFilter;
+    sec.querySelectorAll("[data-v19-safe-filter]").forEach(x=>x.classList.toggle("active",x.dataset.v19SafeFilter===v19SafetyFilter));
+    v19RenderSafetyGrid();
+  });
+  sec.querySelector(`[data-v19-safe-filter="${v19SafetyFilter}"]`)?.classList.add("active");
+  v19DailySafety();
+  v19RenderSafetyGrid();
+  v19UpdateSafetyStats();
+}
+
+/* -------------------------- INSTALL -------------------------- */
+function v19Install(){
+  if(window.__FOUNDATION_SHS_V4019__)return;
+  if(!document.getElementById("view-speaking")||!document.getElementById("view-healthy")||!document.getElementById("view-citizen")){
+    setTimeout(v19Install,160);
+    return;
+  }
+  window.__FOUNDATION_SHS_V4019__=true;
+  v19Style();
+
+  // Replace the legacy renderers so any later render() call keeps V40.19 UI.
+  try{window.renderSpeaking=v19RenderSpeak}catch(_){}
+  try{window.renderHealthy=v19RenderHealth}catch(_){}
+  try{window.renderCitizen=v19RenderSafety}catch(_){}
+  try{renderSpeaking=v19RenderSpeak}catch(_){}
+  try{renderHealthy=v19RenderHealth}catch(_){}
+  try{renderCitizen=v19RenderSafety}catch(_){}
+
+  v19RenderSpeak();
+  v19RenderHealth();
+  v19RenderSafety();
+
+  document.addEventListener("click",e=>{
+    const b=e.target.closest("[data-view]");
+    if(!b)return;
+    if(b.dataset.view==="speaking")setTimeout(v19RenderSpeak,60);
+    if(b.dataset.view==="healthy")setTimeout(v19RenderHealth,60);
+    if(b.dataset.view==="citizen")setTimeout(v19RenderSafety,60);
+  });
+
+  console.info(`[V40.19] Speak/Health/Safety upgraded: ${V19_SPEAK.length} speaking missions, ${V19_HEALTH.length} health topics, ${V19_SAFETY.length} safety skills.`);
+}
+
+if(document.readyState==="loading"){
+  document.addEventListener("DOMContentLoaded",v19Install,{once:true});
+}else{
+  v19Install();
+}
+})();
+</script>
+
 </body></html>
