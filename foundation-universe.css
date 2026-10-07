@@ -732,3 +732,306 @@ a{text-decoration:none;color:inherit}
   *{scroll-behavior:auto!important}
   .world-card,.button-chip,.soft-btn{transition:none!important}
 }
+/* ============================================================
+   V40.15 — BILINGUAL VISUAL MINI-LESSONS • CLASS 1–3
+   Additive only: existing Foundation layout remains unchanged.
+   ============================================================ */
+
+/* Existing Look / Listen / Try / Learn now behave as real buttons. */
+.foundation-flow button{
+  width:100%;
+  min-height:37px;
+  padding:9px;
+  border:1px solid transparent;
+  border-radius:12px;
+  background:#f4f3ff;
+  color:#574dc5;
+  text-align:center;
+  font:950 8px/1.2 inherit;
+  cursor:pointer;
+  transition:transform .16s ease,box-shadow .16s ease,background .16s ease;
+}
+.foundation-flow button:hover,
+.foundation-flow button:focus-visible{
+  transform:translateY(-2px);
+  outline:none;
+  background:#ece9ff;
+  box-shadow:0 8px 18px rgba(87,77,197,.14);
+}
+
+/* Existing four focus cards are now clickable without changing their layout. */
+button.focus-item{
+  width:100%;
+  appearance:none;
+  text-align:left;
+  font-family:inherit;
+  color:inherit;
+  cursor:pointer;
+  transition:transform .16s ease,box-shadow .16s ease,border-color .16s ease;
+}
+button.focus-item:hover,
+button.focus-item:focus-visible{
+  transform:translateY(-2px);
+  outline:none;
+  border-color:#bcb7ff;
+  box-shadow:0 10px 24px rgba(70,65,166,.12);
+}
+.focus-item em{
+  display:block;
+  margin-top:7px;
+  color:#6557ef;
+  font-size:7px;
+  font-style:normal;
+  font-weight:950;
+}
+
+/* Second popup sits above the existing learning-world popup. */
+.mini-lesson-backdrop{
+  z-index:10150;
+  background:#08102ccc;
+  backdrop-filter:blur(8px);
+}
+.mini-lesson-modal-card{
+  width:min(920px,96vw);
+  max-height:94vh;
+  padding:24px;
+  border:1px solid rgba(255,255,255,.78);
+  border-radius:28px;
+  box-shadow:0 35px 110px rgba(9,15,58,.40);
+}
+.mini-lesson-close{
+  z-index:3;
+  background:#f0eff8;
+}
+.mini-lesson-head{
+  padding-right:46px;
+}
+.mini-lesson-head h2{
+  margin:5px 0 3px;
+  color:#171d4c;
+  font-size:clamp(24px,3vw,38px);
+  line-height:1.05;
+}
+.mini-lesson-head p{
+  margin:0;
+  color:#7b829f;
+  font-size:10px;
+  font-weight:800;
+}
+
+/* Large self-contained visual picture: no extra image files or third-party tracking. */
+.mini-picture{
+  position:relative;
+  min-height:270px;
+  margin-top:17px;
+  overflow:hidden;
+  display:grid;
+  place-items:center;
+  border-radius:25px;
+  background:
+    radial-gradient(circle at 20% 20%,rgba(255,255,255,.42),transparent 25%),
+    radial-gradient(circle at 84% 20%,rgba(255,255,255,.22),transparent 24%),
+    linear-gradient(135deg,var(--c1),var(--c2));
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.28);
+}
+.mini-picture::after{
+  content:"";
+  position:absolute;
+  inset:auto -6% -42% -6%;
+  height:66%;
+  border-radius:50% 50% 0 0;
+  background:rgba(255,255,255,.13);
+}
+.mini-picture-orb{
+  position:absolute;
+  border-radius:50%;
+  background:rgba(255,255,255,.16);
+}
+.mini-picture-orb.orb-a{width:170px;height:170px;left:-42px;top:-55px}
+.mini-picture-orb.orb-b{width:220px;height:220px;right:-70px;bottom:-90px}
+.mini-picture-grid{
+  position:relative;
+  z-index:1;
+  width:min(620px,88%);
+  display:grid;
+  grid-template-columns:1.5fr repeat(3,1fr);
+  align-items:center;
+  gap:14px;
+}
+.mini-picture-grid > span{
+  min-height:105px;
+  display:grid;
+  place-items:center;
+  border:1px solid rgba(255,255,255,.48);
+  border-radius:22px;
+  background:rgba(255,255,255,.18);
+  box-shadow:0 12px 30px rgba(23,29,76,.14);
+  font-size:54px;
+  backdrop-filter:blur(3px);
+}
+.mini-picture-grid .mini-picture-main{
+  min-height:150px;
+  font-size:88px;
+  background:rgba(255,255,255,.25);
+}
+.mini-picture-caption{
+  position:absolute;
+  z-index:2;
+  left:18px;
+  bottom:15px;
+  max-width:76%;
+  padding:8px 12px;
+  border-radius:99px;
+  color:#fff;
+  background:rgba(25,28,79,.54);
+  box-shadow:0 8px 20px rgba(18,23,67,.16);
+  font-size:10px;
+  font-weight:950;
+  letter-spacing:.2px;
+}
+
+.mini-bilingual-grid{
+  margin-top:15px;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:11px;
+}
+.mini-language-card{
+  min-height:155px;
+  padding:17px;
+  border-radius:20px;
+  border:1px solid #e4e6f2;
+  box-shadow:0 9px 24px rgba(54,49,135,.06);
+}
+.english-card{
+  background:linear-gradient(135deg,#f4f7ff,#fbfcff);
+}
+.hindi-card{
+  background:linear-gradient(135deg,#fff8e8,#fffdf6);
+}
+.mini-language-title{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  color:#1c2251;
+  font-size:12px;
+}
+.mini-language-title span{font-size:18px}
+.mini-language-card p{
+  margin:10px 0 13px;
+  color:#333a62;
+  font-size:14px;
+  line-height:1.62;
+  font-weight:750;
+}
+.hindi-card p{
+  font-family:system-ui,-apple-system,"Noto Sans Devanagari","Mangal","Segoe UI",sans-serif;
+  font-size:15px;
+  line-height:1.72;
+}
+.mini-hear-btn{
+  border:0;
+  border-radius:11px;
+  padding:9px 12px;
+  color:#554bc3;
+  background:#eceaff;
+  font:900 9px/1 inherit;
+  cursor:pointer;
+}
+.hindi-card .mini-hear-btn{
+  color:#9b6519;
+  background:#fff0c9;
+}
+.mini-hear-btn:hover,
+.mini-hear-btn:focus-visible{
+  outline:none;
+  filter:brightness(.97);
+  transform:translateY(-1px);
+}
+
+.mini-remember{
+  margin-top:12px;
+  padding:12px 15px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+  border-radius:16px;
+  background:linear-gradient(135deg,#eefff8,#f6fffb);
+  border:1px solid #cff1e1;
+}
+.mini-remember > span{font-size:25px}
+.mini-remember b{
+  display:block;
+  color:#216b53;
+  font-size:10px;
+}
+.mini-remember small{
+  display:block;
+  margin-top:3px;
+  color:#54816f;
+  font-size:9px;
+}
+.mini-lesson-actions{
+  margin-top:13px;
+  display:flex;
+  justify-content:flex-end;
+}
+.mini-back-btn{
+  border:0;
+  border-radius:13px;
+  padding:11px 15px;
+  color:#fff;
+  background:linear-gradient(135deg,#6557ef,#28c8be);
+  font:950 10px/1 inherit;
+  cursor:pointer;
+  box-shadow:0 9px 20px rgba(72,75,187,.18);
+}
+
+@media(max-width:700px){
+  .mini-lesson-modal-card{
+    width:min(96vw,700px);
+    padding:17px;
+    border-radius:22px;
+  }
+  .mini-picture{min-height:210px}
+  .mini-picture-grid{
+    width:90%;
+    grid-template-columns:1.25fr 1fr 1fr;
+    gap:8px;
+  }
+  .mini-picture-grid > span{
+    min-height:72px;
+    border-radius:16px;
+    font-size:36px;
+  }
+  .mini-picture-grid .mini-picture-main{
+    grid-row:span 2;
+    min-height:152px;
+    font-size:68px;
+  }
+  .mini-picture-grid > span:last-child{
+    grid-column:2 / 4;
+  }
+  .mini-bilingual-grid{grid-template-columns:1fr}
+  .mini-language-card{min-height:0}
+}
+
+@media(max-width:420px){
+  .mini-lesson-backdrop{padding:7px}
+  .mini-lesson-modal-card{padding:13px}
+  .mini-lesson-head h2{font-size:23px}
+  .mini-picture{min-height:175px;border-radius:19px}
+  .mini-picture-grid .mini-picture-main{min-height:128px;font-size:54px}
+  .mini-picture-grid > span{min-height:60px;font-size:30px}
+  .mini-language-card{padding:13px}
+  .mini-language-card p{font-size:12px}
+  .hindi-card p{font-size:13px}
+}
+
+@media(prefers-reduced-motion:reduce){
+  .foundation-flow button,
+  button.focus-item,
+  .mini-hear-btn{
+    transition:none!important;
+  }
+}
