@@ -881,6 +881,75 @@
 
   </style>
 
+
+<style id="kidFriendlyLabBackV40144Style">
+.kid-friendly-lab-back-v40144{
+  position:fixed;
+  left:max(14px,env(safe-area-inset-left));
+  bottom:max(16px,env(safe-area-inset-bottom));
+  z-index:9997;
+  min-height:44px;
+  padding:10px 16px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  border:2px solid rgba(255,255,255,.88);
+  border-radius:999px;
+  color:#fff!important;
+  text-decoration:none!important;
+  font:900 13px/1.1 Inter,system-ui,-apple-system,"Segoe UI",sans-serif;
+  letter-spacing:.1px;
+  background:linear-gradient(135deg,#6b5cff,#2ecac0);
+  box-shadow:
+    0 10px 28px rgba(43,45,121,.26),
+    0 0 0 5px rgba(108,92,255,.08);
+  transform:translateZ(0);
+  animation:kidFriendlyBackPulseV40144 2.35s ease-in-out infinite;
+}
+.kid-friendly-lab-back-v40144:hover,
+.kid-friendly-lab-back-v40144:focus-visible{
+  transform:translateY(-2px) scale(1.025);
+  outline:none;
+  filter:brightness(1.06);
+}
+.kid-friendly-lab-back-v40144 .back-arrow{
+  font-size:18px;
+  line-height:1;
+}
+@keyframes kidFriendlyBackPulseV40144{
+  0%,100%{
+    box-shadow:
+      0 10px 28px rgba(43,45,121,.24),
+      0 0 0 4px rgba(108,92,255,.08);
+  }
+  50%{
+    box-shadow:
+      0 12px 32px rgba(43,45,121,.30),
+      0 0 0 9px rgba(46,202,192,.13);
+  }
+}
+@media(max-width:560px){
+  .kid-friendly-lab-back-v40144{
+    left:max(9px,env(safe-area-inset-left));
+    bottom:max(10px,env(safe-area-inset-bottom));
+    min-height:40px;
+    padding:9px 12px;
+    font-size:11px;
+  }
+}
+@media(prefers-reduced-motion:reduce){
+  .kid-friendly-lab-back-v40144{
+    animation:none!important;
+  }
+}
+@media print{
+  .kid-friendly-lab-back-v40144{
+    display:none!important;
+  }
+}
+</style>
+
 </head>
 <body>
   <div class="ambient ambient-a"></div>
@@ -1145,6 +1214,15 @@
     setTimeout(enhanceKeyboard,500);
   })();
   </script>
+
+
+  <a class="kid-friendly-lab-back-v40144"
+     href="advanced-universe.html"
+     aria-label="Back to Future Skills Universe"
+     title="Back to Future Skills Universe">
+    <span class="back-arrow">←</span>
+    <span>Back to Universe</span>
+  </a>
 
 </body>
 </html>
