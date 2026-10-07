@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#161b50">
 <title>Foundation Skills Universe — Tannu Sir's Kids Digital Academy</title>
-<link rel="stylesheet" href="foundation-universe.css?v=40.14">
+<link rel="stylesheet" href="foundation-universe.css?v=40.15">
 </head>
 <body>
 <div class="aurora a1"></div>
@@ -144,9 +144,18 @@
   </div>
 </div>
 
+<!-- V40.15: second large bilingual picture lesson popup.
+     It opens on top of the existing world popup and returns to it on close. -->
+<div id="miniLessonModal" class="modal-backdrop mini-lesson-backdrop" aria-hidden="true">
+  <div class="modal-card mini-lesson-modal-card" role="dialog" aria-modal="true" aria-label="Foundation mini lesson">
+    <button id="miniLessonClose" class="modal-close mini-lesson-close" type="button" aria-label="Back to learning world">×</button>
+    <div id="miniLessonBody"></div>
+  </div>
+</div>
+
 <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
-<script src="foundation-universe.js?v=40.14.1"></script>
+<script src="foundation-universe.js?v=40.15"></script>
 <script src="home-ai-buddy.js?v=21.2"></script>
 <script src="exam-integration.js?v=39.4.1"></script>
 </body>
