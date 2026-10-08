@@ -59,10 +59,6 @@
       letter-spacing:.65px!important;
     }
 
-    /* Two compact rows:
-       Row 1 = Student + Class
-       Row 2 = Home + Galaxy + Voice + Logout
-    */
     .top-actions{
       position:relative!important;
       width:100%!important;
@@ -102,7 +98,6 @@
         inset 0 1px 0 rgba(255,255,255,.82)!important;
     }
 
-    /* Short mobile labels so all four buttons fit comfortably. */
     .top-actions a[href="index.html#students"]{
       font-size:0!important;
     }
@@ -123,8 +118,6 @@
       font-weight:1000!important;
     }
 
-    /* Exam notification bell stays beside the brand instead of
-       becoming another giant full-width button. */
     .topbar .bbn-top-btn{
       position:absolute!important;
       top:10px!important;
@@ -155,9 +148,6 @@
     }
   }
 
-  /* IMPORTANT:
-     advanced-ui-v27.css changes <=390px to one column.
-     Keep the compact four-column action row instead. */
   @media(max-width:390px){
     .top-actions{
       grid-template-columns:repeat(4,minmax(0,1fr))!important;
@@ -199,17 +189,16 @@
       </span>
     </a>
 
-<div class="top-actions">
-  <span id="studentChip" class="chip">👤 Student</span>
-  <span id="classChip" class="chip">🎓 Class —</span>
+    <div class="top-actions">
+      <span id="studentChip" class="chip">👤 Student</span>
+      <span id="classChip" class="chip">🎓 Class —</span>
 
-  <a href="index.html" class="chip button-chip" style="text-decoration:none">🏠 Home</a>
-  <a href="index.html#students" class="chip button-chip" style="text-decoration:none">🌌 Student Galaxy</a>
+      <a href="index.html" class="chip button-chip" style="text-decoration:none">🏠 Home</a>
+      <a href="index.html#students" class="chip button-chip" style="text-decoration:none">🌌 Student Galaxy</a>
 
-  <button id="voiceBtn" class="chip button-chip" type="button">🔊 Voice On</button>
-  <button id="logoutBtn" class="chip button-chip danger-chip" type="button">🚪 Logout</button>
-</div>
-
+      <button id="voiceBtn" class="chip button-chip" type="button">🔊 Voice On</button>
+      <button id="logoutBtn" class="chip button-chip danger-chip" type="button">🚪 Logout</button>
+    </div>
   </header>
 
   <main class="shell">
@@ -251,13 +240,17 @@
         <h2>Advanced Learning Universe</h2>
         <p>Every world follows Learn → Challenge → Create → Demonstrate.</p>
       </div>
+
       <div class="section-actions">
         <button id="passportBtn" class="soft-btn" type="button">🪪 Skill Passport</button>
         <button id="portfolioBtn" class="soft-btn" type="button">🎒 My Portfolio</button>
         <button id="reportBtn" class="soft-btn" type="button">📊 Parent Report</button>
         <a class="soft-btn" href="advanced-battle.html" style="text-decoration:none">⚔️ Battle Arena</a>
         <a class="soft-btn" href="hardware-explorer.html" style="text-decoration:none">🧠 Hardware Explorer</a>
-        <a class="soft-btn" href="junior-technician-lab.html" style="text-decoration:none">🧪 5-Stage Practical Lab</a>
+
+        <!-- V40.24:
+             Duplicate 5-Stage Practical Lab shortcut intentionally removed here.
+             The large 5-Stage Practical Lab launcher already exists in the hero. -->
       </div>
     </section>
 
@@ -321,17 +314,20 @@
           <h2>One universe, three maturity levels</h2>
         </div>
       </div>
+
       <div class="roadmap-grid">
         <article>
           <span>4️⃣</span>
           <h3>Class 4 • Explore</h3>
           <p>Identify, understand, follow guided steps, build confidence with tools.</p>
         </article>
+
         <article>
           <span>5️⃣</span>
           <h3>Class 5 • Apply</h3>
           <p>Compare, practise, troubleshoot, create useful digital work and explain choices.</p>
         </article>
+
         <article>
           <span>6️⃣</span>
           <h3>Class 6 • Create & Solve</h3>
@@ -355,6 +351,9 @@
   <script src="advanced-account-v26.js?v=26.0"></script>
   <script src="home-ai-buddy.js?v=21.2"></script>
   <script src="exam-integration.js?v=39.1"></script>
-  <script src="advanced-learning-nav-v40-23.js?v=40.23"></script>
+
+  <!-- Keep the same filename so student-profile.html does NOT need editing.
+       Replace that JS file's contents with the supplied V40.24 code. -->
+  <script src="advanced-learning-nav-v40-23.js?v=40.24"></script>
 </body>
 </html>
