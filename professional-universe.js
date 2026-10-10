@@ -968,6 +968,7 @@ async function boot(){
    profile=d.profile;
 
    const c=Number(profile.class_number||0);
+   try{localStorage.setItem("brightbyte_student_class_v423",String(c))}catch{}
    if(c<7||c>10){
      location.href=c<=3?"foundation-universe.html":"advanced-universe.html";
      return
