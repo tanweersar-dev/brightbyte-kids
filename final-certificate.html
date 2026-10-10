@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Final Certificate Progress — Tannu Sir's Kids Digital Academy</title>
+  <link rel="stylesheet" href="final-certificate.css?v=41.0">
+</head>
+<body>
+<header class="topbar no-print">
+  <a id="backLink" class="back" href="professional-universe.html">← Back to Learning Universe</a>
+  <div class="brand"><span>T</span><b>Final Certificate Center</b></div>
+  <button id="refreshBtn" type="button">↻ Refresh</button>
+</header>
+
+<main class="shell">
+  <section id="loading" class="loading-card"><div class="spinner">T</div><h1>Checking certificate eligibility…</h1><p>Monthly exams, required tests and practical achievements are being verified.</p></section>
+
+  <section id="app" class="hidden">
+    <section class="hero no-print">
+      <div><span class="eyebrow">FINAL CERTIFICATION PATH</span><h1 id="helloTitle">Your Certificate Progress</h1><p id="programText"></p></div>
+      <div class="status-badge"><span id="statusIcon">🔒</span><b id="statusText">LOCKED</b><small id="finalScoreMini">Final score —</small></div>
+    </section>
+
+    <section class="requirements no-print">
+      <article><span>📅</span><b>3 Monthly Exams</b><strong id="monthlyStatus">0 / 3</strong><small>All three must be reviewed and passed.</small></article>
+      <article><span>📝</span><b>Required Tests</b><strong id="testsStatus">0 / 0</strong><small>All assigned required weekly/skill/final tests must be completed and passed.</small></article>
+      <article><span>🧪</span><b>Practical Labs</b><strong id="labsStatus">0 / 0</strong><small>Required practical track must be completed for your class level.</small></article>
+      <article id="capstoneCard"><span>🏆</span><b>Final Capstone</b><strong id="capstoneStatus">Not required</strong><small>Class 10 completes the Professional IT Support capstone.</small></article>
+    </section>
+
+    <section class="score-panel no-print">
+      <div class="section-head"><div><span class="eyebrow dark">CALCULATED RESULT</span><h2>Certificate Score</h2></div><span id="gradeChip" class="grade-chip">Not yet certified</span></div>
+      <div id="scoreGrid" class="score-grid"></div>
+      <div class="formula-note" id="formulaNote"></div>
+    </section>
+
+    <section class="detail-grid no-print">
+      <article class="detail-card"><h3>📅 Monthly Exams</h3><div id="monthlyList"></div></article>
+      <article class="detail-card"><h3>📝 Required Tests</h3><div id="testList"></div></article>
+      <article class="detail-card"><h3>🧪 Practical Progress</h3><div id="labList"></div></article>
+      <article class="detail-card"><h3>🎯 What is still needed?</h3><div id="missingList"></div></article>
+    </section>
+
+    <section id="lockedMessage" class="locked-message no-print">
+      <div>🔒</div><h2>Final Certificate Locked</h2><p>Complete every required certification item shown above. High marks alone do not bypass a missing monthly exam, required test or practical requirement.</p>
+    </section>
+
+    <section id="certificateWrap" class="certificate-wrap hidden">
+      <div class="certificate" id="certificate">
+        <div class="frame f1"></div><div class="frame f2"></div>
+        <div class="cert-top"><span class="cert-logo">T</span><div><b>Tannu Sir's Kids Digital Academy</b><small>LEARN • CONFIGURE • TROUBLESHOOT • BUILD • SUPPORT</small></div></div>
+        <span class="cert-kicker">CERTIFICATE OF ACHIEVEMENT</span>
+        <h1 id="certTitle">Professional IT & AI Skills Certificate</h1>
+        <p class="presented">This certificate is proudly presented to</p>
+        <h2 id="certName">Student Name</h2>
+        <p class="cert-copy">for successfully completing the required learning journey, passing all three monthly examinations, completing the required tests and practical milestones, and demonstrating age-appropriate digital skills.</p>
+        <div class="cert-score"><span>FINAL CERTIFICATE SCORE</span><b id="certScore">0%</b><strong id="certGrade">Grade</strong></div>
+        <div id="certSkills" class="cert-skills"></div>
+        <div class="cert-footer">
+          <div><span class="signature">Tannu</span><small>Tannu Sir • Academy Instructor</small></div>
+          <div><b id="certDate">Date</b><small>Issue Date</small></div>
+          <div><b id="certId">Certificate ID</b><small>Verification Reference</small></div>
+        </div>
+      </div>
+      <div class="certificate-actions no-print">
+        <button id="printBtn" type="button">🖨️ Print / Save PDF</button>
+        <a id="continueBtn" href="professional-universe.html">← Continue Learning</a>
+      </div>
+    </section>
+  </section>
+</main>
+<div id="toast" class="toast no-print"></div>
+<script src="final-certificate.js?v=41.0"></script>
+</body>
+</html>
