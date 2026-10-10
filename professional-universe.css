@@ -493,3 +493,46 @@ body.workspace-open{overflow:hidden}
   .module-grid,.flow-grid,.project-grid,.command-grid,.metric-grid{grid-template-columns:1fr}
   .account-menu-grid{grid-template-columns:1fr}
 }
+
+
+/* ============================================================
+   V42.3 — Professional Dashboard readability polish
+   Shared page tone is supplied by professional-grade-v42-3.css.
+   ============================================================ */
+body.professional-dashboard-page .hero-main h1{
+  font-size:clamp(38px,3.9vw,61px);
+  line-height:1.035;
+  letter-spacing:-1.5px;
+}
+body.professional-dashboard-page .hero-copy{
+  font-size:13px;
+  line-height:1.72;
+  color:#50697c;
+}
+body.professional-dashboard-page .deck-head h2{font-size:20px}
+body.professional-dashboard-page .deck-head small{font-size:9px}
+body.professional-dashboard-page .deck-card b{font-size:11px}
+body.professional-dashboard-page .deck-card small{font-size:8.2px;line-height:1.45}
+body.professional-dashboard-page .student-card>p{font-size:10px}
+body.professional-dashboard-page .student-role{font-size:9px}
+body.professional-dashboard-page .student-meta span,
+body.professional-dashboard-page .student-actions button{font-size:8.5px}
+body.professional-dashboard-page .metric-strip small{font-size:8px}
+body.professional-dashboard-page .metric-strip b{font-size:21px}
+body.professional-dashboard-page .metric-strip span{font-size:8.5px}
+body.professional-dashboard-page .stage-rail b{font-size:10.5px}
+body.professional-dashboard-page .stage-rail small{font-size:8px}
+body.professional-dashboard-page .section-head span{font-size:8px}
+body.professional-dashboard-page .section-head h2{font-size:19px}
+body.professional-dashboard-page .mission-card b{font-size:9.5px}
+body.professional-dashboard-page .mission-card small{font-size:7.5px}
+body.professional-dashboard-page .quick-grid span{font-size:9.5px}
+
+@media(max-width:700px){
+  body.professional-dashboard-page .hero-main h1{font-size:35px}
+  body.professional-dashboard-page .hero-copy{font-size:12px}
+  body.professional-dashboard-page .deck-grid{grid-template-columns:1fr 1fr}
+  body.professional-dashboard-page .deck-card{min-height:82px}
+  body.professional-dashboard-page .deck-card b{font-size:10.5px}
+  body.professional-dashboard-page .deck-card small{font-size:8px}
+}
