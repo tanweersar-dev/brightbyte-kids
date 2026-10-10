@@ -3,174 +3,214 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#0b1537">
+  <meta name="theme-color" content="#07111f">
   <meta name="robots" content="noindex,nofollow">
-  <title>Professional IT & AI Skills Universe — Tannu Sir's Kids Digital Academy</title>
-  <link rel="stylesheet" href="professional-universe.css?v=41.1">
+  <title>Professional Technology Command Center — Tannu Sir's Kids Digital Academy</title>
+  <link rel="stylesheet" href="professional-universe.css?v=42.0">
 </head>
 <body>
-  <div class="bg-orb o1"></div>
-  <div class="bg-orb o2"></div>
-  <div class="grid-glow"></div>
+  <div class="tech-bg"></div>
+  <div class="scan-grid"></div>
 
   <header class="topbar">
     <a class="brand" href="professional-universe.html">
       <span class="brand-mark">T</span>
-      <span>
-        <b>Professional IT & AI Skills Universe</b>
-        <small>TANNU SIR'S KIDS DIGITAL ACADEMY • CLASS 7–10</small>
+      <span class="brand-copy">
+        <b>Professional Technology Command Center</b>
+        <small>CLASS 7–10 • IT SUPPORT • NETWORKING • AI • CLOUD</small>
       </span>
     </a>
 
-    <div class="top-actions">
-      <span id="studentChip" class="chip">👤 Student</span>
-      <span id="classChip" class="chip">🎓 Class —</span>
-      <a class="chip button-chip" href="professional-universe.html" aria-current="page">🏠 Home</a>
-      <a class="chip button-chip" href="professional-lab.html">🧪 Labs</a>
-      <a class="chip button-chip" href="student-exams.html">📝 Exams</a>
-      <a class="chip button-chip" href="final-certificate.html">🏆 Certificate</a>
-      <button id="accountBtn" class="chip button-chip account-chip" type="button">👤 My Account</button>
-      <button id="logoutBtn" class="chip button-chip danger" type="button">🚪 Logout</button>
-    </div>
+    <nav class="top-actions" aria-label="Professional navigation">
+      <span id="studentChip" class="top-chip">👤 Student</span>
+      <span id="classChip" class="top-chip">🎓 Class —</span>
+      <a href="#dashboard" class="top-link">Dashboard</a>
+      <a href="#tracks" class="top-link">Tracks</a>
+      <a href="professional-lab.html" class="top-link accent">Virtual Lab</a>
+      <a href="student-exams.html" class="top-link">Exams</a>
+      <a href="final-certificate.html" class="top-link">Skill Passport</a>
+      <button id="accountBtn" class="top-link account" type="button">My Account</button>
+      <button id="logoutBtn" class="top-link danger" type="button">Logout</button>
+    </nav>
   </header>
 
-  <main class="shell">
-    <section class="hero">
-      <aside class="profile-side">
-        <div class="profile-photo-ring" id="profilePhotoRing">
-          <div id="profilePhotoFallback" class="profile-photo-fallback">S</div>
+  <main class="shell" id="dashboard">
+    <section class="command-hero">
+      <aside class="student-card">
+        <div id="profilePhotoRing" class="student-photo-ring">
+          <div id="profilePhotoFallback" class="student-photo-fallback">S</div>
           <img id="profilePhoto" alt="Student profile photo" hidden>
         </div>
-
-        <div class="profile-name" id="profileName">Student</div>
-        <div class="profile-id" id="profileId">ID: —</div>
-        <div class="profile-track">Professional IT & AI</div>
-
-        <div class="profile-actions">
-          <button id="changePhotoBtn" class="profile-btn photo" type="button">📷 Change Photo</button>
-          <button id="changePasswordBtn" class="profile-btn password" type="button">🔐 Password</button>
-          <button id="editProfileBtn" class="profile-btn edit" type="button">✏️ Edit Profile</button>
+        <h2 id="profileName">Student</h2>
+        <p id="profileId">ID: —</p>
+        <div class="student-role" id="studentRole">Professional IT Learner</div>
+        <div class="student-meta">
+          <span id="studentClass">Class —</span>
+          <span id="studentLocation">Location —</span>
         </div>
-
-        <div class="profile-private">
-          🔒 Private student account
+        <div class="student-actions">
+          <button id="changePhotoBtn" type="button">📷 Photo</button>
+          <button id="changePasswordBtn" type="button">🔐 Password</button>
+          <button id="editProfileBtn" type="button">✏️ Profile</button>
         </div>
       </aside>
 
-      <div class="hero-copy">
-        <span class="eyebrow">LEVEL 3 • PROFESSIONAL DIGITAL SKILLS</span>
-        <h1>Learn. Configure. Troubleshoot. Build. Support.</h1>
-        <p id="heroText">
-          Real-world IT support, hardware, Windows, printers, Microsoft 365,
-          networking, cybersecurity, AI and no-code web skills — adapted for Class 7–10.
+      <div class="hero-main">
+        <div class="status-line"><span class="live-dot"></span> PROFESSIONAL TECHNOLOGY PROGRAM ONLINE</div>
+        <p class="hero-kicker" id="heroLevel">CLASS 7 • EXPLORE & UNDERSTAND</p>
+        <h1>Learn systems. Configure networks. Troubleshoot faults. Build real IT skills.</h1>
+        <p class="hero-copy">
+          A technology-only learning environment for Class 7–10 focused on computer hardware,
+          Windows, printers, Microsoft 365, networking, IT support, cybersecurity, AI, cloud,
+          documentation and real technician-style projects.
         </p>
-
         <div class="hero-actions">
-          <a class="primary" href="professional-lab.html">🧪 Open Professional IT Lab</a>
-          <a class="secondary" href="student-exams.html">📝 Open Exam Center</a>
-          <a class="secondary" href="final-certificate.html">🏆 Certificate Progress</a>
+          <a class="btn primary" href="professional-lab.html">🧪 Launch Professional Lab</a>
+          <a class="btn secondary" href="#network-zone">🌐 Open Network Zone</a>
+          <a class="btn secondary" href="#support-zone">🎧 IT Support Desk</a>
+          <a class="btn secondary" href="#projects">🗂️ Projects</a>
         </div>
-
-        <div class="identity-row">
-          <span id="heroClassPill">🎓 Class —</span>
-          <span id="heroLocationPill">📍 Location not added</span>
-          <span>🛡️ Student Safe Mode</span>
+        <div class="hero-badges">
+          <span>NO GK GAMES</span><span>NO CARTOON COURSE</span><span>TECHNOLOGY ONLY</span><span>REAL TROUBLESHOOTING</span>
         </div>
       </div>
 
-      <div class="hero-stats">
-        <article><span>⭐</span><b id="xpCount">0</b><small>XP</small></article>
-        <article><span>✅</span><b id="skillCount">0</b><small>SKILLS</small></article>
-        <article><span>🧪</span><b id="labCount">0</b><small>LABS</small></article>
-        <article><span>🗂️</span><b id="projectCount">0</b><small>PROJECTS</small></article>
+      <div class="ops-stats">
+        <article><small>LABS PASSED</small><b id="labsPassed">0 / 20</b><span>Practical verification</span></article>
+        <article><small>LAB AVERAGE</small><b id="labAverage">0%</b><span>Best saved scores</span></article>
+        <article><small>TECH XP</small><b id="xpCount">0</b><span>Hands-on progress</span></article>
+        <article><small>CAPSTONE</small><b id="capstoneStatus">LOCKED</b><span>Class 10 final build</span></article>
       </div>
     </section>
 
-    <section class="quick-account-strip">
+    <section class="stage-rail" aria-label="Class progression">
+      <article data-stage="7"><span>07</span><div><b>Explore & Understand</b><small>Hardware • Windows • LAN • Email • Safe AI</small></div></article>
+      <article data-stage="8"><span>08</span><div><b>Install & Configure</b><small>Drivers • Printers • Outlook • VLAN • Wi-Fi</small></div></article>
+      <article data-stage="9"><span>09</span><div><b>Troubleshoot & Support</b><small>Tickets • Fault isolation • CLI • Security • Remote support</small></div></article>
+      <article data-stage="10"><span>10</span><div><b>Build, Network & Solve</b><small>Small office design • Projects • Capstone • Handover</small></div></article>
+    </section>
+
+    <section class="dashboard-grid">
+      <article class="panel mission-panel">
+        <div class="panel-head"><div><span class="section-kicker">TODAY'S TECHNICIAN QUEUE</span><h2>Professional missions</h2></div><span id="missionClassBadge" class="micro-badge">CLASS —</span></div>
+        <div id="missionGrid" class="mission-grid"></div>
+      </article>
+
+      <article class="panel toolkit-panel">
+        <div class="panel-head"><div><span class="section-kicker">TECHNICIAN TOOLKIT</span><h2>Commands & tools</h2></div></div>
+        <div class="toolkit-grid">
+          <span>ipconfig /all</span><span>ping</span><span>tracert</span><span>nslookup</span>
+          <span>ipconfig /release</span><span>ipconfig /renew</span><span>ipconfig /flushdns</span><span>Device Manager</span>
+          <span>TCP/IP Port</span><span>Outlook Rules</span><span>Quick Assist</span><span>Ticket Notes</span>
+        </div>
+      </article>
+    </section>
+
+    <section id="tracks" class="section-block">
+      <div class="section-title-row">
+        <div><span class="section-kicker">PROFESSIONAL TECHNOLOGY TRACKS</span><h2>Eight focused technical domains</h2><p>No GK World, no general games — every section is directly connected to IT, networking, support, AI or digital infrastructure.</p></div>
+      </div>
+      <div class="track-grid" id="trackGrid"></div>
+    </section>
+
+    <section class="section-block module-block">
+      <div class="section-title-row">
+        <div><span class="section-kicker">24 PROFESSIONAL MODULES</span><h2>Class-aware technical learning matrix</h2><p>Modules unlock progressively from understanding to configuration, troubleshooting and independent builds.</p></div>
+        <div id="moduleFilters" class="module-filters"></div>
+      </div>
+      <div id="moduleGrid" class="module-grid"></div>
+    </section>
+
+    <section id="network-zone" class="section-block network-zone">
+      <div class="network-copy">
+        <span class="section-kicker">NETWORK ENGINEERING ZONE</span>
+        <h2>From endpoint to internet — understand the whole path</h2>
+        <p>Students progress from LAN basics to IP addressing, switching, VLANs, routing, Wi-Fi and troubleshooting commands.</p>
+        <div class="network-actions">
+          <a class="btn primary" href="professional-lab.html?lab=10">Build LAN</a>
+          <a class="btn secondary dark" href="professional-lab.html?lab=12">Switch & VLAN</a>
+          <a class="btn secondary dark" href="professional-lab.html?lab=13">Routing</a>
+          <a class="btn secondary dark" href="professional-lab.html?lab=15">CLI Troubleshooting</a>
+        </div>
+      </div>
+      <div class="topology-card" aria-label="Network topology preview">
+        <div class="topology-row"><span class="device">🖥️ PC</span><i></i><span class="device">🔀 Switch</span><i></i><span class="device">🧭 Router</span><i></i><span class="device">🛡️ Firewall</span><i></i><span class="device">☁️ Internet</span></div>
+        <div class="topology-row secondary-row"><span class="device">🖨️ Printer</span><i></i><span class="device">📶 AP</span><i></i><span class="device">💻 Laptop</span></div>
+        <div class="terminal-mini"><b>TECH TERMINAL</b><code>&gt; ipconfig /all</code><code>&gt; ping 192.168.10.1</code><code>&gt; nslookup example.com</code><code>&gt; tracert 8.8.8.8</code></div>
+      </div>
+    </section>
+
+    <section id="support-zone" class="section-block support-zone">
+      <div class="section-title-row"><div><span class="section-kicker">IT SUPPORT OPERATIONS</span><h2>Work like a junior support technician</h2><p>Learn how professional support actually flows: receive → clarify → diagnose → fix → verify → document → close or escalate.</p></div></div>
+      <div class="support-flow">
+        <article><span>01</span><b>Receive</b><small>Understand the user issue.</small></article>
+        <article><span>02</span><b>Clarify</b><small>Ask useful technical questions.</small></article>
+        <article><span>03</span><b>Diagnose</b><small>Find the most likely root cause.</small></article>
+        <article><span>04</span><b>Fix</b><small>Apply the safest relevant action.</small></article>
+        <article><span>05</span><b>Verify</b><small>Prove the service works.</small></article>
+        <article><span>06</span><b>Document</b><small>Write a professional ticket note.</small></article>
+      </div>
+      <div class="support-launches">
+        <a href="professional-lab.html?lab=16">🎫 Help Desk Ticket Lab</a>
+        <a href="professional-lab.html?lab=17">🖥️ Remote Support Lab</a>
+        <a href="professional-lab.html?lab=7">🖨️ Printer Fault Lab</a>
+        <a href="professional-lab.html?lab=9">📧 Email Troubleshooting Lab</a>
+      </div>
+    </section>
+
+    <section class="section-block split-zone">
+      <article class="deep-card microsoft-card">
+        <span class="section-kicker">MICROSOFT & CLOUD</span>
+        <h2>Outlook 365 • Email • M365 • Cloud</h2>
+        <p>Mail profiles, signatures, rules, automatic replies, IMAP/SMTP, authentication, OneDrive, Teams, SaaS and cloud-service concepts.</p>
+        <div><a href="professional-lab.html?lab=8">Outlook Lab</a><a href="professional-lab.html?lab=9">Email Protocol Lab</a></div>
+      </article>
+      <article class="deep-card ai-card">
+        <span class="section-kicker">AI FOR REAL IT WORK</span>
+        <h2>Prompt • Verify • Troubleshoot • Document</h2>
+        <p>Use AI to draft checklists, summarize tickets, explain logs and prepare SOPs — then validate every technical result instead of trusting it blindly.</p>
+        <div><a href="professional-lab.html?lab=19">AI for IT Support</a><a href="#modules">AI Modules</a></div>
+      </article>
+    </section>
+
+    <section id="projects" class="section-block projects-block">
+      <div class="section-title-row"><div><span class="section-kicker">PROJECT & CAPSTONE PIPELINE</span><h2>Build evidence, not just scores</h2><p>Each class creates technician-style output that can become part of the student's Skill Passport.</p></div></div>
+      <div id="projectGrid" class="project-grid"></div>
+    </section>
+
+    <section class="section-block passport-block">
       <div>
-        <span class="eyebrow dark">MY PROFESSIONAL ACCOUNT</span>
-        <h2>Profile, photo and security controls</h2>
-        <p>Manage your private student profile without leaving the Professional Universe.</p>
+        <span class="section-kicker">PROFESSIONAL SKILL PASSPORT</span>
+        <h2>Your technical evidence dashboard</h2>
+        <p>Final certification is based on required monthly exams, required tests, practical labs and the Class 10 capstone — not on one simple activity.</p>
       </div>
-      <div class="quick-account-actions">
-        <button id="quickPhotoBtn" type="button">📷 Profile Photo</button>
-        <button id="quickPasswordBtn" type="button">🔐 Change Password</button>
-        <button id="quickProfileBtn" type="button">✏️ Edit Profile</button>
+      <div class="passport-metrics">
+        <article><b id="passportLabs">0</b><small>LABS PASSED</small></article>
+        <article><b id="passportAvg">0%</b><small>LAB AVG</small></article>
+        <article><b id="passportCapstone">LOCKED</b><small>CAPSTONE</small></article>
       </div>
-    </section>
-
-    <section class="level-strip">
-      <article><span>7️⃣</span><b>Class 7 • Explore</b><small>Understand devices, Windows, email, LAN and safe AI.</small></article>
-      <article><span>8️⃣</span><b>Class 8 • Configure</b><small>Install, configure and verify common IT services.</small></article>
-      <article><span>9️⃣</span><b>Class 9 • Troubleshoot</b><small>Diagnose realistic hardware, printer, Outlook and network faults.</small></article>
-      <article><span>🔟</span><b>Class 10 • Build & Solve</b><small>Plan small-office IT, support users and complete capstone challenges.</small></article>
-    </section>
-
-    <section class="mission-strip">
-      <div>
-        <span class="eyebrow dark">TODAY'S PROFESSIONAL MISSIONS</span>
-        <h2>Learn → Practice → Troubleshoot → Project</h2>
+      <div class="passport-actions">
+        <a class="btn primary" href="final-certificate.html">Open Certificate Progress</a>
+        <a class="btn secondary dark" href="student-exams.html">Open Exam Center</a>
       </div>
-      <div id="dailyMissions" class="mission-grid"></div>
-    </section>
-
-    <nav class="learning-nav" aria-label="Professional Skills navigation">
-      <button class="active" data-filter="all">🌐 All</button>
-      <button data-filter="hardware">🧠 Hardware</button>
-      <button data-filter="windows">🪟 Windows</button>
-      <button data-filter="printer">🖨️ Printer</button>
-      <button data-filter="m365">📧 M365</button>
-      <button data-filter="network">🌐 Network</button>
-      <button data-filter="support">🎧 IT Support</button>
-      <button data-filter="cyber">🛡️ Cyber</button>
-      <button data-filter="ai">🤖 AI</button>
-      <button data-filter="web">🧩 Website</button>
-    </nav>
-
-    <section class="section-head">
-      <div>
-        <span class="eyebrow dark">CHOOSE YOUR PROFESSIONAL WORLD</span>
-        <h2>24 Career-Ready Skill Worlds</h2>
-        <p>Every world follows Understand → Configure → Troubleshoot → Verify.</p>
-      </div>
-
-      <div class="section-actions">
-        <a class="soft-btn" href="professional-lab.html">🧪 20 Practical Labs</a>
-        <a class="soft-btn" href="final-certificate.html">🏆 Final Certificate</a>
-      </div>
-    </section>
-
-    <section id="worldGrid" class="world-grid"></section>
-
-    <section class="capstone">
-      <div>
-        <span class="eyebrow">FINAL CAPSTONE</span>
-        <h2>Junior IT Support Technician Challenge</h2>
-        <p>
-          Build a small office, configure network access, install a printer,
-          resolve an Outlook issue, verify security and write a professional support handover.
-        </p>
-      </div>
-      <a class="primary" href="professional-lab.html?lab=20">Open Capstone →</a>
     </section>
   </main>
 
-  <div id="worldModal" class="modal-backdrop" aria-hidden="true">
-    <div class="modal-card">
-      <button id="worldModalClose" class="modal-close" type="button" aria-label="Close">×</button>
-      <div id="worldModalBody"></div>
+  <div id="moduleModal" class="modal-backdrop" aria-hidden="true">
+    <div class="modal-card technical-modal">
+      <button id="moduleModalClose" class="modal-close" type="button">×</button>
+      <div id="moduleModalBody"></div>
     </div>
   </div>
 
-  <div id="accountModal" class="modal-backdrop account-modal-backdrop" aria-hidden="true">
+  <div id="accountModal" class="modal-backdrop" aria-hidden="true">
     <div class="modal-card account-modal-card">
-      <button id="accountModalClose" class="modal-close" type="button" aria-label="Close">×</button>
+      <button id="accountModalClose" class="modal-close" type="button">×</button>
       <div id="accountModalBody"></div>
     </div>
   </div>
 
   <div id="toast" class="toast" role="status" aria-live="polite"></div>
-
-  <script src="professional-universe.js?v=41.1"></script>
+  <script src="professional-universe.js?v=42.0"></script>
 </body>
 </html>
