@@ -1,669 +1,120 @@
 (() => {
 "use strict";
 
-/* ============================================================
-   V41.1 — Professional IT & AI Universe
-   Class 7–10 only
-   Adds:
-   • Stylish profile photo card
-   • Photo upload/remove
-   • Password self-service
-   • Private profile editing
-   • Existing 24 worlds / lab links preserved
-   ============================================================ */
+/* V42.0 — Class 7–10 Professional Technology Command Center
+   Technology-only experience: no GK World, no general games, no Speak/Health/Safety sections. */
 
 const API="https://api.tanweer.site";
 const TOKEN_KEY="brightbyte_student_token";
 const TOKEN=localStorage.getItem(TOKEN_KEY)||"";
 const $=id=>document.getElementById(id);
-const esc=value=>String(value??"").replace(/[&<>"']/g,ch=>({
-  "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"
-}[ch]));
+const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let profile=null,heroPhotoUrl=null,previewUrl=null,toastTimer=null,currentFilter="all";
 
-let profile=null;
-let heroPhotoUrl=null;
-let previewUrl=null;
-let toastTimer=null;
-
-const worlds=[
-{id:1,cat:"hardware",icon:"🧠",accent:"#6557ef",title:"Computer Hardware",desc:"CPU, RAM, SSD, NVMe, motherboard, SMPS, ports, compatibility and safe diagnosis.",levels:"7–10",lessons:["Identify core PC parts","Understand component roles","Compare RAM/SSD interfaces","Diagnose no-power/no-display basics"]},
-{id:2,cat:"hardware",icon:"🧩",accent:"#7d5ce8",title:"PC Assembly & Upgrade",desc:"Build a virtual PC, choose compatible upgrades and verify a clean handover.",levels:"7–10",lessons:["Assembly sequence","RAM & storage upgrade","Compatibility checks","Post-upgrade verification"]},
-{id:3,cat:"windows",icon:"🪟",accent:"#3e8df6",title:"Windows Installation",desc:"Boot media, BIOS/UEFI, partitions, setup, updates, recovery and safe upgrade planning.",levels:"8–10",lessons:["Boot process","Install flow","Driver/update checklist","Recovery choices"]},
-{id:4,cat:"windows",icon:"🧰",accent:"#39a0e8",title:"Drivers & Device Manager",desc:"Unknown devices, yellow warnings, update/rollback and Hardware ID concepts.",levels:"7–10",lessons:["Read Device Manager","Driver update","Rollback","Unknown-device workflow"]},
-{id:5,cat:"printer",icon:"🖨️",accent:"#ed8d45",title:"Printer Installation",desc:"USB/network printer, TCP/IP port, drivers, default printer and test page.",levels:"7–10",lessons:["USB install","Network printer","TCP/IP port","Test page"]},
-{id:6,cat:"printer",icon:"📠",accent:"#e96f54",title:"Printer & Scanner Support",desc:"Offline status, stuck queue, changed IP, scan setup and logical troubleshooting.",levels:"8–10",lessons:["Offline checks","Queue/spooler","Driver/port","Scanner path"]},
-{id:7,cat:"m365",icon:"📧",accent:"#2a80d7",title:"Outlook 365",desc:"Profiles, mailbox, signature, rules, automatic replies, calendar and safe attachments.",levels:"7–10",lessons:["Mailbox basics","Rules/signature","Automatic reply","Troubleshooting"]},
-{id:8,cat:"m365",icon:"✉️",accent:"#4576d7",title:"Email Configuration",desc:"IMAP, POP3, SMTP, SSL/TLS, MFA concepts and common send/receive issues.",levels:"8–10",lessons:["Mail flow","IMAP vs POP3","SMTP","Authentication troubleshooting"]},
-{id:9,cat:"m365",icon:"☁️",accent:"#4a91d7",title:"Microsoft 365 & Cloud",desc:"OneDrive, Teams, Word/Excel collaboration, accounts and cloud-service basics.",levels:"7–10",lessons:["Cloud vs local","OneDrive","Teams","SaaS & identity"]},
-{id:10,cat:"network",icon:"🌐",accent:"#1fae9b",title:"LAN Fundamentals",desc:"NIC, MAC, IP, subnet, gateway, DNS, DHCP, Ethernet and network flow.",levels:"7–10",lessons:["LAN components","IP basics","Gateway/DNS","DHCP"]},
-{id:11,cat:"network",icon:"🔀",accent:"#18a884",title:"Basic Switching",desc:"Switch ports, MAC learning, access ports and beginner VLAN concepts.",levels:"8–10",lessons:["Switch role","MAC table","Access ports","VLAN idea"]},
-{id:12,cat:"network",icon:"🧭",accent:"#1f9b8a",title:"Basic Routing",desc:"Routers, default gateway, routing table and simple static-route concepts.",levels:"8–10",lessons:["Router role","Gateway","Routing table","Static route concept"]},
-{id:13,cat:"network",icon:"🌍",accent:"#1e8e9f",title:"LAN / WAN / Internet",desc:"ISP, ONT/modem, router/firewall, switches, APs and end-user paths.",levels:"7–10",lessons:["LAN vs WAN","Internet path","Office topology","Failure domains"]},
-{id:14,cat:"network",icon:"📶",accent:"#218bb8",title:"Wi-Fi & Wireless",desc:"SSID, 2.4/5 GHz, WPA2/WPA3, signal, interference and AP placement.",levels:"7–10",lessons:["Wireless basics","Bands","Security","Coverage"]},
-{id:15,cat:"network",icon:"⌨️",accent:"#2a76b6",title:"Network Command Lab",desc:"ipconfig, ping, tracert, nslookup, release/renew and DNS troubleshooting.",levels:"8–10",lessons:["Read IP config","Ping logic","Trace path","DNS tests"]},
-{id:16,cat:"support",icon:"🎧",accent:"#7b58cf",title:"IT Help Desk",desc:"Receive, clarify, diagnose, fix, verify, document, close or escalate.",levels:"7–10",lessons:["Ask good questions","Troubleshooting order","Verification","Ticket closure"]},
-{id:17,cat:"support",icon:"🖥️",accent:"#7156c8",title:"Remote Support",desc:"Consent, privacy, Quick Assist style workflow and professional communication.",levels:"8–10",lessons:["Permission","Safe remote flow","User communication","Disconnect & document"]},
-{id:18,cat:"cyber",icon:"🛡️",accent:"#d05277",title:"Cybersecurity Essentials",desc:"Phishing, MFA, passkeys, malware awareness, backups and social engineering.",levels:"7–10",lessons:["Account safety","Phishing","Updates/backups","Incident reporting"]},
-{id:19,cat:"ai",icon:"🤖",accent:"#a14fd3",title:"AI Skills",desc:"Prompt design, research, hallucination checks, privacy and responsible use.",levels:"7–10",lessons:["Prompt structure","Verification","Privacy","Responsible AI"]},
-{id:20,cat:"ai",icon:"✨",accent:"#9b58e8",title:"AI for IT Support",desc:"Create troubleshooting checklists, ticket summaries and SOP drafts — then verify.",levels:"8–10",lessons:["Support prompts","SOP drafts","Log explanation","Human verification"]},
-{id:21,cat:"web",icon:"🧩",accent:"#ef5d9f",title:"No-Code Website Studio",desc:"Plan, design, build and publish a student IT portfolio without mandatory coding.",levels:"7–10",lessons:["Site plan","Pages/navigation","Responsive preview","Publish safely"]},
-{id:22,cat:"web",icon:"🔗",accent:"#dd659a",title:"Web & DNS Basics",desc:"Domain, hosting, URL, HTTP/HTTPS, DNS and browser/server concepts.",levels:"8–10",lessons:["Domain/hosting","DNS","HTTPS","Browser/server flow"]},
-{id:23,cat:"support",icon:"📋",accent:"#e5a02e",title:"IT Documentation & Inventory",desc:"Asset records, network diagrams, SOPs, handover notes and change history.",levels:"8–10",lessons:["Inventory","SOP structure","Network diagram","Handover"]},
-{id:24,cat:"support",icon:"🏆",accent:"#d7a431",title:"Capstone & Career Skills",desc:"Combine support, network, printer, Outlook, AI and documentation in a final project.",levels:"10",lessons:["Small-office build","Fault diagnosis","Support report","Final verification"]}
+const tracks=[
+ {id:"hardware",icon:"🧠",accent:"#6e7cff",title:"Hardware & Systems",desc:"PC components, assembly, BIOS/UEFI, Windows, drivers and upgrades.",count:5},
+ {id:"print",icon:"🖨️",accent:"#f0a44a",title:"Print & Endpoint Support",desc:"Printer install, TCP/IP ports, scanner support, drivers and fault isolation.",count:2},
+ {id:"m365",icon:"📧",accent:"#48a1ff",title:"Microsoft 365 & Email",desc:"Outlook 365, IMAP/SMTP, MFA, OneDrive, Teams and cloud service concepts.",count:3},
+ {id:"network",icon:"🌐",accent:"#2ac8ae",title:"Networking",desc:"LAN, IP, DHCP, switching, VLAN, routing, Wi-Fi and CLI troubleshooting.",count:7},
+ {id:"support",icon:"🎧",accent:"#9a72ff",title:"IT Support Operations",desc:"Help desk workflow, remote support, ticket notes, escalation and documentation.",count:3},
+ {id:"cyber",icon:"🛡️",accent:"#ef6f86",title:"Cybersecurity",desc:"Phishing, MFA, passkeys, safe incident response, privacy and backups.",count:1},
+ {id:"ai",icon:"🤖",accent:"#c86cff",title:"AI for Technology",desc:"Prompting, verification, troubleshooting support, SOP drafting and safe AI use.",count:2},
+ {id:"web",icon:"🧩",accent:"#ef6ca9",title:"Web, Cloud & Digital Build",desc:"No-code websites, domains, DNS, HTTPS, hosting and portfolio publishing.",count:1}
 ];
 
-const missions=[
-"🧠 Identify one hardware component",
-"🌐 Run a network diagnosis",
-"🖨️ Solve a printer scenario",
-"📧 Explain an Outlook issue",
-"🤖 Improve an AI prompt",
-"🛡️ Spot a phishing clue",
-"📋 Write a support note",
-"🧩 Improve a web page plan"
+const modules=[
+ {id:1,track:"hardware",icon:"🧠",title:"Computer Hardware Architecture",min:7,mode:"Understand",lab:1,desc:"CPU, RAM, motherboard, SSD/NVMe, PSU, ports, compatibility and safe diagnosis.",outcomes:["Identify desktop components and interfaces","Explain component roles and dependencies","Recognize common no-power/no-display causes","Use safe handling rules"]},
+ {id:2,track:"hardware",icon:"🧩",title:"PC Assembly & Upgrade",min:7,mode:"Build",lab:2,desc:"Assembly sequence, RAM/storage upgrades, compatibility checks and post-upgrade verification.",outcomes:["Plan a safe build order","Choose compatible RAM/storage","Verify cables and seating","Run post-upgrade checks"]},
+ {id:3,track:"hardware",icon:"⚙️",title:"BIOS / UEFI & Boot",min:7,mode:"Configure",lab:3,desc:"Firmware, boot order, storage detection, secure settings and disciplined change control.",outcomes:["Explain BIOS/UEFI purpose","Read boot priority","Recognize missing-disk symptoms","Document firmware changes"]},
+ {id:4,track:"hardware",icon:"🪟",title:"Windows Installation & Recovery",min:8,mode:"Install",lab:4,desc:"Boot media, partitions, setup, updates, recovery and backup-aware upgrade planning.",outcomes:["Plan installation safely","Choose upgrade vs clean install","Prepare driver/update checklist","Use recovery choices logically"]},
+ {id:5,track:"hardware",icon:"🧰",title:"Drivers & Device Manager",min:7,mode:"Troubleshoot",lab:5,desc:"Unknown devices, warning icons, update, rollback and Hardware ID investigation.",outcomes:["Read Device Manager status","Choose update vs rollback","Use Hardware IDs conceptually","Verify repaired devices"]},
+ {id:6,track:"print",icon:"🖨️",title:"Printer Installation",min:7,mode:"Configure",lab:6,desc:"USB/network printers, drivers, Standard TCP/IP ports, defaults and test pages.",outcomes:["Install local/network printers","Create correct TCP/IP port","Choose driver","Verify with test page"]},
+ {id:7,track:"print",icon:"📠",title:"Printer & Scanner Troubleshooting",min:8,mode:"Troubleshoot",lab:7,desc:"Offline printers, wrong ports, changed IPs, stuck queues, spooler and scan-path checks.",outcomes:["Separate network vs print faults","Check IP and port mapping","Inspect queue/spooler","Verify scan/print result"]},
+ {id:8,track:"m365",icon:"📧",title:"Outlook 365 Administration",min:7,mode:"Configure",lab:8,desc:"Profiles, signatures, rules, automatic replies, calendar, attachments and mailbox troubleshooting.",outcomes:["Configure mailbox basics","Create safe rules/signatures","Use automatic replies","Troubleshoot common Outlook symptoms"]},
+ {id:9,track:"m365",icon:"✉️",title:"Email Protocol & Authentication",min:8,mode:"Troubleshoot",lab:9,desc:"SMTP, IMAP, SSL/TLS, MFA, authentication flow and send/receive troubleshooting.",outcomes:["Explain SMTP vs IMAP","Trace send/receive flow","Recognize auth/MFA symptoms","Verify with safe test message"]},
+ {id:10,track:"m365",icon:"☁️",title:"Microsoft 365 & Cloud Services",min:7,mode:"Understand",lab:8,desc:"OneDrive, Teams, collaboration, SaaS, identity and cloud-vs-local concepts.",outcomes:["Explain SaaS","Compare cloud vs local storage","Use collaboration concepts","Understand identity dependencies"]},
+ {id:11,track:"network",icon:"🔌",title:"LAN Cabling & Network Build",min:7,mode:"Build",lab:10,desc:"Ethernet, NICs, switches, routers and a working PC-to-network physical/logical path.",outcomes:["Build PC→Switch→Router topology","Match network device roles","Connect endpoints logically","Verify reachability"]},
+ {id:12,track:"network",icon:"🔢",title:"IP Addressing, DHCP & DNS",min:7,mode:"Configure",lab:11,desc:"IPv4, subnet masks, gateways, DHCP, DNS and 169.254.x.x diagnosis.",outcomes:["Assign valid IPv4 settings","Explain gateway/DNS","Recognize APIPA","Test DHCP-related faults"]},
+ {id:13,track:"network",icon:"🔀",title:"Switching & VLAN Fundamentals",min:8,mode:"Configure",lab:12,desc:"Switch ports, MAC learning, access ports and beginner VLAN segmentation.",outcomes:["Explain switch forwarding","Read MAC table concept","Assign VLAN labels","Understand separation"]},
+ {id:14,track:"network",icon:"🧭",title:"Routing Fundamentals",min:8,mode:"Configure",lab:13,desc:"Routers, gateways, routing tables and communication between different IP networks.",outcomes:["Explain router role","Read simple route table","Configure gateways","Verify inter-network path"]},
+ {id:15,track:"network",icon:"🌍",title:"LAN / WAN / Internet Path",min:7,mode:"Understand",lab:13,desc:"ISP, modem/ONT, firewall, router, switches, APs and end-user traffic flow.",outcomes:["Trace office internet path","Differentiate LAN/WAN","Identify likely failure domains","Explain edge device roles"]},
+ {id:16,track:"network",icon:"📶",title:"Wi-Fi & Wireless",min:7,mode:"Configure",lab:14,desc:"SSID, 2.4/5 GHz, WPA2/WPA3, signal, interference, AP placement and guest access.",outcomes:["Choose secure Wi-Fi settings","Compare bands","Plan AP placement","Understand guest separation"]},
+ {id:17,track:"network",icon:"⌨️",title:"Network Troubleshooting CLI",min:8,mode:"Troubleshoot",lab:15,desc:"ipconfig, ping, tracert, nslookup, release/renew and DNS cache troubleshooting.",outcomes:["Read IP configuration","Test gateway/external reachability","Check DNS resolution","Trace network path"]},
+ {id:18,track:"support",icon:"🎧",title:"IT Help Desk & Ticket Handling",min:7,mode:"Support",lab:16,desc:"Receive, clarify, diagnose, fix, verify, document, close and escalate professionally.",outcomes:["Ask high-value questions","Follow troubleshooting order","Verify with user","Write closure notes"]},
+ {id:19,track:"support",icon:"🖥️",title:"Remote Support & Communication",min:8,mode:"Support",lab:17,desc:"Consent, Quick Assist-style workflow, privacy, restart communication and session closure.",outcomes:["Get permission","Protect credentials","Explain actions","Disconnect and document"]},
+ {id:20,track:"cyber",icon:"🛡️",title:"Cybersecurity Essentials",min:7,mode:"Protect",lab:18,desc:"Phishing, MFA, passkeys, malware awareness, backups, privacy and incident reporting.",outcomes:["Recognize phishing signals","Use MFA/passkeys conceptually","Follow safe incident steps","Protect account/device data"]},
+ {id:21,track:"ai",icon:"🤖",title:"AI Skills for Technical Work",min:7,mode:"Verify",lab:19,desc:"Prompt structure, technical research, hallucination checks, privacy and responsible use.",outcomes:["Write structured prompts","Protect private data","Cross-check technical answers","Improve prompts iteratively"]},
+ {id:22,track:"ai",icon:"✨",title:"AI for IT Support",min:8,mode:"Support",lab:19,desc:"Use AI for troubleshooting checklists, ticket summaries, SOP drafts and log explanations.",outcomes:["Generate support checklist","Draft ticket summary","Explain logs safely","Validate every AI recommendation"]},
+ {id:23,track:"web",icon:"🧩",title:"No-Code Website & Web Infrastructure",min:7,mode:"Build",lab:19,desc:"Site planning, navigation, responsive preview, domain, hosting, DNS, HTTPS and safe publishing.",outcomes:["Plan a website","Understand domain/hosting/DNS","Check privacy and mobile layout","Publish safely"]},
+ {id:24,track:"support",icon:"📋",title:"IT Documentation & Inventory",min:8,mode:"Document",lab:20,desc:"Asset records, SOPs, network diagrams, change notes, handover and support documentation.",outcomes:["Create asset inventory","Write SOP structure","Prepare network diagram","Write handover note"]}
 ];
 
-async function authFetch(path,opt={}){
-  const headers={...(opt.headers||{}),Authorization:`Bearer ${TOKEN}`};
-  if(opt.body && !(opt.body instanceof FormData) && !headers["Content-Type"]){
-    headers["Content-Type"]="application/json";
-  }
-  return fetch(API+path,{...opt,headers,cache:"no-store"});
-}
-
-function toast(message){
-  const el=$("toast");
-  if(!el)return;
-  el.textContent=message;
-  el.classList.add("show");
-  clearTimeout(toastTimer);
-  toastTimer=setTimeout(()=>el.classList.remove("show"),2600);
-}
-
-function initials(){
-  return (String(profile?.display_name||profile?.username||"Student").trim().charAt(0)||"S").toUpperCase();
-}
-
-function labKey(){
-  return `tannu_professional_it_lab_v41_${profile?.user_id||profile?.username||"student"}`;
-}
-
-function loadLabState(){
-  try{return JSON.parse(localStorage.getItem(labKey())||"{}")||{}}
-  catch{return{}}
-}
-
-function renderStats(){
-  const s=loadLabState();
-  const scores=s.scores&&typeof s.scores==="object"?s.scores:{};
-  const completed=Object.keys(scores).filter(k=>Number(scores[k])>=60).length;
-  $("labCount").textContent=completed;
-  $("skillCount").textContent=Math.min(24,completed+Number(s.worldsCompleted||0));
-  $("xpCount").textContent=Number(s.xp||completed*25);
-  $("projectCount").textContent=Number(s.capstoneComplete?1:0);
-}
-
-function renderMissions(){
-  const day=Math.floor(Date.now()/86400000);
-  $("dailyMissions").innerHTML=[0,1,2,3]
-    .map(i=>`<span>${missions[(day+i*2)%missions.length]}</span>`)
-    .join("");
-}
-
-function renderWorlds(filter="all"){
-  const rows=worlds.filter(w=>filter==="all"||w.cat===filter);
-
-  $("worldGrid").innerHTML=rows.map(w=>`
-    <article class="world-card" style="--accent:${w.accent}">
-      <div class="world-icon">${w.icon}</div>
-      <h3>${w.title}</h3>
-      <p>${w.desc}</p>
-      <div class="world-meta">
-        <span>CLASS ${w.levels}</span>
-        <span>${w.lessons.length} CORE TOPICS</span>
-      </div>
-      <button type="button" data-world="${w.id}">Open World →</button>
-    </article>
-  `).join("");
-
-  document.querySelectorAll("[data-world]").forEach(button=>{
-    button.onclick=()=>openWorld(Number(button.dataset.world));
-  });
-}
-
-function openWorld(id){
-  const w=worlds.find(x=>x.id===id);
-  if(!w)return;
-
-  $("worldModalBody").innerHTML=`
-    <span class="eyebrow dark">${w.icon} ${w.title.toUpperCase()}</span>
-    <h2>${w.title}</h2>
-    <p>${w.desc}</p>
-    <div class="modal-lessons">
-      ${w.lessons.map((item,index)=>`
-        <div>
-          <b>${index+1}. ${item}</b><br>
-          <small>Learn the concept, practise it, troubleshoot a scenario, then verify your result.</small>
-        </div>
-      `).join("")}
-    </div>
-    <div class="modal-actions">
-      <a class="primary" href="professional-lab.html?lab=${Math.min(20,Math.max(1,id))}">🧪 Open Related Lab</a>
-      <a class="soft-btn" href="student-exams.html">📝 Exam Center</a>
-    </div>
-  `;
-
-  openModal("worldModal");
-}
-
-function openModal(id){
-  const modal=$(id);
-  if(!modal)return;
-  modal.classList.add("open");
-  modal.setAttribute("aria-hidden","false");
-}
-
-function closeModal(id){
-  const modal=$(id);
-  if(!modal)return;
-  modal.classList.remove("open");
-  modal.setAttribute("aria-hidden","true");
-
-  if(id==="accountModal"&&previewUrl){
-    URL.revokeObjectURL(previewUrl);
-    previewUrl=null;
-  }
-}
-
-function setAccountBody(html){
-  $("accountModalBody").innerHTML=html;
-  openModal("accountModal");
-}
-
-function setAccountMsg(message,good=false){
-  const el=$("accountMsg");
-  if(!el)return;
-  el.textContent=message;
-  el.className=`account-msg ${good?"good":"bad"}`;
-}
-
-function renderProfile(){
-  if(!profile)return;
-
-  const c=Number(profile.class_number||0);
-  const name=profile.display_name||profile.username||"Student";
-  const username=profile.username||"—";
-  const location=profile.location||"Location not added";
-
-  $("studentChip").textContent=`👤 ${name}`;
-  $("classChip").textContent=`🎓 Class ${c}`;
-  $("profileName").textContent=name;
-  $("profileId").textContent=`ID: ${username}`;
-  $("heroClassPill").textContent=`🎓 Class ${c}`;
-  $("heroLocationPill").textContent=`📍 ${location}`;
-  $("profilePhotoFallback").textContent=initials();
-}
-
-async function loadHeroPhoto(){
-  if(!profile)return;
-
-  const img=$("profilePhoto");
-  const fallback=$("profilePhotoFallback");
-
-  if(!profile.has_photo){
-    if(heroPhotoUrl){
-      URL.revokeObjectURL(heroPhotoUrl);
-      heroPhotoUrl=null;
-    }
-    img.hidden=true;
-    fallback.hidden=false;
-    fallback.textContent=initials();
-    return;
-  }
-
-  try{
-    const r=await authFetch("/api/student/photo");
-    if(!r.ok)throw new Error("No photo");
-    const blob=await r.blob();
-
-    if(heroPhotoUrl)URL.revokeObjectURL(heroPhotoUrl);
-    heroPhotoUrl=URL.createObjectURL(blob);
-
-    img.src=heroPhotoUrl;
-    img.hidden=false;
-    fallback.hidden=true;
-  }catch{
-    img.hidden=true;
-    fallback.hidden=false;
-    fallback.textContent=initials();
-  }
-}
-
-function accountMenu(){
-  setAccountBody(`
-    <div class="account-icon">👤</div>
-    <h2>My Professional Account</h2>
-    <p class="account-copy">Manage your private student profile, photo and password securely.</p>
-
-    <div class="account-menu-grid">
-      <button class="account-menu-card" id="menuPhotoBtn" type="button">
-        <span>📷</span><b>Profile Photo</b><small>Upload, preview or remove your student photo.</small>
-      </button>
-      <button class="account-menu-card" id="menuPasswordBtn" type="button">
-        <span>🔐</span><b>Password</b><small>Change your password securely using your current password.</small>
-      </button>
-      <button class="account-menu-card" id="menuProfileBtn" type="button">
-        <span>✏️</span><b>Edit Profile</b><small>Update name, nickname, gender, location and bio.</small>
-      </button>
-    </div>
-
-    <div class="password-rules">
-      🛡️ Your guardian contact details are not shown here. Keep your password private.
-    </div>
-  `);
-
-  $("menuPhotoBtn").onclick=photoModal;
-  $("menuPasswordBtn").onclick=passwordModal;
-  $("menuProfileBtn").onclick=profileModal;
-}
-
-function photoModal(){
-  const name=profile?.display_name||profile?.username||"Student";
-
-  setAccountBody(`
-    <div class="account-icon">📷</div>
-    <h2>Change Profile Photo</h2>
-    <p class="account-copy">Choose a clear JPG, PNG or WebP image. Maximum file size is 2 MB.</p>
-
-    <div class="photo-preview" id="photoPreview">
-      <div class="fallback">${esc((String(name).trim().charAt(0)||"S").toUpperCase())}</div>
-    </div>
-
-    <input id="photoInput" type="file" accept="image/jpeg,image/png,image/webp" hidden>
-    <label class="upload-label" for="photoInput">📁 Choose New Photo</label>
-
-    <div id="accountMsg" class="account-msg"></div>
-
-    <div class="account-actions-row">
-      <button class="danger" id="removePhotoBtn" type="button">🗑️ Remove Photo</button>
-      <button class="cancel" id="photoCancelBtn" type="button">Cancel</button>
-      <button class="save" id="photoSaveBtn" type="button" disabled>💾 Save Photo</button>
-    </div>
-  `);
-
-  let selectedFile=null;
-  const input=$("photoInput");
-  const save=$("photoSaveBtn");
-
-  input.onchange=()=>{
-    const file=input.files?.[0];
-    selectedFile=null;
-    save.disabled=true;
-
-    if(!file)return;
-    if(!["image/jpeg","image/png","image/webp"].includes(file.type)){
-      return setAccountMsg("Please choose a JPG, PNG or WebP image.");
-    }
-    if(file.size>2*1024*1024){
-      return setAccountMsg("Photo must be 2 MB or smaller.");
-    }
-
-    if(previewUrl)URL.revokeObjectURL(previewUrl);
-    previewUrl=URL.createObjectURL(file);
-    $("photoPreview").innerHTML=`<img src="${previewUrl}" alt="New photo preview">`;
-
-    selectedFile=file;
-    save.disabled=false;
-    setAccountMsg("Photo ready to upload.",true);
-  };
-
-  $("photoCancelBtn").onclick=()=>closeModal("accountModal");
-
-  save.onclick=async()=>{
-    if(!selectedFile)return;
-
-    save.disabled=true;
-    setAccountMsg("Uploading...",true);
-
-    const fd=new FormData();
-    fd.append("photo",selectedFile);
-
-    try{
-      const r=await authFetch("/api/student/photo",{method:"POST",body:fd});
-      const data=await r.json().catch(()=>({}));
-      if(!r.ok)throw new Error(data.error||"Photo upload failed");
-
-      profile.has_photo=true;
-      await loadHeroPhoto();
-
-      setAccountMsg("Profile photo updated successfully ✓",true);
-      toast("Profile photo updated ✓");
-      setTimeout(()=>closeModal("accountModal"),700);
-    }catch(error){
-      setAccountMsg(error.message||"Photo upload failed.");
-      save.disabled=false;
-    }
-  };
-
-  $("removePhotoBtn").onclick=async()=>{
-    if(!profile?.has_photo){
-      return setAccountMsg("No profile photo is currently saved.");
-    }
-    if(!confirm("Remove your profile photo?"))return;
-
-    setAccountMsg("Removing photo...",true);
-
-    try{
-      const r=await authFetch("/api/student/photo",{method:"DELETE"});
-      const data=await r.json().catch(()=>({}));
-      if(!r.ok)throw new Error(data.error||"Could not remove photo");
-
-      profile.has_photo=false;
-      await loadHeroPhoto();
-
-      setAccountMsg("Photo removed.",true);
-      toast("Profile photo removed");
-      setTimeout(()=>closeModal("accountModal"),650);
-    }catch(error){
-      setAccountMsg(error.message||"Could not remove photo.");
-    }
-  };
-}
-
-function wirePasswordEyes(){
-  document.querySelectorAll("[data-password-eye]").forEach(button=>{
-    button.onclick=()=>{
-      const input=$(button.dataset.passwordEye);
-      if(!input)return;
-
-      const show=input.type==="password";
-      input.type=show?"text":"password";
-      button.textContent=show?"🙈":"👁";
-      button.title=show?"Hide password":"Show password";
-      button.setAttribute("aria-label",show?"Hide password":"Show password");
-    };
-  });
-}
-
-function passwordModal(){
-  setAccountBody(`
-    <div class="account-icon">🔐</div>
-    <h2>Change My Password</h2>
-    <p class="account-copy">Your current password is required. After a successful change, all student sessions are signed out for security.</p>
-
-    <div class="account-field">
-      <label>Current Password</label>
-      <div class="password-wrap">
-        <input id="currentPassword" type="password" autocomplete="current-password" placeholder="Enter current password">
-        <button class="password-eye" type="button" data-password-eye="currentPassword" title="Show password">👁</button>
-      </div>
-    </div>
-
-    <div class="account-field">
-      <label>New Password</label>
-      <div class="password-wrap">
-        <input id="newPassword" type="password" autocomplete="new-password" placeholder="At least 8 characters">
-        <button class="password-eye" type="button" data-password-eye="newPassword" title="Show password">👁</button>
-      </div>
-    </div>
-
-    <div class="account-field">
-      <label>Confirm New Password</label>
-      <div class="password-wrap">
-        <input id="confirmPassword" type="password" autocomplete="new-password" placeholder="Type new password again">
-        <button class="password-eye" type="button" data-password-eye="confirmPassword" title="Show password">👁</button>
-      </div>
-    </div>
-
-    <div class="password-rules">
-      🛡️ Use at least 8 characters. Never share your password, OTP or private information with friends or strangers.
-    </div>
-
-    <div id="accountMsg" class="account-msg"></div>
-
-    <div class="account-actions-row">
-      <button class="cancel" id="passwordCancelBtn" type="button">Cancel</button>
-      <button class="save" id="passwordSaveBtn" type="button">🔐 Change Password</button>
-    </div>
-  `);
-
-  wirePasswordEyes();
-
-  $("passwordCancelBtn").onclick=()=>closeModal("accountModal");
-
-  $("passwordSaveBtn").onclick=async()=>{
-    const current=$("currentPassword").value;
-    const next=$("newPassword").value;
-    const confirmNext=$("confirmPassword").value;
-    const btn=$("passwordSaveBtn");
-
-    if(!current)return setAccountMsg("Enter your current password.");
-    if(next.length<8)return setAccountMsg("New password must contain at least 8 characters.");
-    if(next.length>128)return setAccountMsg("New password is too long.");
-    if(next!==confirmNext)return setAccountMsg("New password and confirmation do not match.");
-    if(next===current)return setAccountMsg("Choose a new password different from the current password.");
-
-    btn.disabled=true;
-    setAccountMsg("Updating password...",true);
-
-    try{
-      const r=await authFetch("/api/student/change-password",{
-        method:"PATCH",
-        body:JSON.stringify({
-          currentPassword:current,
-          newPassword:next
-        })
-      });
-
-      const data=await r.json().catch(()=>({}));
-      if(!r.ok)throw new Error(data.error||"Password change failed");
-
-      localStorage.removeItem(TOKEN_KEY);
-
-      setAccountBody(`
-        <div class="account-icon">✅</div>
-        <h2>Password Changed Successfully</h2>
-        <p class="account-copy">Your old student sessions were signed out. Please log in again using your new password.</p>
-        <div class="account-actions-row">
-          <button class="save" id="loginAgainBtn" type="button">🚀 Login Again</button>
-        </div>
-      `);
-
-      $("loginAgainBtn").onclick=()=>location.href="student-login.html";
-    }catch(error){
-      setAccountMsg(error.message||"Password change failed.");
-      btn.disabled=false;
-    }
-  };
-}
-
-function profileModal(){
-  const p=profile||{};
-
-  setAccountBody(`
-    <div class="account-icon">✏️</div>
-    <h2>Edit My Private Profile</h2>
-    <p class="account-copy">Update your student profile. Your current password is required to save changes.</p>
-
-    <div class="account-field">
-      <label>Display Name</label>
-      <input id="editDisplayName" maxlength="60" value="${esc(p.display_name||"")}">
-    </div>
-
-    <div class="account-field">
-      <label>Nickname</label>
-      <input id="editNickname" maxlength="40" value="${esc(p.nickname||"")}">
-    </div>
-
-    <div class="account-field">
-      <label>Gender</label>
-      <select id="editGender">
-        <option value="">Select Gender</option>
-        <option value="male"${String(p.gender||"").toLowerCase()==="male"?" selected":""}>Male</option>
-        <option value="female"${String(p.gender||"").toLowerCase()==="female"?" selected":""}>Female</option>
-      </select>
-    </div>
-
-    <div class="account-field">
-      <label>Location</label>
-      <input id="editLocation" maxlength="120" value="${esc(p.location||"")}" placeholder="City / Country">
-    </div>
-
-    <div class="account-field">
-      <label>About Me</label>
-      <textarea id="editBio" rows="4" maxlength="240" placeholder="I like networking, AI and troubleshooting.">${esc(p.bio||"")}</textarea>
-    </div>
-
-    <div class="account-field">
-      <label>Current Password — required to save</label>
-      <div class="password-wrap">
-        <input id="editProfilePassword" type="password" autocomplete="current-password" placeholder="Enter current password">
-        <button class="password-eye" type="button" data-password-eye="editProfilePassword" title="Show password">👁</button>
-      </div>
-    </div>
-
-    <div class="password-rules">
-      🔒 Gender, location and bio are private student details. Guardian contact details are not displayed here.
-    </div>
-
-    <div id="accountMsg" class="account-msg"></div>
-
-    <div class="account-actions-row">
-      <button class="cancel" id="profileCancelBtn" type="button">Cancel</button>
-      <button class="save" id="profileSaveBtn" type="button">💾 Save Profile</button>
-    </div>
-  `);
-
-  wirePasswordEyes();
-
-  $("profileCancelBtn").onclick=()=>closeModal("accountModal");
-
-  $("profileSaveBtn").onclick=async()=>{
-    const btn=$("profileSaveBtn");
-    const displayName=$("editDisplayName").value.trim();
-    const password=$("editProfilePassword").value;
-
-    if(displayName.length<2)return setAccountMsg("Display name is too short.");
-    if(!password)return setAccountMsg("Enter your current password to save profile changes.");
-
-    btn.disabled=true;
-    setAccountMsg("Saving profile...",true);
-
-    try{
-      const r=await authFetch("/api/student/profile",{
-        method:"PATCH",
-        body:JSON.stringify({
-          displayName,
-          nickname:$("editNickname").value.trim(),
-          gender:$("editGender").value,
-          location:$("editLocation").value.trim(),
-          bio:$("editBio").value.trim(),
-          password
-        })
-      });
-
-      const data=await r.json().catch(()=>({}));
-      if(!r.ok)throw new Error(data.error||"Could not save profile");
-
-      if(data.profile)profile=data.profile;
-      renderProfile();
-      await loadHeroPhoto();
-
-      setAccountMsg("Profile saved successfully ✓",true);
-      toast("Profile updated ✓");
-      setTimeout(()=>closeModal("accountModal"),700);
-    }catch(error){
-      setAccountMsg(error.message||"Could not save profile.");
-      btn.disabled=false;
-    }
-  };
-}
-
-async function logout(){
-  try{
-    await authFetch("/api/auth/logout",{method:"POST"});
-  }catch{}
-  localStorage.removeItem(TOKEN_KEY);
-  location.href="student-login.html";
-}
-
-function bindUi(){
-  document.querySelectorAll(".learning-nav button").forEach(button=>{
-    button.onclick=()=>{
-      document.querySelectorAll(".learning-nav button").forEach(x=>x.classList.remove("active"));
-      button.classList.add("active");
-      renderWorlds(button.dataset.filter);
-    };
-  });
-
-  $("worldModalClose").onclick=()=>closeModal("worldModal");
-  $("accountModalClose").onclick=()=>closeModal("accountModal");
-
-  $("worldModal").onclick=e=>{
-    if(e.target===$("worldModal"))closeModal("worldModal");
-  };
-
-  $("accountModal").onclick=e=>{
-    if(e.target===$("accountModal"))closeModal("accountModal");
-  };
-
-  document.addEventListener("keydown",e=>{
-    if(e.key!=="Escape")return;
-    closeModal("worldModal");
-    closeModal("accountModal");
-  });
-
-  $("accountBtn").onclick=accountMenu;
-  $("changePhotoBtn").onclick=photoModal;
-  $("changePasswordBtn").onclick=passwordModal;
-  $("editProfileBtn").onclick=profileModal;
-  $("quickPhotoBtn").onclick=photoModal;
-  $("quickPasswordBtn").onclick=passwordModal;
-  $("quickProfileBtn").onclick=profileModal;
-  $("logoutBtn").onclick=logout;
-
-  window.addEventListener("pageshow",()=>{
-    if(profile)renderStats();
-  });
-}
-
-async function boot(){
-  if(!TOKEN){
-    location.href="student-login.html";
-    return;
-  }
-
-  try{
-    const r=await authFetch("/api/auth/me");
-    const data=await r.json();
-
-    if(!r.ok||data.role!=="student"||!data.profile){
-      throw new Error("Student login required");
-    }
-
-    profile=data.profile;
-    const c=Number(profile.class_number||0);
-
-    if(c<7||c>10){
-      if(c>=1&&c<=3)location.href="foundation-universe.html";
-      else if(c>=4&&c<=6)location.href="advanced-universe.html";
-      else location.href="student-profile.html";
-      return;
-    }
-
-    renderProfile();
-    renderStats();
-    renderMissions();
-    renderWorlds();
-    await loadHeroPhoto();
-
-  }catch(error){
-    localStorage.removeItem(TOKEN_KEY);
-    location.href="student-login.html";
-  }
-}
-
-bindUi();
+const projects={
+ 7:[
+  ["🧠","PC Component Audit","Identify and document a desktop's CPU, RAM, storage, ports and upgrade options.","professional-lab.html?lab=1"],
+  ["🌐","Home/School LAN Map","Draw a simple network path showing router, switch/AP, PCs and printer.","professional-lab.html?lab=10"],
+  ["🎫","First Support Ticket","Write symptom, checks, resolution and verification for a basic user issue.","professional-lab.html?lab=16"]
+ ],
+ 8:[
+  ["🪟","Windows Deployment Plan","Create an install, driver, update and recovery checklist.","professional-lab.html?lab=4"],
+  ["🔀","VLAN Mini Lab","Separate two logical groups and explain why segmentation matters.","professional-lab.html?lab=12"],
+  ["📧","Outlook Support Runbook","Create a structured checklist for mailbox, rules and send/receive issues.","professional-lab.html?lab=8"]
+ ],
+ 9:[
+  ["🖨️","Printer Root-Cause Report","Diagnose an offline/wrong-port printer and document the proof of fix.","professional-lab.html?lab=7"],
+  ["⌨️","Network Fault Isolation","Use ipconfig, ping, nslookup and tracert to identify where connectivity fails.","professional-lab.html?lab=15"],
+  ["🛡️","Security Incident Note","Respond to a phishing scenario and document safe containment steps.","professional-lab.html?lab=18"]
+ ],
+ 10:[
+  ["🏢","Small Office IT Design","Plan router/firewall, switches, Wi-Fi, PCs, printer and addressing.","professional-lab.html?lab=20"],
+  ["🤖","AI-Assisted Support SOP","Draft a troubleshooting SOP with AI, verify it and document corrections.","professional-lab.html?lab=19"],
+  ["🏆","Junior IT Technician Capstone","Build, configure, troubleshoot, verify and hand over a complete small-office setup.","professional-lab.html?lab=20"]
+ ]
+};
+
+const missionPool={
+ 7:["Identify RAM/SSD interfaces","Explain 169.254.x.x","Trace PC→Switch→Router","Spot one phishing clue"],
+ 8:["Plan a Windows install","Configure printer TCP/IP port","Create VLAN separation","Explain SMTP vs IMAP"],
+ 9:["Diagnose printer offline","Run a CLI fault workflow","Write a ticket closure note","Plan remote support safely"],
+ 10:["Design a small-office network","Verify a routed path","Prepare support handover","Review capstone readiness"]
+};
+
+function roleFor(c){return c===7?"Technology Explorer":c===8?"Junior Systems Configurator":c===9?"Junior IT Support Technician":"Junior Infrastructure Builder"}
+function stageFor(c){return c===7?"CLASS 7 • EXPLORE & UNDERSTAND":c===8?"CLASS 8 • INSTALL & CONFIGURE":c===9?"CLASS 9 • TROUBLESHOOT & SUPPORT":"CLASS 10 • BUILD, NETWORK & SOLVE"}
+function stateKey(){return `tannu_professional_it_lab_v41_${profile?.user_id||profile?.username||"student"}`}
+function loadLabState(){try{return JSON.parse(localStorage.getItem(stateKey())||"{}")||{}}catch{return{}}}
+function labMetrics(){const s=loadLabState(),scores=s.scores&&typeof s.scores==="object"?s.scores:{};const vals=Object.values(scores).map(Number).filter(Number.isFinite);const passed=vals.filter(v=>v>=60).length;const avg=vals.length?Math.round(vals.reduce((a,b)=>a+b,0)/vals.length):0;return{passed,avg,xp:Number(s.xp||passed*25),capstone:Boolean(s.capstoneComplete),capstoneScore:Number(s.capstoneScore||0)}}
+async function authFetch(path,opt={}){const headers={...(opt.headers||{}),Authorization:`Bearer ${TOKEN}`};if(opt.body&&!(opt.body instanceof FormData)&&!headers["Content-Type"])headers["Content-Type"]="application/json";return fetch(API+path,{...opt,headers,cache:"no-store"})}
+function toast(msg){const el=$("toast");if(!el)return;el.textContent=msg;el.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove("show"),2500)}
+function initials(){return (String(profile?.display_name||profile?.username||"Student").trim().charAt(0)||"S").toUpperCase()}
+
+function renderIdentity(){const c=Number(profile?.class_number||0),name=profile?.display_name||profile?.username||"Student";$("studentChip").textContent=`👤 ${name}`;$("classChip").textContent=`🎓 Class ${c}`;$("profileName").textContent=name;$("profileId").textContent=`ID: ${profile?.username||"—"}`;$("studentRole").textContent=roleFor(c);$("studentClass").textContent=`Class ${c}`;$("studentLocation").textContent=profile?.location||"Location —";$("heroLevel").textContent=stageFor(c);$("missionClassBadge").textContent=`CLASS ${c}`;$("profilePhotoFallback").textContent=initials();document.querySelectorAll(".stage-rail article").forEach(a=>a.classList.toggle("active",Number(a.dataset.stage)===c))}
+
+async function loadHeroPhoto(){const img=$("profilePhoto"),fallback=$("profilePhotoFallback");if(!profile?.has_photo){if(heroPhotoUrl){URL.revokeObjectURL(heroPhotoUrl);heroPhotoUrl=null}img.hidden=true;fallback.hidden=false;fallback.textContent=initials();return}try{const r=await authFetch("/api/student/photo");if(!r.ok)throw 0;const blob=await r.blob();if(heroPhotoUrl)URL.revokeObjectURL(heroPhotoUrl);heroPhotoUrl=URL.createObjectURL(blob);img.src=heroPhotoUrl;img.hidden=false;fallback.hidden=true}catch{img.hidden=true;fallback.hidden=false}}
+
+function renderStats(){const m=labMetrics();$("labsPassed").textContent=`${m.passed} / 20`;$("labAverage").textContent=`${m.avg}%`;$("xpCount").textContent=m.xp;$("capstoneStatus").textContent=m.capstone?`PASSED ${m.capstoneScore||""}%`.trim():"LOCKED";$("passportLabs").textContent=m.passed;$("passportAvg").textContent=`${m.avg}%`;$("passportCapstone").textContent=m.capstone?"PASSED":"LOCKED"}
+function renderMissions(){const c=Number(profile?.class_number||7),arr=missionPool[c]||missionPool[7],icons=["🧪","🌐","🎫","🛡️"];$("missionGrid").innerHTML=arr.map((x,i)=>`<article class="mission-card"><span>${icons[i]}</span><b>${esc(x)}</b><small>Complete through the professional modules or lab simulator.</small></article>`).join("")}
+function renderTracks(){$("trackGrid").innerHTML=tracks.map(t=>`<article class="track-card" style="--accent:${t.accent}"><span>${t.icon}</span><h3>${t.title}</h3><p>${t.desc}</p><small>${t.count} PROFESSIONAL MODULES</small></article>`).join("")}
+function renderFilters(){const list=[["all","All"],...tracks.map(t=>[t.id,t.title.split(" & ")[0]])];$("moduleFilters").innerHTML=list.map(([id,label])=>`<button type="button" data-filter="${id}" class="${id===currentFilter?"active":""}">${label}</button>`).join("");document.querySelectorAll("[data-filter]").forEach(b=>b.onclick=()=>{currentFilter=b.dataset.filter;renderFilters();renderModules()})}
+function renderModules(){const c=Number(profile?.class_number||7);const rows=modules.filter(m=>currentFilter==="all"||m.track===currentFilter);$("moduleGrid").innerHTML=rows.map(m=>{const locked=c<m.min;return`<article class="module-card ${locked?"locked":""}"><div class="module-top"><span class="module-icon">${m.icon}</span><span class="level-tag">CLASS ${m.min}+ • ${m.mode.toUpperCase()}</span></div><h3>${m.title}</h3><p>${m.desc}</p><div class="module-meta"><span>MODULE ${String(m.id).padStart(2,"0")}</span><span>LAB ${m.lab}</span><span>${tracks.find(t=>t.id===m.track)?.title||m.track}</span></div><button type="button" data-module="${m.id}" ${locked?"disabled":""}>${locked?`Unlocks in Class ${m.min}`:"Open Technical Module →"}</button></article>`}).join("");document.querySelectorAll("[data-module]").forEach(b=>b.onclick=()=>openModule(Number(b.dataset.module)))}
+function openModule(id){const m=modules.find(x=>x.id===id);if(!m)return;const track=tracks.find(t=>t.id===m.track);$("moduleModalBody").innerHTML=`<span class="section-kicker">${m.icon} MODULE ${String(m.id).padStart(2,"0")} • ${esc(track?.title||"")}</span><h2>${esc(m.title)}</h2><p>${esc(m.desc)}</p><div class="modal-section"><h3>Technician outcomes</h3><div class="modal-list">${m.outcomes.map((x,i)=>`<div>${i+1}. ${esc(x)}</div>`).join("")}</div></div><div class="modal-section"><h3>Learning method</h3><div class="modal-list"><div>UNDERSTAND — learn the concept and vocabulary.</div><div>CONFIGURE — apply the correct settings or sequence.</div><div>TROUBLESHOOT — isolate a realistic fault logically.</div><div>VERIFY — prove the fix and document the result.</div></div></div><div class="modal-actions"><a class="btn primary" href="professional-lab.html?lab=${m.lab}">🧪 Open Related Practical Lab</a><a class="btn secondary" href="student-exams.html">📝 Exam Center</a></div>`;openModal("moduleModal")}
+function renderProjects(){const c=Number(profile?.class_number||7),rows=projects[c]||projects[7];$("projectGrid").innerHTML=rows.map(([icon,title,desc,href])=>`<article class="project-card"><span>${icon}</span><b>${esc(title)}</b><small>${esc(desc)}</small><a href="${href}">Open project lab →</a></article>`).join("")}
+
+function openModal(id){const m=$(id);if(!m)return;m.classList.add("open");m.setAttribute("aria-hidden","false")}
+function closeModal(id){const m=$(id);if(!m)return;m.classList.remove("open");m.setAttribute("aria-hidden","true");if(id==="accountModal"&&previewUrl){URL.revokeObjectURL(previewUrl);previewUrl=null}}
+function setAccountBody(html){$("accountModalBody").innerHTML=html;openModal("accountModal")}
+function setAccountMsg(msg,good=false){const e=$("accountMsg");if(!e)return;e.textContent=msg;e.className=`account-msg ${good?"good":"bad"}`}
+function accountMenu(){setAccountBody(`<div class="account-icon">👤</div><h2>My Professional Account</h2><p class="account-copy">Manage your private student profile, photo and password securely.</p><div class="account-menu-grid"><button class="account-menu-card" id="menuPhotoBtn" type="button"><span>📷</span><b>Profile Photo</b><small>Upload or remove your photo.</small></button><button class="account-menu-card" id="menuPasswordBtn" type="button"><span>🔐</span><b>Password</b><small>Change password using your current password.</small></button><button class="account-menu-card" id="menuProfileBtn" type="button"><span>✏️</span><b>Edit Profile</b><small>Update name, nickname, location and bio.</small></button></div><div class="password-rules">🛡️ Keep passwords private. Guardian contact details are never shown here.</div>`);$("menuPhotoBtn").onclick=photoModal;$("menuPasswordBtn").onclick=passwordModal;$("menuProfileBtn").onclick=profileModal}
+function photoModal(){setAccountBody(`<div class="account-icon">📷</div><h2>Change Profile Photo</h2><p class="account-copy">JPG, PNG or WebP. Maximum 2 MB.</p><div class="photo-preview" id="photoPreview"><div class="fallback">${esc(initials())}</div></div><input id="photoInput" type="file" accept="image/jpeg,image/png,image/webp" hidden><label class="upload-label" for="photoInput">Choose New Photo</label><div id="accountMsg" class="account-msg"></div><div class="account-actions-row"><button class="danger" id="removePhotoBtn" type="button">Remove</button><button id="photoCancelBtn" type="button">Cancel</button><button class="save" id="photoSaveBtn" type="button" disabled>Save Photo</button></div>`);let selected=null;const input=$("photoInput"),save=$("photoSaveBtn");input.onchange=()=>{const f=input.files?.[0];selected=null;save.disabled=true;if(!f)return;if(!["image/jpeg","image/png","image/webp"].includes(f.type))return setAccountMsg("Use JPG, PNG or WebP.");if(f.size>2*1024*1024)return setAccountMsg("Photo must be 2 MB or smaller.");if(previewUrl)URL.revokeObjectURL(previewUrl);previewUrl=URL.createObjectURL(f);$("photoPreview").innerHTML=`<img src="${previewUrl}" alt="Preview">`;selected=f;save.disabled=false;setAccountMsg("Photo ready.",true)};save.onclick=async()=>{if(!selected)return;save.disabled=true;const fd=new FormData();fd.append("photo",selected);try{const r=await authFetch("/api/student/photo",{method:"POST",body:fd});const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.error||"Upload failed");profile.has_photo=true;await loadHeroPhoto();toast("Profile photo updated");closeModal("accountModal")}catch(e){setAccountMsg(e.message);save.disabled=false}};$("removePhotoBtn").onclick=async()=>{if(!confirm("Remove your profile photo?"))return;try{const r=await authFetch("/api/student/photo",{method:"DELETE"});if(!r.ok)throw 0;profile.has_photo=false;await loadHeroPhoto();toast("Photo removed");closeModal("accountModal")}catch{setAccountMsg("Could not remove photo.")}};$("photoCancelBtn").onclick=()=>closeModal("accountModal")}
+function bindEyes(){document.querySelectorAll("[data-eye]").forEach(b=>b.onclick=()=>{const i=$(b.dataset.eye);if(!i)return;const show=i.type==="password";i.type=show?"text":"password";b.textContent=show?"🙈":"👁"})}
+function passwordModal(){setAccountBody(`<div class="account-icon">🔐</div><h2>Change Password</h2><p class="account-copy">After a successful change, all student sessions are signed out.</p><div class="account-field"><label>Current Password</label><div class="password-wrap"><input id="currentPassword" type="password"><button class="password-eye" data-eye="currentPassword" type="button">👁</button></div></div><div class="account-field"><label>New Password</label><div class="password-wrap"><input id="newPassword" type="password"><button class="password-eye" data-eye="newPassword" type="button">👁</button></div></div><div class="account-field"><label>Confirm New Password</label><div class="password-wrap"><input id="confirmPassword" type="password"><button class="password-eye" data-eye="confirmPassword" type="button">👁</button></div></div><div class="password-rules">Use at least 8 characters and do not share your password.</div><div id="accountMsg" class="account-msg"></div><div class="account-actions-row"><button id="passwordCancelBtn" type="button">Cancel</button><button class="save" id="passwordSaveBtn" type="button">Change Password</button></div>`);bindEyes();$("passwordCancelBtn").onclick=()=>closeModal("accountModal");$("passwordSaveBtn").onclick=async()=>{const current=$("currentPassword").value,next=$("newPassword").value,confirmNext=$("confirmPassword").value;if(!current)return setAccountMsg("Enter current password.");if(next.length<8)return setAccountMsg("New password needs at least 8 characters.");if(next!==confirmNext)return setAccountMsg("New passwords do not match.");if(next===current)return setAccountMsg("Choose a different password.");const btn=$("passwordSaveBtn");btn.disabled=true;try{const r=await authFetch("/api/student/change-password",{method:"PATCH",body:JSON.stringify({currentPassword:current,newPassword:next})});const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.error||"Password change failed");localStorage.removeItem(TOKEN_KEY);setAccountBody(`<div class="account-icon">✅</div><h2>Password Changed</h2><p class="account-copy">Please log in again using your new password.</p><div class="account-actions-row"><button class="save" id="loginAgainBtn" type="button">Login Again</button></div>`);$("loginAgainBtn").onclick=()=>location.href="student-login.html"}catch(e){setAccountMsg(e.message);btn.disabled=false}}}
+function profileModal(){setAccountBody(`<div class="account-icon">✏️</div><h2>Edit Professional Profile</h2><p class="account-copy">Your profile changes require password verification.</p><div class="account-field"><label>Display Name</label><input id="editName" maxlength="60" value="${esc(profile?.display_name||"")}"></div><div class="account-field"><label>Nickname</label><input id="editNickname" maxlength="40" value="${esc(profile?.nickname||"")}"></div><div class="account-field"><label>Gender</label><select id="editGender"><option value="">Select</option><option value="male" ${profile?.gender==="male"?"selected":""}>Male</option><option value="female" ${profile?.gender==="female"?"selected":""}>Female</option></select></div><div class="account-field"><label>Location</label><input id="editLocation" maxlength="120" value="${esc(profile?.location||"")}"></div><div class="account-field"><label>About Me</label><textarea id="editBio" rows="4" maxlength="240">${esc(profile?.bio||"")}</textarea></div><div class="account-field"><label>Current Password to Save</label><div class="password-wrap"><input id="editPassword" type="password"><button class="password-eye" data-eye="editPassword" type="button">👁</button></div></div><div id="accountMsg" class="account-msg"></div><div class="account-actions-row"><button id="profileCancelBtn" type="button">Cancel</button><button class="save" id="profileSaveBtn" type="button">Save Profile</button></div>`);bindEyes();$("profileCancelBtn").onclick=()=>closeModal("accountModal");$("profileSaveBtn").onclick=async()=>{const password=$("editPassword").value;if(!password)return setAccountMsg("Enter your current password to save.");const btn=$("profileSaveBtn");btn.disabled=true;try{const r=await authFetch("/api/student/profile",{method:"PATCH",body:JSON.stringify({displayName:$("editName").value.trim(),nickname:$("editNickname").value.trim(),gender:$("editGender").value,location:$("editLocation").value.trim(),bio:$("editBio").value.trim(),password})});const d=await r.json().catch(()=>({}));if(!r.ok)throw new Error(d.error||"Could not save profile");profile=d.profile;renderIdentity();await loadHeroPhoto();toast("Profile updated");closeModal("accountModal")}catch(e){setAccountMsg(e.message);btn.disabled=false}}}
+
+async function boot(){if(!TOKEN){location.href="student-login.html";return}try{const r=await authFetch("/api/auth/me"),d=await r.json();if(!r.ok||d.role!=="student"||!d.profile)throw new Error("Login required");profile=d.profile;const c=Number(profile.class_number||0);if(c<7||c>10){location.href=c<=3?"foundation-universe.html":"advanced-universe.html";return}renderIdentity();await loadHeroPhoto();renderStats();renderMissions();renderTracks();renderFilters();renderModules();renderProjects()}catch{localStorage.removeItem(TOKEN_KEY);location.href="student-login.html"}}
+
+$("moduleModalClose").onclick=()=>closeModal("moduleModal");$("moduleModal").onclick=e=>{if(e.target===$("moduleModal"))closeModal("moduleModal")};$("accountModalClose").onclick=()=>closeModal("accountModal");$("accountModal").onclick=e=>{if(e.target===$("accountModal"))closeModal("accountModal")};
+$("accountBtn").onclick=accountMenu;$("changePhotoBtn").onclick=photoModal;$("changePasswordBtn").onclick=passwordModal;$("editProfileBtn").onclick=profileModal;
+$("logoutBtn").onclick=async()=>{try{await authFetch("/api/auth/logout",{method:"POST"})}catch{}localStorage.removeItem(TOKEN_KEY);location.href="student-login.html"};
+window.addEventListener("pageshow",()=>{if(profile){renderStats();renderProjects()}});
 boot();
-
 })();
