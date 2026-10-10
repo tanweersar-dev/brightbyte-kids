@@ -6,7 +6,7 @@
   <meta name="theme-color" content="#0b1537">
   <meta name="robots" content="noindex,nofollow">
   <title>Professional IT & AI Skills Universe — Tannu Sir's Kids Digital Academy</title>
-  <link rel="stylesheet" href="professional-universe.css?v=41.0">
+  <link rel="stylesheet" href="professional-universe.css?v=41.1">
 </head>
 <body>
   <div class="bg-orb o1"></div>
@@ -16,35 +16,86 @@
   <header class="topbar">
     <a class="brand" href="professional-universe.html">
       <span class="brand-mark">T</span>
-      <span><b>Professional IT & AI Skills Universe</b><small>TANNU SIR'S KIDS DIGITAL ACADEMY • CLASS 7–10</small></span>
+      <span>
+        <b>Professional IT & AI Skills Universe</b>
+        <small>TANNU SIR'S KIDS DIGITAL ACADEMY • CLASS 7–10</small>
+      </span>
     </a>
+
     <div class="top-actions">
       <span id="studentChip" class="chip">👤 Student</span>
       <span id="classChip" class="chip">🎓 Class —</span>
       <a class="chip button-chip" href="professional-universe.html" aria-current="page">🏠 Home</a>
+      <a class="chip button-chip" href="professional-lab.html">🧪 Labs</a>
       <a class="chip button-chip" href="student-exams.html">📝 Exams</a>
       <a class="chip button-chip" href="final-certificate.html">🏆 Certificate</a>
+      <button id="accountBtn" class="chip button-chip account-chip" type="button">👤 My Account</button>
       <button id="logoutBtn" class="chip button-chip danger" type="button">🚪 Logout</button>
     </div>
   </header>
 
   <main class="shell">
     <section class="hero">
+      <aside class="profile-side">
+        <div class="profile-photo-ring" id="profilePhotoRing">
+          <div id="profilePhotoFallback" class="profile-photo-fallback">S</div>
+          <img id="profilePhoto" alt="Student profile photo" hidden>
+        </div>
+
+        <div class="profile-name" id="profileName">Student</div>
+        <div class="profile-id" id="profileId">ID: —</div>
+        <div class="profile-track">Professional IT & AI</div>
+
+        <div class="profile-actions">
+          <button id="changePhotoBtn" class="profile-btn photo" type="button">📷 Change Photo</button>
+          <button id="changePasswordBtn" class="profile-btn password" type="button">🔐 Password</button>
+          <button id="editProfileBtn" class="profile-btn edit" type="button">✏️ Edit Profile</button>
+        </div>
+
+        <div class="profile-private">
+          🔒 Private student account
+        </div>
+      </aside>
+
       <div class="hero-copy">
         <span class="eyebrow">LEVEL 3 • PROFESSIONAL DIGITAL SKILLS</span>
         <h1>Learn. Configure. Troubleshoot. Build. Support.</h1>
-        <p id="heroText">Real-world IT support, hardware, Windows, printers, Microsoft 365, networking, cybersecurity, AI and no-code web skills — adapted for Class 7–10.</p>
+        <p id="heroText">
+          Real-world IT support, hardware, Windows, printers, Microsoft 365,
+          networking, cybersecurity, AI and no-code web skills — adapted for Class 7–10.
+        </p>
+
         <div class="hero-actions">
           <a class="primary" href="professional-lab.html">🧪 Open Professional IT Lab</a>
           <a class="secondary" href="student-exams.html">📝 Open Exam Center</a>
           <a class="secondary" href="final-certificate.html">🏆 Certificate Progress</a>
         </div>
+
+        <div class="identity-row">
+          <span id="heroClassPill">🎓 Class —</span>
+          <span id="heroLocationPill">📍 Location not added</span>
+          <span>🛡️ Student Safe Mode</span>
+        </div>
       </div>
+
       <div class="hero-stats">
         <article><span>⭐</span><b id="xpCount">0</b><small>XP</small></article>
         <article><span>✅</span><b id="skillCount">0</b><small>SKILLS</small></article>
         <article><span>🧪</span><b id="labCount">0</b><small>LABS</small></article>
         <article><span>🗂️</span><b id="projectCount">0</b><small>PROJECTS</small></article>
+      </div>
+    </section>
+
+    <section class="quick-account-strip">
+      <div>
+        <span class="eyebrow dark">MY PROFESSIONAL ACCOUNT</span>
+        <h2>Profile, photo and security controls</h2>
+        <p>Manage your private student profile without leaving the Professional Universe.</p>
+      </div>
+      <div class="quick-account-actions">
+        <button id="quickPhotoBtn" type="button">📷 Profile Photo</button>
+        <button id="quickPasswordBtn" type="button">🔐 Change Password</button>
+        <button id="quickProfileBtn" type="button">✏️ Edit Profile</button>
       </div>
     </section>
 
@@ -56,7 +107,10 @@
     </section>
 
     <section class="mission-strip">
-      <div><span class="eyebrow dark">TODAY'S PROFESSIONAL MISSIONS</span><h2>Learn → Practice → Troubleshoot → Project</h2></div>
+      <div>
+        <span class="eyebrow dark">TODAY'S PROFESSIONAL MISSIONS</span>
+        <h2>Learn → Practice → Troubleshoot → Project</h2>
+      </div>
       <div id="dailyMissions" class="mission-grid"></div>
     </section>
 
@@ -74,7 +128,12 @@
     </nav>
 
     <section class="section-head">
-      <div><span class="eyebrow dark">CHOOSE YOUR PROFESSIONAL WORLD</span><h2>24 Career-Ready Skill Worlds</h2><p>Every world follows Understand → Configure → Troubleshoot → Verify.</p></div>
+      <div>
+        <span class="eyebrow dark">CHOOSE YOUR PROFESSIONAL WORLD</span>
+        <h2>24 Career-Ready Skill Worlds</h2>
+        <p>Every world follows Understand → Configure → Troubleshoot → Verify.</p>
+      </div>
+
       <div class="section-actions">
         <a class="soft-btn" href="professional-lab.html">🧪 20 Practical Labs</a>
         <a class="soft-btn" href="final-certificate.html">🏆 Final Certificate</a>
@@ -87,20 +146,31 @@
       <div>
         <span class="eyebrow">FINAL CAPSTONE</span>
         <h2>Junior IT Support Technician Challenge</h2>
-        <p>Build a small office, configure network access, install a printer, resolve an Outlook issue, verify security and write a professional support handover.</p>
+        <p>
+          Build a small office, configure network access, install a printer,
+          resolve an Outlook issue, verify security and write a professional support handover.
+        </p>
       </div>
       <a class="primary" href="professional-lab.html?lab=20">Open Capstone →</a>
     </section>
   </main>
 
-  <div id="modal" class="modal-backdrop" aria-hidden="true">
+  <div id="worldModal" class="modal-backdrop" aria-hidden="true">
     <div class="modal-card">
-      <button id="modalClose" class="modal-close" type="button">×</button>
-      <div id="modalBody"></div>
+      <button id="worldModalClose" class="modal-close" type="button" aria-label="Close">×</button>
+      <div id="worldModalBody"></div>
     </div>
   </div>
-  <div id="toast" class="toast"></div>
 
-  <script src="professional-universe.js?v=41.0"></script>
+  <div id="accountModal" class="modal-backdrop account-modal-backdrop" aria-hidden="true">
+    <div class="modal-card account-modal-card">
+      <button id="accountModalClose" class="modal-close" type="button" aria-label="Close">×</button>
+      <div id="accountModalBody"></div>
+    </div>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+
+  <script src="professional-universe.js?v=41.1"></script>
 </body>
 </html>
