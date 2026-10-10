@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <meta name="theme-color" content="#0d173d">
+  <title>Professional IT Lab — Tannu Sir's Kids Digital Academy</title>
+  <link rel="stylesheet" href="professional-lab.css?v=41.0">
+</head>
+<body>
+<header class="topbar">
+  <a class="brand" href="professional-universe.html"><span class="logo">T</span><span><b>Professional IT Lab</b><small>CLASS 7–10 • VIRTUAL PRACTICAL ENVIRONMENT</small></span></a>
+  <div class="top-actions">
+    <span id="studentBadge" class="pill">👤 Student</span>
+    <span id="scoreBadge" class="pill">⭐ 0 XP</span>
+    <a class="pill link" href="professional-universe.html">← Universe</a>
+    <a class="pill link" href="final-certificate.html">🏆 Certificate</a>
+  </div>
+</header>
+
+<main class="lab-shell">
+  <aside class="lab-list-panel">
+    <div class="panel-title"><span>20 PRACTICAL LABS</span><b>Choose a Mission</b></div>
+    <div id="labList" class="lab-list"></div>
+  </aside>
+
+  <section class="workspace">
+    <header class="mission-head">
+      <div>
+        <span id="missionLevel" class="kicker">CLASS 7–10</span>
+        <h1 id="missionTitle">Professional Lab</h1>
+        <p id="missionDesc"></p>
+      </div>
+      <div class="mission-actions">
+        <button id="hintBtn" class="btn soft" type="button">💡 Hint</button>
+        <button id="resetBtn" class="btn ghost" type="button">↺ Reset Lab</button>
+        <button id="verifyBtn" class="btn primary" type="button">✅ Verify & Score</button>
+      </div>
+    </header>
+
+    <div class="lab-grid">
+      <section class="device-panel card">
+        <div class="card-head"><b>🧰 Devices / Tools</b><small>Click to add a device to the canvas.</small></div>
+        <div id="devicePalette" class="device-palette"></div>
+        <div class="tool-divider"></div>
+        <div class="card-head compact"><b>Mission Checklist</b><small id="checkProgress">0/0 complete</small></div>
+        <div id="checklist" class="checklist"></div>
+      </section>
+
+      <section class="canvas-panel card">
+        <div class="canvas-toolbar">
+          <span><b>Topology / Workbench</b><small>Drag devices. Select one to configure it.</small></span>
+          <div>
+            <button id="connectBtn" class="mini-btn" type="button">🔗 Connect Mode</button>
+            <button id="testBtn" class="mini-btn" type="button">📡 Test Network</button>
+          </div>
+        </div>
+        <div id="canvas" class="canvas">
+          <div id="canvasHint" class="canvas-hint">Add devices from the left panel to begin.</div>
+          <svg id="cableSvg" class="cable-svg" aria-hidden="true"></svg>
+        </div>
+
+        <div class="terminal">
+          <div class="terminal-top"><b>Terminal / Event Log</b><button id="clearTerminal" type="button">Clear</button></div>
+          <div id="terminalOut" class="terminal-out"><div>BrightByte Professional Lab CLI ready.</div><div>Try: help</div></div>
+          <form id="terminalForm" class="terminal-form">
+            <span>&gt;</span><input id="terminalInput" autocomplete="off" spellcheck="false" placeholder="ipconfig, ping 192.168.1.1, nslookup example.com, show vlan brief...">
+          </form>
+        </div>
+      </section>
+
+      <aside class="config-panel card">
+        <div class="card-head"><b>⚙️ Properties / Configuration</b><small id="selectedLabel">Select a device or answer the scenario.</small></div>
+        <div id="configBody"></div>
+      </aside>
+    </div>
+
+    <section class="score-card">
+      <div><span>DIAGNOSIS</span><b id="diagScore">—</b></div>
+      <div><span>CONFIGURATION</span><b id="configScore">—</b></div>
+      <div><span>VERIFICATION</span><b id="verifyScore">—</b></div>
+      <div><span>DOCUMENTATION</span><b id="docScore">—</b></div>
+      <div><span>SAFE WORKING</span><b id="safeScore">—</b></div>
+      <div class="total"><span>TOTAL</span><b id="totalScore">—</b></div>
+    </section>
+  </section>
+</main>
+
+<div id="modal" class="modal-backdrop" aria-hidden="true"><div class="modal-card"><button id="modalClose" class="modal-close" type="button">×</button><div id="modalBody"></div></div></div>
+<div id="toast" class="toast"></div>
+<script src="professional-lab.js?v=41.0"></script>
+</body>
+</html>
