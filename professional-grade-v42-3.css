@@ -1,0 +1,327 @@
+/* ============================================================
+   V42.3 — CLASS 7–10 PROFESSIONAL GRADE THEME
+   Slightly darker, low-glare, higher readability and mobile polish.
+   Scoped by body.professional-grade so Class 1–6 remain unchanged.
+   ============================================================ */
+
+body.professional-grade{
+  --pro-bg:#cfd9e0;
+  --pro-bg-2:#d9e2e8;
+  --pro-panel:#e9eef2;
+  --pro-panel-2:#f0f4f6;
+  --pro-ink:#18354b;
+  --pro-muted:#5e7689;
+  --pro-line:#b8cbd8;
+  --pro-blue:#7faed4;
+  --pro-teal:#7fc8c1;
+  --pro-purple:#b09bd7;
+  --pro-gold:#d2b06f;
+  --pro-red:#d6a0aa;
+  background:
+    radial-gradient(circle at 8% 2%,rgba(42,92,135,.12),transparent 27%),
+    radial-gradient(circle at 92% 6%,rgba(23,125,121,.09),transparent 23%),
+    linear-gradient(180deg,#dce4e9,#ccd6dd 55%,#d8e1e6)!important;
+  color:var(--pro-ink)!important;
+}
+
+/* ---------- Professional universe ---------- */
+body.professional-grade .page-bg{
+  background:
+    radial-gradient(circle at 9% 3%,rgba(43,91,135,.13),transparent 28%),
+    radial-gradient(circle at 92% 8%,rgba(21,135,128,.10),transparent 24%),
+    linear-gradient(180deg,#dbe4e9,#cdd7de 56%,#d7e0e5)!important;
+}
+body.professional-grade .topbar{
+  background:rgba(228,235,239,.96)!important;
+  border-color:#b8c8d3!important;
+  box-shadow:0 6px 20px rgba(25,48,66,.09)!important;
+}
+body.professional-grade .top-chip,
+body.professional-grade .top-link{
+  background:#edf2f5!important;
+  border-color:#b9cbd7!important;
+  color:#294b63!important;
+  font-size:11px!important;
+}
+body.professional-grade .command-hero{
+  background:
+    radial-gradient(circle at 90% 8%,rgba(26,133,127,.13),transparent 26%),
+    linear-gradient(135deg,#e7edf1,#d9e3e8 58%,#d4e0e5)!important;
+  border-color:#aebfcb!important;
+}
+body.professional-grade .student-card,
+body.professional-grade .control-deck,
+body.professional-grade .metric-strip button,
+body.professional-grade .stage-rail button,
+body.professional-grade .mission-panel,
+body.professional-grade .tool-panel{
+  background:#e9eef2!important;
+}
+body.professional-grade .student-card{border-color:#94b8d3!important}
+body.professional-grade .control-deck{border-color:#a7c3d3!important}
+body.professional-grade .metric-strip button{border-color:#9fbfd6!important}
+body.professional-grade .metric-strip button:nth-child(2){border-color:#8fcfc8!important}
+body.professional-grade .metric-strip button:nth-child(3){border-color:#b8a6dc!important}
+body.professional-grade .metric-strip button:nth-child(4){border-color:#d6b46f!important}
+body.professional-grade .stage-rail button{border-color:#b6c7d2!important}
+body.professional-grade .mission-panel{border-color:#a9c3d4!important}
+body.professional-grade .tool-panel{border-color:#baa9d8!important}
+body.professional-grade .deck-card,
+body.professional-grade .mission-card,
+body.professional-grade .quick-grid button{
+  background:#f0f4f6!important;
+  box-shadow:0 6px 16px rgba(31,55,73,.05)!important;
+}
+body.professional-grade .class-focus{
+  background:#dfe8ed!important;border-color:#aec3cf!important
+}
+body.professional-grade .workspace-overlay{background:#cfd9df!important}
+body.professional-grade .workspace-header{background:#e6ecef!important;border-color:#b9c9d3!important}
+body.professional-grade .workspace-hero,
+body.professional-grade .workspace-card,
+body.professional-grade .module-card,
+body.professional-grade .project-card,
+body.professional-grade .metric-card,
+body.professional-grade .flow-step,
+body.professional-grade .command-item{
+  background:#e9eef2!important;
+}
+body.professional-grade .workspace-hero{border-color:#a9c2d1!important}
+body.professional-grade .workspace-card,
+body.professional-grade .module-card,
+body.professional-grade .project-card,
+body.professional-grade .metric-card,
+body.professional-grade .flow-step,
+body.professional-grade .command-item{border-color:#b6cad7!important}
+body.professional-grade .workspace-list div,
+body.professional-grade .topology{
+  background:#dde6eb!important;border-color:#b8cad5!important
+}
+body.professional-grade .workspace-heading h2,
+body.professional-grade .workspace-hero h3,
+body.professional-grade .workspace-card h3,
+body.professional-grade .module-card h3{color:#173a55!important}
+body.professional-grade .workspace-heading p,
+body.professional-grade .workspace-hero p,
+body.professional-grade .workspace-card p,
+body.professional-grade .module-card p{color:#536d80!important}
+
+/* ---------- Professional lab ---------- */
+body.professional-grade.professional-lab-page{
+  background:#ccd6dd!important;color:#18344c!important
+}
+body.professional-grade.professional-lab-page .topbar{
+  background:#22394b!important;border-bottom-color:#36566d!important
+}
+body.professional-grade.professional-lab-page .lab-list-panel{
+  background:#263d50!important;color:#f5f8fa!important
+}
+body.professional-grade.professional-lab-page .lab-item{
+  background:#314c61!important;border-color:#45657c!important
+}
+body.professional-grade.professional-lab-page .lab-item:hover,
+body.professional-grade.professional-lab-page .lab-item.active{
+  background:linear-gradient(135deg,#3c5f75,#315f63)!important;
+  border-color:#72aaa7!important
+}
+body.professional-grade.professional-lab-page .workspace{
+  background:#d6dfe5!important
+}
+body.professional-grade.professional-lab-page .card,
+body.professional-grade.professional-lab-page .score-card>div{
+  background:#e9eef2!important;border-color:#b5c8d5!important
+}
+body.professional-grade.professional-lab-page .mission-head h1{font-size:31px!important;color:#183a54}
+body.professional-grade.professional-lab-page .mission-head p{font-size:12px!important;color:#596f82!important}
+body.professional-grade.professional-lab-page .card-head b{font-size:12px!important}
+body.professional-grade.professional-lab-page .card-head small{font-size:9px!important;color:#687f91!important}
+body.professional-grade.professional-lab-page .device-tool{font-size:9px!important;background:#edf2f5!important;border-color:#c0d0da!important}
+body.professional-grade.professional-lab-page .check-item{font-size:9px!important;background:#dfe7ec!important}
+body.professional-grade.professional-lab-page .canvas{
+  background:
+    linear-gradient(#607d930d 1px,transparent 1px),
+    linear-gradient(90deg,#607d930d 1px,transparent 1px),
+    linear-gradient(180deg,#edf2f5,#dce6eb)!important;
+  background-size:24px 24px!important
+}
+body.professional-grade.professional-lab-page .config-section{background:#dfe7ec!important}
+body.professional-grade.professional-lab-page .field label{font-size:8.5px!important}
+body.professional-grade.professional-lab-page .field input,
+body.professional-grade.professional-lab-page .field select,
+body.professional-grade.professional-lab-page .field textarea{font-size:9.5px!important;background:#f1f4f6!important}
+body.professional-grade.professional-lab-page .choice{font-size:9px!important;background:#edf2f5!important}
+body.professional-grade.professional-lab-page .score-card span{font-size:7.5px!important}
+body.professional-grade.professional-lab-page .score-card b{font-size:20px!important}
+
+/* ---------- Student exam center: professional students only ---------- */
+body.professional-grade.professional-exam-page{
+  background:
+    radial-gradient(circle at 8% 4%,rgba(45,91,135,.10),transparent 24%),
+    radial-gradient(circle at 92% 5%,rgba(28,133,127,.08),transparent 24%),
+    linear-gradient(180deg,#dbe3e8,#ccd6dd 58%,#d7e0e5)!important;
+}
+body.professional-grade.professional-exam-page .topbar{
+  background:rgba(230,236,240,.96)!important;border-color:#b7c7d2!important
+}
+body.professional-grade.professional-exam-page .back-btn,
+body.professional-grade.professional-exam-page .icon-btn{
+  background:#dce5ea!important;border-color:#b4c7d3!important;color:#29485e!important
+}
+body.professional-grade.professional-exam-page .hero{
+  background:
+    radial-gradient(circle at 88% 10%,rgba(52,141,133,.24),transparent 28%),
+    linear-gradient(135deg,#213c50,#2e5268 56%,#396d78)!important;
+  box-shadow:0 24px 58px rgba(28,51,68,.18)!important
+}
+body.professional-grade.professional-exam-page .hero .eyebrow{color:#8fe4dc!important}
+body.professional-grade.professional-exam-page .hero p{color:#d9e5eb!important}
+body.professional-grade.professional-exam-page .info-strip>div,
+body.professional-grade.professional-exam-page .exam-card,
+body.professional-grade.professional-exam-page .empty-card,
+body.professional-grade.professional-exam-page .safe-box,
+body.professional-grade.professional-exam-page .question-card,
+body.professional-grade.professional-exam-page .review-stage{
+  background:#e9eef2!important;border-color:#b9cbd7!important
+}
+body.professional-grade.professional-exam-page .info-strip b{font-size:17px!important;color:#1e4058!important}
+body.professional-grade.professional-exam-page .info-strip small{font-size:12px!important;color:#5e7487!important}
+body.professional-grade.professional-exam-page .section-head h2{font-size:31px!important;color:#1c4059}
+body.professional-grade.professional-exam-page .legend{font-size:11px!important;background:#e5ebef!important;border-color:#b9cad5!important}
+body.professional-grade.professional-exam-page .empty-card b{font-size:15px!important;color:#415b6e!important}
+body.professional-grade.professional-exam-page .empty-card small{font-size:11px!important;color:#647b8d!important}
+body.professional-grade.professional-exam-page .safe-box{color:#435f72!important}
+body.professional-grade.professional-exam-page .safe-box b{color:#1f4058!important;font-size:15px!important}
+body.professional-grade.professional-exam-page .safe-box p{font-size:12px!important}
+body.professional-grade.professional-exam-page .exam-shell{background:#d4dde3!important}
+body.professional-grade.professional-exam-page .question-card h2{font-size:clamp(24px,3.5vw,36px)!important}
+body.professional-grade.professional-exam-page .option{background:#edf2f5!important;border-color:#bdccd6!important;color:#243f54!important;font-size:14px}
+body.professional-grade.professional-exam-page .option.selected{background:#dce8ec!important;border-color:#4a918a!important}
+
+/* ---------- Certificate center: professional students only ---------- */
+body.professional-grade.professional-certificate-page{
+  background:#cfd8df!important;color:#18354b!important
+}
+body.professional-grade.professional-certificate-page .topbar{
+  background:#e5ebef!important;border-color:#b9c9d3!important
+}
+body.professional-grade.professional-certificate-page .hero{
+  background:
+    radial-gradient(circle at 90% 0,rgba(47,145,135,.22),transparent 28%),
+    linear-gradient(135deg,#203d50,#2d5268 58%,#3a6b77)!important
+}
+body.professional-grade.professional-certificate-page .requirements article,
+body.professional-grade.professional-certificate-page .score-panel,
+body.professional-grade.professional-certificate-page .detail-card,
+body.professional-grade.professional-certificate-page .locked-message,
+body.professional-grade.professional-certificate-page .loading-card{
+  background:#e9eef2!important;border-color:#b9cbd7!important
+}
+body.professional-grade.professional-certificate-page .requirements b{font-size:13px!important}
+body.professional-grade.professional-certificate-page .requirements small{font-size:9px!important;color:#607789!important}
+body.professional-grade.professional-certificate-page .detail-card h3{font-size:15px}
+body.professional-grade.professional-certificate-page .progress-row{font-size:10px!important}
+
+/* ---------- Tech AI buddy ---------- */
+#proTechBuddyBtn{
+  position:fixed;right:18px;bottom:18px;z-index:9000;
+  width:78px;height:78px;border:0;border-radius:24px;
+  background:linear-gradient(135deg,#244b66,#1a9189);
+  color:#fff;box-shadow:0 18px 44px rgba(23,50,69,.26);
+  font-weight:1000;font-size:11px;line-height:1.1
+}
+#proTechBuddyBtn span{display:block;font-size:29px;margin-bottom:4px}
+#proTechBuddyBtn:hover{transform:translateY(-2px)}
+#proTechBuddyPanel{
+  position:fixed;right:18px;bottom:106px;z-index:9001;
+  width:min(430px,calc(100vw - 24px));max-height:min(680px,calc(100vh - 135px));
+  display:none;grid-template-rows:auto 1fr auto;
+  background:#e6ecef;border:1px solid #9fb7c6;border-radius:22px;
+  box-shadow:0 28px 80px rgba(22,47,65,.28);overflow:hidden
+}
+#proTechBuddyPanel.open{display:grid}
+.pro-buddy-head{
+  display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;
+  padding:13px 14px;background:#243f53;color:#fff
+}
+.pro-buddy-logo{
+  width:44px;height:44px;border-radius:14px;display:grid;place-items:center;
+  background:linear-gradient(135deg,#29b8ae,#4f7cda,#775ad1);font-size:23px
+}
+.pro-buddy-head b,.pro-buddy-head small{display:block}
+.pro-buddy-head b{font-size:14px}
+.pro-buddy-head small{margin-top:2px;color:#c9d8e1;font-size:9px}
+.pro-buddy-close{border:0;background:#ffffff14;color:#fff;width:34px;height:34px;border-radius:10px;font-size:20px}
+.pro-buddy-messages{overflow:auto;padding:13px;display:grid;gap:9px;background:#dbe4e9}
+.pro-buddy-msg{max-width:88%;padding:10px 12px;border-radius:14px;font-size:12px;line-height:1.55;white-space:pre-wrap}
+.pro-buddy-msg.bot{justify-self:start;background:#f0f4f6;border:1px solid #b7cbd6;color:#25475f}
+.pro-buddy-msg.user{justify-self:end;background:#2e617d;color:#fff}
+.pro-buddy-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:4px}
+.pro-buddy-chips button{
+  border:1px solid #adc5d2;background:#edf2f5;color:#31566f;
+  border-radius:999px;padding:7px 9px;font-size:9px;font-weight:900
+}
+.pro-buddy-form{
+  display:grid;grid-template-columns:1fr auto;gap:8px;padding:11px;
+  background:#e7edf0;border-top:1px solid #b9cbd5
+}
+.pro-buddy-form input{
+  width:100%;border:1px solid #aebfca;border-radius:11px;padding:11px 12px;
+  background:#f4f7f8;color:#203f56;outline:none;font-size:12px
+}
+.pro-buddy-form button{
+  border:0;border-radius:11px;padding:0 14px;background:#1c8f87;color:#fff;font-weight:1000
+}
+.pro-buddy-note{padding:0 12px 10px;background:#e7edf0;color:#6b8192;font-size:8.5px}
+body.pro-active-exam #proTechBuddyBtn,
+body.pro-active-exam #proTechBuddyPanel{display:none!important}
+
+/* ---------- Responsive ---------- */
+@media(max-width:900px){
+  body.professional-grade .topbar{gap:8px}
+  body.professional-grade .top-actions{gap:5px}
+  body.professional-grade .top-chip,
+  body.professional-grade .top-link{font-size:9.5px!important;padding:8px 8px!important}
+  body.professional-grade.professional-exam-page .info-strip{grid-template-columns:1fr 1fr!important}
+}
+@media(max-width:620px){
+  body.professional-grade{font-size:15px}
+  body.professional-grade .topbar{padding:9px 8px!important}
+  body.professional-grade .brand b{white-space:normal!important}
+  body.professional-grade .top-actions{width:100%;overflow-x:auto;flex-wrap:nowrap!important;padding-bottom:3px}
+  body.professional-grade .top-chip,
+  body.professional-grade .top-link{flex:0 0 auto;font-size:9px!important}
+  body.professional-grade .deck-grid{grid-template-columns:1fr 1fr!important}
+  body.professional-grade .metric-strip{grid-template-columns:1fr 1fr!important}
+  body.professional-grade .stage-rail{grid-template-columns:1fr 1fr!important}
+  body.professional-grade .compact-board{grid-template-columns:1fr!important}
+  body.professional-grade .mission-grid{grid-template-columns:1fr 1fr!important}
+  body.professional-grade .quick-grid{grid-template-columns:1fr 1fr!important}
+
+  body.professional-grade.professional-lab-page .lab-list{grid-template-columns:1fr!important}
+  body.professional-grade.professional-lab-page .device-palette{grid-template-columns:1fr 1fr!important}
+  body.professional-grade.professional-lab-page .mission-head h1{font-size:25px!important}
+
+  body.professional-grade.professional-exam-page .page{width:min(100% - 16px,1180px)!important}
+  body.professional-grade.professional-exam-page .hero{padding:24px 20px!important}
+  body.professional-grade.professional-exam-page .hero h1{font-size:34px!important}
+  body.professional-grade.professional-exam-page .hero p{font-size:12px!important}
+  body.professional-grade.professional-exam-page .info-strip{grid-template-columns:1fr!important}
+  body.professional-grade.professional-exam-page .exam-list{grid-template-columns:1fr!important}
+  body.professional-grade.professional-exam-page .exam-head{display:block!important}
+  body.professional-grade.professional-exam-page .exam-head-right{margin-top:10px!important}
+
+  body.professional-grade.professional-certificate-page .hero{padding:22px!important}
+  body.professional-grade.professional-certificate-page .requirements{grid-template-columns:1fr!important}
+  body.professional-grade.professional-certificate-page .score-grid{grid-template-columns:1fr 1fr!important}
+
+  #proTechBuddyBtn{right:12px;bottom:12px;width:64px;height:64px;border-radius:19px;font-size:9px}
+  #proTechBuddyBtn span{font-size:23px}
+  #proTechBuddyPanel{
+    right:7px;bottom:82px;width:calc(100vw - 14px);max-height:calc(100vh - 95px);border-radius:18px
+  }
+  .pro-buddy-msg{font-size:11px;max-width:93%}
+}
+
+@media print{
+  #proTechBuddyBtn,#proTechBuddyPanel{display:none!important}
+}
