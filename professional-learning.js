@@ -3,7 +3,7 @@
 "use strict";
 
 /* ============================================================
-   V45.0 — PROFESSIONAL GUIDED LEARNING ACADEMY
+   V45.2 — PROFESSIONAL GUIDED LEARNING ACADEMY
    Course -> Lesson Notes -> Mini Lab -> Next Lesson
    ============================================================ */
 
@@ -52,6 +52,24 @@ const MEDIA_LIBRARY={
  cyber:{label:"Cybersecurity Basics",subtitle:"Protect identities, devices and data.",detail:"Strong passwords, MFA, careful email handling and privacy awareness are essential student habits.",steps:["Recognise suspicious links or urgent requests.","Never share OTPs or passwords.","Report strange activity early."],emoji:"🛡️"},
  defaultx:{label:"Technology Visual Guide",subtitle:"A clear picture helps students connect theory with practice.",detail:"Use the visual card, notes and walkthrough together. The goal is not only to remember a definition, but to know where the item fits in a real workflow.",steps:["Read the note carefully.","Open the visual guide.","Relate the item to the lab you are about to perform."],emoji:"📘"}
 };
+
+/* V45.2 — real equipment photographs from Wikimedia Commons.
+   Each photo keeps a source-page credit in the learning popup. */
+const REAL_MEDIA_PHOTOS={
+ nic:{photo:"https://commons.wikimedia.org/wiki/Special:FilePath/Ethernet_pci_card.jpg?width=1200",credit:"Ethernet PCI card — Wikimedia Commons (Public Domain)",creditUrl:"https://commons.wikimedia.org/wiki/File:Ethernet_pci_card.jpg"},
+ switch:{photo:"https://commons.wikimedia.org/wiki/Special:FilePath/Network_switches.jpg?width=1400",credit:"Network switches and CAT5 cables — Wikimedia Commons, ShakataGaNai, CC BY-SA 3.0",creditUrl:"https://commons.wikimedia.org/wiki/File:Network_switches.jpg"},
+ router:{photo:"https://commons.wikimedia.org/wiki/Special:FilePath/Wireless_Router.jpg?width=1400",credit:"Wireless router — Wikimedia Commons, Deavmi, CC BY-SA 3.0",creditUrl:"https://commons.wikimedia.org/wiki/File:Wireless_Router.jpg"},
+ firewall:{photo:"https://commons.wikimedia.org/wiki/Special:FilePath/Firewall-X400.png?width=1400",credit:"Firewall appliance — Wikimedia Commons, Cuda-mwolfe",creditUrl:"https://commons.wikimedia.org/wiki/File:Firewall-X400.png"},
+ modem:{photo:"https://commons.wikimedia.org/wiki/Special:FilePath/Boitier-Fibre-Orange_-_IMG_6455.jpg?width=1200",credit:"Fiber ONT example — Wikimedia Commons, Poudou99",creditUrl:"https://commons.wikimedia.org/wiki/File:Boitier-Fibre-Orange_-_IMG_6455.jpg"},
+ hub:{photo:"https://commons.wikimedia.org/wiki/Special:FilePath/4_port_netgear_ethernet_hub.jpg?width=1000",credit:"4-port Ethernet hub — Wikimedia Commons, Public Domain",creditUrl:"https://commons.wikimedia.org/wiki/File:4_port_netgear_ethernet_hub.jpg"},
+ ap:{photo:"https://commons.wikimedia.org/wiki/Special:FilePath/Wireless_access_point.jpg?width=1200",credit:"Wireless access point — Wikimedia Commons, CC0",creditUrl:"https://commons.wikimedia.org/wiki/File:Wireless_access_point.jpg"},
+ patch:{photo:"https://commons.wikimedia.org/wiki/Special:FilePath/Ethernet_Patch_Panel_20171121_130458.jpg?width=1000",credit:"Ethernet patch panel — Wikimedia Commons, Kbh3rd, CC BY 4.0",creditUrl:"https://commons.wikimedia.org/wiki/File:Ethernet_Patch_Panel_20171121_130458.jpg"},
+ cat5:{photo:"https://commons.wikimedia.org/wiki/Special:FilePath/Cat_5.jpg?width=1000",credit:"Category 5 Ethernet cable — Wikimedia Commons, Fo0bar, CC BY-SA 3.0",creditUrl:"https://commons.wikimedia.org/wiki/File:Cat_5.jpg"},
+ rj45:{photo:"https://commons.wikimedia.org/wiki/Special:FilePath/RJ45_Connector.svg?width=1000",credit:"8P8C / RJ45 connector illustration — Wikimedia Commons",creditUrl:"https://commons.wikimedia.org/wiki/File:RJ45_Connector.svg"},
+ tester:{photo:"https://commons.wikimedia.org/wiki/Special:FilePath/Network_cable_tester.jpg?width=1200",credit:"Network cable tester — Wikimedia Commons, George Shuklin, Public Domain",creditUrl:"https://commons.wikimedia.org/wiki/File:Network_cable_tester.jpg"}
+};
+Object.entries(REAL_MEDIA_PHOTOS).forEach(([key,val])=>{if(MEDIA_LIBRARY[key])Object.assign(MEDIA_LIBRARY[key],val)});
+
 function svgForMedia(item,index=0){
  const title=item.label||'Technology Visual';
  const sub=item.subtitle||item.detail||'';
@@ -67,7 +85,7 @@ function resolveMediaItems(raw){
  const found=[];
  for(const [needle,key] of pairs){ if(low.includes(needle) && !found.includes(key)) found.push(key); if(found.length>=4) break; }
  if(!found.length) found.push('defaultx');
- return found.map((key,idx)=>({...MEDIA_LIBRARY[key],key,image:svgForMedia(MEDIA_LIBRARY[key],idx)}));
+ return found.map((key,idx)=>({...MEDIA_LIBRARY[key],key,image:MEDIA_LIBRARY[key].photo||svgForMedia(MEDIA_LIBRARY[key],idx)}));
 }
 function ensureMediaModal(){
  let wrap=document.getElementById('proMediaModal');
@@ -87,259 +105,341 @@ function openMediaModal(title, raw, intro='Large visual guide with equipment car
  wrap.querySelector('#proMediaTitle').textContent=title||'Technology Visual Guide';
  wrap.querySelector('#proMediaIntro').textContent=intro;
  tagBox.innerHTML=items.map(x=>`<span>${esc(x.label)}</span>`).join('');
- mediaBody.innerHTML=`<section class="pro-media-strip">${items.map(item=>`<article class="pro-media-tile"><img src="${item.image}" alt="${esc(item.label)} visual guide"><div><b>${esc(item.label)}</b><p>${esc(item.detail)}</p></div></article>`).join('')}</section><section class="pro-demo-rail">${items.map(item=>`<article class="pro-demo-card"><span class="play">▶</span><b>${esc(item.label)} — Video-style walkthrough</b><p>${esc(item.subtitle)}</p><ul>${(item.steps||[]).map(s=>`<li>${esc(s)}</li>`).join('')}</ul></article>`).join('')}</section>`;
+ mediaBody.innerHTML=`<section class="pro-media-strip">${items.map(item=>`<article class="pro-media-tile"><img src="${item.image}" alt="${esc(item.label)} visual guide" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src=svgForMedia(MEDIA_LIBRARY[item.key]||item,0)"><div><b>${esc(item.label)}</b><p>${esc(item.detail)}</p>${item.credit?`<small class="pro-photo-credit">${esc(item.credit)}</small>`:""}</div></article>`).join('')}</section><section class="pro-demo-rail">${items.map(item=>`<article class="pro-demo-card"><span class="play">▶</span><b>${esc(item.label)} — Video-style walkthrough</b><p>${esc(item.subtitle)}</p><ul>${(item.steps||[]).map(s=>`<li>${esc(s)}</li>`).join('')}</ul></article>`).join('')}</section>`;
  wrap.classList.add('open'); wrap.setAttribute('aria-hidden','false');
 }
 
 
 const COURSES={
 network:{
- id:"network",icon:"🌐",title:"Network Engineering",subtitle:"From cables and devices to IP, switching, routing, Wi-Fi and troubleshooting.",
- finalLab:"professional-lab.html?lab=15",
+ id:"network",icon:"🌐",title:"Network Engineering",subtitle:"From real network equipment to IP addressing, switching, routing, Wi-Fi and troubleshooting — explained in simple English.",
+ finalLab:"professional-lab.html?track=network",
  lessons:[
- L("net-01","Network Devices, NICs & Ethernet Cables",7,"18 min",
-  "Start with the physical things you can see: NIC, cable, switch, router, access point, firewall and patch panel.",
+ L("net-01","Network Devices, NICs & Ethernet Cables",7,"28 min",
+  "First learn the physical equipment. A student should be able to look at a device or cable and explain what job it performs in the network.",
   [
-   S("What is a computer network?","A network is a group of devices that can communicate and share services. In a small office, computers usually connect to a switch or Wi-Fi access point. The switch connects toward a router or firewall, and the router/firewall connects toward the internet.",[
-    "<b>Endpoint:</b> PC, laptop, printer, IP phone or camera.",
-    "<b>NIC:</b> Network Interface Card. It gives a device a wired or wireless network interface and usually has a MAC address.",
-    "<b>Switch:</b> Connects devices inside the same LAN and forwards Ethernet frames using MAC addresses.",
-    "<b>Router:</b> Connects different IP networks and chooses where IP packets should go.",
-    "<b>Hub:</b> Old shared device that repeats traffic to every port. Switches replaced hubs in normal modern networks.",
-    "<b>Access Point:</b> Gives wireless devices access to the wired LAN.",
-    "<b>Firewall:</b> Applies security rules between networks. It can allow, block or inspect traffic.",
-    "<b>Modem/ONT:</b> Terminates the ISP connection. Fiber commonly uses an ONT."
+   S("What is a computer network?","A computer network is a group of two or more devices connected so they can communicate and share resources. The connection can be wired with Ethernet cable or wireless with Wi-Fi.",[
+    "<b>Simple example:</b> In a school computer lab, 20 PCs may connect to one switch. The switch connects to a router or firewall. The router/firewall connects to the ISP and then to the Internet.",
+    "<b>LAN (Local Area Network):</b> A network inside a limited place such as a home, school, office or building.",
+    "<b>WAN (Wide Area Network):</b> A network that connects locations over a larger distance. The Internet is the biggest example of a WAN.",
+    "<b>Endpoint:</b> The device used by the user, for example a PC, laptop, printer, IP phone, camera or tablet."
    ]),
-   S("Ethernet cable and connectors","Most office Ethernet cabling uses twisted-pair copper cable with an 8P8C connector commonly called RJ45. Cat5e and Cat6 are common categories. The eight wires are arranged as four twisted pairs.",[
-    "<b>Patch cable:</b> A ready-made cable used between PC, wall outlet, switch or patch panel.",
-    "<b>Straight-through:</b> Same wiring standard on both ends, usually T568B-to-T568B or T568A-to-T568A.",
-    "<b>Crossover:</b> Historically used between similar devices; typically T568A on one end and T568B on the other.",
-    "<b>Modern note:</b> Many modern switches and NICs support Auto-MDI/MDIX, so they can automatically handle the pair direction."
+   S("NIC — Network Interface Card","A NIC is the network interface of a computer. It is the part that lets the computer connect to Ethernet or Wi-Fi. A wired NIC usually has an Ethernet port and link/activity lights.",[
+    "Every Ethernet NIC normally has a <b>MAC address</b>, which is used for local Layer-2 communication.",
+    "A desktop NIC may be built into the motherboard or installed as a PCI/PCIe card.",
+    "If the NIC is disabled, has a bad driver, or has no link, the computer may not communicate even when the IP settings are correct.",
+    "<b>Technician check:</b> Is the adapter enabled? Is the cable connected? Is the link light on? Is the driver healthy?"
+   ]),
+   S("Switch, hub, router and firewall","These devices can look similar, but their jobs are different. Students should learn the job, not only the name.",[
+    "<b>Switch:</b> Connects devices inside the same LAN. It learns MAC addresses and sends Ethernet frames toward the correct port.",
+    "<b>Hub:</b> Old technology. It repeats incoming traffic to every port. A switch is smarter and more efficient, so hubs are rarely used now.",
+    "<b>Router:</b> Connects different IP networks. It is commonly the device that helps a LAN reach another LAN or the Internet.",
+    "<b>Firewall:</b> Protects networks by applying security rules. It can allow, block or inspect traffic.",
+    "<b>Important:</b> One physical device can sometimes perform several jobs. A home wireless router may include a router, small switch, firewall, DHCP server and Wi-Fi access point."
+   ]),
+   S("Modem / ONT, ISP, access point and patch panel","These are also common parts of a real network installation.",[
+    "<b>ISP:</b> Internet Service Provider — the company that gives your home, school or office an Internet connection.",
+    "<b>Modem / ONT:</b> The ISP handoff device. Fiber connections commonly use an ONT (Optical Network Terminal).",
+    "<b>Access Point (AP):</b> Provides Wi-Fi access and connects wireless clients to the wired LAN.",
+    "<b>Patch Panel:</b> A passive panel in a rack or cabinet where permanent building cables are terminated and labelled. Short patch cords connect patch-panel ports to switch ports."
+   ]),
+   S("Ethernet cable, Cat5e, Cat6 and RJ45","Most school and office LANs use twisted-pair Ethernet cable. The cable contains eight copper conductors arranged as four twisted pairs.",[
+    "<b>Cat5e:</b> Commonly used for Gigabit Ethernet (1 Gbps) in normal structured cabling.",
+    "<b>Cat6:</b> Better control of interference/crosstalk and can support higher speeds over suitable distances and equipment.",
+    "<b>RJ45:</b> The common name used for the 8P8C modular Ethernet plug.",
+    "<b>Patch cable:</b> A short ready-made cable used between a PC and wall outlet, or between patch panel and switch.",
+    "<b>Straight-through:</b> Same wiring standard at both ends, usually T568B-B or T568A-A.",
+    "<b>Traditional crossover:</b> T568A at one end and T568B at the other. Modern Auto-MDI/MDIX equipment usually removes the need for crossover cables."
    ],{cable:true}),
-   S("Simple crimping workflow","For a supervised training cable, work slowly and keep the twisted pairs untwisted only as much as needed.",[
-    "1. Cut the cable cleanly and slide on a boot if you use one.",
-    "2. Strip a short part of the outer jacket without damaging the inner wires.",
-    "3. Untwist and arrange the eight conductors in the chosen T568A or T568B order.",
-    "4. Straighten and trim them evenly.",
-    "5. Push all conductors fully into the connector and confirm the order visually.",
-    "6. Use the correct crimp tool.",
-    "7. Test the cable with a cable tester before using it.",
-    "Safety: disconnect a cable from PoE/network equipment before re-terminating it. Network cable is not mains electrical wiring."
-   ],{callout:"Think physical layer first: power, cable, link light, port and NIC state."})
+   S("Cable tools and a simple crimping workflow","A junior technician should recognise the basic tools and understand the safe sequence, even when crimping is done under supervision.",[
+    "<b>Crimping tool:</b> Secures a compatible modular plug onto the cable conductors.",
+    "<b>Cable tester:</b> Checks continuity and pin order. It can help find open, shorted or wrongly arranged conductors.",
+    "<b>Tone generator and probe:</b> Helps trace an unknown cable through a bundle or patch panel.",
+    "<b>Workflow:</b> Cut → strip jacket → arrange wires → trim evenly → insert fully → crimp → test → label.",
+    "<b>Safety:</b> Disconnect the cable from active/PoE equipment before re-terminating it."
+   ],{callout:"For physical network faults, start with power, cable, connector, port, link light and NIC status before changing IP settings."})
   ],
-  [["NIC","Connects an endpoint to a network."],["MAC address","A Layer-2 hardware address used on Ethernet LANs."],["Switch","Connects devices in a LAN."],["Router","Moves traffic between different IP networks."],["Firewall","Controls traffic according to security policy."]],
-  {title:"Mini Lab — Identify the Network Parts",scenario:"A small office has two PCs, one network printer, one switch, one router/firewall and one ISP ONT. Choose the correct device for each job.",
-   tasks:["Draw this path on paper: PC → Switch → Router/Firewall → ONT → Internet.","Write the T568B wire order once from pin 1 to pin 8.","Name one difference between a hub and a switch."],
-   questions:[
-    Q("Which device normally connects several wired PCs inside one LAN?",["Switch","ONT","Keyboard"],0,"A switch connects LAN endpoints and forwards Ethernet frames."),
-    Q("What does a NIC provide to a computer?",["A network interface","A printer queue","An email mailbox"],0,"The NIC is the computer's network interface."),
-    Q("Which statement about a crossover cable is correct?",["It normally uses different wiring standards at each end","It is always required for every router","It carries internet without a switch"],0,"Traditional crossover cabling uses T568A on one end and T568B on the other.")
-   ]},
- {diagram:["🖥️ PC","🔀 Switch","🧭 Router / Firewall","📡 ONT / ISP","☁️ Internet"]}),
- L("net-02","IPv4, Subnet Mask, Gateway, DNS & DHCP",7,"20 min",
-  "Learn the four values a support technician checks first on a client: IP address, subnet mask, default gateway and DNS.",
+  [["NIC","The computer's network interface."],["MAC address","Layer-2 address used for local Ethernet delivery."],["Switch","Connects devices inside a LAN."],["Router","Connects different IP networks."],["Firewall","Controls traffic according to security policy."],["ONT","Fiber ISP handoff device."],["Patch panel","Passive cable termination and organisation point."]],
+  {title:"Mini Lab — Identify the Network Parts",scenario:"A small school office has PCs, a network printer, switch, firewall/router, Wi-Fi AP and fiber ONT.",tasks:["Draw: PC → Switch → Router/Firewall → ONT → ISP/Internet.","Explain one difference between a switch and a hub.","Identify Cat5e/Cat6 cable, RJ45 plug and cable tester.","Write the T568B colour order."],questions:[
+   Q("Which device normally connects many wired devices in one LAN?",["Switch","ONT","Keyboard"],0,"A switch connects local Ethernet endpoints."),
+   Q("Which device normally moves traffic between different IP networks?",["Router","Patch panel","Cable tester"],0,"Routing is a Layer-3 function."),
+   Q("What does a cable tester mainly check?",["Continuity and pin order","Internet speed from the ISP","Windows activation"],0,"Basic cable testers check the wiring path and pin mapping."),
+   Q("What is the main job of an access point?",["Provide Wi-Fi access to the LAN","Assign monitor resolution","Crimp Ethernet cables"],0,"An AP connects wireless clients to the wired network.")
+  ]},
+  {diagram:["🖥️ Endpoint","🔀 Switch","🛡️ Router / Firewall","📡 ONT / ISP","☁️ Internet"]}),
+
+ L("net-02","IPv4, Private/Public Networks, Subnet Mask, Gateway, DNS & DHCP",7,"32 min",
+  "Understand what an IPv4 address means, the difference between private and public networks, and the basic settings every support technician checks.",
   [
-   S("The IPv4 address","An IPv4 address identifies an interface on an IPv4 network. A common private office address is 192.168.10.25. Private ranges are used inside local networks and are not directly routed across the public internet.",[
-    "10.0.0.0/8 is private.",
-    "172.16.0.0 through 172.31.255.255 is private.",
-    "192.168.0.0/16 is private.",
-    "Each device in the same LAN normally needs a unique IP address."
+   S("What is an IPv4 address?","An IPv4 address is a 32-bit address written as four decimal numbers separated by dots, for example 192.168.10.25. It identifies a network interface so devices can send IP packets to the correct place.",[
+    "Each part is called an <b>octet</b> and normally has a value from 0 to 255.",
+    "A device can have more than one IP address if it has more than one network interface.",
+    "Inside one LAN, each active device should normally have a unique IP address. Two devices using the same address can create a duplicate-IP problem.",
+    "The IP address works together with the subnet mask to decide which network the device belongs to."
    ]),
-   S("Subnet mask and default gateway","The subnet mask tells the device which addresses are local. A common beginner LAN is /24, which uses 255.255.255.0. The default gateway is usually the router or firewall interface used to reach other networks.",[
-    "Example PC: 192.168.10.25 / 255.255.255.0",
-    "Example gateway: 192.168.10.1",
-    "Another PC at 192.168.10.40 is local in the same /24.",
-    "A server at 192.168.20.10 is in another /24 and needs routing."
+   S("Private network vs public network","A <b>private network</b> is an internal network used inside a home, school or company. Private IPv4 addresses are not routed directly across the public Internet. A <b>public network</b> is reachable through globally routable public IP addresses assigned by an ISP or Internet provider.",[
+    "<b>Private network example:</b> A school may use 192.168.10.0/24 for classroom PCs. Those addresses are meant for internal use.",
+    "<b>Public network example:</b> The Internet-facing side of a router/firewall may receive a public IP address from the ISP.",
+    "Because many organisations can reuse the same private ranges, private addresses are not globally unique.",
+    "To reach the Internet, private clients commonly use <b>NAT</b> on the router/firewall. NAT translates private addresses to a public address for Internet communication."
    ]),
-   S("DHCP, DNS and APIPA","DHCP can automatically provide an IP address, mask, gateway and DNS. DNS translates names such as example.com into IP addresses. If Windows cannot get a normal DHCP lease, it may assign itself a 169.254.x.x APIPA address.",[
-    "<b>169.254.x.x:</b> Strong clue that DHCP or the network path may be unavailable.",
-    "<b>DNS problem:</b> You may be able to ping an IP but not open a site by name.",
-    "<b>Duplicate IP:</b> Two devices using the same address can cause unstable connectivity."
-   ],{callout:"A fast first command on Windows is: ipconfig /all"})
-  ],
-  [["DHCP","Automatically supplies IP configuration."],["DNS","Resolves names to IP addresses."],["Default gateway","Next hop used to reach other networks."],["APIPA","169.254.x.x self-assigned address when normal DHCP is unavailable."]],
-  {title:"Mini Lab — Diagnose an Addressing Problem",scenario:"A user has IP 169.254.33.18, mask 255.255.0.0, no gateway and cannot access the office network.",
-   tasks:["Write the first three checks you would make.","Decide whether the fault is more likely DHCP/path related or DNS-only.","Write a healthy example for the 192.168.10.0/24 LAN."],
-   questions:[
-    Q("What does 169.254.x.x usually suggest on a Windows client?",["DHCP/network path problem","Successful DNS lookup","Correct static address"],0,"APIPA commonly appears when the device cannot obtain normal DHCP configuration."),
-    Q("Which setting is normally needed to reach another IP network?",["Default gateway","Computer name","Printer driver"],0,"The gateway is the next hop toward remote networks."),
-    Q("What is the main job of DNS?",["Translate names and IP addresses","Assign VLANs","Power a switch"],0,"DNS resolves host names to IP addresses and can also perform reverse lookups.")
-   ]},
- {diagram:["IP address","Subnet mask","Default gateway","DNS","DHCP"]}),
- L("net-03","OSI Model & TCP/IP — Simple Technician View",7,"16 min",
-  "Use the OSI model as a troubleshooting map instead of memorizing it only for an exam.",
-  [
-   S("Why use layers?","Layers help you decide where a problem may be. If a cable is unplugged, do not start by changing DNS. If IP works but a website name fails, the problem is higher than the physical link.",[
-    "<b>Layer 1 Physical:</b> cable, connector, signal, link light.",
-    "<b>Layer 2 Data Link:</b> Ethernet frame, MAC address, switch, VLAN.",
-    "<b>Layer 3 Network:</b> IP address, subnet, routing, router.",
-    "<b>Layer 4 Transport:</b> TCP/UDP and port numbers.",
-    "<b>Layer 5 Session:</b> session control concepts.",
-    "<b>Layer 6 Presentation:</b> data format, encryption/encoding concepts.",
-    "<b>Layer 7 Application:</b> DNS, HTTP/HTTPS, email and user applications."
+   S("The three private IPv4 ranges","These ranges are reserved for private internal networks. Students should recognise them quickly.",[
+    "<b>10.0.0.0/8:</b> 10.0.0.0 through 10.255.255.255. Very large private range.",
+    "<b>172.16.0.0/12:</b> 172.16.0.0 through 172.31.255.255. Only 172.16–172.31 is private; the rest of 172.x.x.x is not automatically private.",
+    "<b>192.168.0.0/16:</b> 192.168.0.0 through 192.168.255.255. Very common in homes and small offices.",
+    "<b>Example:</b> 192.168.10.25 is private. 10.20.30.40 is private. 172.20.5.8 is private. But 172.40.5.8 is not in the private 172.16/12 range."
+   ],{callout:"Do not decide private/public by looking only at the first number. Memorise the exact three private ranges."}),
+   S("Subnet mask — which addresses are local?","The subnet mask tells the device which part of the IPv4 address identifies the network and which part identifies the host. A very common beginner subnet is /24, written as 255.255.255.0.",[
+    "Example network: <b>192.168.10.0/24</b>.",
+    "Example hosts: 192.168.10.20 and 192.168.10.40 are in the same /24 network, so they can communicate locally when Layer 2 is working.",
+    "192.168.20.10 is in a different /24 network. Traffic between 192.168.10.0/24 and 192.168.20.0/24 needs a router or Layer-3 gateway.",
+    "For this beginner course, think of /24 as: the first three octets identify the network and the last octet identifies the host."
    ]),
-   S("A practical troubleshooting order","A technician often works from simple local evidence outward.",[
-    "1. Physical: power, cable, Wi-Fi connected, link light.",
-    "2. Local interface: NIC enabled and driver healthy.",
-    "3. Addressing: IP, mask, gateway and DNS.",
-    "4. Reachability: ping local gateway then another target.",
-    "5. Name resolution: nslookup or test by name.",
-    "6. Application: browser, Outlook, Teams or other service."
+   S("Default gateway — the exit door from your LAN","The default gateway is the local router/firewall IP address that a client uses when the destination is outside its own local subnet.",[
+    "Example PC: 192.168.10.25 /24.",
+    "Example gateway: 192.168.10.1.",
+    "When the PC wants to contact 192.168.10.40, it can communicate locally.",
+    "When the PC wants to contact 8.8.8.8 or a device in another subnet, it sends the traffic toward the default gateway.",
+    "A wrong or missing gateway can allow local communication but stop access to remote networks."
+   ]),
+   S("DHCP, DNS and APIPA","These three ideas appear in many real support tickets, so learn what each one does and how the symptoms look.",[
+    "<b>DHCP:</b> Automatically gives a client its IP address, subnet mask, default gateway and DNS settings. This avoids manually configuring every PC.",
+    "<b>DNS:</b> Translates names such as school.example.com into IP addresses. If Internet IP connectivity works but names fail, DNS is a strong area to investigate.",
+    "<b>APIPA:</b> Windows may self-assign an address in 169.254.0.0/16 when normal IPv4 configuration is not obtained. A 169.254.x.x address is an important clue that DHCP or the network path may have failed.",
+    "<b>Duplicate IP:</b> If two devices use the same IPv4 address, one or both can have unstable or failed communication."
+   ],{callout:"First Windows check: run ipconfig /all and read the IPv4 address, mask, default gateway, DHCP and DNS values before changing anything."}),
+   S("A complete healthy client example","Use one complete example to connect all the values together.",[
+    "PC IPv4 address: <b>192.168.10.25</b>",
+    "Subnet mask: <b>255.255.255.0 (/24)</b>",
+    "Default gateway: <b>192.168.10.1</b>",
+    "DNS server: for training, example <b>8.8.8.8</b> or an organisation's internal DNS server.",
+    "Network path: PC → Switch → Gateway/Firewall → ISP → Internet."
    ])
   ],
-  [["Layer 1","Physical media and signal."],["Layer 2","Frames, MAC addresses, switching and VLANs."],["Layer 3","IP and routing."],["Layer 7","User-facing network services and applications."]],
-  {title:"Mini Lab — Put the Fault in the Right Layer",scenario:"Three users report different faults. Match each symptom to the best starting layer.",
-   tasks:["Cable unplugged → identify the starting layer.","Wrong default gateway → identify the starting layer.","DNS name fails but ping 8.8.8.8 works → identify the likely service layer."],
-   questions:[
-    Q("An Ethernet link light is off. Where should you start?",["Physical layer","Application layer","Email settings"],0,"No link light is a physical/link starting point."),
-    Q("A PC has the wrong default gateway. Which OSI layer is most relevant?",["Layer 3 — Network","Layer 1 — Physical","Layer 7 only"],0,"Default gateways and IP routing are Layer 3 concepts."),
-    Q("A website works by IP but not by name. What should you check?",["DNS","RAM speed","HDMI cable"],0,"That symptom strongly points toward name resolution.")
-   ]},
- {}),
- L("net-04","Switching, MAC Addresses & VLAN Basics",8,"20 min",
-  "Understand how switches learn endpoints and how VLANs separate one physical switch into logical networks.",
+  [["IPv4","32-bit Internet Protocol address written in dotted decimal."],["Private IP","Internal IPv4 address from RFC1918 private ranges."],["Public IP","Globally routable IP address used on public networks/Internet."],["Subnet mask","Defines which part of the address is the local network."],["Default gateway","Next-hop router for destinations outside the local subnet."],["DHCP","Automatically supplies client IP configuration."],["DNS","Resolves names to IP addresses."],["APIPA","169.254.x.x self-assigned address when normal configuration is unavailable."]],
+  {title:"Mini Lab — Diagnose an Addressing Problem",scenario:"A classroom PC shows IPv4 169.254.33.18, no default gateway and cannot access the school network.",tasks:["Explain whether 169.254.33.18 is a normal private LAN address or APIPA.","List three checks before changing DNS.","Write a healthy example for 192.168.10.0/24.","Explain private IP vs public IP in one sentence each."],questions:[
+   Q("Which address is inside an RFC1918 private range?",["172.20.10.5","172.40.10.5","200.10.10.5"],0,"172.16.0.0 through 172.31.255.255 is private."),
+   Q("A Windows client has 169.254.33.18. What is the strongest clue?",["DHCP/network path problem","DNS is definitely working","It received a normal public IP"],0,"169.254.x.x is APIPA and often appears when normal address configuration is unavailable."),
+   Q("What does the default gateway do?",["Provides a path to other IP networks","Stores files","Controls monitor brightness"],0,"The gateway is the next hop for remote destinations."),
+   Q("What is the main job of DNS?",["Resolve names to IP addresses","Crimp cables","Create VLAN hardware"],0,"DNS performs name resolution.")
+  ]},
+  {diagram:["Private LAN","IP + Mask","Default Gateway","NAT / Firewall","Public Internet","DNS / DHCP"]}),
+
+ L("net-03","OSI Model & TCP/IP — Simple Technician View",7,"24 min",
+  "Use the OSI model as a map for troubleshooting. The goal is not only to memorise seven layers, but to know where to start when something fails.",
   [
-   S("How a switch forwards traffic","A switch learns source MAC addresses on its ports and builds a MAC address table. When it knows the destination MAC, it forwards the frame toward the correct port instead of sending it everywhere.",[
-    "MAC addresses are used for local Ethernet delivery.",
-    "A switch can learn many endpoint MAC addresses.",
-    "Broadcast traffic is sent within the broadcast domain.",
-    "A hub does not build a MAC table; it repeats traffic to every port."
+   S("Why use network layers?","Layers break a big network problem into smaller areas. If the cable is disconnected, changing DNS cannot fix the physical link. If ping by IP works but websites by name fail, the physical path is already working and DNS becomes more likely.",[
+    "A layer gives you a place to start testing.",
+    "A successful test at a lower layer can help you move higher.",
+    "A failed test tells you to investigate that layer or something below it."
    ]),
-   S("What is a VLAN?","A VLAN creates a logical Layer-2 separation. Devices in different VLANs are in different broadcast domains even if they connect to the same physical switch.",[
-    "<b>Access port:</b> Usually carries one VLAN for an endpoint.",
-    "<b>Trunk port:</b> Can carry multiple tagged VLANs between network devices.",
-    "Inter-VLAN communication requires Layer-3 routing.",
-    "Example: VLAN 10 Students, VLAN 20 Staff, VLAN 30 Voice."
-   ],{callout:"A VLAN is not a security policy by itself. Routing/firewall rules still decide what traffic is allowed between networks."})
-  ],
-  [["MAC table","Switch table mapping learned MAC addresses to ports."],["VLAN","Logical Layer-2 broadcast domain."],["Access port","Endpoint-facing port usually assigned to one VLAN."],["Trunk","Link carrying multiple VLANs."]],
-  {title:"Mini Lab — Basic VLAN Design",scenario:"A school lab needs Students and Staff separated on the same managed switch.",
-   tasks:["Choose VLAN 10 for Students and VLAN 20 for Staff.","Label four access ports.","Choose one trunk uplink toward the router/firewall."],
-   questions:[
-    Q("What does a switch learn to build its forwarding table?",["Source MAC addresses","User passwords","DNS zones"],0,"Switches learn source MAC addresses."),
-    Q("What does a VLAN create?",["A separate Layer-2 broadcast domain","A faster CPU","A printer driver"],0,"VLANs logically separate Layer-2 domains."),
-    Q("Which port type normally carries several VLANs between network devices?",["Trunk","USB","Console only"],0,"A trunk commonly transports multiple VLANs.")
-   ]},
- {}),
- L("net-05","Routing, NAT, Firewall & the Internet Path",8,"20 min",
-  "Follow a packet from a PC to another network and then to the public internet.",
-  [
-   S("Routing in simple words","A router reads the destination IP and chooses a next hop based on its routing table. If the destination is not local, the PC sends the packet to its default gateway.",[
-    "Connected routes represent networks directly attached to the router.",
-    "Static routes are manually configured paths.",
-    "A default route is a catch-all route, often toward the ISP.",
-    "The default gateway on a PC must be reachable on the PC's local subnet."
+   S("The seven OSI layers in simple English","Think of the layers from the physical cable up to the application the user sees.",[
+    "<b>Layer 1 — Physical:</b> cable, fiber, radio signal, connector, power and link light.",
+    "<b>Layer 2 — Data Link:</b> Ethernet frames, MAC addresses, switches and VLANs.",
+    "<b>Layer 3 — Network:</b> IPv4/IPv6 addresses, subnets, routers and routing.",
+    "<b>Layer 4 — Transport:</b> TCP/UDP and port numbers. TCP can provide reliable delivery; UDP is connectionless and lighter weight.",
+    "<b>Layer 5 — Session:</b> concepts related to starting, maintaining and ending communication sessions.",
+    "<b>Layer 6 — Presentation:</b> data format, encoding, encryption/compression concepts.",
+    "<b>Layer 7 — Application:</b> protocols and services used by applications, such as HTTP/HTTPS, DNS, SMTP and user applications."
    ]),
-   S("NAT and firewall","Private office addresses normally need Network Address Translation (NAT) to access the public internet using a public address. A firewall then applies traffic rules according to policy.",[
-    "NAT changes addressing information as traffic crosses network boundaries.",
-    "A firewall can allow or deny traffic by source, destination, service, identity and other conditions.",
-    "Stateful firewalls track connection state.",
-    "Do not solve every connectivity problem by opening firewall rules. Verify the full path first."
-   ]),
-   S("Typical office path","A common path is Endpoint → Access Switch → Firewall/Router → ISP ONT/Modem → Internet.",[],
-    {callout:"If local gateway ping works but internet IP ping fails, investigate routing, WAN/ISP, firewall/NAT or upstream service before blaming DNS."})
-  ],
-  [["Routing table","List of known IP routes and next hops."],["Default route","Fallback route for destinations not matched more specifically."],["NAT","Translates IP addressing across a boundary."],["Stateful firewall","Tracks connection state and applies policy."]],
-  {title:"Mini Lab — Follow the Packet",scenario:"PC 192.168.10.25 can ping gateway 192.168.10.1 but cannot reach 8.8.8.8.",
-   tasks:["List what already works.","List the next three places you would inspect.","Do not change DNS until IP reachability is checked."],
-   questions:[
-    Q("Where does a PC send traffic for a remote network?",["Its default gateway","Its keyboard","Its own MAC only"],0,"The default gateway is the next hop for remote networks."),
-    Q("Which feature commonly lets private LAN clients share public internet access?",["NAT","VLAN name","BIOS"],0,"NAT commonly translates private addresses to public addressing."),
-    Q("Gateway ping works but external IP ping fails. Which area is more likely next?",["Routing/WAN/firewall path","Local keyboard","Monitor cable"],0,"Local Layer 3 reachability is proven, so look farther upstream.")
-   ]},
- {diagram:["🖥️ Endpoint","🔀 Access Switch","🛡️ Firewall / Router","📡 ISP","☁️ Internet"]}),
- L("net-06","Wi-Fi, SSID, Bands & Secure Wireless",8,"18 min",
-  "Build a simple mental model for wireless coverage, authentication and troubleshooting.",
-  [
-   S("What an access point does","An access point bridges wireless clients to the wired LAN. The network name users see is the SSID.",[
-    "2.4 GHz normally travels farther but is often more crowded.",
-    "5 GHz usually provides higher capacity at shorter range.",
-    "6 GHz may be available on newer Wi-Fi systems and compatible clients.",
-    "Walls, metal, interference and distance affect signal quality."
-   ]),
-   S("Secure Wi-Fi basics","Use modern security such as WPA2 or WPA3 according to equipment capability and organization policy. Avoid open networks for private business traffic.",[
-    "Use a strong managed key or enterprise authentication where appropriate.",
-    "Guest Wi-Fi should be separated from internal business networks.",
-    "Do not publish admin credentials.",
-    "Place APs based on coverage needs, not only convenience."
-   ]),
-   S("Simple troubleshooting","Check whether the problem affects one device or many, whether the client can see the SSID, signal strength, authentication, IP configuration and gateway reachability.",[])
-  ],
-  [["SSID","Wireless network name."],["WPA2/WPA3","Common Wi-Fi security standards."],["AP","Wireless access point."],["Interference","Unwanted radio energy that reduces wireless quality."]],
-  {title:"Mini Lab — Secure a Small Wi-Fi Network",scenario:"A training room needs staff Wi-Fi and a separate guest network.",
-   tasks:["Choose secure authentication.","Keep guests separate from staff resources.","Place the AP away from large metal obstructions."],
-   questions:[
-    Q("What is the SSID?",["The Wi-Fi network name","The router serial number","A printer queue"],0,"SSID is the service set identifier shown as the Wi-Fi name."),
-    Q("Which is a better normal security choice?",["WPA2/WPA3","Open Wi-Fi","No password"],0,"Modern Wi-Fi should use appropriate strong security."),
-    Q("Why separate guest Wi-Fi?",["To reduce access to internal resources","To make the monitor brighter","To change the MAC address"],0,"Guest separation limits exposure of internal networks.")
-   ]},
- {}),
- L("net-07","Windows Network Commands & Troubleshooting",9,"22 min",
-  "Use commands in a logical order: inspect, test local, test remote, test DNS, trace the path.",
-  [
-   S("Core commands","Windows includes simple tools that are extremely useful to support technicians.",[
-    "<b>ipconfig /all</b> — shows adapters, IP, mask, gateway, DNS and DHCP information.",
-    "<b>ping 192.168.10.1</b> — tests reachability to the gateway.",
-    "<b>ping 8.8.8.8</b> — tests external IP reachability without depending on DNS.",
-    "<b>nslookup example.com</b> — tests DNS resolution.",
-    "<b>tracert example.com</b> — shows Layer-3 hops toward a destination.",
-    "<b>ipconfig /release</b> and <b>/renew</b> — requests a new DHCP lease.",
-    "<b>ipconfig /flushdns</b> — clears the local DNS resolver cache."
-   ]),
-   S("A repeatable fault-isolation order","Do not run random commands. Each test should answer a question.",[
-    "1. Does the NIC have a healthy link and correct configuration?",
-    "2. Can the client reach its gateway?",
-    "3. Can it reach an external IP?",
-    "4. Can DNS resolve names?",
-    "5. Where does tracert stop?",
-    "6. Is the failure one client, one VLAN, one site or everyone?"
-   ],{callout:"Write down the result of each test. Evidence prevents repeated work."})
-  ],
-  [["ipconfig","Shows Windows IP configuration."],["ping","Tests ICMP reachability."],["nslookup","Queries DNS."],["tracert","Shows the routed path/hops."]],
-  {title:"Mini Lab — Choose the Next Command",scenario:"A PC shows 192.168.10.25/24 with gateway 192.168.10.1. Website names do not open.",
-   tasks:["Ping the gateway.","Ping an external IP.","If that works, test DNS with nslookup."],
-   questions:[
-    Q("Which command shows full adapter configuration?",["ipconfig /all","format c:","taskkill"],0,"ipconfig /all is the normal first inspection command."),
-    Q("If ping 8.8.8.8 works but names fail, what should you test?",["DNS with nslookup","Monitor power","RAM seating"],0,"IP reachability works, so DNS is the next logical test."),
-    Q("What does tracert help show?",["The network path/hops","Installed printers","BIOS password"],0,"tracert helps locate where the routed path may be failing.")
-   ]},
- {}),
- L("net-08","Small Office Network Build — Final Network Chapter",10,"24 min",
-  "Combine devices, addressing, VLAN thinking, Wi-Fi, printer access and troubleshooting into one small-office design.",
-  [
-   S("Build the topology","A practical small office may use ISP ONT → firewall/router → managed switch → PCs, printer and access point.",[
-    "Give infrastructure devices clear names.",
-    "Plan a management address range.",
-    "Use DHCP for normal endpoints unless a static/reservation is required.",
-    "Keep printers stable with a reservation or approved static address.",
-    "Use VLANs when separation is required, for example Staff, Guest and Voice."
-   ]),
-   S("Plan before configuration","Write an address plan before clicking anything.",[
-    "Staff: 192.168.10.0/24, gateway 192.168.10.1",
-    "Guest: 192.168.20.0/24, gateway 192.168.20.1",
-    "Printer: 192.168.10.50",
-    "DNS: organization-approved resolver",
-    "Document switch ports, AP SSIDs and firewall policy purpose."
-   ]),
-   S("Verify and hand over","A professional build is not finished until it is tested and documented.",[
-    "Test endpoint IP and gateway.",
-    "Test printer reachability and printing.",
-    "Test internet and DNS.",
-    "Confirm guest isolation.",
-    "Save a simple diagram, address plan and change note."
+   S("A technician's practical troubleshooting order","In real support, start with simple evidence and move outward instead of changing random settings.",[
+    "1. Check power, cable/Wi-Fi, connector and link light.",
+    "2. Check NIC status and driver health.",
+    "3. Run ipconfig /all and check IP, mask, gateway and DNS.",
+    "4. Ping the local gateway.",
+    "5. Ping an external IP if allowed.",
+    "6. Use nslookup to test DNS.",
+    "7. Test the actual application such as browser, Outlook or Teams."
    ])
   ],
-  [["Address plan","Documented IP/subnet/gateway design."],["Reservation","DHCP method to repeatedly assign the same address to a known client."],["Handover","Clear documentation given to the next technician or owner."]],
-  {title:"Mini Lab — Design the Office",scenario:"Design a network for 6 staff PCs, one printer, one AP and guest Wi-Fi.",
-   tasks:["Draw the topology.","Create Staff and Guest subnets.","Choose the printer address and gateway.","Write three verification tests."],
-   questions:[
-    Q("Where should the access switch normally connect upstream?",["Firewall/router LAN interface","Directly to a monitor","USB hub"],0,"The access switch normally uplinks toward the routing/firewall layer."),
-    Q("Why give a printer stable addressing?",["So clients can reliably reach the same print endpoint","To increase RAM","To hide the printer"],0,"Stable addressing avoids print ports pointing at old addresses."),
-    Q("What finishes a professional network build?",["Verification and documentation","Only plugging cables","Changing wallpaper"],0,"Testing and documentation are part of a complete handover.")
-   ]})
+  [["Layer 1","Physical media and signal."],["Layer 2","Frames, MAC addresses, switching and VLANs."],["Layer 3","IP addressing and routing."],["Layer 4","TCP/UDP transport and ports."],["Layer 7","Application protocols and user-facing services."]],
+  {title:"Mini Lab — Put the Fault in the Right Layer",scenario:"Match common support symptoms with the best starting layer.",tasks:["Cable unplugged → starting layer?","Wrong default gateway → starting layer?","DNS name fails but IP ping works → likely area?"],questions:[
+   Q("Ethernet link light is off. Where do you start?",["Layer 1 Physical","Layer 7 Application","Email settings"],0,"No link light is a physical/link starting point."),
+   Q("Wrong default gateway is mainly related to?",["Layer 3 Network","Layer 1 only","Layer 7 only"],0,"IP addressing and gateways are Layer 3 concepts."),
+   Q("Website works by IP but not by name. What should you test?",["DNS","RAM speed","HDMI"],0,"That symptom strongly points toward name resolution.")
+  ]},{}),
+
+ L("net-04","Switching, MAC Addresses & VLAN Basics",8,"28 min",
+  "Understand how a switch learns local devices and why VLANs are used to separate groups on the same managed switch.",
+  [
+   S("How a switch learns devices","When an Ethernet frame enters a switch port, the switch reads the source MAC address and learns which port can reach that MAC. It stores this information in a MAC address table.",[
+    "If the destination MAC is known, the switch forwards the frame toward the learned port.",
+    "If the destination is unknown, the switch may flood the frame within that VLAN while it learns.",
+    "Broadcast traffic is sent to devices inside the same broadcast domain/VLAN.",
+    "A hub does not learn MAC addresses; it simply repeats traffic to all ports."
+   ]),
+   S("What is a MAC address?","A MAC address is a Layer-2 identifier used for Ethernet communication on a local network. It is different from an IP address.",[
+    "Switches mainly use MAC addresses to forward Ethernet frames locally.",
+    "Routers mainly use IP addresses to move packets between networks.",
+    "A device normally has a MAC address for each network interface."
+   ]),
+   S("What is a VLAN?","A VLAN is a logical Layer-2 network created on a managed switch. It lets one physical switch behave like several separate broadcast domains.",[
+    "Example: VLAN 10 = Students, VLAN 20 = Staff, VLAN 30 = Voice.",
+    "<b>Access port:</b> Normally assigned to one VLAN for an endpoint such as a PC or printer.",
+    "<b>Trunk port:</b> Can carry traffic for multiple VLANs between network devices.",
+    "Devices in different VLANs need Layer-3 routing to communicate.",
+    "A VLAN separates broadcast domains, but security policy is still needed to control which VLANs may communicate."
+   ],{callout:"Do not think 'VLAN = firewall'. A VLAN separates Layer 2; routing/firewall rules control Layer-3 communication between networks."})
+  ],
+  [["MAC table","Switch table mapping learned MAC addresses to ports."],["VLAN","Logical Layer-2 broadcast domain."],["Access port","Endpoint-facing port normally assigned to one VLAN."],["Trunk","Link that can carry multiple VLANs."],["Broadcast","Traffic intended for all devices in the broadcast domain."]],
+  {title:"Mini Lab — Basic VLAN Design",scenario:"A school lab has Students and Staff on one managed switch but they must be logically separated.",tasks:["Use VLAN 10 for Students and VLAN 20 for Staff.","Label endpoint access ports.","Choose a trunk uplink toward the router/firewall."],questions:[
+   Q("What does a switch learn from incoming frames?",["Source MAC addresses","User passwords","DNS zones"],0,"Switches learn source MAC addresses."),
+   Q("What does a VLAN create?",["A separate Layer-2 broadcast domain","A faster CPU","A printer driver"],0,"VLANs logically separate Layer-2 domains."),
+   Q("Which port type commonly carries several VLANs?",["Trunk","USB","HDMI"],0,"A trunk commonly transports multiple VLANs.")
+  ]},{}),
+
+ L("net-05","Routing, NAT, Firewall & the Internet Path",8,"28 min",
+  "Follow traffic from a private school LAN through the gateway and ISP to the public Internet.",
+  [
+   S("What routing means","Routing is the process of moving IP packets between different IP networks. A router checks the destination IP and uses its routing table to choose the next path.",[
+    "If the destination is inside the local subnet, a client can send locally.",
+    "If the destination is outside the local subnet, the client sends the packet toward its default gateway.",
+    "A <b>connected route</b> represents a network directly attached to the router.",
+    "A <b>static route</b> is manually configured.",
+    "A <b>default route</b> is the fallback path used when no more specific route is known — often toward the ISP."
+   ]),
+   S("Why NAT is used","Private IPv4 addresses are not directly routed on the public Internet. NAT (Network Address Translation) lets private clients communicate with public Internet services by translating addresses at the router/firewall boundary.",[
+    "Example: PC 192.168.10.25 sends traffic to the Internet.",
+    "The firewall/router may translate the private source address to its public ISP address.",
+    "Many internal devices can share one public IPv4 address using PAT/NAT overload in common networks.",
+    "NAT is not the same thing as a firewall rule; they are different functions even when one appliance performs both."
+   ]),
+   S("What the firewall does","A firewall enforces security policy between networks. It can decide whether traffic is allowed, blocked or inspected.",[
+    "Rules can consider source, destination, protocol/service, user or other security information.",
+    "Stateful firewalls remember connection state and can allow return traffic for an established session.",
+    "Do not 'open everything' when troubleshooting. Prove where the communication fails first."
+   ]),
+   S("A normal Internet path","A typical school or office path is Endpoint → Access Switch → Router/Firewall → ISP ONT/Modem → ISP Network → Internet service.",[
+    "If a PC cannot ping its gateway, the problem is still local.",
+    "If the gateway works but an external IP fails, investigate routing, firewall/NAT, WAN link or ISP.",
+    "If external IP works but names fail, investigate DNS."
+   ],{callout:"Troubleshooting becomes easier when each test proves one part of the path."})
+  ],
+  [["Routing table","List of known networks and next hops."],["Default route","Fallback route for unmatched destinations."],["NAT","Address translation between private/public networks."],["Stateful firewall","Firewall that tracks connection state."],["WAN","Network path beyond the local LAN, often toward an ISP."]],
+  {title:"Mini Lab — Follow the Packet",scenario:"PC 192.168.10.25 can ping gateway 192.168.10.1 but cannot reach an external IP.",tasks:["Write what has already been proven.","List the next areas to inspect.","Explain why changing DNS first would be a poor first action."],questions:[
+   Q("Where does a PC send traffic for a remote network?",["Its default gateway","Its keyboard","Its own MAC only"],0,"The gateway is the next hop for remote networks."),
+   Q("What commonly lets private LAN clients share Internet access?",["NAT/PAT","VLAN name","BIOS"],0,"NAT/PAT translates private addressing at the edge."),
+   Q("Gateway works, external IP fails. Which area is next?",["Routing/WAN/firewall/NAT path","Monitor cable","Keyboard"],0,"Local Layer-3 reachability is proven, so investigate farther upstream.")
+  ]},{diagram:["🖥️ Private Client","🔀 Switch","🛡️ Gateway + NAT","📡 ISP","🌍 Public Internet"]}),
+
+ L("net-06","Wi-Fi, SSID, Bands & Secure Wireless",8,"26 min",
+  "Understand how wireless clients join the LAN and how a technician checks signal, security and IP connectivity.",
+  [
+   S("What an access point does","An access point (AP) provides Wi-Fi service and bridges wireless clients into the wired LAN. The Wi-Fi network name is called the SSID.",[
+    "A wireless router may combine router, firewall, switch and access-point functions in one box.",
+    "Enterprise networks often use separate APs connected to managed switches.",
+    "The AP still needs a wired uplink or another backhaul path to reach the LAN."
+   ]),
+   S("2.4 GHz, 5 GHz and 6 GHz","Different Wi-Fi bands behave differently. Students should know the basic practical difference rather than memorise every channel number.",[
+    "<b>2.4 GHz:</b> Usually reaches farther and passes through walls better, but it has fewer non-overlapping channels and is often crowded.",
+    "<b>5 GHz:</b> Usually offers more capacity/channels but shorter practical range through obstacles.",
+    "<b>6 GHz:</b> Available with newer Wi-Fi generations and compatible clients; offers more clean spectrum but coverage can be shorter.",
+    "Walls, metal, distance, interference and too many clients can reduce performance."
+   ]),
+   S("Wireless security","Use modern security such as WPA2 or WPA3 according to equipment and organisation policy.",[
+    "Guest Wi-Fi should normally be separated from trusted internal business/school resources.",
+    "Do not publish admin passwords or shared secrets.",
+    "Enterprise Wi-Fi may use individual user/device authentication instead of one shared password."
+   ]),
+   S("Simple Wi-Fi troubleshooting","First decide whether the problem affects one device or many. Then test the connection step by step.",[
+    "Can the client see the SSID?",
+    "Is signal strength reasonable?",
+    "Did authentication succeed?",
+    "Did the client receive a healthy IP, gateway and DNS?",
+    "Can it ping the local gateway?",
+    "Can it reach an external IP and resolve DNS names?"
+   ])
+  ],
+  [["SSID","Wireless network name."],["WPA2/WPA3","Common Wi-Fi security standards."],["Access Point","Device that provides Wi-Fi access to the wired LAN."],["Interference","Radio energy that can reduce wireless quality."],["Roaming","A client moving between AP coverage areas while staying on the network."]],
+  {title:"Mini Lab — Secure a Small Wi-Fi Network",scenario:"A training room needs Staff Wi-Fi and a separate Guest Wi-Fi.",tasks:["Choose secure authentication.","Keep guests separated from internal resources.","Choose a sensible AP position.","List first checks for a user who cannot connect."],questions:[
+   Q("What is an SSID?",["The Wi-Fi network name","Router serial number","Printer queue"],0,"SSID is the service set identifier shown as the Wi-Fi name."),
+   Q("Which is a better normal Wi-Fi security choice?",["WPA2/WPA3","Open Wi-Fi for all internal systems","No authentication"],0,"Modern Wi-Fi should use appropriate strong security."),
+   Q("Why separate guest Wi-Fi?",["To reduce access to trusted internal resources","To make the screen brighter","To change CPU speed"],0,"Guest separation reduces exposure of internal networks.")
+  ]},{}),
+
+ L("net-07","Windows Network Commands & Troubleshooting",9,"30 min",
+  "Use commands in a logical order. Every command should answer a question instead of being typed randomly.",
+  [
+   S("ipconfig and ipconfig /all","These commands show the network configuration of Windows adapters.",[
+    "<b>ipconfig:</b> Quick view of IPv4/IPv6 addresses and gateways.",
+    "<b>ipconfig /all:</b> More complete view including DHCP status, DNS servers, MAC/physical address and adapter information.",
+    "Use it first to ask: Does the PC have the correct address, mask, gateway and DNS?"
+   ]),
+   S("ping — test IP reachability","Ping sends ICMP Echo requests and waits for replies. It is a simple reachability test, although firewalls can block ICMP, so a failed ping is evidence, not absolute proof that a device is off.",[
+    "<b>ping 127.0.0.1:</b> Tests the local TCP/IP stack conceptually.",
+    "<b>ping your own IP:</b> Confirms the local interface can use that address.",
+    "<b>ping gateway:</b> Tests local LAN Layer-3 reachability.",
+    "<b>ping external IP:</b> Tests farther toward the Internet without depending on DNS."
+   ]),
+   S("nslookup — test DNS","nslookup asks a DNS server to resolve a name. It is useful when IP connectivity works but websites or services fail by name.",[
+    "If ping 8.8.8.8 works but nslookup example.com fails, investigate DNS settings/service.",
+    "If both external IP and DNS fail, do not blame DNS first — investigate the network path."
+   ]),
+   S("tracert — see Layer-3 hops","tracert shows the routers/hops seen on the path toward a destination. It can help locate where traffic stops, but some routers do not reply to traceroute probes.",[
+    "Hop 1 is commonly your local gateway.",
+    "Later hops may belong to the ISP or upstream networks.",
+    "Timeouts in the middle do not always mean the path is broken if later hops still respond."
+   ]),
+   S("DHCP and DNS maintenance commands","Use these commands only when the symptom and environment make them appropriate.",[
+    "<b>ipconfig /release:</b> Gives up the current DHCP IPv4 lease.",
+    "<b>ipconfig /renew:</b> Requests DHCP configuration again.",
+    "<b>ipconfig /flushdns:</b> Clears the local DNS resolver cache.",
+    "Do not release a remote user's address without considering that you may disconnect your own remote-support session."
+   ],{callout:"Recommended order: physical/link → ipconfig /all → gateway ping → external IP → DNS/nslookup → tracert/application."})
+  ],
+  [["ipconfig /all","Full Windows IP configuration view."],["ping","Basic IP reachability test."],["nslookup","DNS query tool."],["tracert","Shows routed hops toward a target."],["/renew","Requests a DHCP lease/configuration again."],["/flushdns","Clears the local DNS resolver cache."]],
+  {title:"Mini Lab — Command-Line Fault Isolation",scenario:"A PC has a valid private IPv4 address but a user says the Internet is not working.",tasks:["Write the command sequence you would use.","Explain what each command proves.","Decide what to do if gateway works but DNS fails."],questions:[
+   Q("Which command gives detailed adapter configuration?",["ipconfig /all","format c:","shutdown /s"],0,"ipconfig /all shows address, gateway, DNS and more."),
+   Q("Which command is best for testing name resolution?",["nslookup","dir","tasklist"],0,"nslookup queries DNS."),
+   Q("Which command shows hops toward a destination?",["tracert","hostname","whoami"],0,"tracert displays the routed path/hops.")
+  ]},{}),
+
+ L("net-08","Small Office / School Network Build — Final Network Chapter",10,"35 min",
+  "Combine equipment, addressing, switching, routing, wireless and troubleshooting into one understandable small-network design.",
+  [
+   S("Step 1 — Understand the requirement","Before touching equipment, write what the network must support.",[
+    "How many PCs, printers, IP phones, cameras and Wi-Fi users?",
+    "Which users must be separated — for example Students, Staff and Guests?",
+    "Which services need Internet access or internal server access?",
+    "Where will the network cabinet, switch, patch panel and APs be located?"
+   ]),
+   S("Step 2 — Draw the physical path","A simple design might be ISP fiber → ONT → Firewall/Router → Managed Switch → Patch Panel → Wall Outlet → PC/Printer, with APs connected to switch ports.",[
+    "Label important switch ports.",
+    "Use structured cabling and clear patch-panel labels.",
+    "Separate power and network cabling safely according to site standards."
+   ]),
+   S("Step 3 — Plan IP networks and VLANs","Create a simple addressing plan before configuring devices.",[
+    "Example VLAN 10 Students: 192.168.10.0/24, gateway 192.168.10.1.",
+    "Example VLAN 20 Staff: 192.168.20.0/24, gateway 192.168.20.1.",
+    "Example VLAN 30 Guest: 192.168.30.0/24, gateway 192.168.30.1.",
+    "DHCP can provide client addresses; infrastructure devices may use planned static/reserved addresses."
+   ]),
+   S("Step 4 — Configure and verify","Work in small verified steps instead of changing everything at once.",[
+    "Check physical link and switch port.",
+    "Verify VLAN/port assignment.",
+    "Verify IP, mask, gateway and DNS.",
+    "Ping local gateway.",
+    "Test required local resources.",
+    "Test external IP and DNS according to policy.",
+    "Document the final topology, IP plan and test results."
+   ]),
+   S("Step 5 — Troubleshoot professionally","A good technician records evidence before and after the fix.",[
+    "Symptom: What exactly is failing?",
+    "Scope: One user, one VLAN, one floor or everyone?",
+    "Evidence: Link light, IP config, ping/nslookup/tracert results.",
+    "Action: What was changed?",
+    "Verification: Which tests prove the service is restored?",
+    "Handover: What should the next technician know?"
+   ],{callout:"Class 10 goal: explain the network, configure a basic client, isolate a fault, verify the result and document the work."})
+  ],
+  [["Topology","Map of devices and links."],["IP plan","Documented network/subnet/gateway design."],["Verification","Evidence that the build or fix works."],["Handover","Clear technical summary for another person."],["Capstone","Final integrated practical project."]],
+  {title:"Mini Lab — Design the Training Office",scenario:"Design a small school office with PCs, printer, Staff Wi-Fi and Guest Wi-Fi.",tasks:["Draw the equipment path.","Create at least two VLAN/subnet groups.","Write one example client IP configuration.","Write five verification tests.","Write a short handover note."],questions:[
+   Q("What should happen before configuration?",["Understand requirements and make a plan","Change random settings","Disable security"],0,"Planning reduces errors and gives you a target design."),
+   Q("Why document the IP plan?",["So addressing and gateways are clear and repeatable","To make the monitor brighter","To replace a switch"],0,"Documentation supports configuration and troubleshooting."),
+   Q("What proves a network fix is complete?",["Verification tests and user/service confirmation","Only saying done","Deleting the ticket"],0,"A professional fix is verified and documented.")
+  ]},{diagram:["ISP","ONT","Firewall / Router","Managed Switch","Patch Panel","PC / Printer / AP"]})
  ]
 },
-
 support:{
  id:"support",icon:"🎧",title:"IT Support",subtitle:"User support, printers, tickets, remote assistance, troubleshooting and documentation.",
  finalLab:"professional-lab.html?lab=16",
@@ -1255,15 +1355,23 @@ function cableDiagram(){
  const box=(name,arr)=>`<div class="pro-cable-standard"><h4>${name}</h4>${arr.map((x,i)=>`<div class="pro-wire-row"><b>${i+1}</b><span class="pro-wire-dot ${x[0]}"></span><span>${x[1]}</span></div>`).join("")}</div>`;
  return `<div class="pro-cable-box">${box("T568A pin order",A)}${box("T568B pin order",B)}</div>`;
 }
+
+function renderInlineMedia(raw,title){
+ const items=resolveMediaItems(raw).filter(x=>x.photo).slice(0,2);
+ if(!items.length)return"";
+ return `<div class="pro-inline-media">${items.map(item=>`<button class="pro-inline-photo" type="button" data-media-title="${esc(title||item.label)}" data-media-source="${esc(raw)}"><img src="${item.image}" alt="${esc(item.label)} photograph" loading="lazy" referrerpolicy="no-referrer" onerror="this.onerror=null;this.src=svgForMedia(MEDIA_LIBRARY[item.key]||item,0)"><span><b>${esc(item.label)}</b><small>Tap photo for a large explanation</small></span></button>`).join("")}</div>`;
+}
+
 function renderSection(s){
  const mediaText=[s.title,s.text||'',...(s.bullets||[])].join(' ');
  return `<article class="pro-note-card media-ready">
    <h2>${esc(s.title)}</h2>
-   ${s.text?`<p>${esc(s.text)}</p>`:""}
-   ${s.bullets?.length?`<ul>${s.bullets.map(x=>`<li>${x}</li>`).join("")}</ul>`:""}
+   ${s.text?`<p class="pro-section-intro">${esc(s.text)}</p>`:""}
+   ${renderInlineMedia(mediaText,s.title)}
+   ${s.bullets?.length?`<ul class="pro-explained-list">${s.bullets.map(x=>`<li>${x}</li>`).join("")}</ul>`:""}
    ${s.callout?`<div class="pro-key-callout">${esc(s.callout)}</div>`:""}
    ${s.cable?cableDiagram():""}
-   <div class="pro-media-bar"><button class="pro-media-btn" type="button" data-media-title="${esc(s.title)}" data-media-source="${esc(mediaText)}">🖼️ Open Visual Guide <span>large equipment cards + walkthrough</span></button></div>
+   <div class="pro-media-bar"><button class="pro-media-btn" type="button" data-media-title="${esc(s.title)}" data-media-source="${esc(mediaText)}">🖼️ Open Large Visual Guide <span>real equipment photos + simple explanation</span></button></div>
  </article>`;
 }
 function openLesson(id){
