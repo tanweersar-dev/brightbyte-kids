@@ -3,12 +3,12 @@
 "use strict";
 
 /* ============================================================
-   V44.0 — PROFESSIONAL GUIDED LEARNING ACADEMY
+   V45.0 — PROFESSIONAL GUIDED LEARNING ACADEMY
    Course -> Lesson Notes -> Mini Lab -> Next Lesson
    ============================================================ */
 
-if(window.__brightbyteProfessionalLearningV43) return;
-window.__brightbyteProfessionalLearningV43 = true;
+if(window.__brightbyteProfessionalLearningV45) return;
+window.__brightbyteProfessionalLearningV45 = true;
 
 const API="https://api.tanweer.site";
 const TOKEN=localStorage.getItem("brightbyte_student_token")||"";
@@ -18,6 +18,79 @@ const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&
 const S=(title,text,bullets=[],extra={})=>({title,text,bullets,...extra});
 const Q=(q,options,answer,explain)=>({q,options,answer,explain});
 const L=(id,title,minClass,duration,summary,sections,terms,lab,extra={})=>({id,title,minClass,duration,summary,sections,terms,lab,...extra});
+
+const MEDIA_LIBRARY={
+ nic:{label:"NIC Card",subtitle:"The hardware network interface inside a PC or laptop.",detail:"A NIC gives a device a wired or wireless network connection and usually has a MAC address. Students should notice the Ethernet port, status LEDs and link speed.",steps:["Find the Ethernet port on the laptop or desktop.","Connect the patch cable gently until the tab clicks.","Check the link light and confirm the adapter appears in the operating system."],emoji:"💳"},
+ switch:{label:"Network Switch",subtitle:"The central LAN device for local wired communication.",detail:"A switch connects many wired devices in the same LAN and learns MAC addresses so that frames go to the correct port.",steps:["Count the ports and find the uplink.","Connect endpoints such as PCs, printers or IP phones.","Check link/activity LEDs and document which port serves which device."],emoji:"🔀"},
+ router:{label:"Router",subtitle:"Moves traffic between different IP networks.",detail:"A router sends packets from one network to another. Home and office routers also commonly provide DHCP and NAT.",steps:["Identify the LAN and WAN sides.","Check the gateway IP used by PCs.","Verify whether internet access works through the router."],emoji:"🧭"},
+ firewall:{label:"Firewall",subtitle:"The security gate between trusted and untrusted networks.",detail:"A firewall applies security policy. It allows, blocks or inspects traffic according to rules and protection settings.",steps:["Check which interface faces the LAN and which faces the ISP.","Review whether a service is allowed or blocked.","Verify safely before changing a rule."],emoji:"🛡️"},
+ modem:{label:"Modem / ONT",subtitle:"The ISP handoff device.",detail:"A modem or ONT terminates the internet service from the provider and hands off connectivity to the router or firewall.",steps:["Locate the fiber/copper line coming from the ISP.","Check status lights such as power, LOS and internet.","Confirm the Ethernet handoff to the router/firewall."],emoji:"📡"},
+ hub:{label:"Hub",subtitle:"An old shared Ethernet repeater.",detail:"A hub simply repeats traffic to every port. It does not learn MAC addresses, so modern networks mostly use switches instead.",steps:["Compare a hub with a switch.","Notice how all traffic is repeated.","Understand why switches are more efficient."],emoji:"🔁"},
+ ap:{label:"Access Point",subtitle:"Connects Wi-Fi users to the wired LAN.",detail:"An access point broadcasts wireless service and bridges clients into the wired network.",steps:["Find the SSID name.","Check 2.4 GHz and 5 GHz coverage.","Test signal and access safely."],emoji:"📶"},
+ isp:{label:"Internet Service Provider",subtitle:"The company delivering internet connectivity.",detail:"The ISP delivers the WAN connection. Local networks use the ISP handoff through an ONT or modem.",steps:["Understand the path PC → Switch → Router/Firewall → ISP device → Internet.","Recognize when a fault may be upstream.","Escalate with evidence if the ISP service is down."],emoji:"🌍"},
+ patch:{label:"Patch Panel",subtitle:"A passive organization point for building cabling.",detail:"Patch panels organize fixed cable runs in racks or cabinets. Short patch cords link panel ports to switch ports.",steps:["Read the port labels.","Match a wall outlet to the correct panel port.","Use good cable management and labeling."],emoji:"🗄️"},
+ cat5:{label:"Cat5e / Cat6 Cable",subtitle:"Common twisted-pair Ethernet cable categories.",detail:"Cat5e is common for Gigabit Ethernet. Cat6 improves crosstalk performance and supports higher speeds over suitable distances.",steps:["Compare cable jacket markings.","Identify four twisted pairs.","Use the right category for the installation need."],emoji:"🧵"},
+ rj45:{label:"RJ45 Plug",subtitle:"The common 8P8C Ethernet connector.",detail:"Students should notice pin order, locking tab direction and the need for correct conductor placement.",steps:["Hold the plug correctly.","Check the pin order before crimping.","Test after crimping."],emoji:"🔌"},
+ tester:{label:"Cable Tester",subtitle:"Checks continuity and pin mapping.",detail:"A cable tester helps confirm whether the cable is straight, crossed, open or incorrectly pinned.",steps:["Connect both ends of the cable.","Power on the tester.","Read whether pins light in the correct sequence."],emoji:"🧪"},
+ tone:{label:"Tone Generator / Probe",subtitle:"Helps trace an unknown cable.",detail:"A toner and probe pair helps technicians locate one cable in a bundle or across a patch panel.",steps:["Attach the tone generator.","Move the probe near candidate cables.","Label the identified cable when confirmed."],emoji:"📍"},
+ ipv4:{label:"IPv4 Addressing",subtitle:"The numeric identity of a network interface.",detail:"A healthy LAN client needs a valid IP address, subnet mask, default gateway and DNS. Students should recognise common private ranges.",steps:["Read the current IP configuration.","Decide whether the address is correct for the LAN.","Test gateway reachability."],emoji:"🔢"},
+ dhcp:{label:"DHCP",subtitle:"Automatic IP configuration service.",detail:"DHCP gives clients an address, mask, gateway and DNS automatically. If DHCP fails, Windows may self-assign APIPA.",steps:["Run ipconfig /all.","Check whether the lease came from DHCP.","Use release/renew when appropriate."],emoji:"🛰️"},
+ dns:{label:"DNS",subtitle:"Name resolution for network services.",detail:"DNS translates names such as example.com into IP addresses. IP reachability may work even when DNS is broken.",steps:["Ping an IP first.","Use nslookup for a name.","Compare results to separate DNS from internet path issues."],emoji:"📚"},
+ osi:{label:"OSI Model",subtitle:"A simple troubleshooting map for technicians.",detail:"Use the layers to decide where to start troubleshooting: physical, data link, network, transport and applications.",steps:["Check Layer 1 first for cable or Wi-Fi link.","Check addressing at Layer 3.","Check application services like DNS at higher layers."],emoji:"🧱"},
+ vlan:{label:"VLAN",subtitle:"Logical separation on a switch.",detail:"VLANs split one physical switch into multiple logical Layer-2 broadcast domains. Access ports normally carry one VLAN and trunk links can carry several.",steps:["Label endpoint ports clearly.","Decide which ports are Student or Staff.","Remember inter-VLAN traffic needs Layer-3 routing."],emoji:"🏷️"},
+ wifi:{label:"Wi‑Fi",subtitle:"Wireless LAN access.",detail:"Wireless users connect using an SSID. Security, signal strength and coverage planning matter.",steps:["Check the visible SSID.","Compare signal strength and coverage.","Use safe authentication such as WPA2/WPA3."],emoji:"📶"},
+ cmd:{label:"Windows Network Commands",subtitle:"Basic command-line troubleshooting tools.",detail:"The most useful commands for beginners are ipconfig, ping, nslookup, tracert, release/renew and flushdns.",steps:["Inspect configuration.","Test local gateway.","Test external IP, then test DNS."],emoji:"⌨️"},
+ hardware:{label:"PC Hardware",subtitle:"Main desktop/laptop components.",detail:"Students should identify motherboard, CPU, RAM, SSD/HDD, power supply, fans and expansion cards.",steps:["Match each part with its job.","Handle components safely.","Record model and serial information correctly."],emoji:"🖥️"},
+ windows:{label:"Windows Tools",subtitle:"Core settings and recovery tools.",detail:"Control Panel, Settings, Device Manager, Disk Management and Task Manager are all beginner-friendly support tools.",steps:["Open Device Manager.","Look for missing drivers or warnings.","Use the correct tool before making a change."],emoji:"🪟"},
+ printer:{label:"Printer Setup",subtitle:"Install, connect and test print devices.",detail:"Technicians check power, network/USB connection, driver, queue status and test pages.",steps:["Install the driver.","Confirm the printer IP or USB connection.","Send a test page and document the result."],emoji:"🖨️"},
+ outlook:{label:"Outlook & Email",subtitle:"Mailbox setup and message flow basics.",detail:"Students learn about mailboxes, password security, attachments, signatures and basic troubleshooting.",steps:["Check account sign-in.","Review send/receive state.","Verify server or Microsoft 365 sign-in safely."],emoji:"📧"},
+ m365:{label:"Microsoft 365",subtitle:"Cloud productivity services.",detail:"OneDrive, Teams, Word online and Outlook web app are common services. Students should know sign-in, sync and sharing basics.",steps:["Sign in using the correct account.","Identify the app being used.","Share files safely using the correct permissions."],emoji:"☁️"},
+ ai:{label:"AI Assistant Workflow",subtitle:"Use AI to think, verify and produce better work.",detail:"AI can help brainstorm, summarize, draft emails, explain technology and create first versions of SOPs. Students must still verify facts and avoid sharing secrets.",steps:["Start with a clear prompt and the goal.","Ask for step-by-step explanation or a draft.","Check the answer and rewrite it in your own words if needed."],emoji:"🤖"},
+ prompt:{label:"Prompt Writing",subtitle:"Clear instructions create better AI output.",detail:"A strong prompt explains the role, task, audience, format and limits. Students should provide context and ask follow-up questions to improve the result.",steps:["State what you want.","Add the audience and difficulty level.","Ask the AI to verify or simplify if needed."],emoji:"📝"},
+ research:{label:"AI Research & Verification",subtitle:"Never trust the first answer blindly.",detail:"AI can make mistakes. Students must cross-check with class notes, textbooks, official vendor pages or teacher instructions.",steps:["Ask the AI for a summary.","Check at least one trusted source.","Mark what is verified and what still needs checking."],emoji:"🔍"},
+ support:{label:"IT Support Workflow",subtitle:"Professional communication and troubleshooting.",detail:"A support technician listens, scopes the issue, diagnoses carefully, fixes safely, verifies and documents the work.",steps:["Ask if one user or many are affected.","Capture the exact symptom.","Verify the fix before closing the case."],emoji:"🎧"},
+ cyber:{label:"Cybersecurity Basics",subtitle:"Protect identities, devices and data.",detail:"Strong passwords, MFA, careful email handling and privacy awareness are essential student habits.",steps:["Recognise suspicious links or urgent requests.","Never share OTPs or passwords.","Report strange activity early."],emoji:"🛡️"},
+ defaultx:{label:"Technology Visual Guide",subtitle:"A clear picture helps students connect theory with practice.",detail:"Use the visual card, notes and walkthrough together. The goal is not only to remember a definition, but to know where the item fits in a real workflow.",steps:["Read the note carefully.","Open the visual guide.","Relate the item to the lab you are about to perform."],emoji:"📘"}
+};
+function svgForMedia(item,index=0){
+ const title=item.label||'Technology Visual';
+ const sub=item.subtitle||item.detail||'';
+ const badge=item.emoji||'📘';
+ const bg=[['#183b5a','#2d628d','#8bd7ff'],['#2b3859','#546dba','#99d3ff'],['#2a4157','#39a9a8','#d7fffb'],['#4c355d','#9965d4','#ffc3ff']][index%4];
+ const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="800" viewBox="0 0 1280 800"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${bg[0]}"/><stop offset="0.5" stop-color="${bg[1]}"/><stop offset="1" stop-color="${bg[2]}"/></linearGradient></defs><rect width="1280" height="800" rx="36" fill="url(#g)"/><circle cx="1060" cy="150" r="120" fill="rgba(255,255,255,.12)"/><circle cx="1180" cy="240" r="48" fill="rgba(255,255,255,.16)"/><rect x="72" y="90" width="170" height="170" rx="34" fill="rgba(255,255,255,.14)"/><text x="157" y="192" font-size="90" text-anchor="middle">${badge}</text><rect x="72" y="314" width="1136" height="350" rx="34" fill="rgba(255,255,255,.10)" stroke="rgba(255,255,255,.24)"/><text x="76" y="740" font-size="28" fill="rgba(255,255,255,.75)">BrightByte Kids • Class 7–10 Professional Guided Visual</text><text x="290" y="170" font-size="58" font-weight="700" fill="#ffffff">${title.replace(/&/g,'&amp;')}</text><text x="290" y="228" font-size="28" fill="#e8f4ff">${sub.replace(/&/g,'&amp;').slice(0,120)}</text><text x="110" y="390" font-size="30" fill="#f8fbff">Real-world role</text><text x="110" y="438" font-size="24" fill="#eaf4ff">Understand where this component or concept fits in the actual workflow.</text><text x="110" y="520" font-size="30" fill="#f8fbff">What students should notice</text><text x="110" y="568" font-size="24" fill="#eaf4ff">Identify the object, connect it to the note, then apply it in the mini lab.</text></svg>`;
+ return 'data:image/svg+xml;charset=UTF-8,'+encodeURIComponent(svg);
+}
+function resolveMediaItems(raw){
+ const text=Array.isArray(raw)?raw.join(' '):String(raw||'');
+ const low=text.toLowerCase();
+ const pairs=[['nic','nic'],['switch','switch'],['router','router'],['firewall','firewall'],['modem','modem'],['ont','modem'],['hub','hub'],['access point','ap'],['wi-fi','wifi'],['wifi','wifi'],['isp','isp'],['patch panel','patch'],['cat5','cat5'],['cat6','cat5'],['rj45','rj45'],['tester','tester'],['toner','tone'],['probe','tone'],['ipv4','ipv4'],['ip address','ipv4'],['gateway','ipv4'],['dhcp','dhcp'],['dns','dns'],['osi','osi'],['vlan','vlan'],['command','cmd'],['ipconfig','cmd'],['ping','cmd'],['tracert','cmd'],['nslookup','cmd'],['hardware','hardware'],['windows','windows'],['printer','printer'],['outlook','outlook'],['microsoft 365','m365'],['onedrive','m365'],['teams','m365'],['ai','ai'],['prompt','prompt'],['research','research'],['support','support'],['ticket','support'],['cyber','cyber'],['phishing','cyber']];
+ const found=[];
+ for(const [needle,key] of pairs){ if(low.includes(needle) && !found.includes(key)) found.push(key); if(found.length>=4) break; }
+ if(!found.length) found.push('defaultx');
+ return found.map((key,idx)=>({...MEDIA_LIBRARY[key],key,image:svgForMedia(MEDIA_LIBRARY[key],idx)}));
+}
+function ensureMediaModal(){
+ let wrap=document.getElementById('proMediaModal');
+ if(wrap) return wrap;
+ wrap=document.createElement('div');
+ wrap.id='proMediaModal';wrap.className='pro-media-modal';wrap.setAttribute('aria-hidden','true');
+ wrap.innerHTML='<div class="pro-media-dialog"><div class="pro-media-head"><div><h2 id="proMediaTitle">Technology Visual Guide</h2><p id="proMediaIntro">Open a large visual explanation for equipment, notes and walkthroughs.</p><div id="proMediaTags" class="pro-media-tags"></div></div><button id="proMediaClose" class="pro-media-close" type="button" aria-label="Close">×</button></div><div id="proMediaBody"></div></div>';
+ document.body.appendChild(wrap);
+ wrap.addEventListener('click',e=>{ if(e.target===wrap) closeMediaModal(); });
+ wrap.querySelector('#proMediaClose').onclick=closeMediaModal;
+ return wrap;
+}
+function closeMediaModal(){ const wrap=document.getElementById('proMediaModal'); if(!wrap) return; wrap.classList.remove('open'); wrap.setAttribute('aria-hidden','true'); }
+function openMediaModal(title, raw, intro='Large visual guide with equipment cards and a video-style walkthrough.'){
+ const items=resolveMediaItems(raw); const wrap=ensureMediaModal();
+ const mediaBody=wrap.querySelector('#proMediaBody'); const tagBox=wrap.querySelector('#proMediaTags');
+ wrap.querySelector('#proMediaTitle').textContent=title||'Technology Visual Guide';
+ wrap.querySelector('#proMediaIntro').textContent=intro;
+ tagBox.innerHTML=items.map(x=>`<span>${esc(x.label)}</span>`).join('');
+ mediaBody.innerHTML=`<section class="pro-media-strip">${items.map(item=>`<article class="pro-media-tile"><img src="${item.image}" alt="${esc(item.label)} visual guide"><div><b>${esc(item.label)}</b><p>${esc(item.detail)}</p></div></article>`).join('')}</section><section class="pro-demo-rail">${items.map(item=>`<article class="pro-demo-card"><span class="play">▶</span><b>${esc(item.label)} — Video-style walkthrough</b><p>${esc(item.subtitle)}</p><ul>${(item.steps||[]).map(s=>`<li>${esc(s)}</li>`).join('')}</ul></article>`).join('')}</section>`;
+ wrap.classList.add('open'); wrap.setAttribute('aria-hidden','false');
+}
+
 
 const COURSES={
 network:{
@@ -1094,7 +1167,7 @@ function renderCourseHome(courseId){
     <section class="pro-reader-hero">
       <span class="eyebrow">GUIDED TECHNOLOGY COURSE</span>
       <h1>${course.icon} ${esc(course.title)}</h1>
-      <p>${esc(course.subtitle)} Study each chapter in simple English, complete the mini lab, then unlock the next chapter.</p>
+      <p>${esc(course.subtitle)} Study each chapter in simple English, open the large visual/photo-style guides, complete the mini lab, then unlock the next chapter.</p>
       <div class="pro-reader-meta">
         <span>${course.lessons.length} CHAPTERS</span><span>NOTES + MINI LABS</span>
         <span>CLASS ${profile?.class_number||"7–10"}</span><span>${p.pct}% COMPLETE</span>
@@ -1102,16 +1175,18 @@ function renderCourseHome(courseId){
     </section>
     <div class="pro-learning-grid">
       <div class="pro-note-stack">
-        <article class="pro-note-card">
+        <article class="pro-note-card media-ready">
           <h2>How this course works</h2>
           <ol>
             <li>Read the chapter notes and examples.</li>
+            <li>Open the visual guide if you want equipment pictures and guided walkthroughs.</li>
             <li>Review the key terms on the right.</li>
             <li>Start the mini lab at the end of the chapter.</li>
             <li>Score at least 67% to complete the chapter.</li>
             <li>The next chapter unlocks automatically.</li>
           </ol>
           <div class="pro-key-callout">This guided course is for understanding first. The separate Professional Virtual Lab is the deeper hands-on environment.</div>
+          <div class="pro-media-bar"><button class="pro-media-btn" type="button" data-media-title="${esc(course.title)} Visual Starter" data-media-source="${esc(course.title+' '+course.subtitle)}">🖼️ Open course visual guide <span>photos-style cards + training steps</span></button></div>
         </article>
         <article class="pro-note-card">
           <h2>Your current progress</h2>
@@ -1139,6 +1214,7 @@ function renderCourseHome(courseId){
     </div>
   </div>`;
  $("proLearningMain").scrollTop=0;
+ bindMediaLaunchers();
 }
 function renderDiagram(items){
  if(!items?.length)return"";
@@ -1151,12 +1227,14 @@ function cableDiagram(){
  return `<div class="pro-cable-box">${box("T568A pin order",A)}${box("T568B pin order",B)}</div>`;
 }
 function renderSection(s){
- return `<article class="pro-note-card">
+ const mediaText=[s.title,s.text||'',...(s.bullets||[])].join(' ');
+ return `<article class="pro-note-card media-ready">
    <h2>${esc(s.title)}</h2>
    ${s.text?`<p>${esc(s.text)}</p>`:""}
    ${s.bullets?.length?`<ul>${s.bullets.map(x=>`<li>${x}</li>`).join("")}</ul>`:""}
    ${s.callout?`<div class="pro-key-callout">${esc(s.callout)}</div>`:""}
    ${s.cable?cableDiagram():""}
+   <div class="pro-media-bar"><button class="pro-media-btn" type="button" data-media-title="${esc(s.title)}" data-media-source="${esc(mediaText)}">🖼️ Open Visual Guide <span>large equipment cards + walkthrough</span></button></div>
  </article>`;
 }
 function openLesson(id){
@@ -1173,7 +1251,7 @@ function openLesson(id){
       <h1>${esc(l.title)}</h1>
       <p>${esc(l.summary)}</p>
       <div class="pro-reader-meta">
-        <span>CLASS ${l.minClass}+</span><span>${esc(l.duration)}</span><span>NOTES</span><span>MINI LAB</span>
+        <span>CLASS ${l.minClass}+</span><span>${esc(l.duration)}</span><span>NOTES</span><span>MINI LAB</span><span>VISUAL GUIDE</span>
         ${isComplete(course.id,l.id)?'<span>✅ COMPLETED</span>':''}
       </div>
       ${renderDiagram(l.diagram||[])}
@@ -1181,27 +1259,29 @@ function openLesson(id){
     <div class="pro-learning-grid">
       <div class="pro-note-stack">
         ${l.sections.map(renderSection).join("")}
-        <article class="pro-note-card">
+        <article class="pro-note-card media-ready">
           <h2>Ready for the mini lab?</h2>
           <p>Finish reading first. The mini lab checks only the main ideas from this chapter.</p>
           <div class="pro-reader-actions">
             <button class="primary" type="button" data-start-lab>🧪 Start Chapter Mini Lab</button>
           </div>
+          <div class="pro-media-bar"><button class="pro-media-btn" type="button" data-media-title="${esc(l.title)} Visual Recap" data-media-source="${esc(l.title+' '+l.summary+' '+(l.terms||[]).map(t=>t[0]).join(' '))}">🖼️ Open lesson visual guide <span>equipment cards + walkthrough recap</span></button></div>
         </article>
       </div>
       <aside class="pro-side-column">
         <article class="pro-side-card">
           <h3>Key terms</h3>
-          <div class="pro-term-list">${l.terms.map(t=>`<div><b>${esc(t[0])}</b><small>${esc(t[1])}</small></div>`).join("")}</div>
+          <div class="pro-term-list">${l.terms.map(t=>`<button class="pro-term-button" type="button" data-media-title="${esc(t[0])}" data-media-source="${esc(t[0]+' '+t[1])}"><b>${esc(t[0])}</b><small>${esc(t[1])}</small></button>`).join("")}</div>
         </article>
         <article class="pro-side-card">
           <h3>Learning pattern</h3>
-          <ul><li>Understand the normal behavior.</li><li>Configure or identify the correct setting.</li><li>Troubleshoot using evidence.</li><li>Verify and document.</li></ul>
+          <ul><li>Understand the normal behavior.</li><li>Open the visuals and connect theory to the device.</li><li>Configure or identify the correct setting.</li><li>Troubleshoot using evidence.</li><li>Verify and document.</li></ul>
         </article>
       </aside>
     </div>
   </div>`;
  $("proLearningMain").scrollTop=0;
+ bindMediaLaunchers();
 }
 function startMiniLab(){
  const course=COURSES[activeCourseId],l=course?.lessons.find(x=>x.id===activeLessonId);if(!l)return;
@@ -1338,6 +1418,13 @@ function submitCourseExam(){
  const box=$("proCourseExamResult");
  if(box)box.innerHTML=`<div class="pro-course-exam-result"><b>${score}%</b><p>${score>=60?"Good practice result. Continue to the subject practical lab when ready.":"Review the guided notes and retry when ready."}</p><div class="pro-course-tools" style="max-width:520px;margin:12px auto 0"><a class="lab" href="professional-lab.html?track=${course.id}">🧪 Open ${esc(course.title)} Lab</a><button type="button" data-course-exam>↻ Retry Exam</button></div></div>`;
 }
+
+function bindMediaLaunchers(scope=document){
+ scope.querySelectorAll('[data-media-source]').forEach(btn=>{
+   btn.onclick=()=>openMediaModal(btn.dataset.mediaTitle||'Technology Visual Guide', btn.dataset.mediaSource||'', 'Large photo-style cards and a video-style walkthrough help students understand the equipment or concept before the lab.');
+ });
+}
+
 async function interceptDeck(e){
  const card=e.target.closest(".control-deck .deck-card[data-workspace]");
  if(!card)return;
@@ -1349,6 +1436,7 @@ async function interceptDeck(e){
 }
 async function boot(){
  createOverlay();
+ ensureMediaModal();
  document.addEventListener("click",interceptDeck,true);
  getProfile();
 }
