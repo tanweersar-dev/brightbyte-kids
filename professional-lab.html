@@ -1,105 +1,39 @@
 <!doctype html>
 <html lang="en">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="robots" content="noindex,nofollow">
-  <meta name="theme-color" content="#263d50">
-  <title>Professional IT Lab — Tannu Sir's Kids Digital Academy</title>
-  <link rel="stylesheet" href="professional-lab.css?v=41.0">
-  <link rel="stylesheet" href="professional-grade-v42-3.css?v=42.3">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="robots" content="noindex,nofollow">
+<meta name="theme-color" content="#223c50">
+<title>Professional Subject Lab — Tannu Sir's Kids Digital Academy</title>
+<link rel="stylesheet" href="professional-grade-v42-3.css?v=42.3">
+<link rel="stylesheet" href="professional-track-lab.css?v=44.0">
 </head>
 <body class="professional-grade professional-lab-page">
-<header class="topbar">
-  <a class="brand" href="professional-universe.html"><span class="logo">T</span><span><b>Professional IT Lab</b><small>CLASS 7–10 • VIRTUAL PRACTICAL ENVIRONMENT</small></span></a>
-  <div class="top-actions">
-    <span id="studentBadge" class="pill">👤 Student</span>
-    <span id="scoreBadge" class="pill">⭐ 0 XP</span>
-    <a class="pill link" href="professional-universe.html">← Universe</a>
-    <a class="pill link" href="final-certificate.html">🏆 Certificate</a>
+<header class="track-topbar">
+  <a class="track-brand" href="professional-universe.html">
+    <span class="track-logo">T</span>
+    <span><b id="labTitle">Professional Subject Lab</b><small id="labSubtitle">CLASS 7–10 • SUBJECT-FOCUSED PRACTICAL LEARNING</small></span>
+  </a>
+  <div class="track-actions">
+    <span id="studentChip" class="track-chip">👤 Student</span>
+    <a href="professional-universe.html">← Universe</a>
+    <a href="student-exams.html">📝 Exam Center</a>
+    <a href="final-certificate.html">🏆 Final Certificate</a>
   </div>
 </header>
-
-<main class="lab-shell">
-  <aside class="lab-list-panel">
-    <div class="panel-title"><span>20 PRACTICAL LABS</span><b>Choose a Mission</b></div>
-    <div id="labList" class="lab-list"></div>
-  </aside>
-
-  <section class="workspace">
-    <header class="mission-head">
-      <div>
-        <span id="missionLevel" class="kicker">CLASS 7–10</span>
-        <h1 id="missionTitle">Professional Lab</h1>
-        <p id="missionDesc"></p>
-      </div>
-      <div class="mission-actions">
-        <button id="hintBtn" class="btn soft" type="button">💡 Hint</button>
-        <button id="resetBtn" class="btn ghost" type="button">↺ Reset Lab</button>
-        <button id="verifyBtn" class="btn primary" type="button">✅ Verify & Score</button>
-      </div>
-    </header>
-
-    <div class="lab-grid">
-      <section class="device-panel card">
-        <div class="card-head"><b>🧰 Devices / Tools</b><small>Click to add a device to the canvas.</small></div>
-        <div id="devicePalette" class="device-palette"></div>
-        <div class="tool-divider"></div>
-        <div class="card-head compact"><b>Mission Checklist</b><small id="checkProgress">0/0 complete</small></div>
-        <div id="checklist" class="checklist"></div>
-      </section>
-
-      <section class="canvas-panel card">
-        <div class="canvas-toolbar">
-          <span><b>Topology / Workbench</b><small>Drag devices. Select one to configure it.</small></span>
-          <div>
-            <button id="connectBtn" class="mini-btn" type="button">🔗 Connect Mode</button>
-            <button id="testBtn" class="mini-btn" type="button">📡 Test Network</button>
-          </div>
-        </div>
-
-        <div id="canvas" class="canvas">
-          <div id="canvasHint" class="canvas-hint">Add devices from the left panel to begin.</div>
-          <svg id="cableSvg" class="cable-svg" aria-hidden="true"></svg>
-        </div>
-
-        <div class="terminal">
-          <div class="terminal-top"><b>Terminal / Event Log</b><button id="clearTerminal" type="button">Clear</button></div>
-          <div id="terminalOut" class="terminal-out"><div>BrightByte Professional Lab CLI ready.</div><div>Try: help</div></div>
-          <form id="terminalForm" class="terminal-form">
-            <span>&gt;</span>
-            <input id="terminalInput" autocomplete="off" spellcheck="false" placeholder="ipconfig /all, ping 192.168.10.1, nslookup example.com, show vlan brief...">
-          </form>
-        </div>
-      </section>
-
-      <aside class="config-panel card">
-        <div class="card-head"><b>⚙️ Properties / Configuration</b><small id="selectedLabel">Select a device or answer the scenario.</small></div>
-        <div id="configBody"></div>
-      </aside>
-    </div>
-
-    <section class="score-card">
-      <div><span>DIAGNOSIS</span><b id="diagScore">—</b></div>
-      <div><span>CONFIGURATION</span><b id="configScore">—</b></div>
-      <div><span>VERIFICATION</span><b id="verifyScore">—</b></div>
-      <div><span>DOCUMENTATION</span><b id="docScore">—</b></div>
-      <div><span>SAFE WORKING</span><b id="safeScore">—</b></div>
-      <div class="total"><span>TOTAL</span><b id="totalScore">—</b></div>
-    </section>
-  </section>
-</main>
-
-<div id="modal" class="modal-backdrop" aria-hidden="true">
-  <div class="modal-card">
-    <button id="modalClose" class="modal-close" type="button">×</button>
+<div class="track-shell">
+  <aside id="trackSidebar" class="track-sidebar"></aside>
+  <main id="trackMain" class="track-main"></main>
+</div>
+<div id="trackModal" class="track-modal" aria-hidden="true">
+  <div class="track-modal-card">
+    <button id="modalClose" type="button" style="float:right;border:0;background:transparent;font-size:24px;color:#456">×</button>
     <div id="modalBody"></div>
   </div>
 </div>
-
-<div id="toast" class="toast"></div>
-
-<script src="professional-lab-v42-4.js?v=42.4"></script>
+<div id="toast" style="position:fixed;left:50%;bottom:20px;transform:translateX(-50%);z-index:90;background:#203f53;color:#fff;padding:9px 13px;border-radius:10px;font-size:10px;font-weight:900;opacity:0;transition:.2s"></div>
+<script src="professional-track-lab.js?v=44.0"></script>
 <script src="professional-ai-buddy-v42-3.js?v=42.3"></script>
 <script src="professional-page-bridge-v42-4.js?v=42.4"></script>
 </body>
