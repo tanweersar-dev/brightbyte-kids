@@ -39,3 +39,7 @@
 .track-demo-card ul{margin:8px 0 0 18px;padding:0}
 .track-demo-card li,.track-demo-card p{font-size:13px;line-height:1.6;color:#5f7488}
 @media (max-width:760px){.track-modal-card.wide{padding:18px;border-radius:22px}.track-content p,.track-content li,.track-content small,.track-content label{font-size:15px}.info-actions button{width:100%}}
+
+/* V45.2 real-photo visual reliability */
+.track-media-card img{height:300px;object-fit:contain;background:#eef4f8;padding:10px}
+.note-card p,.note-card li{font-size:15.5px;line-height:1.82}
