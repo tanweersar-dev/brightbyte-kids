@@ -3,7 +3,7 @@
 "use strict";
 
 /* ============================================================
-   V43.0 — PROFESSIONAL GUIDED LEARNING ACADEMY
+   V44.0 — PROFESSIONAL GUIDED LEARNING ACADEMY
    Course -> Lesson Notes -> Mini Lab -> Next Lesson
    ============================================================ */
 
@@ -973,6 +973,10 @@ function createOverlay(){
    if(next){openLesson(next.dataset.nextLesson)}
    const resume=e.target.closest("[data-resume-course]");
    if(resume){openLesson(resume.dataset.resumeCourse)}
+   const courseExam=e.target.closest("[data-course-exam]");
+   if(courseExam){startCourseExam()}
+   const courseExamSubmit=e.target.closest("[data-course-exam-submit]");
+   if(courseExamSubmit){submitCourseExam()}
   });
  document.addEventListener("keydown",e=>{
    if(e.key==="Escape"&&wrap.classList.contains("open"))closeOverlay()
@@ -1124,10 +1128,11 @@ function renderCourseHome(courseId){
           </div>
         </article>
         <article class="pro-side-card">
-          <h3>After the guided course</h3>
-          <p>Use the Professional Virtual Lab for a deeper practical exercise and saved score.</p>
-          <div class="pro-reader-actions" style="justify-content:flex-start">
-            <a href="${course.finalLab}" class="success">${course.id==="passport"?"Open Certificate Center":"Open Full Practical"}</a>
+          <h3>Practical & optional exam</h3>
+          <p>Open only this subject's practical missions. The lab page will not mix other subjects into the mission list.</p>
+          <div class="pro-course-tools">
+            <a class="lab" href="professional-lab.html?track=${course.id}">🧪 Subject Lab</a>
+            <button class="exam" type="button" data-course-exam>📝 Optional Course Exam</button>
           </div>
         </article>
       </aside>
@@ -1275,7 +1280,7 @@ function submitMiniLab(){
      ${passed&&next&&nextAllowed?`<button class="success" type="button" data-next-lesson="${next.id}">Next Chapter →</button>`:""}
      ${passed&&(!next||!nextAllowed)?`<button class="success" type="button" data-resume-course="${firstResume(course).id}">Course Progress</button>`:""}
      <button type="button" data-retry-lab>↻ Retry Lab</button>
-     <a href="${course.finalLab}">${course.id==="passport"?"Certificate Center":"Full Virtual Lab"}</a>
+     <a href="professional-lab.html?track=${course.id}">Subject Practical Lab</a>
    </div>`;
  $("proLearningMain").querySelector(".pro-lab-card").after(result);
  if(passed&&!next){
@@ -1287,6 +1292,52 @@ function submitMiniLab(){
  result.scrollIntoView({behavior:"smooth",block:"center"});
 }
 
+
+function courseExamQuestions(course){
+ const lessons=course.lessons.filter(isClassAllowed),qs=[];
+ for(const l of lessons){
+   const q=l.lab?.questions?.[0];
+   if(q)qs.push({lesson:l.title,...q});
+   if(qs.length>=5)break;
+ }
+ return qs;
+}
+function startCourseExam(){
+ const course=COURSES[activeCourseId];if(!course)return;
+ const qs=courseExamQuestions(course);window.__proCourseExamAnswers={};
+ $("proLearningMain").innerHTML=`<div class="pro-reader-shell">
+  <section class="pro-reader-hero"><span class="eyebrow">${esc(course.title.toUpperCase())} • OPTIONAL CHECK</span><h1>📝 ${esc(course.title)} Optional Exam</h1><p>This practice check does not replace assigned Exam Center tests.</p><div class="pro-reader-meta"><span>${qs.length} QUESTIONS</span><span>OPTIONAL</span><span>PASS GUIDE: 60%</span></div></section>
+  <article class="pro-course-exam-card"><h2>Course Knowledge Check</h2><p>Choose one answer for every question.</p>
+   ${qs.map((q,qi)=>`<section class="pro-exam-question" data-ce-q="${qi}"><h3>${qi+1}. ${esc(q.q)}</h3><div class="pro-options">${q.options.map((o,oi)=>`<button type="button" class="pro-option" data-ce-choice="${qi}" data-ce-answer="${oi}">${esc(o)}</button>`).join("")}</div></section>`).join("")}
+   <div class="pro-reader-actions"><button type="button" data-resume-course="${firstResume(course).id}">← Back to Course</button><button class="primary" type="button" data-course-exam-submit>Check Score</button></div><div id="proCourseExamResult"></div>
+  </article></div>`;
+ $("proLearningMain").scrollTop=0;
+ document.querySelectorAll("[data-ce-choice]").forEach(b=>{
+   b.onclick=()=>{
+     const qi=Number(b.dataset.ceChoice),ai=Number(b.dataset.ceAnswer);
+     window.__proCourseExamAnswers[qi]=ai;
+     document.querySelectorAll(`[data-ce-q="${qi}"] .pro-option`).forEach(x=>x.classList.remove("selected"));
+     b.classList.add("selected");
+   };
+ });
+}
+function submitCourseExam(){
+ const course=COURSES[activeCourseId];if(!course)return;
+ const qs=courseExamQuestions(course),a=window.__proCourseExamAnswers||{};
+ if(Object.keys(a).length<qs.length){alert(`Please answer all ${qs.length} questions first.`);return}
+ let correct=0;
+ qs.forEach((q,qi)=>{
+   const chosen=Number(a[qi]);if(chosen===q.answer)correct++;
+   document.querySelectorAll(`[data-ce-q="${qi}"] .pro-option`).forEach((b,oi)=>{
+     b.disabled=true;b.classList.remove("correct","wrong");
+     if(oi===q.answer)b.classList.add("correct");else if(oi===chosen)b.classList.add("wrong");
+   });
+ });
+ const score=Math.round(correct/qs.length*100);
+ const x=courseState(course.id);x.course.optionalExamScore=Math.max(Number(x.course.optionalExamScore||0),score);saveState(x.root);
+ const box=$("proCourseExamResult");
+ if(box)box.innerHTML=`<div class="pro-course-exam-result"><b>${score}%</b><p>${score>=60?"Good practice result. Continue to the subject practical lab when ready.":"Review the guided notes and retry when ready."}</p><div class="pro-course-tools" style="max-width:520px;margin:12px auto 0"><a class="lab" href="professional-lab.html?track=${course.id}">🧪 Open ${esc(course.title)} Lab</a><button type="button" data-course-exam>↻ Retry Exam</button></div></div>`;
+}
 async function interceptDeck(e){
  const card=e.target.closest(".control-deck .deck-card[data-workspace]");
  if(!card)return;
