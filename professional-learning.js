@@ -690,86 +690,115 @@ microsoft:{
  ]
 },
 
+
 ai:{
- id:"ai",icon:"🤖",title:"AI for IT Work",subtitle:"Prompting, verification, troubleshooting support, documentation and safe AI use.",
- finalLab:"professional-lab.html?lab=19",
+ id:"ai",icon:"🤖",title:"AI for IT Work",subtitle:"Class 7–10 AI learning for school research, prompting, productivity and safe IT support.",
+ finalLab:"professional-lab.html?track=ai",
  lessons:[
- L("ai-01","AI Basics & What It Can Do for IT",7,"15 min","Use AI as an assistant, not as an unquestioned authority.",
-  [S("Useful IT tasks","AI can help explain concepts, draft checklists, summarize logs, improve ticket notes, create SOP drafts, compare troubleshooting options and generate study questions.",[
-   "It can be wrong or outdated.",
-   "It can invent details that were never provided.",
-   "It does not automatically know your company's private environment.",
-   "Technicians must verify important technical actions."
-  ])],
-  [["Hallucination","AI-generated claim that sounds plausible but is unsupported or wrong."],["Verification","Checking an AI answer against evidence or trusted sources."]],
-  {title:"Mini Lab — Good Use or Bad Use?",scenario:"You want AI help with a printer fault.",
-   tasks:["Describe the symptom without secrets.","List checks already completed.","Ask for a step-by-step diagnostic plan."],
-   questions:[
-    Q("Should AI output be treated as automatically correct?",["No","Yes","Always for networking"],0,"AI can make mistakes."),
-    Q("A useful AI task for support?",["Draft a troubleshooting checklist","Reveal user passwords","Approve security policy alone"],0,"AI is useful for structured assistance, not credential handling."),
-    Q("What must follow an important AI recommendation?",["Verification","Blind execution","Publishing secrets"],0,"Validate technical advice safely.")
-   ]}),
- L("ai-02","Write Better Technical Prompts",7,"18 min","Give context, objective, evidence, constraints and desired output.",
-  [S("A strong prompt pattern","A technical prompt can use five parts.",[
-   "Role/context: 'You are helping a junior IT technician.'",
-   "Symptom: exact problem.",
-   "Environment: Windows version, device, network context.",
-   "Evidence: what you already tested and results.",
-   "Constraint/output: safe steps, simple English, no destructive actions."
-  ]),S("Example","Weak: 'Printer not working fix it.' Stronger: 'Windows 11 PC can ping HP network printer 10.10.20.50 but jobs stay in queue. Printer web page opens. Give a safe troubleshooting sequence checking TCP/IP port, queue, driver and spooler. Do not suggest reinstalling Windows.'",[])],
-  [["Context","Background needed to understand the problem."],["Constraint","Boundary or requirement for the answer."],["Evidence","Observed facts from tests."]],
-  {title:"Mini Lab — Improve the Prompt",scenario:"Turn 'Wi-Fi broken' into a useful support prompt.",
-   tasks:["Add affected scope.","Add IP/gateway evidence.","Ask for safe ordered checks."],
-   questions:[
-    Q("Which makes a prompt stronger?",["Exact symptom and test results","Only 'fix it'","A password"],0,"Specific context improves relevance."),
-    Q("Should passwords be included in prompts?",["No","Yes","Only admin passwords"],0,"Private credentials must not be exposed."),
-    Q("What is a useful constraint?",["Do not suggest destructive changes before basic checks","Ignore safety","Assume every system is identical"],0,"Constraints shape safer output.")
-   ]}),
- L("ai-03","Verify AI Answers & Avoid Hallucinations",8,"18 min","Cross-check commands, settings and claims before using them.",
-  [S("Three verification levels","Match verification effort to risk.",[
-   "Low risk: definition or study explanation — compare with course notes.",
-   "Medium risk: troubleshooting command — check vendor/OS documentation and test safely.",
-   "High risk: production firewall, data deletion, identity/security change — require approved documentation, change control and human authorization."
-  ]),S("Red flags","Be cautious when AI invents a product menu, gives a command that does not exist, asks you to disable security, or gives one confident answer without uncertainty.",[])],
-  [["Risk-based verification","Use more rigorous checking for higher-impact actions."],["Source","Trusted documentation or evidence used to validate a claim."]],
-  {title:"Mini Lab — Verify Before You Run",scenario:"AI suggests a command you have never seen to 'repair the firewall.'",
-   tasks:["Do not run it yet.","Check product documentation.","Understand what the command changes.","Use lab/test environment if possible."],
-   questions:[
-    Q("A high-risk production command should be?",["Verified and approved","Run immediately","Shared without reading"],0,"High-impact changes require strong verification."),
-    Q("AI gives a product menu that does not exist. This may be?",["Hallucination/outdated answer","Proof the device is broken","A VLAN"],0,"AI may invent or use outdated interfaces."),
-    Q("Best source for a specific vendor command?",["Current official vendor documentation","Random memory only","A password file"],0,"Official documentation is the right primary reference.")
-   ]}),
- L("ai-04","AI for Tickets, SOPs & Troubleshooting",8,"20 min","Use AI to improve structure while keeping facts and privacy under your control.",
-  [S("Ticket summaries","Provide only necessary non-sensitive facts and ask AI to organize them into symptom, evidence, action and result.",[
-   "Never let AI invent tests you did not perform.",
-   "Remove passwords, OTPs, private keys and sensitive personal data.",
-   "Review the final wording before putting it in a ticket."
-  ]),S("SOP drafts","AI can suggest headings and steps, but a real SOP must be tested against the actual environment and approved process.",[])],
-  [["SOP","Standard Operating Procedure."],["Sanitize","Remove private/sensitive information before sharing."],["Factuality","Only state work that actually happened."]],
-  {title:"Mini Lab — Clean a Ticket Note",scenario:"Raw note: 'user angry, printer bad, fixed maybe.'",
-   tasks:["Rewrite symptom clearly.","Add checks and action only if actually performed.","End with verification status."],
-   questions:[
-    Q("Can AI invent tests to make a ticket look complete?",["No","Yes","Only if the user is busy"],0,"Documentation must remain factual."),
-    Q("Before sending a log to AI?",["Remove secrets/private data","Add passwords","Disable MFA"],0,"Sanitize sensitive information."),
-    Q("An SOP generated by AI should be?",["Tested and approved","Published immediately","Used without reading"],0,"Operational procedures need validation.")
-   ]}),
- L("ai-05","AI-Assisted Junior Technician Project",9,"22 min","Combine prompting, verification and documentation into a safe mini project.",
-  [S("Project flow","Choose a simple problem such as APIPA, printer offline or Outlook automatic reply.",[
-   "1. Write a strong prompt.",
-   "2. Get a diagnostic checklist.",
-   "3. Verify every technical step.",
-   "4. Test in the course lab.",
-   "5. Write a ticket/SOP summary.",
-   "6. Record what AI got right or wrong."
-  ])],
-  [["Reflection","Reviewing what worked, what failed and why."],["Human-in-the-loop","A person reviews/approves AI-supported work."]],
-  {title:"Mini Lab — AI Support Workflow",scenario:"A PC has 169.254.x.x and no gateway.",
-   tasks:["Ask AI for likely causes.","Verify DHCP/APIPA explanation.","Use ipconfig/ping logic.","Write a short verified resolution note."],
-   questions:[
-    Q("Who owns the final technical decision?",["The technician/authorized human","The AI alone","Nobody"],0,"AI supports; humans remain responsible."),
-    Q("What should the final note distinguish?",["Observed facts from AI suggestions","Passwords from usernames","Random guesses"],0,"Keep evidence and suggestions separate."),
-    Q("A good AI workflow ends with?",["Verification and documentation","Blind trust","Deleting logs"],0,"Verified outcomes matter.")
-   ]})
+  L("ai-01","What AI Is, What It Can Do & Safe Use",7,"18 min",
+   "Understand AI as a helper, not a magic truth machine.",
+   [
+    S("What is AI?","Artificial Intelligence is software that can recognise patterns and generate useful responses, summaries, ideas, images or recommendations.",[
+     "AI can explain a difficult topic in simple English.","AI can draft the first version of an email, note or checklist.","AI can help create quiz questions, summaries and study plans.","AI can make mistakes, so students must verify important facts."
+    ]),
+    S("Safe student use","Use AI to learn, not to cheat. Never paste passwords, OTPs, private home addresses, personal ID numbers or confidential company data.",[
+     "Ask for explanations and examples.","Rewrite the final answer in your own words.","Check the result against class notes, teacher instructions or trusted sources.","Respect privacy, school rules and copyright."
+    ],{callout:"Best habit: Ask → Check → Improve."}),
+    S("Where AI helps students","AI is useful when a student needs a simpler explanation, a revision plan, a presentation outline or extra practice.",[
+     "Study help: summaries and revision questions.","Writing help: grammar, structure and first drafts.","Technology help: explain networking, printer, Windows or email problems in simple language."
+    ])
+   ],
+   [["AI","Computer-generated assistance based on patterns in data."],["Verification","Checking whether the answer is correct and safe."],["Privacy","Protecting personal and sensitive information."]],
+   {title:"Mini Lab — Use AI Safely",scenario:"Choose the safest and smartest AI behavior for a student.",tasks:["Identify safe data to share.","Spot why verification matters.","Decide how AI should help learning."],questions:[
+    Q("What is the safest use of AI for classwork?",["Ask for an explanation and then verify it","Paste your exam password","Copy every answer without reading"],0,"AI should support understanding, and the result must be checked."),
+    Q("Should a student paste OTPs or private IDs into AI?",["No","Yes","Only on Fridays"],0,"Private or sensitive data should never be shared."),
+    Q("What should you do after AI gives an answer?",["Verify it with trusted notes or sources","Trust it blindly","Delete your notes"],0,"Verification is essential because AI can be wrong.")
+   ]},
+   {diagram:["Ask clearly","Read carefully","Verify","Use safely"]}),
+
+  L("ai-02","Prompt Writing for School, Research & IT Work",8,"20 min",
+   "Learn how to ask AI better questions so the output becomes clearer and more useful.",
+   [
+    S("The 5-part prompt formula","A strong prompt usually includes role, task, audience, format and limits.",[
+     "Role: Act as a school IT tutor.","Task: Explain DNS in simple English.","Audience: Class 9 student.","Format: Short notes + examples + 3 quiz questions.","Limits: Use easy words and keep the answer concise."
+    ]),
+    S("Make weak prompts stronger","Instead of saying only 'tell me about networks', give context and ask for exactly what you need.",[
+     "Weak: Explain computers.","Better: Explain the difference between router, switch and hub for a Class 8 student in a table.","Better still: Add examples, a visual guide and a short practice task."
+    ]),
+    S("Useful school prompts","Students can use AI to create revision plans, practice MCQs, simple project outlines and presentation ideas.",[
+     "Ask for a weekly revision plan before an exam.","Ask for difficult technical words to be simplified.","Ask for one worked example and one practice question."
+    ],{callout:"Good prompts save time and improve quality."})
+   ],
+   [["Prompt","The instruction you give to AI."],["Audience","The person the answer is for."],["Format","How the answer should be organised."]],
+   {title:"Mini Lab — Build a Better Prompt",scenario:"Improve a weak prompt so the AI gives a better result.",tasks:["Choose the strongest prompt.","Identify missing prompt parts.","Match prompt quality with output quality."],questions:[
+    Q("Which prompt is strongest?",["Explain router vs switch for a Class 8 student in a table with 3 examples","Tell me networks","Make anything"],0,"The strongest prompt gives clear context, audience and output format."),
+    Q("What does 'audience' mean in a prompt?",["Who the answer is for","What cable color you like","The computer brand"],0,"Audience tells the AI what level and tone to use."),
+    Q("Why add a format request?",["To control how the answer is organised","To confuse the AI","Because it changes monitor brightness"],0,"Formatting instructions make the result easier to use.")
+   ]},
+   {diagram:["Role","Task","Audience","Format","Limits"]}),
+
+  L("ai-03","AI Research, Fact Checking & School Projects",8,"20 min",
+   "Use AI to start research, then verify and refine the information for school work.",
+   [
+    S("AI as a research starter","AI is useful for the first summary, vocabulary help and topic outline.",[
+     "Start with a broad summary.","Ask follow-up questions for difficult terms.","Convert the summary into headings or a mind map."
+    ]),
+    S("How to verify","Students should compare AI output with textbooks, teacher notes, vendor documentation or trusted educational sources.",[
+     "Check names, dates, definitions, commands and numbers.","Ask the AI which parts still need verification.","If two reliable sources disagree, ask a teacher or trusted expert."
+    ]),
+    S("Simple school project workflow","Pick the topic, ask for a basic outline, research each point, verify facts, rewrite in your own words and then build the final presentation or report.",[
+     "Keep a small evidence list of your sources.","Use your own final wording.","Be transparent about using AI as a learning aid."
+    ])
+   ],
+   [["Research outline","A simple structure for studying a topic."],["Fact check","Confirming whether a statement is true."],["Source","Where the information came from."]],
+   {title:"Mini Lab — Verify the Research",scenario:"Choose the best verification behavior while using AI for a school project.",tasks:["Select the safest research method.","Decide what needs checking.","Choose how to finish the project professionally."],questions:[
+    Q("Best use of AI in research?",["Use it for the first draft, then verify facts","Trust everything instantly","Skip your textbook"],0,"AI is a useful starting point but facts must still be checked."),
+    Q("What should be checked carefully?",["Definitions, numbers and commands","Only the page color","Nothing"],0,"Important details should always be verified."),
+    Q("Who should write the final project wording?",["The student, after understanding the topic","The AI only","A random stranger"],0,"Students should understand and present the work in their own final form.")
+   ]},
+   {diagram:["Topic","AI Outline","Trusted Sources","Rewrite","Present"]}),
+
+  L("ai-04","AI for IT Support, Emails, SOPs & Office Work",9,"22 min",
+   "Use AI to help with beginner IT tasks such as support replies, SOPs and troubleshooting notes.",
+   [
+    S("IT support uses","AI can help draft ticket replies, troubleshooting checklists, SOP steps and simple user guidance.",[
+     "Draft a printer troubleshooting SOP.","Create a checklist for Wi-Fi issue diagnosis.","Rewrite a long email into short professional English."
+    ]),
+    S("Professional limits","AI suggestions must be reviewed before they are sent to users. Never expose passwords, OTPs, customer secrets or confidential company information.",[
+     "Remove private names and secrets before asking for help.","Review the tone before sending an email.","Use AI as an assistant, not as the final approver."
+    ],{callout:"Safe prompt example: Draft a short email asking the user to restart the PC and share a screenshot of the error."}),
+    S("Office productivity ideas","AI can also support meeting summaries, study schedules, presentation outlines and practice interview questions.",[
+     "Use AI to make plain-English notes.","Ask for step-by-step checklists.","Ask AI to simplify technical jargon for younger students."
+    ])
+   ],
+   [["SOP","Standard Operating Procedure."],["Ticket reply","A professional response to a support request."],["Sanitised data","Information with secrets removed."]],
+   {title:"Mini Lab — Use AI Like a Junior Technician",scenario:"Choose the best AI-supported action for a small IT support task.",tasks:["Pick the safest support prompt.","Protect private data.","Choose the best final action before sending to the user."],questions:[
+    Q("Before asking AI to help draft an IT email, what should you remove?",["Passwords and private data","Only punctuation","The subject line"],0,"Sensitive details must be removed before using AI tools."),
+    Q("What can AI help create?",["A first draft of a troubleshooting checklist","A real hardware repair by itself","A legal approval automatically"],0,"AI is good at generating a first version of checklists and drafts."),
+    Q("Before sending the AI draft to a user, you should?",["Review and verify it","Send it blindly","Delete the ticket"],0,"A human must review the final message.")
+   ]},
+   {diagram:["Problem","Prompt AI","Review","Verify","Send"]}),
+
+  L("ai-05","AI for Presentations, Excel, Career Skills & Responsible Future Use",10,"24 min",
+   "Connect AI to real student growth: presentations, revision, planning and career preparation.",
+   [
+    S("Presentation and document help","AI can generate slide outlines, speaker notes, headings and examples. Students must still choose the final wording and visual quality.",[
+     "Ask for a 5-slide outline on network security.","Ask for simple definitions to place on slides.","Ask for practice questions before presenting."
+    ]),
+    S("Excel, planning and revision","AI can suggest table formats, explain formulas, build revision plans and create weekly study schedules.",[
+     "Explain a simple SUM or percentage formula.","Create a weekly plan for hardware, networking and AI revision.","Ask for a checklist before a practical lab."
+    ]),
+    S("Career readiness and ethics","AI should help students become clearer thinkers, not lazy copy-pasters.",[
+     "Use AI for interview practice.","Use AI to improve communication.","Verify, edit and take ownership of the final work."
+    ],{callout:"Responsible AI users are curious, careful and honest."})
+   ],
+   [["Slide outline","A structure for a presentation."],["Formula support","Help understanding spreadsheet formulas."],["Ethics","Using technology honestly and safely."]],
+   {title:"Mini Lab — AI for Higher-Level School Work",scenario:"Select the best AI-supported school or career action.",tasks:["Choose a good AI study use.","Spot lazy misuse.","Identify responsible career preparation."],questions:[
+    Q("What is a strong use of AI for presentations?",["Ask for an outline, then edit it yourself","Submit unedited AI text as your own understanding","Share your school password"],0,"AI is best used to support structure and learning, not replace understanding."),
+    Q("Which habit shows responsible AI use?",["Verify and improve the output","Copy without reading","Hide mistakes"],0,"Verification and improvement are essential."),
+    Q("AI can help future career preparation by?",["Practising interview questions and communication","Replacing all practical work","Skipping study"],0,"AI can support preparation, but skills still require practice.")
+   ]},
+   {diagram:["Outline","Practice","Verify","Present","Grow"]})
  ]
 },
 
