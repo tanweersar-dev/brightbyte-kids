@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="professional-universe.css?v=42.3">
 <link rel="stylesheet" href="professional-grade-v42-3.css?v=42.3">
 <link rel="stylesheet" href="professional-learning.css?v=45.2">
+<link rel="stylesheet" href="professional-study-center.css?v=46.0">
 </head>
 <body class="professional-grade professional-dashboard-page">
 <!-- V44.0 Subject Track Academy connected -->
@@ -28,6 +29,7 @@
     <span id="classChip" class="top-chip">🎓 Class —</span>
     <button class="top-link" type="button" data-home>Dashboard</button>
     <button class="top-link" type="button" data-workspace="tracks">Tracks</button>
+    <a href="professional-study.html" class="top-link">Study Center</a>
     <a href="professional-lab.html" class="top-link accent">Virtual Lab</a>
     <a href="student-exams.html" class="top-link">Exams</a>
     <button class="top-link" type="button" data-workspace="passport">Skill Passport</button>
@@ -68,7 +70,7 @@
 
       <p class="hero-copy">
         A focused technology pathway for Class 7–10 covering hardware, Windows, printers,
-        Microsoft 365, networking, IT support, cybersecurity, AI, cloud and professional documentation.
+        Microsoft 365, networking, IT support, cybersecurity, AI, CCTV/IP surveillance, cloud and professional documentation.
       </p>
 
       <div class="hero-actions">
@@ -121,6 +123,10 @@
           <span>🗂️</span><div><b>Project Portfolio</b><small>Class projects • Evidence • Capstone</small></div>
         </button>
 
+        <a class="deck-card cctv" href="professional-lab.html?track=cctv">
+          <span>📹</span><div><b>CCTV / IP Surveillance</b><small>IP Camera • PoE • NVR • Recording • Faults</small></div>
+        </a>
+
         <button class="deck-card passport" type="button" data-workspace="passport">
           <span>🛂</span><div><b>Skill Passport</b><small>Labs • Exams • Certification readiness</small></div>
         </button>
@@ -128,34 +134,41 @@
     </aside>
   </section>
 
-  <section class="metric-strip">
-    <button type="button" data-workspace="passport">
-      <small>LABS PASSED</small><b id="labsPassed">0 / 20</b><span>Practical verification</span>
-    </button>
-    <button type="button" data-workspace="passport">
-      <small>LAB AVERAGE</small><b id="labAverage">0%</b><span>Best saved scores</span>
-    </button>
-    <button type="button" data-workspace="toolkit">
-      <small>TECH XP</small><b id="xpCount">0</b><span>Hands-on progress</span>
-    </button>
-    <button type="button" data-workspace="capstone">
-      <small>CAPSTONE</small><b id="capstoneStatus">LOCKED</b><span>Class 10 final build</span>
-    </button>
+  <section class="study-center-panel" aria-label="Theory and Study Center">
+    <div class="study-center-head">
+      <div>
+        <span>THEORY & STUDY CENTER</span>
+        <h2>Study first → pass the quiz → enter the practical workspace</h2>
+        <p>Simple English notes with diagrams, technician tips, fault diagnosis and commands where required.</p>
+      </div>
+      <div class="study-flow-mini"><i>1 Study Notes</i><i>2 10 Question Quiz</i><i>3 Pass 70%</i><i>4 Practical</i></div>
+    </div>
+
+    <div class="study-center-grid">
+      <a class="study-launch-card" data-study="hardware" href="professional-study.html?track=hardware"><span class="ico">🖥️</span><div><b>Computer Hardware</b><p>Assembly • Disassembly • SSD • SMPS • Motherboard • CPU • RAM • Monitor faults</p><div class="study-card-meta"><span data-study-progress>0/5 Notes</span><span data-study-status>10 Q Quiz</span></div></div></a>
+      <a class="study-launch-card" data-study="software" href="professional-study.html?track=software"><span class="ico">💻</span><div><b>Computer Software</b><p>Windows • Drivers • Device Manager • Installation • Recovery • Troubleshooting</p><div class="study-card-meta"><span data-study-progress>0/5 Notes</span><span data-study-status>10 Q Quiz</span></div></div></a>
+      <a class="study-launch-card" data-study="microsoft" href="professional-study.html?track=microsoft"><span class="ico">☁️</span><div><b>Microsoft 365</b><p>Outlook • Email • OneDrive • Teams • MFA • Office support</p><div class="study-card-meta"><span data-study-progress>0/5 Notes</span><span data-study-status>10 Q Quiz</span></div></div></a>
+      <a class="study-launch-card" data-study="ai" href="professional-study.html?track=ai"><span class="ico">🤖</span><div><b>AI for IT Work</b><p>Prompting • Research • Verification • IT support • SOP drafts • Safe AI</p><div class="study-card-meta"><span data-study-progress>0/4 Notes</span><span data-study-status>10 Q Quiz</span></div></div></a>
+      <a class="study-launch-card" data-study="cyber" href="professional-study.html?track=cyber"><span class="ico">🛡️</span><div><b>Cybersecurity</b><p>Password • MFA • Phishing • Malware • Backup • Incident response</p><div class="study-card-meta"><span data-study-progress>0/5 Notes</span><span data-study-status>10 Q Quiz</span></div></div></a>
+      <a class="study-launch-card" data-study="projects" href="professional-study.html?track=projects"><span class="ico">🗂️</span><div><b>Project Portfolio</b><p>Website • Personal portfolio • Small office network • Cisco config • Handover</p><div class="study-card-meta"><span data-study-progress>0/4 Notes</span><span data-study-status>10 Q Quiz</span></div></div></a>
+      <a class="study-launch-card" data-study="network" href="professional-study.html?track=network"><span class="ico">🌐</span><div><b>Network Engineering</b><p>ISP • Router • Switch • IP • VLAN • Cisco IOS • Windows CLI • Troubleshooting</p><div class="study-card-meta"><span data-study-progress>0/5 Notes</span><span data-study-status>10 Q Quiz</span></div></div></a>
+      <a class="study-launch-card" data-study="support" href="professional-study.html?track=support"><span class="ico">🎧</span><div><b>IT Support</b><p>Tickets • User questions • Printer • Outlook • Network faults • Remote support</p><div class="study-card-meta"><span data-study-progress>0/5 Notes</span><span data-study-status>10 Q Quiz</span></div></div></a>
+      <a class="study-launch-card" data-study="cctv" href="professional-study.html?track=cctv"><span class="ico">📹</span><div><b>CCTV / IP Surveillance</b><p>IP Camera • PoE • NVR/DVR • Addressing • Recording • Camera faults</p><div class="study-card-meta"><span data-study-progress>0/5 Notes</span><span data-study-status>10 Q Quiz</span></div></div></a>
+    </div>
+
+    <div class="study-center-foot">
+      <button type="button" data-workspace="passport"><small>LABS PASSED</small><b id="labsPassed">0 / 20</b><span>Practical verification</span></button>
+      <button type="button" data-workspace="passport"><small>LAB AVERAGE</small><b id="labAverage">0%</b><span>Best saved scores</span></button>
+      <button type="button" data-workspace="toolkit"><small>TECH XP</small><b id="xpCount">0</b><span>Hands-on progress</span></button>
+      <button type="button" data-workspace="capstone"><small>CAPSTONE</small><b id="capstoneStatus">LOCKED</b><span>Class 10 final build</span></button>
+    </div>
   </section>
 
   <section class="stage-rail" aria-label="Class progression">
-    <button type="button" data-stage="7">
-      <span>07</span><div><b>Explore & Understand</b><small>Hardware • Windows • LAN • Email • Safe AI</small></div>
-    </button>
-    <button type="button" data-stage="8">
-      <span>08</span><div><b>Install & Configure</b><small>Drivers • Printers • Outlook • VLAN • Wi-Fi</small></div>
-    </button>
-    <button type="button" data-stage="9">
-      <span>09</span><div><b>Troubleshoot & Support</b><small>Tickets • CLI • Security • Remote Support</small></div>
-    </button>
-    <button type="button" data-stage="10">
-      <span>10</span><div><b>Build, Network & Solve</b><small>Office Design • Projects • Capstone • Handover</small></div>
-    </button>
+    <button type="button" data-stage="7"><span>07</span><div><b>Explore & Understand</b><small>Hardware • Windows • LAN • Email • Safe AI</small></div></button>
+    <button type="button" data-stage="8"><span>08</span><div><b>Install & Configure</b><small>Drivers • Printers • Outlook • VLAN • Wi-Fi</small></div></button>
+    <button type="button" data-stage="9"><span>09</span><div><b>Troubleshoot & Support</b><small>Tickets • CLI • Security • Remote Support</small></div></button>
+    <button type="button" data-stage="10"><span>10</span><div><b>Build, Network & Solve</b><small>Office Design • Projects • CCTV • Capstone • Handover</small></div></button>
   </section>
 
   <section class="compact-board">
@@ -211,6 +224,7 @@
 <script src="professional-universe.js?v=42.3"></script>
 <script src="professional-ai-buddy-v42-3.js?v=42.3"></script>
 <script src="professional-learning.js?v=45.2"></script>
+<script src="professional-study-center.js?v=46.0"></script>
 <script src="professional-page-bridge-v42-4.js?v=42.4"></script>
 </body>
 </html>
