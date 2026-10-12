@@ -172,14 +172,25 @@ async function loadStudents() {
 async function loadBank() {
   try {
     bank = await jsonApi("/api/admin/question-bank");
-    const juniorTotal = (bank.junior?.mcqCount || 0) + (bank.junior?.writtenCount || 0);
-    const advancedTotal = (bank.advanced?.mcqCount || 0) + (bank.advanced?.writtenCount || 0);
-    $("statBank").textContent = juniorTotal + advancedTotal;
-    $("bankCards").innerHTML = ["junior","advanced"].map(g => {
-      const b = bank[g] || { mcqCount:0, writtenCount:0, topics:[] };
-      return `<article class="bank-card"><h3>${g === "junior" ? "🧒 Class 1–3 Foundation" : "🚀 Class 4–6 Advanced"}</h3><div class="count">${b.mcqCount}</div><p><b>MCQ questions</b> • ${b.writtenCount} written prompts</p><div class="topic-list">${(b.topics || []).map(t => `<span>${esc(t)}</span>`).join("")}</div></article>`;
+    const groups = [
+      { code: "junior", title: "🧒 Class 1–3 Foundation" },
+      { code: "advanced", title: "🚀 Class 4–6 Advanced" },
+      { code: "professional", title: "🎓 Class 7–10 Professional IT & AI" }
+    ];
+    $("statBank").textContent = groups.reduce((sum, g) => {
+      const b = bank[g.code] || {};
+      return sum + (Number(b.mcqCount) || 0) + (Number(b.writtenCount) || 0);
+    }, 0);
+    $("bankCards").innerHTML = groups.map(g => {
+      const b = bank[g.code] || {};
+      const mcq = Number(b.mcqCount) || 0;
+      const written = Number(b.writtenCount) || 0;
+      const topics = Array.isArray(b.topics) ? b.topics : [];
+      return `<article class="bank-card"><h3>${g.title}</h3><div class="count">${mcq}</div><p><b>MCQ questions</b> • ${written} written prompts</p><div class="topic-list">${topics.map(t => `<span>${esc(t)}</span>`).join("")}</div></article>`;
     }).join("");
-  } catch (err) { $("bankCards").innerHTML = `<div class="empty">${esc(err.message)}</div>`; }
+  } catch (err) {
+    $("bankCards").innerHTML = `<div class="empty">${esc(err.message)}</div>`;
+  }
 }
 
 async function loadExams(showNewNotice=false) {
@@ -206,7 +217,7 @@ function renderExamRecords() {
   const status = $("examStatusFilter").value;
   const rows = exams.filter(e => (!q || e.title.toLowerCase().includes(q)) && (status === "all" || e.status === status));
   $("examRecords").innerHTML = rows.length ? rows.map(e => `
-    <article class="exam-card"><div class="exam-card-head"><div><h3>${esc(e.title)}</h3><p>${e.group_code === "junior" ? "Class 1–3 Foundation" : "Class 4–6 Advanced"} • ${e.duration_minutes} min • Pass ${e.pass_mark}%</p></div><span class="status ${esc(e.status)}">${esc(statusLabel(e.status))}</span></div><div class="metrics"><span><b>${e.assigned_count}</b>Assigned</span><span><b>${e.not_started_count}</b>Not Started</span><span><b>${e.in_progress_count}</b>Active</span><span><b>${e.pending_review_count}</b>Review</span><span><b>${e.reviewed_count}</b>Done</span></div><p>Open until: <b>${esc(fmt(e.available_until))}</b></p><div class="card-actions"><button class="open" onclick="window.openExamDetails(${e.id})">Open Details</button>${e.status === "active" ? `<button class="close" onclick="window.closeExam(${e.id})">Close</button><button class="cancel" onclick="window.cancelExam(${e.id})">Cancel</button>` : ""}</div></article>
+    <article class="exam-card"><div class="exam-card-head"><div><h3>${esc(e.title)}</h3><p>${e.group_code === "junior" ? "Class 1–3 Foundation" : e.group_code === "advanced" ? "Class 4–6 Advanced" : e.group_code === "professional" ? "Class 7–10 Professional IT & AI" : "Unknown Group"} • ${e.duration_minutes} min • Pass ${e.pass_mark}%</p></div><span class="status ${esc(e.status)}">${esc(statusLabel(e.status))}</span></div><div class="metrics"><span><b>${e.assigned_count}</b>Assigned</span><span><b>${e.not_started_count}</b>Not Started</span><span><b>${e.in_progress_count}</b>Active</span><span><b>${e.pending_review_count}</b>Review</span><span><b>${e.reviewed_count}</b>Done</span></div><p>Open until: <b>${esc(fmt(e.available_until))}</b></p><div class="card-actions"><button class="open" onclick="window.openExamDetails(${e.id})">Open Details</button>${e.status === "active" ? `<button class="close" onclick="window.closeExam(${e.id})">Close</button><button class="cancel" onclick="window.cancelExam(${e.id})">Cancel</button>` : ""}</div></article>
   `).join("") : `<div class="empty">No exams match this filter.</div>`;
 }
 
@@ -277,7 +288,7 @@ $("createExamForm").addEventListener("submit", async e => {
   if (type === "selected" && !studentIds.length) { await dialogInfo({icon:"👨‍🎓",title:"Select a Student",message:"Select at least one student before creating this exam."}); return; }
 
   const groupCode = $("groupCode").value;
-  const groupName = groupCode === "junior" ? "Class 1–3" : "Class 4–6";
+  const groupName = groupCode === "junior" ? "Class 1–3" : groupCode === "advanced" ? "Class 4–6" : "Class 7–10";
   const audienceText = type === "group" ? `all active ${groupName} students` : type === "class" ? `all active Class ${$("targetClass").value} students` : `${studentIds.length} selected student(s)`;
   const title = $("examTitle").value.trim();
   const ok = await dialogConfirm({icon:"🚀",title:"Create & Activate Exam?",message:`Create “${title}” for ${audienceText}?`,detail:`${$("mcqCount").value} MCQ + ${$("writtenCount").value} written • ${$("durationMinutes").value} minutes • Pass ${$("passMark").value}%`,confirmText:"Create & Activate",cancelText:"Not Yet"});
@@ -285,7 +296,7 @@ $("createExamForm").addEventListener("submit", async e => {
 
   const btn = $("activateExamBtn"); setBusy(btn, true, "Creating Exam...");
   try {
-    const out = await jsonApi("/api/admin/exams", { method:"POST", body:JSON.stringify({ title, groupCode, audienceType:type, targetClass:Number($("targetClass").value || (groupCode === "junior" ? 1 : 4)), studentIds, durationMinutes:Number($("durationMinutes").value), mcqCount:Number($("mcqCount").value), writtenCount:Number($("writtenCount").value), passMark:Number($("passMark").value), availabilityDays:Number($("availabilityDays").value) }) });
+    const out = await jsonApi("/api/admin/exams", { method:"POST", body:JSON.stringify({ title, groupCode, audienceType:type, targetClass:Number($("targetClass").value || (groupCode === "junior" ? 1 : groupCode === "advanced" ? 4 : 7)), studentIds, durationMinutes:Number($("durationMinutes").value), mcqCount:Number($("mcqCount").value), writtenCount:Number($("writtenCount").value), passMark:Number($("passMark").value), availabilityDays:Number($("availabilityDays").value) }) });
     await loadExams();
     await dialogInfo({icon:"✅",title:"Exam Activated",message:`The exam was assigned to ${out.assignedCount} student(s).`,detail:"Students will receive an exam notification on their learning dashboard.",buttonText:"View Exam Records"});
     openTab("records");
