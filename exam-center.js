@@ -113,7 +113,11 @@ function openTab(name){ document.querySelector(`.tab[data-tab="${name}"]`)?.clic
 
 function updateClassOptions() {
   const g = $("groupCode").value;
-  const values = g === "junior" ? [1,2,3] : [4,5,6];
+  const values = g === "junior"
+  ? [1,2,3]
+  : g === "advanced"
+    ? [4,5,6]
+    : [7,8,9,10];
   $("targetClass").innerHTML = values.map(n => `<option value="${n}">Class ${n}</option>`).join("");
   if (g === "junior") {
     $("durationMinutes").value = "10";
@@ -135,7 +139,16 @@ function visibleStudents() {
   const group = $("groupCode").value;
   const q = $("studentSearch").value.trim().toLowerCase();
   return students.filter(s => {
-    const inGroup = group === "junior" ? s.class_number <= 3 : s.class_number >= 4;
+    const c = Number(s.class_number);
+
+const inGroup =
+  group === "junior"
+    ? c >= 1 && c <= 3
+    : group === "advanced"
+      ? c >= 4 && c <= 6
+      : group === "professional"
+        ? c >= 7 && c <= 10
+        : false;
     if (!inGroup) return false;
     if (!q) return true;
     return `${s.display_name} ${s.username} ${s.class_number}`.toLowerCase().includes(q);
