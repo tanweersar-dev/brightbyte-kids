@@ -1,4 +1,4 @@
-/* V47.1 – safe isolated upgrade. Keep all original course / home nodes in DOM. */
+/* V47.2 – safe isolated upgrade. Keep all original course / home nodes in DOM. */
 (()=>{'use strict';
 function init(){
   const home=document.getElementById('home');
@@ -10,7 +10,7 @@ function init(){
     banner=document.createElement('section');
     banner.id='bbV47Hero';
     banner.setAttribute('aria-label','Look. Listen. Speak. Play. Grow. Explore the BrightByte Kids learning adventure');
-    banner.innerHTML=`<img src="assets/brightbyte-hero-v47.webp?v=47.1" alt="BrightByte Kids: Look. Listen. Speak. Play. Grow. Classes 1 to 3, 4 to 6 and 7 to 10. Computer skills, networking, coding, AI, English and practical learning." loading="eager" decoding="async"><div class="bbV47Actions"><a href="academy-demo.html">🚀 Explore Free Demo</a><a href="academy-demo.html#parents">👨‍👩‍👧 Parent Preview</a></div>`;
+    banner.innerHTML=`<img src="assets/brightbyte-hero-v47.webp?v=47.2" alt="BrightByte Kids: Look. Listen. Speak. Play. Grow. Classes 1 to 3, 4 to 6 and 7 to 10. Computer skills, networking, coding, AI, English and practical learning." loading="eager" decoding="async"><div class="bbV47Actions"><a href="academy-demo.html">🚀 Explore Free Demo</a><a href="academy-demo.html#parents">👨‍👩‍👧 Parent Preview</a></div>`;
     hero.before(banner);
   }
   const nav=document.querySelector('.mainnav');
