@@ -1,10 +1,10 @@
-/* BrightByte Kids V47.4 — desktop viewport-fit hero.
-   Only the homepage is affected. No image, JavaScript, exams, or backend changes. */
+/* BrightByte Kids V47.5 — fit the complete Live Reach panel on desktop.
+   Homepage CSS only. Preserves image, background motion and other pages. */
 #home.bb-v471-home > .hero { display:none!important; }
 #home.bb-v471-home > .outcomes { display:none!important; }
 
 #bbV47Hero {
-  width:100%; max-width:1480px; margin:6px auto 10px;
+  width:100%; max-width:1480px; margin:4px auto 6px;
   position:relative; isolation:isolate; overflow:visible;
   border:0; box-shadow:none; background:transparent!important;
 }
@@ -12,16 +12,16 @@
   display:block; width:100%; height:auto; object-fit:contain;
   opacity:.76;
   filter:drop-shadow(0 12px 26px rgba(12,11,62,.14));
-  animation:bbV474Arrival .8s ease-out both;
+  animation:bbV475Arrival .8s ease-out both;
 }
 #bbV47Hero .bbV47Actions {
   position:relative; display:flex; align-items:center; justify-content:center;
-  flex-wrap:wrap; gap:12px; margin:-8px auto 14px; z-index:2;
+  flex-wrap:wrap; gap:10px; margin:-6px auto 8px; z-index:2;
 }
 #bbV47Hero .bbV47Actions a {
   display:inline-flex; align-items:center; justify-content:center;
-  min-height:44px; padding:11px 20px; border-radius:15px;
-  color:#fff; text-decoration:none; font-weight:900; font-size:14px;
+  min-height:40px; padding:9px 16px; border-radius:15px;
+  color:#fff; text-decoration:none; font-weight:900; font-size:13px;
   background:linear-gradient(110deg,#755bff,#22cbd5);
   box-shadow:0 10px 26px rgba(12,16,63,.4);
   border:1px solid rgba(255,255,255,.32);
@@ -41,24 +41,22 @@
   font-weight:900; text-decoration:none; margin:12px 0;
 }
 
-/* Desktop only: reserve space for header, ticker, action buttons,
-   Live Reach panel, and some breathing room. The artwork scales down
-   proportionally instead of being cropped. */
+/* Reserve additional desktop height for all four Live Reach counters. */
 @media (min-width:900px) and (min-height:650px) {
   #home.bb-v471-home #bbV47Hero img {
     width:auto !important;
     max-width:100% !important;
     height:auto !important;
-    max-height:calc(100dvh - 270px) !important;
+    max-height:calc(100dvh - 350px) !important;
     margin-inline:auto;
     object-fit:contain !important;
   }
-  #home.bb-v471-home #bbV47Hero {margin-top:2px;margin-bottom:5px}
-  #home.bb-v471-home #bbV47Hero .bbV47Actions {margin:0 auto 7px;gap:10px}
-  #home.bb-v471-home #bbV47Hero .bbV47Actions a {min-height:38px;padding:8px 15px;font-size:13px}
-  #home.bb-v471-home > .live-reach {margin-top:4px}
+  #home.bb-v471-home #bbV47Hero {margin-top:0;margin-bottom:2px}
+  #home.bb-v471-home #bbV47Hero .bbV47Actions {margin:0 auto 4px;gap:9px}
+  #home.bb-v471-home #bbV47Hero .bbV47Actions a {min-height:36px;padding:7px 13px;font-size:12px}
+  #home.bb-v471-home > .live-reach {margin-top:3px;margin-bottom:6px}
 }
-@keyframes bbV474Arrival {
+@keyframes bbV475Arrival {
   from {opacity:0; transform:translateY(14px)}
   to {opacity:.76; transform:none}
 }
